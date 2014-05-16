@@ -15,7 +15,6 @@
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define MARGIN_LEFT 15.0f  //指距离屏幕边缘的距离
-//#define MARGIN_BOTTOM 5.0f //盖楼的填充
 #define PADDING_LEFT 5.0f
 #define HEAD_HEIGHT 30 // headLabel的高度
 #define MARGIN_TOP 5 // headLabel距离ground的高度
