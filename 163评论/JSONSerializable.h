@@ -11,6 +11,7 @@
 @protocol JSONSerializable <NSObject>
 
 @optional
+
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary;
 - (void)readFromJSONArray:(NSArray *)array;
 

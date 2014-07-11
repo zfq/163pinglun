@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Contents.h"
 
 @interface CommViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
+
+@property (nonatomic,copy) NSString *contentURL;
+@property (nonatomic,strong) Contents *contents;
+
 @end

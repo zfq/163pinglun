@@ -8,10 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class Contents;
+
 @interface CommCell : UITableViewCell
+{
+    Contents *_contents;
+    NSMutableArray *_contentItems;
+    CGFloat _height;
+}
 
 @property (nonatomic,weak) IBOutlet UILabel *userLabel;
 @property (nonatomic,weak) IBOutlet UILabel *timeLabel;
-//@property (nonatomic,weak) IBOutlet UIImageView *avatarView;
-//@property (nonatomic,weak) IBOutlet UILabel *contentLabel;
+
+@property (nonatomic,strong) NSMutableArray *commModel;
+
+- (CGFloat)height;
+
 @end

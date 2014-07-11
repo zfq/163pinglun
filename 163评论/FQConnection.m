@@ -7,7 +7,7 @@
 //
 
 #import "FQConnection.h"
-
+#import "MBProgressHUD.h"
 static NSMutableArray *sharedConnectionList = nil;
 
 @implementation FQConnection
@@ -39,6 +39,18 @@ static NSMutableArray *sharedConnectionList = nil;
         [self completionBlock](nil,error);
     
     [sharedConnectionList removeObject:connection];
+    
+    //提示错误信息
+//    DNSLog(@"%@",error.domain);
+    UIWindow *topWindow = (UIWindow *)[UIApplication sharedApplication].windows.lastObject;
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithWindow:topWindow];
+    HUD.mode = MBProgressHUDModeCustomView;
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MBProgressHUD.bundle/error"]];
+    HUD.labelText = [NSString stringWithFormat:@"%d", error.code];
+    HUD.detailsLabelText = error.localizedDescription;
+    [topWindow addSubview:HUD];
+    [HUD show:YES];
+	[HUD hide:YES afterDelay:3];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

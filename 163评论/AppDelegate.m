@@ -7,16 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "ItemStore.h"
-#import "Tags.h"
-#import "Tag.h"
-#import "Posts.h"
-#import "Post.h"
-#import "Author.h"
-#import "Content.h"
-#import "Contents.h"
 #import "CommViewController.h"
-#import "TestViewController.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -25,19 +17,8 @@
     // Override point for customization after application launch.
     
     CommViewController *vc = [[CommViewController alloc] init];
-//    TestViewController *vc = [[TestViewController alloc] init];
     self.window.rootViewController = vc;
     
-    
-//    [ItemStore sharedTagStore].cotentsURL = @"http://163pinglun.com/wp-json/posts/10617/comments";//4369
-//    [[ItemStore sharedTagStore] fetchContentsWithCompletion:^(Contents *contents, NSError *error) {
-//        for (NSArray *a in contents.contentItems) {
-//            for (Content *c in a) {
-//                NSLog(@"%@",c.content);
-//            }
-//        }
-//    
-//    }];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
