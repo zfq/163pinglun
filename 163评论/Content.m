@@ -72,7 +72,9 @@
         }
         else
         {
-            postTime = @"昨天";
+            formatter.dateFormat = @"HH:mm";
+            NSString *oldDateStr = [formatter stringFromDate:date];
+            postTime = [NSString stringWithFormat:@"昨天 %@",oldDateStr];;
         }
     }
     else
