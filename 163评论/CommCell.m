@@ -64,6 +64,7 @@
 {
     Content *last = [_commModel lastObject];
 	_userLabel.text = last.user;
+    _timeLabel.text = last.time;
 	float allLabelHeight = 0;
 	float labelOriginY = _userLabel.frame.origin.y + _userLabel.frame.size.height;
     
