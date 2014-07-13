@@ -22,6 +22,7 @@
 
 @property (nonatomic,strong) NSMutableArray *commModel;
 
+- (void)initSubViews;
 - (CGFloat)height;
 
 @end

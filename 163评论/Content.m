@@ -31,7 +31,6 @@
     _email = [dictionary objectForKey:@"u"];
     _content = [dictionary objectForKey:@"b"];
     _content = [NSString replaceBr:_content];
-//    _time = [dictionary objectForKey:@"t"];
     _time = [self postTimeFromTime:[dictionary objectForKey:@"t"]];
 }
 
