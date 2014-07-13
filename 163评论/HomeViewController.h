@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Posts;
 
-@interface HomeViewController : UIViewController
+@interface HomeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) Posts *posts;
 
 @end

@@ -7,9 +7,16 @@
 //
 
 #import "HomeViewController.h"
+#import "CommViewController.h"
+#import "PostCell.h"
+#import "Posts.h"
+#import "Post.h"
+#import "ItemStore.h"
 
 @interface HomeViewController ()
-
+{
+//    PostCell *_heightCell;
+}
 @end
 
 @implementation HomeViewController
@@ -27,6 +34,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
+
+    [self fetchPost];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +46,55 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)fetchPost
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	[ItemStore sharedTagStore].cotentsURL = @"http://163pinglun.com/wp-json/posts"; 
+    [[ItemStore sharedTagStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
+        _posts = posts;
+	    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	    [self.tableView reloadData];
+    }];
+	
+}
+#pragma mark - tableView dateSource delegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (_posts == nil)
+		return 0;
+	else
+        return _posts.postItems.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PostCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PostCell"];
+    if (cell == nil) {
+        cell = [[PostCell alloc] init];
+    }
+    cell.post = [_posts.postItems objectAtIndex:indexPath.row];
+    return cell;
+}
+
+#pragma mark - tableView delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
+    PostCell *heightCell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:self options:nil][0];
+    //这是cell还没有加载，所以能够得到它的原来的高度
+    [heightCell setPost:tempPost];
+    
+    return [heightCell height];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
+    CommViewController *cVC = [[CommViewController alloc] init];
+    cVC.postID = [NSString stringWithFormat:@"%d",tempPost.ID];
+    
+    [self presentViewController:cVC animated:YES completion:nil];
+}
 @end
+
+

@@ -50,12 +50,12 @@
 - (void)initSubViews
 {
     CGFloat originViewsHeight = _excerpt.frame.size.height;
-    _views.numberOfLines = 0;
-    _views.lineBreakMode = NSLineBreakByCharWrapping;
-    [_views sizeToFit];
+    _excerpt.numberOfLines = 0;
+    _excerpt.lineBreakMode = NSLineBreakByWordWrapping; //NSLineBreakByCharWrapping
+    [_excerpt sizeToFit];
     
-    CGFloat deltaHeight = _excerpt.frame.size.height - originViewsHeight;
-    _height = self.frame.size.height + deltaHeight;
+    CGFloat deltaHeight = _excerpt.frame.size.height - originViewsHeight ;//originViewsHeight
+    _height = self.frame.size.height + deltaHeight; //
 }
 
 - (CGFloat)height
