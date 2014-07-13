@@ -14,7 +14,7 @@
 
 @interface CommViewController ()
 {
-
+    
 }
 @end
 
@@ -56,7 +56,8 @@
 - (void)fetchComment
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	[ItemStore sharedTagStore].cotentsURL = @"http://163pinglun.com/wp-json/posts/10617/comments"; // 2935 10617 12402 12404
+    NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",_postID];
+	[ItemStore sharedTagStore].cotentsURL = url; // 2935 10617 12402 12404 7785
 	[[ItemStore sharedTagStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
 	    _contents = contents;
 	    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -97,8 +98,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CommCell *cell = (CommCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    
+    CommCell *cell = [[NSBundle mainBundle] loadNibNamed:@"CommCell" owner:self options:nil][0];
+    [cell setCommModel:[_contents.contentItems objectAtIndex:(_contents.contentItems.count - indexPath.row - 1)]];
     return [cell height];
 }
 
