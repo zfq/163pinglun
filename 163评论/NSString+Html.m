@@ -42,7 +42,8 @@
 
 + (NSString *)replaceBr:(NSString *)brStr
 {
-	return [brStr stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
+    NSString *str = [brStr stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
+	return [str stringByReplacingOccurrencesOfString:@"<br />" withString:@"\n"];
 }
 
 + (NSString *)flattenHTMLSpace:(NSString *)html
@@ -50,4 +51,16 @@
     NSString *str = [[self class] flattenHTML:html trimWhiteSpace:NO];
     return [str stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
 }
+
++ (NSString *)getExcerptFromString:(NSMutableString *)string
+{
+    if ([string isEqualToString:@""]) {
+        return @"";
+    } else {
+        [string deleteCharactersInRange:NSMakeRange(0, 3)];
+        [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];
+        return [self replaceBr:string];
+    }
+}
+
 @end

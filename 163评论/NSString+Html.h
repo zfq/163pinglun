@@ -13,5 +13,6 @@
 + (NSString *)flattenHTML:(NSString *)html trimWhiteSpace:(BOOL)trim;
 + (NSString *)replaceBr:(NSString *)brStr;
 + (NSString *)flattenHTMLSpace:(NSString *)html;
++ (NSString *)getExcerptFromString:(NSMutableString *)string;
 
 @end
