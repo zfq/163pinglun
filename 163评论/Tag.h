@@ -2,19 +2,19 @@
 //  Tag.h
 //  163评论
 //
-//  Created by zhaofuqiang on 14-4-28.
+//  Created by zhaofuqiang on 14-7-21.
 //  Copyright (c) 2014年 zhaofuqiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "JSONSerializable.h"
 
-@interface Tag : NSObject <JSONSerializable>
+@interface Tag : NSManagedObject <JSONSerializable>
 
-@property (nonatomic) NSInteger ID;
-@property (nonatomic,strong) NSString *tagName; //标签名
-@property (nonatomic,strong) NSString *slug;    //别名
-@property (nonatomic) NSInteger count;      //帖子数量
-
+@property (nonatomic, retain) NSNumber * tagID;     //标签ID
+@property (nonatomic, retain) NSString * tagName;   //标签名
+@property (nonatomic, retain) NSString * tagSlug;   //别名
+@property (nonatomic, retain) NSNumber * count;     //该标签所含帖子数量
 
 @end

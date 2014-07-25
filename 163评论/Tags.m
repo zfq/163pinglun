@@ -8,6 +8,7 @@
 
 #import "Tags.h"
 #import "Tag.h"
+#import "ItemStore.h"
 
 @implementation Tags
 
@@ -24,7 +25,8 @@
 {
     NSArray *allKeys = [dictionary allKeys];
     for (NSString *key in allKeys) {
-        Tag *t = [[Tag alloc] init];
+//        Tag *t = [[Tag alloc] init];
+        Tag *t = [[ItemStore sharedItemStore] createTag];
         NSDictionary *subDic = [dictionary objectForKey:key];
         [t readFromJSONDictionary:subDic];
         [_tagItems addObject:t];
