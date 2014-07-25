@@ -15,7 +15,6 @@
 
 @interface HomeViewController ()
 {
-//    PostCell *_heightCell;
 }
 @end
 
@@ -36,8 +35,10 @@
     // Do any additional setup after loading the view from its nib.
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
-
+    
     [self fetchPost];
+//    self.tableView.contentOffset = CGPointMake(0, -40.0f);
+    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,17 +47,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - fetch posts
 - (void)fetchPost
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	[ItemStore sharedTagStore].cotentsURL = @"http://163pinglun.com/wp-json/posts"; 
-    [[ItemStore sharedTagStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-        _posts = posts;
-	    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	    [self.tableView reloadData];
-    }];
-	
+    NSArray *postArray = [[ItemStore sharedItemStore] fetchPostsFromDatabase];
+    if (postArray.count == 0) {     //fetch posts from network
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
+        [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
+            _posts = posts;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            
+            [self.tableView reloadData];
+        }];
+    } else {        //fetch posts from database
+        _posts = [[Posts alloc] initWithPosts:postArray];
+    }
 }
+
 #pragma mark - tableView dateSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -91,7 +99,7 @@
 {
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
-    cVC.postID = [NSString stringWithFormat:@"%d",tempPost.ID];
+    cVC.postID = [NSString stringWithFormat:@"%d",[tempPost.postID integerValue]];
     
     [self presentViewController:cVC animated:YES completion:nil];
 }

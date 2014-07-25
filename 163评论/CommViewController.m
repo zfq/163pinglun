@@ -37,7 +37,7 @@
 	UINib *cellNib = [UINib nibWithNibName:@"CommCell" bundle:nil];
 	[self.tableView registerNib:cellNib forCellReuseIdentifier:@"CommCell"];
 	[self fetchComment];
-    
+    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
@@ -55,10 +55,13 @@
 
 - (void)fetchComment
 {
+    //如果网络可用，就从网络中获取数据
+    //在保存之前先把数据库里面的关于该post的content删掉，，然后保存到数据库中，
+    //否则就从数据库里去取
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",_postID];
-	[ItemStore sharedTagStore].cotentsURL = url; // 2935 10617 12402 12404 7785
-	[[ItemStore sharedTagStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
+	[ItemStore sharedItemStore].cotentsURL = url; // 2935 10617 12402 12404 7785
+	[[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
 	    _contents = contents;
 	    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	    [self.tableView reloadData];
