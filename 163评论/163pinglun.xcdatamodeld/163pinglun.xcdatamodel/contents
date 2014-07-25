@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Author" representedClassName="Author" syncable="YES">
+        <attribute name="authorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="authorName" optional="YES" attributeType="String" defaultValueString="阿猫阿狗" syncable="YES"/>
+        <attribute name="authorSlug" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="inAuthor" inverseEntity="Post" syncable="YES"/>
+    </entity>
+    <entity name="Content" representedClassName="Content" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Post" representedClassName="Post" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="excerpt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="views" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="inAuthor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Author" inverseName="posts" inverseEntity="Author" syncable="YES"/>
+    </entity>
+    <entity name="Tag" representedClassName="Tag" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="tagID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="tagName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagSlug" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Author" positionX="-54" positionY="18" width="128" height="105"/>
+        <element name="Content" positionX="-18" positionY="99" width="128" height="118"/>
+        <element name="Post" positionX="-36" positionY="45" width="128" height="148"/>
+        <element name="Tag" positionX="-63" positionY="-18" width="128" height="103"/>
+    </elements>
+</model>
