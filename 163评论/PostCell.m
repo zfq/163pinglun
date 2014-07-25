@@ -41,7 +41,7 @@
 {
     _post = post;
     _title.text = post.title;
-    _views.text = [NSString stringWithFormat:@"%d人浏览",post.views];
+    _views.text = [NSString stringWithFormat:@"%d人浏览",[post.views integerValue]];
     _excerpt.text = post.excerpt;
     
     [self initSubViews];
