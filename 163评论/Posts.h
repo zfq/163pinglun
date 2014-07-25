@@ -13,5 +13,6 @@
 
 @property (nonatomic,readonly,strong) NSMutableArray *postItems;
 
+- (instancetype)initWithPosts:(NSArray *)posts;
 
 @end

@@ -2,19 +2,22 @@
 //  Content.h
 //  163评论
 //
-//  Created by zhaofuqiang on 14-5-9.
+//  Created by zhaofuqiang on 14-7-21.
 //  Copyright (c) 2014年 zhaofuqiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "JSONSerializable.h"
-#import "NSString+Html.h"
 
-@interface Content : NSObject <JSONSerializable>
+@class Post;
 
-@property (nonatomic,strong) NSString *user;
-@property (nonatomic,strong) NSString *email;
-@property (nonatomic,strong) NSString *content;
-@property (nonatomic,strong) NSString *time;
+@interface Content : NSManagedObject <JSONSerializable>
+
+@property (nonatomic, retain) NSString * user;
+@property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * content;
+@property (nonatomic, retain) NSString * time;
+@property (nonatomic, retain) NSNumber *postID;
 
 @end

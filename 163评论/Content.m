@@ -2,36 +2,28 @@
 //  Content.m
 //  163评论
 //
-//  Created by zhaofuqiang on 14-5-9.
+//  Created by zhaofuqiang on 14-7-21.
 //  Copyright (c) 2014年 zhaofuqiang. All rights reserved.
 //
 
 #import "Content.h"
-#import "JSONSerializable.h"
+#import "ItemStore.h"
+#import "NSString+Html.h"
 
 @implementation Content
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _user = @"";
-        _email = @"";
-        _content = @"";
-        _time = @"";
-    }
-    
-    return self;
-}
+@dynamic user;
+@dynamic email;
+@dynamic content;
+@dynamic time;
+@dynamic postID;
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
-    _user = [dictionary objectForKey:@"f"];
-    _user = [NSString flattenHTMLSpace:_user];
-    _email = [dictionary objectForKey:@"u"];
-    _content = [dictionary objectForKey:@"b"];
-    _content = [NSString replaceBr:_content];
-    _time = [self postTimeFromTime:[dictionary objectForKey:@"t"]];
+    self.user = [NSString flattenHTMLSpace:[dictionary objectForKey:@"f"]];
+    self.email = [dictionary objectForKey:@"u"];
+    self.content = [NSString replaceBr:[dictionary objectForKey:@"b"]];
+    self.time = [self postTimeFromTime:[dictionary objectForKey:@"t"]];
 }
 
 - (NSString *)postTimeFromTime:(NSString *)time
@@ -82,14 +74,8 @@
         NSString *dateStr = [formatter stringFromDate:date];
         postTime = dateStr;
     }
-
+    
     return postTime;
 }
 
 @end
-
-
-
-
-
-

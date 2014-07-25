@@ -2,18 +2,29 @@
 //  Author.h
 //  163评论
 //
-//  Created by zhaofuqiang on 14-4-28.
+//  Created by zhaofuqiang on 14-7-21.
 //  Copyright (c) 2014年 zhaofuqiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "JSONSerializable.h"
 
-@interface Author : NSObject <JSONSerializable>
+@class Post;
 
-@property (nonatomic) NSInteger authorID;  //ID
-@property (nonatomic,strong) NSString *authorName;  //姓名
-@property (nonatomic,strong) NSString *authorSlug;  //别名
-//@property (nonatomic,strong) UIImage *authorAvatar; //头像
+@interface Author : NSManagedObject <JSONSerializable>
+
+@property (nonatomic, retain) NSString * authorID;      //推荐人ID
+@property (nonatomic, retain) NSString * authorName;    //推荐人名字
+@property (nonatomic, retain) NSString * authorSlug;    //推荐人别名
+@property (nonatomic, retain) NSSet *posts;
+@end
+
+@interface Author (CoreDataGeneratedAccessors)
+
+- (void)addPostsObject:(Post *)value;
+- (void)removePostsObject:(Post *)value;
+- (void)addPosts:(NSSet *)values;
+- (void)removePosts:(NSSet *)values;
 
 @end

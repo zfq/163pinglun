@@ -8,6 +8,7 @@
 
 #import "Contents.h"
 #import "Content.h"
+#import "ItemStore.h"
 
 @implementation Contents
 
@@ -27,15 +28,22 @@
 {
     for (NSDictionary *dic in array) {
         NSDictionary *comments = [dic objectForKey:@"content"];
+        NSNumber *postID = [dic objectForKey:@"ID"];
         NSMutableArray *tempArray = [NSMutableArray array];
+        
+        //从数据库中删除postID的所有content,再把新的content添加进去
+        [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
         for (int i=1;i<=comments.count;i++) {
             NSString *indexstr = [NSString stringWithFormat:@"%d",i];
             NSDictionary *dic = [comments objectForKey:indexstr];
-            Content *c = [[Content alloc] init];
+            Content *c = [[ItemStore sharedItemStore] createContent];
             [c readFromJSONDictionary:dic];
+            c.postID = postID;
             [tempArray addObject:c];
         }
+        
         [_contentItems addObject:tempArray];
+        [[ItemStore sharedItemStore] saveContext];
     }
     
 }
