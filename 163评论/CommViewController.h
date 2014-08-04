@@ -13,7 +13,7 @@
 
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 
-@property (nonatomic,copy) NSString *postID;
+@property (nonatomic,strong) NSNumber *postID;
 @property (nonatomic,strong) Contents *contents;
 
 @end
