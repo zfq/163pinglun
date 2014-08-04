@@ -24,17 +24,20 @@
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
     self.postID = [dictionary objectForKey:@"ID"];
-    
     NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
     
     self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
     [self.inAuthor readFromJSONDictionary:autDic];
 
-    self.title = [dictionary objectForKey:@"title"];
+    NSString *tit = [dictionary objectForKey:@"title"];
+    self.title = [tit stringByDecodingHTMLEntities];
     
     NSString *tempStr = [dictionary objectForKey:@"excerpt"];
     NSMutableString *string = [NSMutableString stringWithString:tempStr];
-    self.excerpt = [NSString getExcerptFromString:string];
+    //最后的删掉\n
+    [string deleteCharactersInRange:NSMakeRange(0, 3)];
+    [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];
+    self.excerpt = [NSString replaceBr:string];
 
     NSDictionary *post_metaDic = [dictionary objectForKey:@"post_meta"];
     NSString *viewsStr= [[post_metaDic objectForKey:@"views"] objectAtIndex:0];

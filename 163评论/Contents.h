@@ -16,4 +16,6 @@
 @property (nonatomic) NSInteger views; //浏览量
 @property (nonatomic,readonly,strong) NSMutableArray *contentItems;
 
+- (instancetype)initWithContents:(NSArray *)contents;
+
 @end

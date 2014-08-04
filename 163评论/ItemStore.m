@@ -68,7 +68,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Author" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     // Specify criteria for filtering which objects to fetch
-    NSString *IDStr = [NSString stringWithFormat:@"%d",[authorID integerValue]];
+    NSString *IDStr = [NSString stringWithFormat:@"%ld",(long)[authorID integerValue]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"authorID == %@",IDStr];
     [fetchRequest setPredicate:predicate];
 
@@ -109,8 +109,8 @@
 #pragma mark - fetch data from network
 - (void)fetchTagsWithCompletion:(void(^)(Tags * tags,NSError *error))block
 {
-    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
-    NSURL *url = [NSURL URLWithString:requestString];
+//    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
+    NSURL *url = [NSURL URLWithString:_cotentsURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     Tags *t = [[Tags alloc] init];
     FQConnection *connection = [[FQConnection alloc] initWithRequest:request];
@@ -121,8 +121,8 @@
 
 - (void)fetchPostsWithCompletion:(void (^)(Posts *posts,NSError *error))block
 {
-    NSString *requestString = @"http://163pinglun.com/wp-json/posts";
-    NSURL *url = [NSURL URLWithString:requestString];
+//    NSString *requestString = @"http://163pinglun.com/wp-json/posts";
+    NSURL *url = [NSURL URLWithString:_cotentsURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     Posts *posts = [[Posts alloc] init];
     FQConnection *connection = [[FQConnection alloc] initWithRequest:request];
@@ -147,11 +147,13 @@
 
 - (void)saveContext
 {
-    NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            DNSLog(@"保存失败:%@",[error userInfo]);
+        if ([managedObjectContext hasChanges]) { // && ![managedObjectContext save:&error]
+            NSError *error = nil;
+            if ( ![managedObjectContext save:&error]) {
+                DNSLog(@"保存失败:%@",[error userInfo]);
+            }
 //            abort();
         }
     }
@@ -231,6 +233,8 @@
 {
     NSError *error = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
+    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"postID" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
     NSArray *posts = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (error != nil) {
         DNSLog(@"查询posts失败:%@",[error localizedDescription]);
@@ -238,10 +242,12 @@
     return posts;
 }
 
-- (NSArray *)fetchContentsFromDatabase
+- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID
 {
     NSError *error = nil;
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Contents"];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Content"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postID == %@",postID];
+    [request setPredicate:predicate];
     NSArray *contents = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (error != nil) {
         DNSLog(@"查询contens失败:%@",[error localizedDescription]);

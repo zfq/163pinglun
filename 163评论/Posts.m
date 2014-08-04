@@ -39,4 +39,9 @@
     }
 }
 
+- (void)addPostItems:(NSArray *)objects
+{
+    [_postItems addObjectsFromArray:objects];
+}
+
 @end

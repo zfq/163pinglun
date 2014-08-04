@@ -18,7 +18,6 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-
 + (ItemStore*)sharedItemStore;
 
 - (Tag *)createTag;
@@ -37,6 +36,6 @@
 
 - (NSArray *)fetchTagsFromDatabase;
 - (NSArray *)fetchPostsFromDatabase;
-- (NSArray *)fetchContentsFromDatabase;
+- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID;
 
 @end

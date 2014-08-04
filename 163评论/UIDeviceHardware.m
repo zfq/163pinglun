@@ -9,6 +9,7 @@
 #import "UIDeviceHardware.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import "MBProgressHUD.h"
 
 @implementation UIDeviceHardware
 
@@ -104,4 +105,19 @@
     
     return [NSString stringWithFormat:@"错误码:%d",code];
 }
+
++ (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName
+{
+    UIWindow *topWindow = (UIWindow *)[UIApplication sharedApplication].windows.lastObject;
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithWindow:topWindow];
+    HUD.mode = MBProgressHUDModeCustomView;
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    HUD.labelText = title;
+    HUD.detailsLabelText = detail;
+    [topWindow addSubview:HUD];
+    [HUD show:YES];
+	[HUD hide:YES afterDelay:3];
+}
 @end
+
+

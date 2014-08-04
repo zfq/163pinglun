@@ -20,7 +20,7 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
-    self.user = [NSString flattenHTMLSpace:[dictionary objectForKey:@"f"]];
+    self.user = [[dictionary objectForKey:@"f"] stringByConvertingHTMLToPlainText];
     self.email = [dictionary objectForKey:@"u"];
     self.content = [NSString replaceBr:[dictionary objectForKey:@"b"]];
     self.time = [self postTimeFromTime:[dictionary objectForKey:@"t"]];
@@ -51,7 +51,7 @@
                     postTime = @"刚刚";
                 else
                 {
-                    postTime = [NSString stringWithFormat:@"%d分钟前",(NSInteger)(interval/oneMinute)];
+                    postTime = [NSString stringWithFormat:@"%ld分钟前",(long)(interval/oneMinute)];
                 }
             }
             else

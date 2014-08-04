@@ -14,4 +14,7 @@
 + (NSString *)platformString;
 
 + (NSString *)urlErrorDesciptionForCode:(NSInteger)code;
+
++ (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName;
+
 @end

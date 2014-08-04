@@ -14,12 +14,17 @@
 
 - (id)init
 {
+    return [self initWithContents:nil];
+}
+
+- (instancetype)initWithContents:(NSArray *)contents
+{
     self = [super init];
     if (self) {
-        _contentItems = [[NSMutableArray alloc] init];
-        _title = @"";
-        _subhead = @"";
-        _views = 0;
+        if (_contentItems == nil)
+            _contentItems = [NSMutableArray array];
+        else
+            _contentItems = [NSMutableArray arrayWithArray:contents];
     }
     return self;
 }

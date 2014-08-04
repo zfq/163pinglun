@@ -33,3 +33,7 @@
 #else
 #define DNSLog(...)
 #endif
+
+
+//-----------------------程序内-------------------------------
+#define HOST_NAME @"www.apple.com"
