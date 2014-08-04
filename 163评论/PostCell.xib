@@ -32,8 +32,8 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="248" translatesAutoresizingMaskIntoConstraints="NO" id="xDj-EM-KY8">
-                        <rect key="frame" x="13" y="29" width="248" height="20"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="237" translatesAutoresizingMaskIntoConstraints="NO" id="xDj-EM-KY8">
+                        <rect key="frame" x="13" y="29" width="237" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -44,7 +44,7 @@
                     <constraint firstAttribute="trailing" secondItem="m28-IR-01U" secondAttribute="trailing" constant="9" id="53e-wa-59G"/>
                     <constraint firstItem="xDj-EM-KY8" firstAttribute="top" secondItem="rWc-lZ-ffa" secondAttribute="bottom" constant="2" id="6BT-Ye-3dv"/>
                     <constraint firstItem="xDj-EM-KY8" firstAttribute="top" secondItem="rWc-lZ-ffa" secondAttribute="bottom" constant="2" id="6Yh-jC-el0"/>
-                    <constraint firstAttribute="trailing" secondItem="xDj-EM-KY8" secondAttribute="trailing" constant="59" id="JVM-2S-Xx3"/>
+                    <constraint firstAttribute="trailing" secondItem="xDj-EM-KY8" secondAttribute="trailing" constant="70" id="JVM-2S-Xx3"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="m28-IR-01U" secondAttribute="trailing" constant="9" id="ZJj-vH-Ehr"/>
                     <constraint firstItem="xDj-EM-KY8" firstAttribute="leading" secondItem="siU-3v-iDb" secondAttribute="leading" constant="13" id="kBp-pr-gCh"/>
                     <constraint firstItem="rWc-lZ-ffa" firstAttribute="top" secondItem="siU-3v-iDb" secondAttribute="top" constant="6" id="r4p-5r-O1I"/>
