@@ -17,6 +17,4 @@
 
 @property (nonatomic,strong) Post *post;
 
-- (CGFloat)height;
-
 @end

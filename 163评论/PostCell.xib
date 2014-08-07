@@ -43,7 +43,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="m28-IR-01U" secondAttribute="trailing" constant="9" id="53e-wa-59G"/>
                     <constraint firstItem="xDj-EM-KY8" firstAttribute="top" secondItem="rWc-lZ-ffa" secondAttribute="bottom" constant="2" id="6BT-Ye-3dv"/>
-                    <constraint firstItem="xDj-EM-KY8" firstAttribute="top" secondItem="rWc-lZ-ffa" secondAttribute="bottom" constant="2" id="6Yh-jC-el0"/>
+                    <constraint firstAttribute="bottom" secondItem="xDj-EM-KY8" secondAttribute="bottom" constant="7" id="6pq-3H-iS2"/>
                     <constraint firstAttribute="trailing" secondItem="xDj-EM-KY8" secondAttribute="trailing" constant="70" id="JVM-2S-Xx3"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="m28-IR-01U" secondAttribute="trailing" constant="9" id="ZJj-vH-Ehr"/>
                     <constraint firstItem="xDj-EM-KY8" firstAttribute="leading" secondItem="siU-3v-iDb" secondAttribute="leading" constant="13" id="kBp-pr-gCh"/>
@@ -54,7 +54,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="excerpt" destination="xDj-EM-KY8" id="jrz-Im-pET"/>
+                <outlet property="excerpt" destination="xDj-EM-KY8" id="kc8-KN-jnS"/>
                 <outlet property="title" destination="rWc-lZ-ffa" id="bb8-3C-rRo"/>
                 <outlet property="views" destination="m28-IR-01U" id="s2l-Tk-pJ5"/>
             </connections>

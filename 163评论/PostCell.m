@@ -11,7 +11,7 @@
 
 @interface PostCell()
 {
-    CGFloat _height;
+   
 }
 @end
 @implementation PostCell
@@ -21,6 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        NSLog(@"init");
     }
     return self;
 }
@@ -28,12 +29,13 @@
 - (void)awakeFromNib
 {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -41,25 +43,8 @@
 {
     _post = post;
     _title.text = post.title;
-    _views.text = [NSString stringWithFormat:@"%d人浏览",[post.views integerValue]];
+    _views.text = [NSString stringWithFormat:@"%ld人浏览",(long)[post.views integerValue]];
     _excerpt.text = post.excerpt;
-    
-    [self initSubViews];
 }
 
-- (void)initSubViews
-{
-    CGFloat originViewsHeight = _excerpt.frame.size.height;
-    _excerpt.numberOfLines = 0;
-    _excerpt.lineBreakMode = NSLineBreakByWordWrapping; //NSLineBreakByCharWrapping
-    [_excerpt sizeToFit];
-    
-    CGFloat deltaHeight = _excerpt.frame.size.height - originViewsHeight ;//originViewsHeight
-    _height = self.frame.size.height + deltaHeight; //
-}
-
-- (CGFloat)height
-{
-    return _height;
-}
 @end

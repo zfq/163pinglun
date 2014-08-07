@@ -19,6 +19,7 @@
 @interface HomeViewController ()
 {
     NSInteger _currPage;
+    UITableViewCell *_prototypeCell;
 }
 @end
 
@@ -41,7 +42,7 @@
     // Do any additional setup after loading the view from its nib.
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
-    
+    _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     //集成刷新控件
     [self setupRefresh];
     [self fetchPostFromDatabase];
@@ -62,26 +63,6 @@
 }
 
 #pragma mark - fetch posts
-//- (void)fetchPostFromNetwork
-//{
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    NSString *urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%d",_currPage];
-//    [ItemStore sharedItemStore].cotentsURL = urlStr;
-//    [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-//        _posts = posts;
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//        [self.tableView reloadData];
-//        _currPage++;
-//        //结束刷新状态
-//        if (_currPage > 1) {
-//            [self.tableView footerEndRefreshing];
-//        } else {
-//            [self.tableView headerEndRefreshing];
-//        }
-//        
-//    }];
-//
-//}
 
 - (void)fetchPostFromDatabase
 {
@@ -104,14 +85,13 @@
 - (void)headerRereshing
 {
     if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
-        
-        //先删除数据库中的所有post
-        [self removeAllPostsFromDatabase];
-        
+  
         //再从网络获取数据
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
+            //先删除数据库中的所有post
+            [self removeAllPostsFromDatabase];
             _posts = posts;
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             [self.tableView reloadData];
@@ -160,8 +140,9 @@
 {
     PostCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     if (cell == nil) {
-        cell = [[PostCell alloc] init];
+        cell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:nil  options:nil][0];
     }
+    cell.excerpt.text = @"";
     cell.post = [_posts.postItems objectAtIndex:indexPath.row];
     return cell;
 }
@@ -170,11 +151,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
-    PostCell *heightCell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:self options:nil][0];
-    //这是cell还没有加载，所以能够得到它的原来的高度
-    [heightCell setPost:tempPost];
-    
-    return [heightCell height];
+    PostCell *tempCell = (PostCell *)_prototypeCell;
+    tempCell.excerpt.text = tempPost.excerpt;
+    CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height+1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -190,7 +170,11 @@
     
     [self.navigationController pushViewController:cVC animated:YES];
 }
-
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self.tableView setNeedsDisplay];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
