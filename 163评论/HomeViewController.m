@@ -20,6 +20,7 @@
 {
     NSInteger _currPage;
     UITableViewCell *_prototypeCell;
+    NSMutableDictionary *_cellsHeightDic;
 }
 @end
 
@@ -68,6 +69,7 @@
 {
     NSArray *postArray = [[ItemStore sharedItemStore] fetchPostsFromDatabase];
     _posts = [[Posts alloc] initWithPosts:postArray];
+    _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
     [self.tableView reloadData];
 }
 
@@ -93,6 +95,7 @@
             //先删除数据库中的所有post
             [self removeAllPostsFromDatabase];
             _posts = posts;
+            _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             [self.tableView reloadData];
             [self.tableView headerEndRefreshing];
@@ -150,11 +153,18 @@
 #pragma mark - tableView delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
-    PostCell *tempCell = (PostCell *)_prototypeCell;
-    tempCell.excerpt.text = tempPost.excerpt;
-    CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-    return size.height+1;
+    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+    NSNumber *height = [_cellsHeightDic objectForKey:row];
+    if (height != nil) {
+        return height.floatValue;
+    } else {
+        Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
+        PostCell *tempCell = (PostCell *)_prototypeCell;
+        tempCell.excerpt.text = tempPost.excerpt;
+        CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        [_cellsHeightDic setObject:[NSNumber numberWithFloat:size.height] forKey:row];
+        return size.height;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -170,11 +180,13 @@
     
     [self.navigationController pushViewController:cVC animated:YES];
 }
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.tableView setNeedsDisplay];
-}
+
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+//{
+//    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+//    [self.tableView setNeedsDisplay];
+//}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
