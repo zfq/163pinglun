@@ -23,5 +23,5 @@
 
 - (instancetype) initWithRequest:(NSURLRequest *)req;
 - (void)start;
-
+- (void)cancel;
 @end

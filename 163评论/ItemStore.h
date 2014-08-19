@@ -30,6 +30,7 @@
 - (void)fetchTagsWithCompletion:(void(^)(Tags *tags,NSError *error))block;
 - (void)fetchPostsWithCompletion:(void (^)(Posts *posts,NSError *error))block;
 - (void)fetchContentsWithCompletion:(void (^)(Contents *contents,NSError *error))block;
+- (void)cancelCurrentRequtest;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

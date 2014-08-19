@@ -35,6 +35,13 @@ static NSMutableArray *sharedConnectionList = nil;
     [sharedConnectionList addObject:internalConnection];
 }
 
+- (void)cancel
+{
+    if (internalConnection != nil) {
+        [internalConnection cancel];
+    }
+}
+
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     if (self.completionBlock != nil)
@@ -45,16 +52,8 @@ static NSMutableArray *sharedConnectionList = nil;
     //提示错误信息
     NSString *errorCode = [NSString stringWithFormat:@"%d", error.code];
     [UIDeviceHardware showHUDWithTitle:errorCode andDetail:error.localizedDescription image:@"MBProgressHUD.bundle/error"];
-//    DNSLog(@"%@",error.domain);
-//    UIWindow *topWindow = (UIWindow *)[UIApplication sharedApplication].windows.lastObject;
-//    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithWindow:topWindow];
-//    HUD.mode = MBProgressHUDModeCustomView;
-//    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MBProgressHUD.bundle/error"]];
-//    HUD.labelText = [NSString stringWithFormat:@"%d", error.code];
-//    HUD.detailsLabelText = error.localizedDescription;
-//    [topWindow addSubview:HUD];
-//    [HUD show:YES];
-//	[HUD hide:YES afterDelay:3];
+
+     [sharedConnectionList removeObject:connection];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

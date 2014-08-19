@@ -15,6 +15,12 @@
 #import "Post.h"
 #import "Content.h"
 
+@interface ItemStore()
+{
+    FQConnection *_currConnection;
+}
+@end
+
 @implementation ItemStore
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -113,10 +119,14 @@
     NSURL *url = [NSURL URLWithString:_cotentsURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     Tags *t = [[Tags alloc] init];
-    FQConnection *connection = [[FQConnection alloc] initWithRequest:request];
-    [connection setCompletionBlock:block];
-    [connection setJsonRootObject:t];
-    [connection start];
+    if (_currConnection == nil) {
+        _currConnection = [[FQConnection alloc] initWithRequest:request];
+    } else {
+        _currConnection.request = request;
+    }    
+    [_currConnection setCompletionBlock:block];
+    [_currConnection setJsonRootObject:t];
+    [_currConnection start];
 }
 
 - (void)fetchPostsWithCompletion:(void (^)(Posts *posts,NSError *error))block
@@ -125,11 +135,15 @@
     NSURL *url = [NSURL URLWithString:_cotentsURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     Posts *posts = [[Posts alloc] init];
-    FQConnection *connection = [[FQConnection alloc] initWithRequest:request];
-    [connection setCompletionBlock:block];
-    [connection setJsonRootObject:posts];
-    connection.isDictionary = NO;
-    [connection start];
+    if (_currConnection == nil) {
+        _currConnection = [[FQConnection alloc] initWithRequest:request];
+    } else {
+        _currConnection.request = request;
+    }
+    [_currConnection setCompletionBlock:block];
+    [_currConnection setJsonRootObject:posts];
+    _currConnection.isDictionary = NO;
+    [_currConnection start];
 }
 
 - (void)fetchContentsWithCompletion:(void (^)(Contents *contents,NSError *error))block
@@ -138,11 +152,20 @@
     NSURL *url = [NSURL URLWithString:requestString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     Contents *contents = [[Contents alloc] init];
-    FQConnection *connection = [[FQConnection alloc] initWithRequest:request];
-    [connection setCompletionBlock:block];
-    [connection setJsonRootObject:contents];
-    connection.isDictionary = NO;
-    [connection start];
+    if (_currConnection == nil) {
+        _currConnection = [[FQConnection alloc] initWithRequest:request];
+    } else {
+        _currConnection.request = request;
+    }
+    [_currConnection setCompletionBlock:block];
+    [_currConnection setJsonRootObject:contents];
+    _currConnection.isDictionary = NO;
+    [_currConnection start];
+}
+
+- (void)cancelCurrentRequtest
+{
+    [_currConnection cancel];
 }
 
 - (void)saveContext
