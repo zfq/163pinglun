@@ -114,6 +114,7 @@
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
     HUD.labelText = title;
     HUD.detailsLabelText = detail;
+    HUD.userInteractionEnabled = YES;
     [topWindow addSubview:HUD];
     [HUD show:YES];
 	[HUD hide:YES afterDelay:3];

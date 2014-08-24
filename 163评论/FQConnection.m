@@ -39,6 +39,7 @@ static NSMutableArray *sharedConnectionList = nil;
 {
     if (internalConnection != nil) {
         [internalConnection cancel];
+        [sharedConnectionList removeObject:internalConnection];
     }
 }
 

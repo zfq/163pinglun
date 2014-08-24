@@ -95,6 +95,7 @@ extern NSString *kReachabilityChangedNotification;
  */
 - (BOOL)connectionRequired;
 
++ (void)isReachableWithHostName:(NSString *)hostName complition:(void (^)(BOOL isReachable))complition;
 @end
 
 

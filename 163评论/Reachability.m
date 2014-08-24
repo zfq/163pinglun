@@ -139,8 +139,6 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	return returnValue;
 }
 
-
-
 + (instancetype)reachabilityForInternetConnection;
 {
 	struct sockaddr_in zeroAddress;
@@ -308,5 +306,33 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	return returnValue;
 }
 
++ (void)isReachableWithHostName:(NSString *)hostName complition:(void (^)(BOOL isReachable))complition
+{
+    dispatch_queue_t reachableQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(reachableQueue, ^{
+        
+        if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                void (^Result)(BOOL isReachable);
+                Result = complition;
+                if (Result != nil) {
+                    Result(YES);
+                }
+            });            
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                void (^Result)(BOOL isReachable);
+                Result = complition;
+                if (Result != nil) {
+                    Result(NO);
+                }
+            });
+        }
+        
+    }) ;
+}
 
 @end

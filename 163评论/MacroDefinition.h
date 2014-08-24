@@ -36,4 +36,10 @@
 
 
 //-----------------------程序内-------------------------------
-#define HOST_NAME @"www.apple.com"
+#define HOST_NAME     @"www.163pinglun.com"
+
+#define kWeiboAppKey  @"1728477038"
+#define kRedirectURI  @"https://api.weibo.com/oauth2/default.html"
+
+#define kTencentAppKey     @"j0Fj8pHh7PkS7Sws"
+#define kTencentAppID      @"1101994241"

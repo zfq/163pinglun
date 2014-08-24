@@ -86,26 +86,30 @@
 #pragma mark 开始进入刷新状态
 - (void)headerRereshing
 {
-    if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
-  
-        //再从网络获取数据
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
-        [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-            //先删除数据库中的所有post
-            [self removeAllPostsFromDatabase];
-            _posts = posts;
-            _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            [self.tableView reloadData];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
+        if (isReachable) {
+            //再从网络获取数据
+            
+            [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
+            [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
+                //先删除数据库中的所有post
+                [self removeAllPostsFromDatabase];
+                _posts = posts;
+                _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                [self.tableView reloadData];
+                [self.tableView headerEndRefreshing];
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            }];
+
+        } else {
             [self.tableView headerEndRefreshing];
-        }];
-        
-    } else {
-        [self.tableView headerEndRefreshing];
-        //提示网络不可用
-        [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
-    }
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            //提示网络不可用
+            [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
+        }
+    }];
 }
 
 - (void)footerRereshing
