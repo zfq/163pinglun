@@ -9,6 +9,7 @@
     <entity name="Content" representedClassName="Content" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="postID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="user" optional="YES" attributeType="String" syncable="YES"/>
@@ -30,7 +31,7 @@
     </entity>
     <elements>
         <element name="Author" positionX="-54" positionY="18" width="128" height="105"/>
-        <element name="Content" positionX="-18" positionY="99" width="128" height="118"/>
+        <element name="Content" positionX="-18" positionY="99" width="128" height="135"/>
         <element name="Post" positionX="-36" positionY="45" width="128" height="148"/>
         <element name="Tag" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
