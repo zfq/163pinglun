@@ -48,11 +48,6 @@
     // Configure the view for the selected state
 }
 
-- (CGFloat)height
-{
-    return _height;
-}
-
 - (void)setCommModel:(NSMutableArray *)commModel
 {
     _commModel = commModel;
@@ -154,16 +149,95 @@
     CGRect finalLabelFrame = CGRectMake(MARGIN_LEFT,finalLabelY+MARGIN_BOTTOM, SCREEN_WIDTH-2*MARGIN_LEFT, 0);
     UILabel *finalLabel = [self getLabelWithContent:last.content fontSize:LABEL_FONT frame:finalLabelFrame];
     [self.contentView addSubview:finalLabel];
+}
+
+- (CGFloat)heightWithCommModel:(NSMutableArray *)model
+{
+    Content *last = [model lastObject];
+
+	float allLabelHeight = 0;
+	float labelOriginY = _userLabel.frame.origin.y + _userLabel.frame.size.height;
+    
+    //-----------添加楼层顶部图片---------
+    UIImageView *roofImgView = [self getRoofImageViewWithCount:model.count top:labelOriginY];
+	if (roofImgView != nil) {
+		labelOriginY += roofImgView.image.size.height;
+	}
+    
+    float finalLabelY = 0;
+	float paddingLeft = 0;
+	int headlabelCount = 0;
+	UIImageView *wallImgView = nil;
+	for (int i = 1; i <model.count; i++)
+    {
+        paddingLeft = [self getPaddingLeftWithCount:model.count floor:i];
+		Content *temp = [model objectAtIndex:i - 1];
+        
+		CGPoint origin = CGPointZero;
+		if (i == 1)
+			origin = CGPointMake(paddingLeft, labelOriginY + allLabelHeight);
+		else
+			origin = CGPointMake(paddingLeft, labelOriginY + allLabelHeight + (i - 1) * (HEAD_HEIGHT + GROUND_HEIGHT+MARGIN_BOTTOM));
+        
+        //----------添加 "网易北京市手机网友的原贴"-------
+        float width = self.frame.size.width - 2 * origin.x;
+        UILabel *headLabel = nil;
+        headLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin.x, origin.y, width-HEADLABEL_FLOOR, HEAD_HEIGHT)];
+        headLabel.font = [UIFont systemFontOfSize:11];
+        
+        //----------统计楼层个数---------
+        headlabelCount++;
+        
+        //----------添加floor----------
+        float fX = SCREEN_WIDTH - paddingLeft - FLOOR_WIDTH;
+        UILabel *floor = [[UILabel alloc] initWithFrame:CGRectMake(fX, origin.y, FLOOR_WIDTH, HEAD_HEIGHT)];
+        floor.font = [UIFont systemFontOfSize:11];
+        
+        //----------添加内容背景图片-------
+        NSString *groundImgName = nil;
+        wallImgView = [self getWallImageViewWithCount:model.count floor:i top:origin.y groundImgName:&groundImgName];
+        
+		//--------添加评论内容label-----------
+        CGRect rect = self.frame;
+        rect.origin = CGPointMake(paddingLeft, headLabel.frame.origin.y + headLabel.frame.size.height);
+        CGRect labelFrame = CGRectMake(rect.origin.x, rect.origin.y,SCREEN_WIDTH - 2 * paddingLeft, rect.size.height);
+        UILabel *label = [self getLabelWithContent:temp.content fontSize:LABEL_FONT frame:labelFrame];
+		CGRect labelRect = label.frame;
+		labelRect.size.height += LABEL_PADDING;
+		label.frame = labelRect;
+        
+		allLabelHeight += label.frame.size.height;
+        
+        if (wallImgView != nil) {
+            wallImgView.frame = CGRectMake(0, wallImgView.frame.origin.y, SCREEN_WIDTH, headLabel.frame.size.height + label.frame.size.height+MARGIN_BOTTOM);
+        }
+		
+		//----------添加ground图片-------
+        CGFloat groundY = wallImgView.frame.origin.y+wallImgView.frame.size.height;
+		if (groundImgName != nil) {
+			UIImage *groundImg = [UIImage imageNamed:groundImgName];
+			UIImageView *groundImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT)];
+			groundImgView.image = groundImg;
+            finalLabelY = groundY + GROUND_HEIGHT;
+		}
+	} // end for
+    
+    //--------添加第一层楼的评论label（显示在cell最下方）---------
+    if (_commModel.count == 1)
+        finalLabelY = _userLabel.frame.origin.y+_userLabel.frame.size.height;
+    
+    CGRect finalLabelFrame = CGRectMake(MARGIN_LEFT,finalLabelY+MARGIN_BOTTOM, SCREEN_WIDTH-2*MARGIN_LEFT, 0);
+    UILabel *finalLabel = [self getLabelWithContent:last.content fontSize:LABEL_FONT frame:finalLabelFrame];
     
     allLabelHeight += finalLabel.frame.size.height+MARGIN_BOTTOM;
     
-	float height = 0;
-	if (_commModel.count == 1)
-		height = labelOriginY + allLabelHeight+MARGIN_BOTTOM;
+    CGFloat cellHeight = 0;
+	if (model.count == 1)
+		cellHeight = labelOriginY + allLabelHeight+MARGIN_BOTTOM;
 	else
-		height = labelOriginY + allLabelHeight + (_commModel.count - 1) * (HEAD_HEIGHT + GROUND_HEIGHT+MARGIN_BOTTOM) + 10; //10
-
-    _height = height;
+		cellHeight = labelOriginY + allLabelHeight + (model.count - 1) * (HEAD_HEIGHT + GROUND_HEIGHT+MARGIN_BOTTOM) + 10; //10
+    
+    return cellHeight;
 }
 
 #pragma mark - 辅助函数
@@ -190,9 +264,9 @@
     //添加roof图片
 	UIImage *roofImg = nil;
 	UIImageView *roofImgView = nil;
-	if (count > 2) {
+	if (count >= 2) {
 		NSString *roofImgName = nil;
-		if (count >= 5)
+		if (count > 5)
 			roofImgName = @"comment.bundle/comment_roof_5";
 		else
 			roofImgName = [NSString stringWithFormat:@"comment.bundle/comment_roof_%d", count - 1];

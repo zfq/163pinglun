@@ -14,7 +14,6 @@
 {
     Contents *_contents;
     NSMutableArray *_contentItems;
-    CGFloat _height;
 }
 
 @property (nonatomic,weak) IBOutlet UILabel *userLabel;
@@ -23,6 +22,5 @@
 @property (nonatomic,strong) NSMutableArray *commModel;
 
 - (void)initSubViews;
-- (CGFloat)height;
-
+- (CGFloat)heightWithCommModel:(NSMutableArray *)model;
 @end

@@ -38,7 +38,7 @@ static NSString * const CellIdentifier = @"CommCell";
 	[super viewDidLoad];
 	// Do any additional setup after loading the view from its nib.
 	self.tableView.allowsSelection = NO;
-    [self.tableView registerClass:[CommCell class] forCellReuseIdentifier:CellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CommCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
 	[self fetchComment];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
@@ -69,7 +69,7 @@ static NSString * const CellIdentifier = @"CommCell";
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",  //2708 1 2935 @"http://163pinglun.com/wp-json/posts/2390/comments"
+            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments", //@"http://163pinglun.com/wp-json/posts/2390/comments"
                              [NSString stringWithFormat:@"%d",[_postID integerValue]]];
             [ItemStore sharedItemStore].cotentsURL = url; // 2935 10617 12402 12404 7785 2708 //多层 多cell2390 无10316
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
@@ -104,6 +104,18 @@ static NSString * const CellIdentifier = @"CommCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+		cell = [[CommCell alloc] init];
+	}
+	else { //删除所有添加的子视图，除xib内的几个之外
+		@autoreleasepool {
+            NSEnumerator *subviews = [cell.contentView.subviews reverseObjectEnumerator];
+			for (UIView *v in subviews) {
+				if (v.tag != 50 && v.tag != 51)
+                    [v removeFromSuperview];
+			}
+		}
+	}
     [cell setCommModel:[_contents.contentItems objectAtIndex:(_contents.contentItems.count - indexPath.row - 1)]];
     return cell;
 }
@@ -123,9 +135,9 @@ static NSString * const CellIdentifier = @"CommCell";
         return height.floatValue;
     } else {
         CommCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        CGFloat height = [cell heightWithCommModel:[_contents.contentItems objectAtIndex:(_contents.contentItems.count - indexPath.row - 1)]];
-        [_cellsHeightDic setObject:[NSNumber numberWithFloat:height] forKey:row];
-        return height;
+        CGFloat cellHeight = [cell heightWithCommModel:[_contents.contentItems objectAtIndex:(_contents.contentItems.count - indexPath.row - 1)]];
+        [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
+        return cellHeight;
     }
 }
 
