@@ -117,7 +117,8 @@
 {
 //    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
     NSURL *url = [NSURL URLWithString:_cotentsURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.timeoutInterval = 7;
     Tags *t = [[Tags alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -133,7 +134,8 @@
 {
 //    NSString *requestString = @"http://163pinglun.com/wp-json/posts";
     NSURL *url = [NSURL URLWithString:_cotentsURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.timeoutInterval = 7;
     Posts *posts = [[Posts alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -150,7 +152,8 @@
 {
     NSString *requestString = _cotentsURL;
     NSURL *url = [NSURL URLWithString:requestString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.timeoutInterval = 7;
     Contents *contents = [[Contents alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -268,6 +271,7 @@
 - (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID
 {
     NSError *error = nil;
+    NSMutableArray *contentItems = [[NSMutableArray alloc] init];
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Content"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postID == %@",postID];
     [request setPredicate:predicate];
@@ -275,7 +279,26 @@
     if (error != nil) {
         DNSLog(@"查询contens失败:%@",[error localizedDescription]);
     }
-    return contents;
+    
+    NSMutableArray *groupIDs = [[NSMutableArray alloc] init];
+    NSNumber *groupID = nil;
+    for (Content *content in contents) {
+        if (groupID.intValue != content.groupID.intValue) {
+            groupID = content.groupID;
+            [groupIDs addObject:content.groupID];
+        }
+        
+    }
+    for (int i=0; i<groupIDs.count; i++) {
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        [contentItems addObject:array];
+    }
+    for (Content *content in contents) {
+        int index = [groupIDs indexOfObject:content.groupID];
+        NSMutableArray *tempArray = [contentItems objectAtIndex:index];
+        [tempArray addObject:content];
+    }
+    return contentItems;
 }
 @end
 

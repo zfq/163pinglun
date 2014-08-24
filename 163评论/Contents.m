@@ -17,11 +17,11 @@
     return [self initWithContents:nil];
 }
 
-- (instancetype)initWithContents:(NSArray *)contents
+- (instancetype)initWithContents:(NSArray *)contents    //这个初始化有问题
 {
     self = [super init];
     if (self) {
-        if (_contentItems == nil)
+        if (contents == nil)
             _contentItems = [NSMutableArray array];
         else
             _contentItems = [NSMutableArray arrayWithArray:contents];
@@ -31,19 +31,26 @@
 
 - (void)readFromJSONArray:(NSArray *)array
 {
+    BOOL isDel = NO;
     for (NSDictionary *dic in array) {
         NSDictionary *comments = [dic objectForKey:@"content"];
-        NSNumber *postID = [dic objectForKey:@"ID"];
+        NSNumber *postID = [dic objectForKey:@"post"];
+        NSNumber *groupID = [dic objectForKey:@"ID"];
         NSMutableArray *tempArray = [NSMutableArray array];
         
         //从数据库中删除postID的所有content,再把新的content添加进去
-        [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
+        if (isDel == NO) {
+            [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
+            isDel = YES;
+        }
+        
         for (int i=1;i<=comments.count;i++) {
             NSString *indexstr = [NSString stringWithFormat:@"%d",i];
             NSDictionary *dic = [comments objectForKey:indexstr];
             Content *c = [[ItemStore sharedItemStore] createContent];
             [c readFromJSONDictionary:dic];
             c.postID = postID;
+            c.groupID = groupID;
             [tempArray addObject:c];
         }
         

@@ -19,5 +19,6 @@
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSString * time;
 @property (nonatomic, retain) NSNumber *postID;
+@property (nonatomic, retain) NSNumber *groupID;
 
 @end

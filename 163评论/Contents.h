@@ -14,7 +14,7 @@
 @property (nonatomic,strong) NSString *title; //标题
 @property (nonatomic,strong) NSString *subhead; //副标题
 @property (nonatomic) NSInteger views; //浏览量
-@property (nonatomic,readonly,strong) NSMutableArray *contentItems;
+@property (nonatomic,readonly,strong) NSMutableArray *contentItems; //contentItems里面存放的也是数组
 
 - (instancetype)initWithContents:(NSArray *)contents;
 

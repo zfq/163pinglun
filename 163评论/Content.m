@@ -17,6 +17,7 @@
 @dynamic content;
 @dynamic time;
 @dynamic postID;
+@dynamic groupID;
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
@@ -24,6 +25,7 @@
     self.email = [dictionary objectForKey:@"u"];
     self.content = [NSString replaceBr:[dictionary objectForKey:@"b"]];
     self.time = [self postTimeFromTime:[dictionary objectForKey:@"t"]];
+    //postID和contentID在contents初始化
 }
 
 - (NSString *)postTimeFromTime:(NSString *)time
