@@ -69,7 +69,7 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
     animLayer.anchorPointZ = 0.5;
     animLayer.shouldRasterize = YES;
     animLayer.rasterizationScale = [[UIScreen mainScreen] scale];
-    
+   
     //翻转
     CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     anim.repeatCount =1;
@@ -77,27 +77,31 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
     anim.timingFunctions = @[
                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear],
-                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]
+                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]
                              ];
     
-    anim.values = @[
-                    
+    anim.values = @[                    
                     [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, M_PI_2, 1.0, 0.0,0.0)],
                     [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, M_PI_4, 1.0, 0.0, 0)],
+                    [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, 0, 1.0, 0.0,0)],
+                    [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, -M_PI_4/4, 1.0, 0.0,0)],
                     [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, 0, 1.0, 0.0,0)]
-                    ];
+                   ];
+    [animLayer addAnimation:anim forKey:nil];
+    
     
     //透明度
     CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    fadeAnim.fromValue = [NSNumber numberWithFloat:0.0];
+    fadeAnim.fromValue = [NSNumber numberWithFloat:0.2];
     fadeAnim.toValue = [NSNumber numberWithFloat:1.0];
     fadeAnim.duration = 0.3;
-    
     
     CAAnimationGroup *group = [CAAnimationGroup animation];
     group.animations = @[anim,fadeAnim];
     group.duration = 0.3;
     [animLayer addAnimation:group forKey:nil];
+ 
 }
 
 @end
