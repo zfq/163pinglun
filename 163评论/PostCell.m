@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-
+        self.isFlip = YES;
     }
     return self;
 }
@@ -31,7 +31,6 @@
     // Initialization code
     [super awakeFromNib];
     self.backgroundColor = [UIColor lightGrayColor];
-    [self flip:self.layer];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -64,12 +63,11 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
 
 - (void)flip:(CALayer *)animLayer
 {
-    animLayer.opacity = 0.2;
     animLayer.anchorPoint = CGPointMake(0.5, 0.5);
     animLayer.anchorPointZ = 0.5;
     animLayer.shouldRasterize = YES;
     animLayer.rasterizationScale = [[UIScreen mainScreen] scale];
-   
+    
     //翻转
     CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     anim.repeatCount =1;
@@ -88,11 +86,9 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
                     [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, -M_PI_4/4, 1.0, 0.0,0)],
                     [NSValue valueWithCATransform3D:RTSpinKit3DRotationWithPerspective(1.0/120.0, 0, 1.0, 0.0,0)]
                    ];
-    [animLayer addAnimation:anim forKey:nil];
-    
     
     //透明度
-    CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    CABasicAnimation *fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fadeAnim.fromValue = [NSNumber numberWithFloat:0.2];
     fadeAnim.toValue = [NSNumber numberWithFloat:1.0];
     fadeAnim.duration = 0.3;
@@ -101,7 +97,7 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
     group.animations = @[anim,fadeAnim];
     group.duration = 0.3;
     [animLayer addAnimation:group forKey:nil];
- 
 }
+
 
 @end

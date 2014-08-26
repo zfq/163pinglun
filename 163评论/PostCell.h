@@ -14,7 +14,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *views;
 @property (weak, nonatomic) IBOutlet UILabel *excerpt;
-
+@property (nonatomic) BOOL isFlip;
 @property (nonatomic,strong) Post *post;
 
+- (void)flip:(CALayer *)animLayer;
 @end
