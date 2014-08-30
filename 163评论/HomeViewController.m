@@ -21,6 +21,8 @@
     NSInteger _currPage;
     UITableViewCell *_prototypeCell;
     NSMutableDictionary *_cellsHeightDic;
+    
+    UIView *_menuView;
 }
 @end
 
@@ -32,7 +34,7 @@
     if (self) {
         // Custom initialization
         self.title = @"帖子";
-        _currPage = 1;
+
     }
     return self;
 }
@@ -40,13 +42,102 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    //添加更多
+    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"]
+                                                                   style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
+	self.navigationItem.rightBarButtonItem = moreButton;
+    
+    UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 12, 68, 23)];
+    blueView.backgroundColor = RGBCOLOR(0, 160, 233, 1);
+    [self.navigationController.navigationBar addSubview:blueView];
+//    CALayer *navBarShadow = [CALayer layer];
+//    navBarShadow.frame = CGRectMake(0, 30, self.navigationController.navigationBar.frame.size.width, 1);
+//    navBarShadow.backgroundColor = [UIColor groupTableViewBackgroundColor].CGColor;
+//    [self.navigationController.navigationBar.layer addSublayer:navBarShadow];
+    
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     //集成刷新控件
     [self setupRefresh];
     [self fetchPostFromDatabase];
+}
+
+- (void)showMenu:(UIBarButtonItem *)barItem
+{
+    //移除menuView
+    if (_menuView != nil) {
+        [_menuView removeFromSuperview];
+        _menuView = nil;
+        return;
+    }
+    
+    //显示menuView
+    _menuView = [[UIView alloc] init];
+    _menuView.frame = CGRectMake(157, 65, 157, 87);
+    _menuView.backgroundColor = RGBCOLOR(239, 239, 239, 1.0); //
+    _menuView.layer.shadowColor = RGBCOLOR(109, 109, 109, 0.4).CGColor;
+    _menuView.layer.shadowOpacity = 1.0;
+    _menuView.layer.shadowOffset = CGSizeMake(1,1);
+    _menuView.layer.shadowRadius = 1.0;
+   
+    //添加分割线
+    CALayer *seperatorLine = [CALayer layer];
+    CGFloat seperatorLineY = (_menuView.frame.size.height-1)/2;
+    seperatorLine.frame = CGRectMake(0, seperatorLineY, _menuView.frame.size.width, 1);
+    seperatorLine.backgroundColor = RGBCOLOR(109, 109, 109, 0.1).CGColor;
+    [_menuView.layer addSublayer:seperatorLine];
+    
+    //添加按钮
+    UIButton *tagBtn = [self buttomWithTitle:@"标签"
+                                       image:[UIImage imageNamed:@"menu_tag"]
+                                       frame:CGRectMake(0, 0,_menuView.frame.size.width, seperatorLineY)
+                                      action:@selector(showTag:)];
+    
+    UIButton *lookBtn = [self buttomWithTitle:@"随便看看"
+                                        image:[UIImage imageNamed:@"menu_look_around"]
+                                        frame:CGRectMake(0, seperatorLineY+1,_menuView.frame.size.width, seperatorLineY)
+                                       action:@selector(showLookAround:)];
+    [_menuView addSubview:tagBtn];
+    [_menuView addSubview:lookBtn];
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow.rootViewController.view addSubview:_menuView];
+//    [topWindow addSubview:_menuView];
+}
+
+- (UIButton *)buttomWithTitle:(NSString *)title image:(UIImage *)image frame:(CGRect)frame action:(SEL)action
+{
+    //添加按钮
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = frame; //
+    [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:image]; //(frame.size.height-image.size.height)/2
+    imgView.frame = CGRectMake(8, (frame.size.height-image.size.height)/2, image.size.width, image.size.height);
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.frame = CGRectMake(CGRectGetMaxX(imgView.frame), 0, frame.size.width-image.size.width, frame.size.height);
+    titleLabel.text = title;
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    
+    [btn addSubview:titleLabel];
+    [btn addSubview:imgView];
+    
+    return btn;
+}
+
+- (void)showTag:(UIButton *)button
+{
+    NSLog(@"dd");
+}
+
+- (void)showLookAround:(UIButton *)button
+{
+    NSLog(@"a");
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,7 +161,7 @@
     NSArray *postArray = [[ItemStore sharedItemStore] fetchPostsFromDatabase];
     _posts = [[Posts alloc] initWithPosts:postArray];
     _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
-    [self.tableView reloadData];
+    [self.tableView reloadData];   
 }
 
 - (void)removeAllPostsFromDatabase
@@ -149,8 +240,8 @@
     if (cell == nil) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:nil  options:nil][0];
     }
-    cell.excerpt.text = @"";
-    cell.post = [_posts.postItems objectAtIndex:indexPath.row];
+    cell.post = [_posts.postItems objectAtIndex:indexPath.row]; //indexPath.row
+        
     return cell;
 }
 
@@ -166,8 +257,8 @@
         PostCell *tempCell = (PostCell *)_prototypeCell;
         tempCell.excerpt.text = tempPost.excerpt;
         CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        [_cellsHeightDic setObject:[NSNumber numberWithFloat:size.height] forKey:row];
-        return size.height;
+        [_cellsHeightDic setObject:[NSNumber numberWithFloat:(size.height+1)] forKey:row];
+        return size.height+1;
     }
 }
 
@@ -184,12 +275,6 @@
     
     [self.navigationController pushViewController:cVC animated:YES];
 }
-
-//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-//{
-//    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-//    [self.tableView setNeedsDisplay];
-//}
 
 - (void)didReceiveMemoryWarning
 {

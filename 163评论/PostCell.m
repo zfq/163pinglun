@@ -30,7 +30,6 @@
 {
     // Initialization code
     [super awakeFromNib];
-    self.backgroundColor = [UIColor lightGrayColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -44,10 +43,11 @@
 {
     _post = post;
     _title.text = post.title;
-    _views.text = [NSString stringWithFormat:@"%ld人浏览",(long)[post.views integerValue]];
+
+    _time.text = post.date;
+    
+    _views.text = [NSString stringWithFormat:@"已有%ld人浏览",(long)[post.views integerValue]];
     _excerpt.text = post.excerpt;
-    
-    
 }
 
 static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
@@ -67,11 +67,11 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
     animLayer.anchorPointZ = 0.5;
     animLayer.shouldRasterize = YES;
     animLayer.rasterizationScale = [[UIScreen mainScreen] scale];
-    
+ 
     //翻转
     CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     anim.repeatCount =1;
-    anim.duration = 0.3;
+    anim.duration = 0.4;
     anim.timingFunctions = @[
                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear],
@@ -91,11 +91,11 @@ static CATransform3D RTSpinKit3DRotationWithPerspective(CGFloat perspective,
     CABasicAnimation *fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fadeAnim.fromValue = [NSNumber numberWithFloat:0.2];
     fadeAnim.toValue = [NSNumber numberWithFloat:1.0];
-    fadeAnim.duration = 0.3;
+    fadeAnim.duration = 0.4;
     
     CAAnimationGroup *group = [CAAnimationGroup animation];
     group.animations = @[anim,fadeAnim];
-    group.duration = 0.3;
+    group.duration = 0.4;
     [animLayer addAnimation:group forKey:nil];
 }
 
