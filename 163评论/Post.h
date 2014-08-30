@@ -19,7 +19,7 @@
 @property (nonatomic, retain) NSString * title;   //帖子名
 @property (nonatomic, retain) NSString * excerpt; //摘要
 @property (nonatomic, retain) NSNumber * views;   //浏览量
-@property (nonatomic, retain) NSDate * date;    //发表时间
+@property (nonatomic, retain) NSString * date;    //发表时间
 @property (nonatomic, retain) Author *inAuthor;   //帖子推荐人
 
 @end

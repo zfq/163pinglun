@@ -50,11 +50,64 @@
         self.tag = [post_tagDic objectForKey:@"name"];
     }
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'-'z':'z";
-    self.date = [formatter dateFromString:[dictionary objectForKey:@"date"]];
+    NSString *originDateStr = [dictionary objectForKey:@"date"];
+    NSString *firstStr = [originDateStr substringWithRange:NSMakeRange(0, 18)];
+    NSString *finalStr = [firstStr stringByReplacingCharactersInRange:NSMakeRange(10, 1) withString:@" "];
+    
+    self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],self.inAuthor.authorName];
 }
 
+- (NSString *)postTimeFromTime:(NSString *)time
+{
+    NSString *postTime = nil;
+    NSDate *currDate = [NSDate date];
+    
+    //-------------将time转换为NSDate----------
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *date = [formatter dateFromString:time];
+    
+    NSTimeInterval interval = [currDate timeIntervalSinceDate:date];
+    
+    NSInteger oneDay = 24 * 60 * 60;
+    NSInteger oneHour = 60 * 60;
+    NSInteger oneMinute = 60;
+    if (interval < 2*oneDay)
+    {
+        if (interval < oneDay)
+        {
+            if (interval < oneHour)
+            {
+                if (interval < oneMinute)
+                    postTime = @"刚刚";
+                else
+                {
+                    postTime = [NSString stringWithFormat:@"%ld分钟前",(long)(interval/oneMinute)];
+                }
+            }
+            else
+            {
+                formatter.dateFormat = @"HH:mm";
+                NSString *todayDateStr = [formatter stringFromDate:date];
+                postTime = [NSString stringWithFormat:@"今天 %@",todayDateStr];
+            }
+        }
+        else
+        {
+            formatter.dateFormat = @"HH:mm";
+            NSString *oldDateStr = [formatter stringFromDate:date];
+            postTime = [NSString stringWithFormat:@"昨天 %@",oldDateStr];;
+        }
+    }
+    else
+    {
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm";
+        NSString *dateStr = [formatter stringFromDate:date];
+        postTime = dateStr;
+    }
+    
+    return postTime;
+}
 
 
 

@@ -15,7 +15,7 @@
         <attribute name="user" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Post" representedClassName="Post" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="excerpt" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="postID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,7 +32,7 @@
     <elements>
         <element name="Author" positionX="-54" positionY="18" width="128" height="105"/>
         <element name="Content" positionX="-18" positionY="99" width="128" height="135"/>
-        <element name="Post" positionX="-36" positionY="45" width="128" height="148"/>
+        <element name="Post" positionX="-36" positionY="45" width="128" height="150"/>
         <element name="Tag" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
 </model>

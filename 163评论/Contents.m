@@ -55,7 +55,7 @@
         }
         
         [_contentItems addObject:tempArray];
-        [[ItemStore sharedItemStore] saveContext];
+        [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
     }
     
 }
