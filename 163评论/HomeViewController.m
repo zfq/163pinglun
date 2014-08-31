@@ -22,7 +22,7 @@
     UITableViewCell *_prototypeCell;
     NSMutableDictionary *_cellsHeightDic;
     
-    UIView *_menuView;
+    UIControl *menu;
 }
 @end
 
@@ -68,14 +68,14 @@
 - (void)showMenu:(UIBarButtonItem *)barItem
 {
     //移除menuView
-    if (_menuView != nil) {
-        [_menuView removeFromSuperview];
-        _menuView = nil;
+    if (menu != nil) {
+        [menu removeFromSuperview];
+        menu = nil;
         return;
     }
     
     //显示menuView
-    _menuView = [[UIView alloc] init];
+    UIView *_menuView = [[UIView alloc] init];
     _menuView.frame = CGRectMake(157, 65, 157, 87);
     _menuView.backgroundColor = RGBCOLOR(239, 239, 239, 1.0); //
     _menuView.layer.shadowColor = RGBCOLOR(109, 109, 109, 0.4).CGColor;
@@ -89,23 +89,34 @@
     seperatorLine.frame = CGRectMake(0, seperatorLineY, _menuView.frame.size.width, 1);
     seperatorLine.backgroundColor = RGBCOLOR(109, 109, 109, 0.1).CGColor;
     [_menuView.layer addSublayer:seperatorLine];
-    
-    //添加按钮
-    UIButton *tagBtn = [self buttomWithTitle:@"标签"
-                                       image:[UIImage imageNamed:@"menu_tag"]
-                                       frame:CGRectMake(0, 0,_menuView.frame.size.width, seperatorLineY)
-                                      action:@selector(showTag:)];
-    
-    UIButton *lookBtn = [self buttomWithTitle:@"随便看看"
-                                        image:[UIImage imageNamed:@"menu_look_around"]
-                                        frame:CGRectMake(0, seperatorLineY+1,_menuView.frame.size.width, seperatorLineY)
-                                       action:@selector(showLookAround:)];
+
+    UIButton *tagBtn = [self buttomWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0)
+                                       imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0)
+                                       frame:CGRectMake(0, 0,_menuView.frame.size.width, seperatorLineY) action:@selector(showTag:)];
+    UIButton *lookBtn = [self buttomWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)
+                                        imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0)
+                                        frame:CGRectMake(0, seperatorLineY+1,_menuView.frame.size.width, seperatorLineY) action:@selector(showLookAround:)];
     [_menuView addSubview:tagBtn];
     [_menuView addSubview:lookBtn];
     
+
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-    [topWindow.rootViewController.view addSubview:_menuView];
-//    [topWindow addSubview:_menuView];
+    if (menu == nil) {
+        menu = [[UIControl alloc] initWithFrame:topWindow.bounds];
+        [menu addTarget:self action:@selector(dismissMenuView:) forControlEvents:UIControlEventTouchDown];
+        menu.backgroundColor = [UIColor clearColor];
+        [menu addSubview:_menuView];
+    }
+    
+    [topWindow.rootViewController.view addSubview:menu];
+
+}
+
+- (void)dismissMenuView:(UIControl *)mask
+{
+    [mask removeFromSuperview];
+    mask = nil;
+    menu = nil;
 }
 
 - (UIButton *)buttomWithTitle:(NSString *)title image:(UIImage *)image frame:(CGRect)frame action:(SEL)action
@@ -114,18 +125,41 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = frame; //
     [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    [btn setBackgroundImage:[UIImage imageNamed:@"button_select_background"] forState:UIControlStateHighlighted];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:image]; //(frame.size.height-image.size.height)/2
     imgView.frame = CGRectMake(8, (frame.size.height-image.size.height)/2, image.size.width, image.size.height);
+    imgView.tag = 6;
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.frame = CGRectMake(CGRectGetMaxX(imgView.frame), 0, frame.size.width-image.size.width, frame.size.height);
     titleLabel.text = title;
     titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
     titleLabel.backgroundColor = [UIColor clearColor];
-    
+    titleLabel.tag = 5;
     [btn addSubview:titleLabel];
     [btn addSubview:imgView];
+  
+    return btn;
+}
+
+- (UIButton *)buttomWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
+                        imageName:(NSString *)imageName imageEdgeInset:(UIEdgeInsets)imageEdgeInsets
+                        frame:(CGRect)frame action:(SEL)action
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = frame;
+    [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    [btn setBackgroundImage:[UIImage imageNamed:@"button_select_background"] forState:UIControlStateHighlighted];
+    [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_pressed",imageName]] forState:UIControlStateHighlighted];
+    btn.tintColor = [UIColor whiteColor];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    btn.titleEdgeInsets = titleEdgeInsets;
+    btn.imageEdgeInsets = imageEdgeInsets;
     
     return btn;
 }
@@ -133,11 +167,15 @@
 - (void)showTag:(UIButton *)button
 {
     NSLog(@"dd");
+    [menu removeFromSuperview];
+    menu = nil;
 }
 
 - (void)showLookAround:(UIButton *)button
 {
     NSLog(@"a");
+    [menu removeFromSuperview];
+    menu = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
