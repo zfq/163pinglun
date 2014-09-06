@@ -17,6 +17,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 @interface RandomPostViewController ()
 {
     UIView *maskView;
+    UITableView *postTableView;
     
     CGFloat marginLeft;
     CGFloat beginTapX;
@@ -49,20 +50,22 @@ static NSString *randomCellIdentifier = @"randomCell";
     maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEITHT)];
     maskView.backgroundColor = [UIColor blackColor];
     maskView.alpha = 0;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
+    [maskView addGestureRecognizer:tapGesture];
     [self.view addSubview:maskView];
     
     //添加tableView
     marginLeft = 55;
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 65, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-65) style:UITableViewStylePlain];
-    tableView.dataSource = self;
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
-    [tableView addGestureRecognizer:panGesture];
-    [self.view addSubview:tableView];
+    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 65, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-65) style:UITableViewStylePlain]; //65
+    postTableView.dataSource = self;
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
+    [postTableView addGestureRecognizer:panGesture];
+    [self.view addSubview:postTableView];
     
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        CGRect rect = tableView.frame;
+        CGRect rect = postTableView.frame;
         rect.origin.x = marginLeft;
-        tableView.frame = rect;
+        postTableView.frame = rect;
         maskView.alpha = originAlpha;
     } completion:nil];
     
@@ -70,7 +73,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [[ItemStore sharedItemStore] fetchRandomPostsWithCompletion:^(RandomPosts *randomPosts, NSError *error) {
         _posts = randomPosts.randomPosts;
-        [tableView reloadData];
+        [postTableView reloadData];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
 }
@@ -90,7 +93,13 @@ static NSString *randomCellIdentifier = @"randomCell";
 - (void)dismissRandomPostView
 {
     [self.view removeFromSuperview];
+    [postTableView removeFromSuperview];
+    [maskView removeFromSuperview];
+    postTableView = nil;
+    maskView = nil;
     
+    self.posts = nil;
+    self.view = nil;
 }
 
 #pragma mark - tableView datasource delegate
@@ -114,8 +123,23 @@ static NSString *randomCellIdentifier = @"randomCell";
     return cell;
 }
 
+#pragma mark - tap gesture
+- (void)tapGestureAction:(UITapGestureRecognizer *)gesture
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        [self moveView:postTableView toX:SCREEN_WIDTH];
+        maskView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [gesture.view removeGestureRecognizer:gesture];
+        [self dismissRandomPostView];
+        [[ItemStore sharedItemStore] cancelCurrentRequtest];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }];
+    gesture = nil;
+}
+
 #pragma mark - pan gesture
-- (void)move:(UIPanGestureRecognizer *)gesture
+- (void)panGestureAction:(UIPanGestureRecognizer *)gesture
 {
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     CGFloat x = [gesture locationInView:keyWindow].x;
@@ -124,6 +148,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     if (gesture.state == UIGestureRecognizerStateBegan) {
         beginTapX = x;
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        
         if ((x-beginTapX+marginLeft) <= marginLeft) {
             [self moveView:gestureView toX:marginLeft];
             maskView.alpha = originAlpha;
@@ -131,28 +156,35 @@ static NSString *randomCellIdentifier = @"randomCell";
             [self moveView:gestureView toX:(x-beginTapX+marginLeft)];
             maskView.alpha = originAlpha - originAlpha*(x-beginTapX)/(x-beginTapX+marginLeft);
         }
+        
     } else if (gesture.state == UIGestureRecognizerStateEnded ||
                gesture.state == UIGestureRecognizerStateCancelled) {
+        
         CGFloat deltaX = x - beginTapX;
         if (deltaX > 50) {  //移除marskView
+            
             [UIView animateWithDuration:0.3 animations:^{
                 [self moveView:gestureView toX:SCREEN_WIDTH];
                 maskView.alpha = 0;
             } completion:^(BOOL finished) {
-                [gestureView removeFromSuperview];
-                [maskView removeFromSuperview];
-                [self.view removeFromSuperview];
-                
+                [self dismissRandomPostView];
                 //取消当前请求
                 [[ItemStore sharedItemStore] cancelCurrentRequtest];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
+            //移除pan手势
+            [gesture.view removeGestureRecognizer:gesture];
+            gesture = nil;
+            
         } else {
+            
             [UIView animateWithDuration:0.3 animations:^{
                 [self moveView:gestureView toX:marginLeft];
                 maskView.alpha = originAlpha;
             }];
+            
         }
+        
     }
 }
 
