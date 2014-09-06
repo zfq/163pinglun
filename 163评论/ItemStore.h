@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Tag,Post,Content,Tags,Posts,Contents,Author;
+@class Tag,Post,Content,Tags,Posts,Contents,Author,RandomPosts;
 
 @interface ItemStore : NSObject
 
@@ -30,6 +30,7 @@
 - (void)fetchTagsWithCompletion:(void(^)(Tags *tags,NSError *error))block;
 - (void)fetchPostsWithCompletion:(void (^)(Posts *posts,NSError *error))block;
 - (void)fetchContentsWithCompletion:(void (^)(Contents *contents,NSError *error))block;
+- (void)fetchRandomPostsWithCompletion:(void (^)(RandomPosts *randomPosts,NSError *error))block;
 - (void)cancelCurrentRequtest;
 
 - (void)saveContext;

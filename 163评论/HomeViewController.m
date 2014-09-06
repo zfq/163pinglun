@@ -15,6 +15,7 @@
 #import "MJRefresh.h"
 #import "Reachability.h"
 #import "UIDeviceHardware.h"
+#import "RandomPostViewController.h"
 
 @interface HomeViewController ()
 {
@@ -109,7 +110,7 @@
     }
     
     [topWindow.rootViewController.view addSubview:menu];
-
+//    [topWindow addSubview:menu];
 }
 
 - (void)dismissMenuView:(UIControl *)mask
@@ -123,11 +124,11 @@
 {
     //添加按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = frame; //
+    btn.frame = frame;
     [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundImage:[UIImage imageNamed:@"button_select_background"] forState:UIControlStateHighlighted];
     
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:image]; //(frame.size.height-image.size.height)/2
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:image];
     imgView.frame = CGRectMake(8, (frame.size.height-image.size.height)/2, image.size.width, image.size.height);
     imgView.tag = 6;
     
@@ -166,16 +167,17 @@
 
 - (void)showTag:(UIButton *)button
 {
-    NSLog(@"dd");
     [menu removeFromSuperview];
     menu = nil;
+    
 }
 
 - (void)showLookAround:(UIButton *)button
 {
-    NSLog(@"a");
     [menu removeFromSuperview];
     menu = nil;
+    RandomPostViewController *vc = [[RandomPostViewController alloc] init];
+    [vc showRandomPostView];
 }
 
 - (void)viewWillAppear:(BOOL)animated

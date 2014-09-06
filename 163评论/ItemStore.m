@@ -8,12 +8,14 @@
 
 #import "ItemStore.h"
 #import "FQConnection.h"
-#import "Tags.h"
-#import "Posts.h"
-#import "Contents.h"
 #import "Tag.h"
+#import "Tags.h"
 #import "Post.h"
+#import "Posts.h"
 #import "Content.h"
+#import "Contents.h"
+#import "RandomPost.h"
+#import "RandomPosts.h"
 
 @interface ItemStore()
 {
@@ -162,6 +164,24 @@
     }
     [_currConnection setCompletionBlock:block];
     [_currConnection setJsonRootObject:contents];
+    _currConnection.isDictionary = NO;
+    [_currConnection start];
+}
+
+- (void)fetchRandomPostsWithCompletion:(void (^)(RandomPosts *randomPosts,NSError *error))block
+{
+    NSString *requestURL = @"http://163pinglun.com/wp-admin/admin-ajax.php?action=random_post";
+    NSURL *url = [NSURL URLWithString:requestURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.timeoutInterval = 7;
+    RandomPosts *posts = [[RandomPosts alloc] init];
+    if (_currConnection == nil) {
+        _currConnection = [[FQConnection alloc] initWithRequest:request];
+    } else {
+        _currConnection.request = request;
+    }
+    [_currConnection setCompletionBlock:block];
+    [_currConnection setJsonRootObject:posts];
     _currConnection.isDictionary = NO;
     [_currConnection start];
 }
