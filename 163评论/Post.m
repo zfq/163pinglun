@@ -37,7 +37,8 @@
     //最后的删掉\n
     [string deleteCharactersInRange:NSMakeRange(0, 3)];
     [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];
-    self.excerpt = [NSString replaceBr:string];
+    NSString *finalExce = [NSString replaceBr:string];
+    self.excerpt = [finalExce stringByDecodingHTMLEntities];
 
     NSDictionary *post_metaDic = [dictionary objectForKey:@"post_meta"];
     NSString *viewsStr= [[post_metaDic objectForKey:@"views"] objectAtIndex:0];
