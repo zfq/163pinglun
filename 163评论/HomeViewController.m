@@ -110,7 +110,6 @@
     }
     
     [topWindow.rootViewController.view addSubview:menu];
-//    [topWindow addSubview:menu];
 }
 
 - (void)dismissMenuView:(UIControl *)mask

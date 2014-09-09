@@ -7,12 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "CommViewController.h"
 #import "HomeViewController.h"
 #import "ItemStore.h"
 #import "FQNavigationController.h"
-#import "SocialSharing.h"
-#import "TestShareControllerViewController.h"
 
 @implementation AppDelegate
 
@@ -21,14 +18,14 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    [SocialSharing registerWeiboSDK];
-    
+//    [SocialSharing registerWeiboSDK];
+
     HomeViewController *hVC = [[HomeViewController alloc] init];
     FQNavigationController *fVC = [[FQNavigationController alloc] initWithRootViewController:hVC];
+//    UINavigationController *fVC = [[UINavigationController alloc] initWithRootViewController:hVC];
     fVC.backStyle = FQNavBackStyleScale;
-    
-    TestShareControllerViewController *tvc = [[TestShareControllerViewController alloc] init];
-    self.window.rootViewController = tvc;
+    fVC.navigationBar.tintColor = [UIColor grayColor];
+    self.window.rootViewController = fVC;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -64,11 +61,15 @@
    
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    //打开微博APP
-    return [WeiboSDK handleOpenURL:url delegate:[SocialSharing sharedInstance]];
-}
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+//    return [SocialSharing handleURL:url withSocailSharingType:SocialSharingTypeTencent];
+//}
+
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+//    //打开微博APP
+//    return [SocialSharing handleURL:url withSocailSharingType:SocialSharingTypeTencent];
+//}
 
 
 @end
