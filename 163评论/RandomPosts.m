@@ -8,6 +8,7 @@
 
 #import "RandomPosts.h"
 #import "RandomPost.h"
+#import "GTMNSString+HTML.h"
 
 @implementation RandomPosts
 
@@ -24,7 +25,7 @@
 {
     for (NSDictionary *dic in array) {
         RandomPost *post = [[RandomPost alloc] init];
-        post.title = [dic objectForKey:@"title"];
+        post.title = [[dic objectForKey:@"title"] gtm_stringByUnescapingFromHTML];
         post.postURL = [dic objectForKey:@"url"];
         [_randomPosts addObject:post];
     }
