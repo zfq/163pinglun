@@ -161,7 +161,7 @@ static NSString *randomCellIdentifier = @"randomCell";
                gesture.state == UIGestureRecognizerStateCancelled) {
         
         CGFloat deltaX = x - beginTapX;
-        if (deltaX > 50) {  //移除marskView
+        if (deltaX > gestureView.frame.size.width/2) {  //移除marskView
             
             [UIView animateWithDuration:0.3 animations:^{
                 [self moveView:gestureView toX:SCREEN_WIDTH];
