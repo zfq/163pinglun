@@ -66,6 +66,7 @@
     [self fetchPostFromDatabase];
 }
 
+#pragma mark - 显示菜单
 - (void)showMenu:(UIBarButtonItem *)barItem
 {
     //移除menuView
@@ -119,30 +120,6 @@
     menu = nil;
 }
 
-- (UIButton *)buttomWithTitle:(NSString *)title image:(UIImage *)image frame:(CGRect)frame action:(SEL)action
-{
-    //添加按钮
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = frame;
-    [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundImage:[UIImage imageNamed:@"button_select_background"] forState:UIControlStateHighlighted];
-    
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:image];
-    imgView.frame = CGRectMake(8, (frame.size.height-image.size.height)/2, image.size.width, image.size.height);
-    imgView.tag = 6;
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.frame = CGRectMake(CGRectGetMaxX(imgView.frame), 0, frame.size.width-image.size.width, frame.size.height);
-    titleLabel.text = title;
-    titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.tag = 5;
-    [btn addSubview:titleLabel];
-    [btn addSubview:imgView];
-  
-    return btn;
-}
-
 - (UIButton *)buttomWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
                         imageName:(NSString *)imageName imageEdgeInset:(UIEdgeInsets)imageEdgeInsets
                         frame:(CGRect)frame action:(SEL)action
@@ -154,13 +131,23 @@
     [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_pressed",imageName]] forState:UIControlStateHighlighted];
     btn.tintColor = [UIColor whiteColor];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
-    [btn setTitle:title forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     btn.titleEdgeInsets = titleEdgeInsets;
     btn.imageEdgeInsets = imageEdgeInsets;
     
+    NSMutableAttributedString *nomalTitle = [[NSMutableAttributedString alloc] initWithString:title];
+    NSMutableAttributedString *hightlightTitle = [[NSMutableAttributedString alloc] initWithString:title];
+    NSRange titleRange = {0,[title length]};
+    NSDictionary *nomalAttrs = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0],
+                                 NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone)};
+    NSDictionary *hightlightAttrs = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0],
+                                      NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone),
+                                      NSForegroundColorAttributeName:[UIColor whiteColor]};
+    [nomalTitle addAttributes:nomalAttrs range:titleRange];
+    [hightlightTitle addAttributes:hightlightAttrs range:titleRange];
+    [btn setAttributedTitle:nomalTitle forState:UIControlStateNormal];
+    [btn setAttributedTitle:hightlightTitle forState:UIControlStateHighlighted];
     return btn;
 }
 
