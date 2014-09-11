@@ -19,9 +19,13 @@ static NSString *randomCellIdentifier = @"randomCell";
     UIView *maskView;
     UITableView *postTableView;
     
+    UIPanGestureRecognizer *panGesture;
     CGFloat marginLeft;
     CGFloat beginTapX;
     CGFloat originAlpha;
+    
+    CGPoint beginTapPoint;
+    CGPoint currTapPoint;
 }
 @end
 
@@ -58,7 +62,9 @@ static NSString *randomCellIdentifier = @"randomCell";
     marginLeft = 55;
     postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 65, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-65) style:UITableViewStylePlain]; //65
     postTableView.dataSource = self;
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
+    postTableView.delegate = self;
+    panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
+    panGesture.delegate = self;
     [postTableView addGestureRecognizer:panGesture];
     [self.view addSubview:postTableView];
     
@@ -123,6 +129,16 @@ static NSString *randomCellIdentifier = @"randomCell";
     return cell;
 }
 
+#pragma mark - scrollView delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    panGesture.enabled = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    panGesture.enabled = YES;
+}
 #pragma mark - tap gesture
 - (void)tapGestureAction:(UITapGestureRecognizer *)gesture
 {
@@ -142,12 +158,23 @@ static NSString *randomCellIdentifier = @"randomCell";
 - (void)panGestureAction:(UIPanGestureRecognizer *)gesture
 {
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    CGFloat x = [gesture locationInView:keyWindow].x;
+    currTapPoint = [gesture locationInView:keyWindow];
+    CGFloat x = currTapPoint.x;
     UIView *gestureView = gesture.view;
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
         beginTapX = x;
+        beginTapPoint = currTapPoint;
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
+
+        //修复panGesture冲突问题
+        currTapPoint = [gesture locationInView:keyWindow];
+        CGPoint translation = CGPointMake(currTapPoint.x-beginTapPoint.x, currTapPoint.y-beginTapPoint.y);
+        if (fabsf(translation.x) <= fabsf(translation.y) && (fabsf(translation.y)>=4))
+        {
+            return ;
+        }
+        
         
         if ((x-beginTapX+marginLeft) <= marginLeft) {
             [self moveView:gestureView toX:marginLeft];
@@ -196,5 +223,19 @@ static NSString *randomCellIdentifier = @"randomCell";
     CGRect originFrame = view.frame;
     originFrame.origin.x = x;
     view.frame = originFrame;
+}
+
+#pragma mark - UIGestureRecognizer delegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+- (void)dealloc
+{
+    [postTableView removeGestureRecognizer:panGesture];
+    panGesture = nil;
+    postTableView = nil;
+    maskView = nil;
 }
 @end
