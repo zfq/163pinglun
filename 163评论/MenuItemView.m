@@ -13,7 +13,6 @@
 
 @implementation MenuItemView
 
-
 - (instancetype)initWithMenuItem:(MenuItem *)menuItem
 {
     self = [super initWithFrame:menuItem.frame];
@@ -32,7 +31,15 @@
 - (void)performAction
 {
     [_menuView dismissMenuView];
-    [_menuItem.target performSelector:_menuItem.action withObject:nil afterDelay:0];
+    if (_menuItem.target && _menuItem.action) {
+        [_menuItem.target performSelector:_menuItem.action withObject:nil afterDelay:0];
+    }
 }
 
+- (void)setMenuItem:(MenuItem *)menuItem
+{
+    _menuItem = menuItem;
+    _button = [UIButton buttomWithTitle:menuItem.title titleEdgeInsets:menuItem.titleEdageInsets imageName:menuItem.imageName imageEdgeInset:menuItem.imageEdageInsets frame:CGRectMake(0, 0, menuItem.frame.size.width, menuItem.frame.size.height)];
+    [_button addTarget:self action:@selector(performAction) forControlEvents:UIControlEventTouchUpInside];
+}
 @end

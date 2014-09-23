@@ -11,7 +11,7 @@
 
 @interface MenuView()
 {
-    BOOL isShow;
+    
 }
 @end
 @implementation MenuView

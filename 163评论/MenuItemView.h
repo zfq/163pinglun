@@ -13,7 +13,7 @@
 
 @property (nonatomic,weak) MenuView *menuView;
 @property (nonatomic,strong) MenuItem *menuItem;
-@property (nonatomic,strong) UIButton *button;
+@property (nonatomic,strong,readonly) UIButton *button;
 
 - (instancetype)initWithMenuItem:(MenuItem *)menuItem;
 @end
