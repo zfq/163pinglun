@@ -7,9 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "ItemStore.h"
-#import "Tags.h"
-#import "Tag.h"
+//#import "ItemStore.h"
+//#import "Tags.h"
+//#import "Tag.h"
 @interface TagStoreTest : XCTestCase
 
 @end
@@ -31,36 +31,31 @@
 - (void)testExample
 {
    // XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
-   /*
-//    NSDate *date = [NSDate date];
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    //  [dateFormat setTimeZone:[NSTimeZone systemTimeZone]]; //systemTimeZone
-//    [dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];//[NSTimeZone timeZoneForSecondsFromGMT:0]
-    //   [dateFormat setLocale:[NSLocale currentLocale]];
-    [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'-'zz':'zz"]; //@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'-'zz':'zz"
-    //   [dateFormat setDateFormat:@"yyyy'-'MM'-'dd HH':'mm':'ss"];
-//    [dateFormat setFormatterBehavior:NSDateFormatterBehaviorDefault];
-    
-    NSDate *date = [dateFormat dateFromString:@"2010-09-09T13:14:56-08:00"]; //表示的是北京-8即
-    NSString *r =[date debugDescription];
-    NSLog(@"%@",r);
-    
+  
+    //-------------获取日期----------
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    //    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:3600*8]];
-    formatter.dateFormat =  @"yyyy-MM-dd hh:mm:ss zzz";
-    NSLog(@"时间为：%@",[formatter stringFromDate:date]);
-    */
-    [[ItemStore sharedTagStore] fetchTagsWithCompletion:^(Tags *tags, NSError *error) {
-        if (error) {
-            NSLog(@"请求出错");
-        } else {
-            NSArray *a = tags.tagItems;
-            for (Tag *t in a) {
-                NSLog(@"%@",t.tagName);
-            }
-            NSLog(@"%@",tags.tagItems);
-        }
-    }];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *date = [formatter dateFromString:@"2013-5-16 15:46:23"];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *now;
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit |
+    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    
+    
+    comps = [calendar components:unitFlags fromDate:date];
+    int year=[comps year];
+    int week = [comps weekday];
+    int month = [comps month];
+    int day = [comps day];
+    int hour = [comps hour];
+    int min = [comps minute];
+    int sec = [comps second];
+    NSLog(@"111111");
+    DNSLog(@"%d-%d-%d %d:%d:%d",year,month,day,hour,min,sec);
+    
 }
+
 
 @end
