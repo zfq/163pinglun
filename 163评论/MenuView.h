@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol MenuViewDelegate;
 
-@interface MenuViewController : UIViewController
+@interface MenuView : UIView
 
+@property (nonatomic,weak) id<MenuViewDelegate> menuViewDelegate;
+
+- (instancetype)initWithFrame:(CGRect)frame menuItems:(NSArray *)menuItems;
+
+- (void)showMenuView;
+- (void)dismissMenuView;
+@end
+
+@protocol MenuViewDelegate <NSObject>
+
+@optional
+- (void)menuViewDidDisappear;
 @end

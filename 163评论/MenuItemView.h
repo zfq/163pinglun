@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+@class MenuView,MenuItem;
 
-@interface MenuItemView : NSObject
+@interface MenuItemView : UIView
 
+@property (nonatomic,weak) MenuView *menuView;
+@property (nonatomic,strong) MenuItem *menuItem;
+@property (nonatomic,strong) UIButton *button;
+
+- (instancetype)initWithMenuItem:(MenuItem *)menuItem;
 @end
