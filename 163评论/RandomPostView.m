@@ -15,12 +15,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-
-//        self.backgroundColor = RGBCOLOR(255, 255, 255, 0.5);
+        
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
-
 
 @end

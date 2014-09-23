@@ -16,6 +16,8 @@
 #import "Reachability.h"
 #import "UIDeviceHardware.h"
 #import "RandomPostViewController.h"
+#import "MenuView.h"
+#import "MenuItem.h"
 
 @interface HomeViewController ()
 {
@@ -23,7 +25,7 @@
     UITableViewCell *_prototypeCell;
     NSMutableDictionary *_cellsHeightDic;
     
-    UIControl *menu;
+    MenuView *menu;
 }
 @end
 
@@ -69,99 +71,25 @@
 #pragma mark - 显示菜单
 - (void)showMenu:(UIBarButtonItem *)barItem
 {
-    //移除menuView
-    if (menu != nil) {
-        [menu removeFromSuperview];
-        menu = nil;
-        return;
+    if (!menu) {
+        CGRect frame = CGRectMake(157, 65, 157, 87);
+        CGFloat btnHeight = 43;
+
+        MenuItem *tagItem = [[MenuItem alloc] initWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showTag:)];
+        MenuItem *lookItem = [[MenuItem alloc] initWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0) imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showLookAround:)];
+        menu = [[MenuView alloc] initWithFrame:frame menuItems:@[tagItem,lookItem]];
+       
     }
-    
-    //显示menuView
-    UIView *_menuView = [[UIView alloc] init];
-    _menuView.frame = CGRectMake(157, 65, 157, 87);
-    _menuView.backgroundColor = RGBCOLOR(239, 239, 239, 1.0); //
-    _menuView.layer.shadowColor = RGBCOLOR(109, 109, 109, 0.4).CGColor;
-    _menuView.layer.shadowOpacity = 1.0;
-    _menuView.layer.shadowOffset = CGSizeMake(1,1);
-    _menuView.layer.shadowRadius = 1.0;
-   
-    //添加分割线
-    CALayer *seperatorLine = [CALayer layer];
-    CGFloat seperatorLineY = (_menuView.frame.size.height-1)/2;
-    seperatorLine.frame = CGRectMake(0, seperatorLineY, _menuView.frame.size.width, 1);
-    seperatorLine.backgroundColor = RGBCOLOR(109, 109, 109, 0.1).CGColor;
-    [_menuView.layer addSublayer:seperatorLine];
-
-    UIButton *tagBtn = [self buttomWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0)
-                                       imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0)
-                                       frame:CGRectMake(0, 0,_menuView.frame.size.width, seperatorLineY) action:@selector(showTag:)];
-    UIButton *lookBtn = [self buttomWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)
-                                        imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0)
-                                        frame:CGRectMake(0, seperatorLineY+1,_menuView.frame.size.width, seperatorLineY) action:@selector(showLookAround:)];
-    [_menuView addSubview:tagBtn];
-    [_menuView addSubview:lookBtn];
-    
-
-    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-    if (menu == nil) {
-        menu = [[UIControl alloc] initWithFrame:topWindow.bounds];
-        [menu addTarget:self action:@selector(dismissMenuView:) forControlEvents:UIControlEventTouchDown];
-        menu.backgroundColor = [UIColor clearColor];
-        [menu addSubview:_menuView];
-    }
-    
-    [topWindow.rootViewController.view addSubview:menu];
-}
-
-- (void)dismissMenuView:(UIControl *)mask
-{
-    [mask removeFromSuperview];
-    mask = nil;
-    menu = nil;
-}
-
-- (UIButton *)buttomWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
-                        imageName:(NSString *)imageName imageEdgeInset:(UIEdgeInsets)imageEdgeInsets
-                        frame:(CGRect)frame action:(SEL)action
-{
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = frame;
-    [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundImage:[UIImage imageNamed:@"button_select_background"] forState:UIControlStateHighlighted];
-    [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_pressed",imageName]] forState:UIControlStateHighlighted];
-    btn.tintColor = [UIColor whiteColor];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    btn.titleEdgeInsets = titleEdgeInsets;
-    btn.imageEdgeInsets = imageEdgeInsets;
-    
-    NSMutableAttributedString *nomalTitle = [[NSMutableAttributedString alloc] initWithString:title];
-    NSMutableAttributedString *hightlightTitle = [[NSMutableAttributedString alloc] initWithString:title];
-    NSRange titleRange = {0,[title length]};
-    NSDictionary *nomalAttrs = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0],
-                                 NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone)};
-    NSDictionary *hightlightAttrs = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0],
-                                      NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone),
-                                      NSForegroundColorAttributeName:[UIColor whiteColor]};
-    [nomalTitle addAttributes:nomalAttrs range:titleRange];
-    [hightlightTitle addAttributes:hightlightAttrs range:titleRange];
-    [btn setAttributedTitle:nomalTitle forState:UIControlStateNormal];
-    [btn setAttributedTitle:hightlightTitle forState:UIControlStateHighlighted];
-    return btn;
+    [menu showMenuView];
 }
 
 - (void)showTag:(UIButton *)button
 {
-    [menu removeFromSuperview];
-    menu = nil;
     
 }
 
 - (void)showLookAround:(UIButton *)button
 {
-    [menu removeFromSuperview];
-    menu = nil;
     RandomPostViewController *vc = [[RandomPostViewController alloc] init];
     [vc showRandomPostView];
 }
@@ -200,7 +128,7 @@
     }
 }
 
-#pragma mark 开始进入刷新状态
+#pragma mark - 开始进入刷新状态
 - (void)headerRereshing
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -307,6 +235,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     _posts = nil;
+    menu = nil;
 }
 
 @end

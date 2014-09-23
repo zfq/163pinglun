@@ -60,7 +60,8 @@ static NSString *randomCellIdentifier = @"randomCell";
     
     //添加tableView
     marginLeft = 55;
-    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 65, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-65) style:UITableViewStylePlain]; //65
+    CGFloat navHeight = 64;
+    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-navHeight) style:UITableViewStylePlain]; //65
     postTableView.dataSource = self;
     postTableView.delegate = self;
     panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
@@ -82,6 +83,7 @@ static NSString *randomCellIdentifier = @"randomCell";
         [postTableView reloadData];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,6 +109,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     self.posts = nil;
     self.view = nil;
 }
+
 
 #pragma mark - tableView datasource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -151,6 +154,7 @@ static NSString *randomCellIdentifier = @"randomCell";
         [[ItemStore sharedItemStore] cancelCurrentRequtest];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
+
     gesture = nil;
 }
 
@@ -238,4 +242,5 @@ static NSString *randomCellIdentifier = @"randomCell";
     postTableView = nil;
     maskView = nil;
 }
+
 @end
