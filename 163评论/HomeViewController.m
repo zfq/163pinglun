@@ -53,7 +53,7 @@
     
     UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 12, 68, 23)];
     blueView.backgroundColor = RGBCOLOR(0, 160, 233, 1);
-    [self.navigationController.navigationBar addSubview:blueView];
+//    [self.navigationController.navigationBar addSubview:blueView];
 //    CALayer *navBarShadow = [CALayer layer];
 //    navBarShadow.frame = CGRectMake(0, 30, self.navigationController.navigationBar.frame.size.width, 1);
 //    navBarShadow.backgroundColor = [UIColor groupTableViewBackgroundColor].CGColor;
@@ -134,6 +134,8 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {
+            //设置网络可用
+            [UIDeviceHardware setNetworkReachability:YES];
             //再从网络获取数据
             
             [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
@@ -152,6 +154,7 @@
             [self.tableView headerEndRefreshing];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             //提示网络不可用
+            [UIDeviceHardware setNetworkReachability:NO];
             [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
         }
     }];
@@ -160,6 +163,9 @@
 - (void)footerRereshing
 {
     if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
+        //设置网络可用
+        [UIDeviceHardware setNetworkReachability:YES];
+        
         _currPage++;
         NSString *urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -174,7 +180,9 @@
 
     } else {
         [self.tableView footerEndRefreshing];
+        
         //提示网络不可用
+        [UIDeviceHardware setNetworkReachability:NO];
         [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
     }
 }

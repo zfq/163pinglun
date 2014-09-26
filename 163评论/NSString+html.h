@@ -31,7 +31,7 @@
 
 // Dependant upon GTMNSString+HTML
 
-@interface NSString (HTML)
+@interface NSString (html)
 
 // Strips HTML tags & comments, removes extra whitespace and decodes HTML character entities.
 - (NSString *)stringByConvertingHTMLToPlainText;

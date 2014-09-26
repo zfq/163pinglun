@@ -9,14 +9,44 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/HomeViewController.m"
-            timestampString = "431495864.502549"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433434830.833769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
-            landmarkName = "@implementation HomeViewController"
-            landmarkType = "3">
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "-reloadContents:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CommViewController reloadContents:]"
+                  moduleName = "163&#x8bc4;&#x8bba;"
+                  urlString = "file:///Users/zhaofuqiang/Documents/163%E5%AE%A2%E6%88%B7%E7%AB%AF/163/163%E8%AF%84%E8%AE%BA/CommViewController.m"
+                  timestampString = "433435194.554026"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
+                  offsetFromSymbolStart = "110">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__37-[CommViewController reloadContents:]_block_invoke"
+                  moduleName = "163&#x8bc4;&#x8bba;"
+                  urlString = "file:///Users/zhaofuqiang/Documents/163%E5%AE%A2%E6%88%B7%E7%AB%AF/163/163%E8%AF%84%E8%AE%BA/CommViewController.m"
+                  timestampString = "433435194.554229"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "157"
+                  endingLineNumber = "157"
+                  offsetFromSymbolStart = "50">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -25,13 +55,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/HomeViewController.m"
-            timestampString = "431437690.374325"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "-showMenu:"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "-reloadContents:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,39 +71,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/HomeViewController.m"
-            timestampString = "431437690.374325"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "-showMenu:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/RandomPostViewController.m"
-            timestampString = "431689041.195381"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-showRandomPostView"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "-reloadContents:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -83,13 +87,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/CommCell.m"
-            timestampString = "431946219.016144"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "-initSubViews"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "-reloadContents:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,13 +103,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/CommCell.m"
-            timestampString = "431946914.455664"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "-initSubViews"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "-reloadContents:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,13 +119,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/CommCell.m"
-            timestampString = "431946914.455664"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "-initSubViews"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "-tableView:estimatedHeightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -131,13 +135,77 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "163&#x8bc4;&#x8bba;/CommCell.m"
-            timestampString = "431946914.455664"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "-initSubViews"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "-tableView:estimatedHeightForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "-tableView:numberOfRowsInSection:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "163&#x8bc4;&#x8bba;/CommViewController.m"
+            timestampString = "433435522.925904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

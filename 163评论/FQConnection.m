@@ -9,6 +9,7 @@
 #import "FQConnection.h"
 #import "MBProgressHUD.h"
 #import "UIDeviceHardware.h"
+#import "NSError+networkMsg.h"
 
 static NSMutableArray *sharedConnectionList = nil;
 
@@ -52,7 +53,7 @@ static NSMutableArray *sharedConnectionList = nil;
     
     //提示错误信息
     NSString *errorCode = [NSString stringWithFormat:@"%d", error.code];
-    [UIDeviceHardware showHUDWithTitle:errorCode andDetail:error.localizedDescription image:@"MBProgressHUD.bundle/error"];
+    [UIDeviceHardware showHUDWithTitle:errorCode andDetail:[NSError urlErrorDesciptionForCode:error.code] image:@"MBProgressHUD.bundle/error"];
 
      [sharedConnectionList removeObject:connection];
 }

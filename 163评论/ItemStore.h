@@ -38,6 +38,6 @@
 
 - (NSArray *)fetchTagsFromDatabase;
 - (NSArray *)fetchPostsFromDatabase;
-- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID;
-
+- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID;    //同步
+- (void)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID completion:(void (^)(NSArray *contents))completion; //异步
 @end

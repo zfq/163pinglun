@@ -11,6 +11,8 @@
 #include <sys/sysctl.h>
 #import "MBProgressHUD.h"
 
+#define NETWORK_STATUS @"networkStatus"
+
 @implementation UIDeviceHardware
 
 + (NSString *) platform{
@@ -89,23 +91,6 @@
     
 }
 
-+ (NSString *)urlErrorDesciptionForCode:(NSInteger)code
-{
-    switch (code) {
-        case -1009: return @"没有连接到互联网";
-        case -1004: return @"无法连接到服务器";
-        case -1003: return @"找不到服务器";
-        case -1002: return @"无效的链接";
-        case -1001: return @"连接超时";
-            
-            
-        default:
-            break;
-    }
-    
-    return [NSString stringWithFormat:@"错误码:%d",code];
-}
-
 + (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName
 {
     UIWindow *topWindow = (UIWindow *)[UIApplication sharedApplication].windows.lastObject;
@@ -118,6 +103,18 @@
     [topWindow addSubview:HUD];
     [HUD show:YES];
 	[HUD hide:YES afterDelay:3];
+}
+
+#pragma mark - 设置/读取网络状态
++ (void)setNetworkReachability:(BOOL)isReachable
+{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:isReachable] forKey:NETWORK_STATUS];
+}
+
++ (BOOL)isReachable
+{
+    NSNumber *isReachable = [[NSUserDefaults standardUserDefaults] objectForKey:NETWORK_STATUS];
+    return isReachable.boolValue;
 }
 @end
 

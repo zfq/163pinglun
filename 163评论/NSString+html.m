@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-#import "NSString+HTML.h"
+#import "NSString+html.h"
 #import "GTMNSString+HTML.h"
 
 @implementation NSString (HTML)

@@ -314,11 +314,26 @@
         [contentItems addObject:array];
     }
     for (Content *content in contents) {
-        int index = [groupIDs indexOfObject:content.groupID];
+        NSUInteger index = [groupIDs indexOfObject:content.groupID];
         NSMutableArray *tempArray = [contentItems objectAtIndex:index];
         [tempArray addObject:content];
     }
     return contentItems;
+}
+
+- (void)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID completion:(void (^)(NSArray *contents))completion
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        NSArray *contents = [self fetchContentsFromDatabaseWithPostID:postID];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            void (^result)(NSArray *contents);
+            result = completion;
+            if (result != nil) {
+                result(contents);
+            }
+        });
+    });
 }
 @end
 
