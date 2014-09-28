@@ -393,4 +393,10 @@
     
     return contentLabel;
 }
+
+- (void)dealloc
+{
+    _contents = nil;
+    _contentItems = nil;    
+}
 @end

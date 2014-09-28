@@ -59,6 +59,7 @@ static NSString * const CellIdentifier = @"CommCell";
 #pragma mark - 设置字体
 - (void)preferredContentSizeChanged:(NSNotification *)notification
 {
+    [_cellsHeightDic removeAllObjects];
     [self.tableView reloadData];
 }
 
@@ -243,6 +244,10 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (void)dealloc
 {
+    [_cellsHeightDic removeAllObjects];
+    _cellsHeightDic = nil;
+    [_cellsDic removeAllObjects];
+    _cellsDic = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 @end
