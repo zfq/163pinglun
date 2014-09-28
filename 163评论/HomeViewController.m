@@ -229,7 +229,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
     cell.selectedBackgroundView = backgroundView;
-    cell.selectedBackgroundView.backgroundColor = RGBCOLOR(255, 0, 0, 1);
+    cell.selectedBackgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
     
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
