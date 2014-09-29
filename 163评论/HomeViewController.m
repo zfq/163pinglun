@@ -62,12 +62,18 @@
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
     _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     //集成刷新控件
     [self setupRefresh];
     [self fetchPostFromDatabase];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
 #pragma mark - 显示菜单
 - (void)showMenu:(UIBarButtonItem *)barItem
 {
@@ -92,12 +98,6 @@
 {
     RandomPostViewController *vc = [[RandomPostViewController alloc] init];
     [vc showRandomPostView];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)setupRefresh
@@ -202,6 +202,11 @@
     if (cell == nil) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:nil  options:nil][0];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f); //RGBCOLOR(51,153,255,1.0f)
+    cell.selectedBackgroundView = backgroundView;
+    
     cell.post = [_posts.postItems objectAtIndex:indexPath.row]; //indexPath.row
         
     return cell;
@@ -226,11 +231,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-    cell.selectedBackgroundView = backgroundView;
-    cell.selectedBackgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
-    
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
     cVC.postID = tempPost.postID;
