@@ -14,7 +14,7 @@
 + (NSString *)platformString;
 
 + (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName;
-
++ (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName inView:(UIView *)view;
 + (void)setNetworkReachability:(BOOL)isReachable;
 + (BOOL)isReachable;
 @end

@@ -99,12 +99,24 @@
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
     HUD.labelText = title;
     HUD.detailsLabelText = detail;
-    HUD.userInteractionEnabled = YES;
+    HUD.userInteractionEnabled = NO;
     [topWindow addSubview:HUD];
     [HUD show:YES];
 	[HUD hide:YES afterDelay:3];
 }
 
++ (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName inView:(UIView *)view
+{
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+    HUD.mode = MBProgressHUDModeCustomView;
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    HUD.labelText = title;
+    HUD.detailsLabelText = detail;
+    HUD.userInteractionEnabled = NO;
+    [view addSubview:HUD];
+    [HUD show:YES];
+    [HUD hide:YES afterDelay:3];
+}
 #pragma mark - 设置/读取网络状态
 + (void)setNetworkReachability:(BOOL)isReachable
 {
