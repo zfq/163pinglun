@@ -38,6 +38,7 @@
 #define kTencentAppKey     @"j0Fj8pHh7PkS7Sws"
 #define kTencentAppID      @"1101994241"
 
+#define CURR_PAGE @"curr_page"
 #endif
 
 //-----------------------日志打印-------------------------------

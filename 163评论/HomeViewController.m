@@ -37,7 +37,6 @@
     if (self) {
         // Custom initialization
         self.title = @"帖子";
-
     }
     return self;
 }
@@ -144,12 +143,12 @@
                 [self removeAllPostsFromDatabase];
                 _posts = posts;
                 _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                 [self.tableView reloadData];
                 [self.tableView headerEndRefreshing];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
-
+            _currPage = 1;
+            [self saveCurrPage];
         } else {
             [self.tableView headerEndRefreshing];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -166,15 +165,21 @@
         //设置网络可用
         [UIDeviceHardware setNetworkReachability:YES];
         
+        //获取当前页数
+        NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
+        _currPage = [currPage integerValue];
         _currPage++;
         NSString *urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [ItemStore sharedItemStore].cotentsURL = urlStr;
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-            
-            [_posts addPostItems:posts.postItems];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            if (posts.postItems.count != 0) {
+                [_posts addPostItems:posts.postItems];
+                //保存当前为第几页
+                [self saveCurrPage];
+            }
             [self.tableView reloadData];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             [self.tableView footerEndRefreshing];
         }];
 
@@ -185,6 +190,12 @@
         [UIDeviceHardware setNetworkReachability:NO];
         [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
     }
+}
+
+- (void)saveCurrPage
+{
+    NSNumber *currPage = [NSNumber numberWithInteger:_currPage];
+    [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_PAGE];
 }
 
 #pragma mark - tableView dateSource delegate
