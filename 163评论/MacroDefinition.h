@@ -25,6 +25,19 @@
 //-----------------------颜色-------------------------------
 #define RGBCOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
+//-----------------------导航栏 状态栏高度-------------------------------
+#define NAV_HEIGHT(VC)    (VC).navigationController.navigationBar.bounds.size.height
+#define STATUSBAR_HEIGHT  [UIApplication sharedApplication].statusBarFrame.size.height
+
+//-----------------------程序内-------------------------------
+#define HOST_NAME     @"www.163pinglun.com"
+
+#define kWeiboAppKey  @"1728477038"
+#define kRedirectURI  @"https://api.weibo.com/oauth2/default.html"
+
+#define kTencentAppKey     @"j0Fj8pHh7PkS7Sws"
+#define kTencentAppID      @"1101994241"
+
 #endif
 
 //-----------------------日志打印-------------------------------
@@ -35,11 +48,4 @@
 #endif
 
 
-//-----------------------程序内-------------------------------
-#define HOST_NAME     @"www.163pinglun.com"
 
-#define kWeiboAppKey  @"1728477038"
-#define kRedirectURI  @"https://api.weibo.com/oauth2/default.html"
-
-#define kTencentAppKey     @"j0Fj8pHh7PkS7Sws"
-#define kTencentAppID      @"1101994241"
