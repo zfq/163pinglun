@@ -65,7 +65,7 @@
 	float labelOriginY = _userLabel.frame.origin.y + _userLabel.frame.size.height;
     
     //-----------添加楼层顶部图片---------
-    UIImageView *roofImgView = [self getRoofImageViewWithCount:_commModel.count top:labelOriginY];
+    UIImageView *roofImgView = [self roofImgViewWithCount:_commModel.count top:labelOriginY stretch:YES];
 	if (roofImgView != nil) {
 		[self.contentView addSubview:roofImgView];
 		labelOriginY += roofImgView.image.size.height;
@@ -108,22 +108,22 @@
         floor.text = [NSString stringWithFormat:@"%d", i];
         
         //----------添加内容背景图片-------
-        NSString *groundImgName = [self groundImgNameWithCount:_commModel.count floor:i];
+        
         if (oneWallImgView == YES)
         {
-            wallImgView = [self getWallImageViewWithCount:_commModel.count floor:i top:wallImgOriginY stretch:YES];
+            wallImgView = [self wallImgViewWithCount:_commModel.count floor:i top:wallImgOriginY stretch:YES];
             oneWallImgView = NO;
             if (wallImgView != nil)
                 [self.contentView addSubview:wallImgView];
 
         } else {
             if (_commModel.count <= 6) {    //总楼层数比较小时
-                wallImgView = [self getWallImageViewWithCount:_commModel.count floor:i top:origin.y stretch:YES];
+                wallImgView = [self wallImgViewWithCount:_commModel.count floor:i top:origin.y stretch:YES];
                 if (wallImgView != nil)
                     [self.contentView addSubview:wallImgView];
             } else {
                 if (i>=_commModel.count-5) {
-                    wallImgView = [self getWallImageViewWithCount:_commModel.count floor:i top:origin.y stretch:YES];
+                    wallImgView = [self wallImgViewWithCount:_commModel.count floor:i top:origin.y stretch:YES];
                     if (wallImgView != nil)
                         [self.contentView addSubview:wallImgView];
                 }
@@ -157,14 +157,14 @@
             }
         }
 		
+        //添加groundImg
         CGFloat groundY = wallImgView.frame.origin.y+wallImgView.frame.size.height;
-		if (groundImgName != nil) {
-			UIImage *groundImg = [UIImage imageNamed:groundImgName];
-			UIImageView *groundImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT)];
-			groundImgView.image = groundImg;
-			[self.contentView addSubview:groundImgView];
+        UIImageView *groundImgView = [self groundImgViewWithCount:_commModel.count floor:i frame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT) stretch:YES];
+        if (groundImgView != nil) {
+            [self.contentView addSubview:groundImgView];
             finalLabelY = groundY + GROUND_HEIGHT;
-		}
+        }
+
 		[self.contentView addSubview:label];
 	} // end for
     
@@ -185,7 +185,7 @@
 	float labelOriginY = _userLabel.frame.origin.y + _userLabel.frame.size.height;
     
     //-----------添加楼层顶部图片---------
-    UIImageView *roofImgView = [self getRoofImageViewWithCount:model.count top:labelOriginY];
+    UIImageView *roofImgView = [self roofImgViewWithCount:_commModel.count top:labelOriginY stretch:YES];
 	if (roofImgView != nil) {
 		labelOriginY += roofImgView.image.size.height;
 	}
@@ -216,17 +216,17 @@
         headlabelCount++;
         
         //----------添加内容背景图片-------
-        NSString *groundImgName = [self groundImgNameWithCount:model.count floor:i];
+       
         if (oneWallImgView == YES)
         {
-            wallImgView = [self getWallImageViewWithCount:model.count floor:i top:wallImgOriginY stretch:YES];
+            wallImgView = [self wallImgViewWithCount:model.count floor:i top:wallImgOriginY stretch:YES];
             oneWallImgView = NO;
         } else {
             if (model.count <= 6) {    //总楼层数比较小时
-                wallImgView = [self getWallImageViewWithCount:model.count floor:i top:origin.y stretch:YES];
+                wallImgView = [self wallImgViewWithCount:model.count floor:i top:origin.y stretch:YES];
             } else {
                 if (i>=_commModel.count-5) {
-                    wallImgView = [self getWallImageViewWithCount:model.count floor:i top:origin.y stretch:YES];
+                    wallImgView = [self wallImgViewWithCount:model.count floor:i top:origin.y stretch:YES];
                 }
             }
         }
@@ -253,14 +253,14 @@
                     wallImgView.frame = CGRectMake(0, wallImgView.frame.origin.y, SCREEN_WIDTH, headLabel.frame.size.height + label.frame.size.height+MARGIN_BOTTOM);
             }
         }
-		
+        
         CGFloat groundY = wallImgView.frame.origin.y+wallImgView.frame.size.height;
-		if (groundImgName != nil) {
-			UIImage *groundImg = [UIImage imageNamed:groundImgName];
-			UIImageView *groundImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT)];
-			groundImgView.image = groundImg;
+        UIImageView *groundImgView = [self groundImgViewWithCount:_commModel.count floor:i frame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT) stretch:YES];
+        if (groundImgView != nil) {
+            [self.contentView addSubview:groundImgView];
             finalLabelY = groundY + GROUND_HEIGHT;
-		}
+        }
+
 	} // end for
     
     //--------添加第一层楼的评论label（显示在cell最下方）---------
@@ -298,27 +298,29 @@
     return paddingLeft;
 }
 
-- (UIImageView *)getRoofImageViewWithCount:(NSInteger)count top:(CGFloat)top
+- (UIImageView *)roofImgViewWithCount:(NSInteger)count top:(CGFloat)top stretch:(BOOL)stretch
 {
     //添加roof图片
-	UIImage *roofImg = nil;
-	UIImageView *roofImgView = nil;
-	if (count >= 2) {
-		NSString *roofImgName = nil;
-		if (count > 5)
-			roofImgName = @"comment.bundle/comment_roof_5";
-		else
-			roofImgName = [NSString stringWithFormat:@"comment.bundle/comment_roof_%d", count - 1];
+    UIImage *roofImg = nil;
+    UIImageView *roofImgView = nil;
+    if (count >= 2) {
+        NSString *roofImgName = nil;
+        if (count > 5)
+            roofImgName = @"comment.bundle/comment_roof_5";
+        else
+            roofImgName = [NSString stringWithFormat:@"comment.bundle/comment_roof_%d", count - 1];
         
-		roofImg = [UIImage imageNamed:roofImgName];
-		CGRect roofRect = CGRectMake((SCREEN_WIDTH - roofImg.size.width) / 2.0f, top,SCREEN_WIDTH, roofImg.size.height);
-		roofImgView = [[UIImageView alloc] initWithFrame:roofRect];
-		roofImgView.image = roofImg;
-	}
+        roofImg = [UIImage imageNamed:roofImgName];
+        if (stretch == YES)
+            roofImg = [roofImg resizableImageWithCapInsets:UIEdgeInsetsMake(0, 50, 0, 50) resizingMode:UIImageResizingModeStretch];
+        CGRect roofRect = CGRectMake(0, top,SCREEN_WIDTH, roofImg.size.height);
+        roofImgView = [[UIImageView alloc] initWithFrame:roofRect];
+        roofImgView.image = roofImg;
+    }
     return roofImgView;
 }
 
-- (UIImageView *)getWallImageViewWithCount:(NSInteger)count floor:(NSInteger)floor top:(float)top stretch:(BOOL)stretch
+- (UIImageView *)wallImgViewWithCount:(NSInteger)count floor:(NSInteger)floor top:(float)top stretch:(BOOL)stretch
 {
     //添加headlabel 背景和底部图片，最后将其拉伸
     NSString *wallImgName = nil;
@@ -353,9 +355,10 @@
     return wallImgView;
 }
 
-- (NSString *)groundImgNameWithCount:(NSInteger)count floor:(NSInteger)floor
+- (UIImageView *)groundImgViewWithCount:(NSInteger)count floor:(NSInteger)floor frame:(CGRect)frame stretch:(BOOL)stretch
 {
     //添加headlabel 背景和底部图片，最后将其拉伸
+    UIImageView *groundImgView = nil;
     NSString *groundImgName = nil;
     NSInteger maxFloor = 5;
     
@@ -376,9 +379,15 @@
         {
             groundImgName = [NSString stringWithFormat:@"comment.bundle/comment_ground_%d",count - floor];
         }
+        
+        groundImgView = [[UIImageView alloc] initWithFrame:frame];
+        UIImage *groundImg = [UIImage imageNamed:groundImgName];
+        if (stretch == YES)
+            groundImg = [groundImg resizableImageWithCapInsets:UIEdgeInsetsMake(0, 50, 0, 50) resizingMode:UIImageResizingModeStretch];
+        groundImgView.image = groundImg;
     }
     
-    return groundImgName;
+    return groundImgView;
 }
 
 - (UILabel *)getLabelWithContent:(NSString *)content fontSize:(CGFloat)fontSize frame:(CGRect)rect
