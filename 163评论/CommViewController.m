@@ -113,11 +113,14 @@ static NSString * const CellIdentifier = @"CommCell";
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     if ([view isKindOfClass:[UITableView class]]) {
         UITableView *tableView = (UITableView *)view;
-        activityView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2-tableView.contentInset.top);
-    } else
+        
+        activityView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2-NAV_HEIGHT(self)-STATUSBAR_HEIGHT); 
+        [tableView addSubview:activityView];
+    } else {
         activityView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
+        [view addSubview:activityView];
+    }
     
-    [view addSubview:activityView];
     [activityView startAnimating];
     return activityView;
 }

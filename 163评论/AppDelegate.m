@@ -22,8 +22,9 @@
 
     HomeViewController *hVC = [[HomeViewController alloc] init];
     FQNavigationController *fVC = [[FQNavigationController alloc] initWithRootViewController:hVC];
+   
 //    UINavigationController *fVC = [[UINavigationController alloc] initWithRootViewController:hVC];
-    fVC.backStyle = FQNavBackStyleScale;
+    fVC.backStyle = FQNavBackStyleMove;
     fVC.navigationBar.tintColor = [UIColor grayColor];
     self.window.rootViewController = fVC;
     
