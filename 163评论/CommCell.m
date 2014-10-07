@@ -255,7 +255,6 @@
         CGFloat groundY = wallImgView.frame.origin.y+wallImgView.frame.size.height;
         UIImageView *groundImgView = [self groundImgViewWithCount:model.count floor:i frame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT) stretch:YES];
         if (groundImgView != nil) {
-            [self.contentView addSubview:groundImgView];
             finalLabelY = groundY + GROUND_HEIGHT;
         }
 
