@@ -63,7 +63,7 @@
     
 	float allLabelHeight = 0;
 	float labelOriginY = _userLabel.frame.origin.y + _userLabel.frame.size.height;
-    
+
     //-----------添加楼层顶部图片---------
     UIImageView *roofImgView = [self roofImgViewWithCount:_commModel.count top:labelOriginY stretch:YES];
 	if (roofImgView != nil) {
@@ -95,7 +95,7 @@
         headLabel.textColor = LABEL_COLOR;
         headLabel.adjustsFontSizeToFitWidth = true;
         headLabel.text = temp.user;
-        
+
         //----------统计楼层个数---------
         headlabelCount++;
         
@@ -108,7 +108,6 @@
         floor.text = [NSString stringWithFormat:@"%d", i];
         
         //----------添加内容背景图片-------
-        
         if (oneWallImgView == YES)
         {
             wallImgView = [self wallImgViewWithCount:_commModel.count floor:i top:wallImgOriginY stretch:YES];
@@ -185,7 +184,7 @@
 	float labelOriginY = _userLabel.frame.origin.y + _userLabel.frame.size.height;
     
     //-----------添加楼层顶部图片---------
-    UIImageView *roofImgView = [self roofImgViewWithCount:_commModel.count top:labelOriginY stretch:YES];
+    UIImageView *roofImgView = [self roofImgViewWithCount:model.count top:labelOriginY stretch:YES];
 	if (roofImgView != nil) {
 		labelOriginY += roofImgView.image.size.height;
 	}
@@ -215,8 +214,7 @@
         //----------统计楼层个数---------
         headlabelCount++;
         
-        //----------添加内容背景图片-------
-       
+        //----------添加内容背景图片-------       
         if (oneWallImgView == YES)
         {
             wallImgView = [self wallImgViewWithCount:model.count floor:i top:wallImgOriginY stretch:YES];
@@ -250,12 +248,12 @@
                 if (i < model.count-5)
                     wallImgView.frame = CGRectMake(0, wallImgView.frame.origin.y, SCREEN_WIDTH, CGRectGetMaxY(label.frame)-(HEAD_HEIGHT + GROUND_HEIGHT+MARGIN_BOTTOM));
                 else
-                    wallImgView.frame = CGRectMake(0, wallImgView.frame.origin.y, SCREEN_WIDTH, headLabel.frame.size.height + label.frame.size.height+MARGIN_BOTTOM);
+                    wallImgView.frame = CGRectMake(0, wallImgView.frame.origin.y-1, SCREEN_WIDTH, headLabel.frame.size.height + label.frame.size.height+MARGIN_BOTTOM);
             }
         }
         
         CGFloat groundY = wallImgView.frame.origin.y+wallImgView.frame.size.height;
-        UIImageView *groundImgView = [self groundImgViewWithCount:_commModel.count floor:i frame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT) stretch:YES];
+        UIImageView *groundImgView = [self groundImgViewWithCount:model.count floor:i frame:CGRectMake(0, groundY, SCREEN_WIDTH, GROUND_HEIGHT) stretch:YES];
         if (groundImgView != nil) {
             [self.contentView addSubview:groundImgView];
             finalLabelY = groundY + GROUND_HEIGHT;
@@ -264,18 +262,20 @@
 	} // end for
     
     //--------添加第一层楼的评论label（显示在cell最下方）---------
-    if (_commModel.count == 1)
+    if (model.count == 1)
         finalLabelY = _userLabel.frame.origin.y+_userLabel.frame.size.height;
     
     CGRect finalLabelFrame = CGRectMake(MARGIN_LEFT,finalLabelY+MARGIN_BOTTOM, SCREEN_WIDTH-2*MARGIN_LEFT, 0);
     UILabel *finalLabel = [self getLabelWithContent:last.content fontSize:LABEL_FONT frame:finalLabelFrame];
     allLabelHeight += finalLabel.frame.size.height+MARGIN_BOTTOM;
-    
+  
     CGFloat cellHeight = 0;
     if (model.count == 1)
 		cellHeight = labelOriginY + allLabelHeight+MARGIN_BOTTOM;
 	else
-		cellHeight = labelOriginY + allLabelHeight + (model.count - 1) * (HEAD_HEIGHT + GROUND_HEIGHT+MARGIN_BOTTOM) + 10;
+    {
+		cellHeight = labelOriginY + allLabelHeight + (model.count - 1) * (HEAD_HEIGHT + GROUND_HEIGHT) + model.count*MARGIN_BOTTOM;
+    }
     return cellHeight;
 }
 
@@ -386,7 +386,7 @@
             groundImg = [groundImg resizableImageWithCapInsets:UIEdgeInsetsMake(0, 50, 0, 50) resizingMode:UIImageResizingModeStretch];
         groundImgView.image = groundImg;
     }
-    
+    groundImgView.backgroundColor = [UIColor grayColor];
     return groundImgView;
 }
 
