@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FQBaseViewController.h"
 #import "Contents.h"
 
-@interface CommViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface CommViewController : FQBaseViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 
