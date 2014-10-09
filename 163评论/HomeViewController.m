@@ -36,7 +36,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"帖子";
+        
     }
     return self;
 }
@@ -46,23 +46,26 @@
     [super viewDidLoad];
     
     //添加更多
-    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"]
-                                                                   style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
-	self.navigationItem.rightBarButtonItem = moreButton;
+    UIImage *moreImg = [UIImage imageNamed:@"more"];
+    CGFloat height = moreImg.size.height;
     
-    UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 12, 68, 23)];
+    UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    moreButton.frame = CGRectMake(SCREEN_WIDTH-moreImg.size.width-10, 20+(44-height)/2, moreImg.size.width, height);
+    [moreButton setImage:moreImg forState:UIControlStateNormal];
+    [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navView addSubview:moreButton];
+    
+    //添加logo
+    UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 20+12, 68, 23)];
     blueView.backgroundColor = RGBCOLOR(0, 160, 233, 1);
-//    [self.navigationController.navigationBar addSubview:blueView];
-//    CALayer *navBarShadow = [CALayer layer];
-//    navBarShadow.frame = CGRectMake(0, 30, self.navigationController.navigationBar.frame.size.width, 1);
-//    navBarShadow.backgroundColor = [UIColor groupTableViewBackgroundColor].CGColor;
-//    [self.navigationController.navigationBar.layer addSublayer:navBarShadow];
-    
+    [self.navView addSubview:blueView];
+
+    //注册cell
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
     _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
+    
     //集成刷新控件
     [self setupRefresh];
     [self fetchPostFromDatabase];
@@ -74,7 +77,7 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 #pragma mark - 显示菜单
-- (void)showMenu:(UIBarButtonItem *)barItem
+- (void)showMenu:(UIButton *)button
 {
     if (!menu) {
         CGRect frame = CGRectMake(157, 65, 157, 87);

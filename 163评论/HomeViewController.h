@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FQBaseViewController.h"
 @class Posts;
 
-@interface HomeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface HomeViewController : FQBaseViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) Posts *posts;
