@@ -9,153 +9,62 @@
 
 #import "FQNavigationController.h"
 
-#define KEY_WINDOW  [[UIApplication sharedApplication]keyWindow]
+#define FQ_KEY_WINDOW  [[UIApplication sharedApplication]keyWindow]
+#define FQ_NAV_WIDTH   [UIScreen mainScreen].bounds.size.width
 
 @interface FQNavigationController ()
 {
-    CGPoint _startTouch;
-    UIImageView *_lastScreenShotView;
-    BOOL _usePanGesture;
-    UIView *blackMask;
+    NSMutableArray *screenShots;
+    CGPoint startPoint;
 }
-
-@property (nonatomic,strong) NSMutableArray *screenShotsList;
-@property (nonatomic,strong) UIView *backgroundView;
-@property (nonatomic) BOOL isMoving;
-
 @end
 
 @implementation FQNavigationController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        self.screenShotsList = [[NSMutableArray alloc] initWithCapacity:2];
-        self.canDragBack = YES;
-        _usePanGesture = NO;
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    //给view添加左侧的阴影
-    UIImageView *shadowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"leftside_shadow_bg"]];
-    shadowImageView.frame = CGRectMake(-10, 0, shadowImageView.frame.size.width, self.view.frame.size.height);
-    [self.view addSubview:shadowImageView];
-    //添加滑动手势
-    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(paningGestureReceive:)];
-    [recognizer delaysTouchesBegan];
-    [self.view addGestureRecognizer:recognizer];
+    
+    self.navigationBar.hidden = YES;
+    //设置阴影
+    self.view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    self.view.layer.shadowOffset = CGSizeMake(-1, 0);
+    self.view.layer.shadowOpacity = 1;
+    self.view.layer.shadowRadius = 2;
+    self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+    //添加手势
     self.interactivePopGestureRecognizer.enabled = NO;
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
+    [self.view addGestureRecognizer:panGesture];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-//    [self.backgroundView removeFromSuperview];
 }
 
+#pragma mark - push/pop
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [self.screenShotsList addObject:[self screenCapture]];
-    [super pushViewController:viewController animated:animated];
-}
-
-- (void)checkBackgroundViewIsExist  //backgroundView是一直存在的，他是在window之上
-{
-    if (self.backgroundView == nil) {
-        CGSize size = self.view.frame.size;
-        self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        self.backgroundView.backgroundColor = [UIColor blackColor];
-        [KEY_WINDOW insertSubview:self.backgroundView belowSubview:self.view];
-        
-        blackMask = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width , size.height)];
-        blackMask.backgroundColor = [UIColor blackColor];
-        [self.backgroundView addSubview:blackMask];
-    }
-    self.backgroundView.hidden = NO;
-}
-
-- (void)addLastScreenShotView
-{
-    if (_lastScreenShotView != nil) {
-        [_lastScreenShotView removeFromSuperview];
+    //将截屏添加到array中
+    if (self.viewControllers.count != 0) {
+        if (screenShots == nil)
+            screenShots = [[NSMutableArray alloc] init];
+        [screenShots addObject:[self.view snapshotViewAfterScreenUpdates:NO]];//注意要设置为NO,YES时会闪烁
     }
     
-    UIImage *lastScreenShot = [self.screenShotsList lastObject];
-    _lastScreenShotView = [[UIImageView alloc] initWithImage:lastScreenShot];
-    [self.backgroundView insertSubview:_lastScreenShotView belowSubview:blackMask];
+    [super pushViewController:viewController animated:animated];
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
-    if (animated) {
-        switch (self.backStyle) {
-            case FQNavBackStyleNone: {
-                CGSize size = [UIScreen mainScreen].bounds.size;
-                [self checkBackgroundViewIsExist];
-                [self addLastScreenShotView];
-                blackMask.alpha = 0;
-                [UIView animateWithDuration:0.3 animations:^{
-                    [self moveViewWithX:(size.width)];
-                } completion:^(BOOL finished) {
-                    [super popViewControllerAnimated:NO];
-                    [self resetView];
-                }];
-                return [self.viewControllers lastObject];
-            } break;
-            case FQNavBackStyleMove: {
-                CGSize size = [UIScreen mainScreen].bounds.size;
-                [self checkBackgroundViewIsExist];
-                [self addLastScreenShotView];
-                blackMask.alpha = 0;
-                CGFloat halfWidth = size.width/3;
-                //先将截图的x改为-1/3,再把它改为0，最后再remove,并显示真正的view
-                CGRect originFrame = _lastScreenShotView.frame;
-                originFrame.origin.x = -halfWidth;
-                _lastScreenShotView.frame = originFrame;
-                
-                [UIView animateWithDuration:0.3f animations:^{
-                    CGRect newFrame = _lastScreenShotView.frame;
-                    newFrame.origin.x = 0;
-                    _lastScreenShotView.frame = newFrame;
-                    [self moveViewWithX:size.width];
-                } completion:^(BOOL finished) {
-                    [super popViewControllerAnimated:NO];
-                    [self resetView];
-                }];
-                return [self.viewControllers lastObject];
-            } break;
-            case FQNavBackStyleScale: {
-                CGSize size = [UIScreen mainScreen].bounds.size;
-                [self checkBackgroundViewIsExist];
-                [self addLastScreenShotView];
-                
-                _lastScreenShotView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-                [UIView animateWithDuration:0.3f animations:^{
-                    [self moveViewWithX:size.width];
-                } completion:^(BOOL finished) {
-                    [super popViewControllerAnimated:NO];
-                    [self resetView];
-                }];
-                return [self.viewControllers lastObject];
-            } break;
-            default:
-                break;
-        }
-        
-        [self.screenShotsList removeLastObject];
-        return [super popViewControllerAnimated:NO];
-    } else {
-        [self.screenShotsList removeLastObject];
-        return [super popViewControllerAnimated:NO];
-    }
+    //移除截屏
+    [self removeTopSnapshotView];
+    
+    [super popViewControllerAnimated:animated];
+    //重置view,不能少
+    [self resetView];
+    return self.viewControllers.lastObject;
 }
 
 - (void)resetView
@@ -163,115 +72,102 @@
     CGRect frame = self.view.frame;
     frame.origin.x = 0;
     self.view.frame = frame;
-    self.backgroundView.hidden = YES;
-    [self.screenShotsList removeLastObject];
 }
 
-- (UIImage *)screenCapture
+- (void)addSnapshotView
 {
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
-    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+    UIView *lastScreenShotView = [screenShots lastObject];
+    [FQ_KEY_WINDOW insertSubview:lastScreenShotView belowSubview:self.view];
 }
 
-- (void)paningGestureReceive:(UIPanGestureRecognizer *)recognizer
+- (void)removeTopSnapshotView
 {
-    if (self.viewControllers.count <= 1 || !self.canDragBack) {
+    //移除已经截取的view
+    UIView *topView = (UIView *)[screenShots lastObject];
+    [topView removeFromSuperview];
+    topView = nil;
+    [screenShots removeLastObject];
+}
+
+#pragma mark - 手势
+- (void)move:(UIPanGestureRecognizer *)gesture
+{
+    if (self.interactivePopGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        gesture.enabled = NO;
+        return;
+    }
+    if (self.viewControllers.count < 2) {
         return;
     }
     
-    _usePanGesture = YES;
-    //获取点击位置
-    CGPoint touchPoint = [recognizer locationInView:KEY_WINDOW];
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        self.isMoving = YES;
-        _startTouch = touchPoint;
-        [self checkBackgroundViewIsExist];
-        [self addLastScreenShotView];
-        
-    } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        if (touchPoint.x - _startTouch.x > ((NSInteger)(width/3))) {        //如果滑动距离大于1/3宽度就让视图完全显示
-            [UIView animateWithDuration:0.3 animations:^{
-                [self moveViewWithX:self.view.frame.size.width];
-            } completion:^(BOOL finished) {
-                [self popViewControllerAnimated:NO];
-                CGRect frame = self.view.frame;
-                frame.origin.x = 0;
-                self.view.frame = frame;
-                _isMoving = NO;
-            }];
-        } else {
-            [UIView animateWithDuration:0.3 animations:^{
-                [self moveViewWithX:0];
-            } completion:^(BOOL finished) {
-                _isMoving = NO;
-                self.backgroundView.hidden = YES;
-            }];
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan: {
+            startPoint = [gesture locationInView:FQ_KEY_WINDOW];
+            //将截图添加到self.view下面
+            [self addSnapshotView];
         }
-        return;
-    } else if (recognizer.state == UIGestureRecognizerStateCancelled){
-    
-        [UIView animateWithDuration:0.3 animations:^{
-            [self moveViewWithX:0];
-        } completion:^(BOOL finished) {
-            _isMoving = NO;
-            self.backgroundView.hidden = YES;
-        }];
-        return;
-    }
-    
-    if (_isMoving) {
-        [self moveViewWithX:touchPoint.x - _startTouch.x];
-    }
-}
-
-- (void)moveViewWithX:(CGFloat)x
-{
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    x = x > size.width ? size.width : x;
-    x= x < 0 ? 0 : x;
-    
-    CGRect frame = self.view.frame;
-    frame.origin.x = x;
-    self.view.frame = frame;
-    
-    switch (self.backStyle) {
-        case FQNavBackStyleNone: {
-            blackMask.alpha = 0;
-        } break;
-        case FQNavBackStyleMove: {
-            if (_usePanGesture)
-            {
-                blackMask.alpha = 0;
-                CGFloat halfWidth = frame.size.width/3;
-                static BOOL beginMove = YES;
-                if (beginMove) {
-                    CGRect originFrame = _lastScreenShotView.frame;
-                    originFrame.origin.x = -halfWidth;
-                    _lastScreenShotView.frame = originFrame;
-                    beginMove = NO;
-                } else {
-                    CGRect newFrame = _lastScreenShotView.frame;
-                    newFrame.origin.x = -halfWidth+x/3;
-                    _lastScreenShotView.frame = newFrame;
-                }
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint currPoint = [gesture locationInView:FQ_KEY_WINDOW];
+            CGFloat offsetX = currPoint.x - startPoint.x;
+            if (offsetX > 0) {
+                [self moveView:offsetX];
             }
-        } break;
-        case FQNavBackStyleScale: {
-            CGFloat scale = (x/(size.width/0.1))+0.9; //4000 = 320/0.08
-            _lastScreenShotView.transform = CGAffineTransformMakeScale(scale, scale);
-            CGFloat alpha = 0.4 - (x/800);
-            blackMask.alpha = alpha;
-        } break;
+            
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled: {
+            CGPoint currPoint = [gesture locationInView:FQ_KEY_WINDOW];
+            if (currPoint.x-startPoint.x >= 100) {   //移动距离比较大 就pop
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self moveView:FQ_NAV_WIDTH];
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        [self popViewControllerAnimated:NO];
+                    }
+                }];
+            } else {    //移动距离太小 不pop,因为之前已经add过了
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self moveView:0];
+                } completion:^(BOOL finished) {
+                    UIView *topView = (UIView *)[screenShots lastObject];
+                    [topView removeFromSuperview];
+                    topView = nil;
+                }];
+            }
+            
+        }
+            break;
         default:
             break;
     }
+}
 
-//
+- (void)moveView:(CGFloat)x
+{
+    CGRect originFrame = self.view.frame;
+    originFrame.origin.x = x;
+    self.view.frame = originFrame;
+    CGFloat quarterWidth = FQ_NAV_WIDTH/4;
+    static BOOL beginMove = YES;
+    UIView *view = [screenShots lastObject];
+    
+    if (beginMove) {
+        CGRect originFrame = view.frame;
+        originFrame.origin.x = -quarterWidth;
+        view.frame = originFrame;
+        beginMove = NO;
+    } else {
+        CGRect newFrame = view.frame;
+        newFrame.origin.x = -quarterWidth+x/4;
+        view.frame = newFrame;
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 @end
 
