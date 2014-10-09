@@ -23,12 +23,11 @@
     HomeViewController *hVC = [[HomeViewController alloc] init];
     FQNavigationController *fVC = [[FQNavigationController alloc] initWithRootViewController:hVC];
    
-//    UINavigationController *fVC = [[UINavigationController alloc] initWithRootViewController:hVC];
-    fVC.backStyle = FQNavBackStyleMove;
-    fVC.navigationBar.tintColor = [UIColor grayColor];
+//    fVC.backStyle = FQNavBackStyleScale;
+//    fVC.navigationBar.tintColor = [UIColor grayColor];
     self.window.rootViewController = fVC;
     
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor redColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
