@@ -45,13 +45,13 @@
 {
     [super viewDidLoad];
     
-    //添加更多
+    //添加更多btn
     UIImage *moreImg = [UIImage imageNamed:@"more"];
-    CGFloat height = moreImg.size.height;
-    
+    CGFloat height = 40;
     UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    moreButton.frame = CGRectMake(SCREEN_WIDTH-moreImg.size.width-10, 20+(44-height)/2, moreImg.size.width, height);
+    moreButton.frame = CGRectMake(SCREEN_WIDTH-moreImg.size.width-10,20+(44-height)/2, moreImg.size.width+10, height);
     [moreButton setImage:moreImg forState:UIControlStateNormal];
+    moreButton.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
     [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:moreButton];
     
