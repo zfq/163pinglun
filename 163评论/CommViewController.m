@@ -37,6 +37,16 @@ static NSString * const CellIdentifier = @"CommCell";
 {
 	[super viewDidLoad];
     
+    // 添加返回按钮
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    backBtn.backgroundColor = [UIColor redColor];
+    backBtn.frame = CGRectMake(10, 22, 60, 40);
+    [backBtn setImage:[UIImage imageNamed:@"navgation_back"] forState:UIControlStateNormal];
+    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [backBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navView addSubview:backBtn];
+    
 	// 设置tableView
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -55,6 +65,11 @@ static NSString * const CellIdentifier = @"CommCell";
     [super viewDidDisappear:animated];
     [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (void)back:(UIButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - 设置字体
 - (void)preferredContentSizeChanged:(NSNotification *)notification
@@ -113,8 +128,8 @@ static NSString * const CellIdentifier = @"CommCell";
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     if ([view isKindOfClass:[UITableView class]]) {
         UITableView *tableView = (UITableView *)view;
-        
-        activityView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2-NAV_HEIGHT(self)-STATUSBAR_HEIGHT); 
+        //tableView.frame.size.height/2-NAV_HEIGHT(self)-STATUSBAR_HEIGHT
+        activityView.center = CGPointMake(tableView.frame.size.width/2, tableView.frame.size.height/2);
         [tableView addSubview:activityView];
     } else {
         activityView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
@@ -146,7 +161,7 @@ static NSString * const CellIdentifier = @"CommCell";
     label.numberOfLines = 0;
     label.textAlignment = NSTextAlignmentCenter;
     [label sizeToFit];
-    label.center = CGPointMake(self.tableView.frame.size.width/2,self.tableView.frame.size.height/2-self.tableView.contentInset.top);
+    label.center = CGPointMake(self.tableView.frame.size.width/2,self.tableView.frame.size.height/2);
     [noNetworkView addSubview:label];   //别忘添加logo图片
     self.tableView.tableHeaderView = noNetworkView;
     self.tableView.scrollEnabled = NO;
