@@ -42,7 +42,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 
 - (void)loadView
 {
-    RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds]; //[UIScreen mainScreen].bounds
+    RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view = view;
 }
 
@@ -50,9 +50,10 @@ static NSString *randomCellIdentifier = @"randomCell";
 {
     [super viewDidLoad];
     
+    CGFloat navHeight = 64;
     originAlpha = 0.7;
-    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEITHT)];
-    maskView.backgroundColor = [UIColor blackColor];
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEITHT-navHeight)];
+    maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
     [maskView addGestureRecognizer:tapGesture];
@@ -60,7 +61,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     
     //添加tableView
     marginLeft = 55;
-    CGFloat navHeight = 64;
+    
     postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-navHeight) style:UITableViewStylePlain]; //65
     postTableView.dataSource = self;
     postTableView.delegate = self;
@@ -68,6 +69,12 @@ static NSString *randomCellIdentifier = @"randomCell";
     panGesture.delegate = self;
     [postTableView addGestureRecognizer:panGesture];
     [self.view addSubview:postTableView];
+    
+    //添加nav阴影
+    UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
+    UIImageView *navImgView = [[UIImageView alloc] initWithImage:navImg];
+    navImgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, navImg.size.height);
+    [self.view addSubview:navImgView];
     
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         CGRect rect = postTableView.frame;
