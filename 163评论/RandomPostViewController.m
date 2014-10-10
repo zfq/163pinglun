@@ -62,7 +62,8 @@ static NSString *randomCellIdentifier = @"randomCell";
     //添加tableView
     marginLeft = 55;
     
-    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-navHeight) style:UITableViewStylePlain]; //65
+    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-navHeight) style:UITableViewStylePlain];
+    postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     postTableView.dataSource = self;
     postTableView.delegate = self;
     panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
@@ -76,6 +77,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     navImgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, navImg.size.height);
     [self.view addSubview:navImgView];
     
+    //设置maskView透明度渐变及tableView的滑入
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         CGRect rect = postTableView.frame;
         rect.origin.x = marginLeft;
@@ -133,6 +135,13 @@ static NSString *randomCellIdentifier = @"randomCell";
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"randomCell"];
         cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+        
+        //添加分割线
+        CGFloat height = cell.contentView.frame.size.height;
+        CGFloat width = cell.contentView.frame.size.width;
+        UILabel *separatorLine = [[UILabel alloc] initWithFrame:CGRectMake(15, height-1, width, 1)];
+        separatorLine.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        [cell.contentView addSubview:separatorLine];
     }
     RandomPost *post = [_posts objectAtIndex:indexPath.row];
     cell.textLabel.text = post.title;
