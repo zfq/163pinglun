@@ -86,7 +86,7 @@
     [_menuViewDelegate menuViewDidDisappear];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self removeFromSuperview];
     [_menuViewDelegate menuViewDidDisappear];
