@@ -52,7 +52,6 @@
 		7B723002197D51F400CA7DBB /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B723001197D51F400CA7DBB /* Tag.m */; };
 		7B723004197D5CF700CA7DBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B723003197D5CF700CA7DBB /* CoreData.framework */; };
 		7B9309AD19AA2D8600DE46A0 /* CommCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9309AC19AA2D8600DE46A0 /* CommCell.m */; };
-		7B9309AF19AA2DD600DE46A0 /* CommCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9309AE19AA2DD600DE46A0 /* CommCell.xib */; };
 		7BA8580E1913E201002ADB85 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8580D1913E201002ADB85 /* Reachability.m */; };
 		7BAB04CD198E7A650007DAF4 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB04CC198E7A650007DAF4 /* GTMNSString+HTML.m */; };
 		7BABED3A196D8BA10075B850 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BABED39196D8BA10075B850 /* UIDeviceHardware.m */; };
@@ -171,7 +170,6 @@
 		7B723003197D5CF700CA7DBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7B9309AB19AA2D8600DE46A0 /* CommCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommCell.h; sourceTree = "<group>"; };
 		7B9309AC19AA2D8600DE46A0 /* CommCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommCell.m; sourceTree = "<group>"; };
-		7B9309AE19AA2DD600DE46A0 /* CommCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommCell.xib; sourceTree = "<group>"; };
 		7BA8580C1913E201002ADB85 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		7BA8580D1913E201002ADB85 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		7BAB04CB198E7A650007DAF4 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 				7BEB0D761970C78D00EBACC6 /* PostCell.xib */,
 				7B9309AB19AA2D8600DE46A0 /* CommCell.h */,
 				7B9309AC19AA2D8600DE46A0 /* CommCell.m */,
-				7B9309AE19AA2DD600DE46A0 /* CommCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -760,7 +757,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BEBD4FB19960150000F5028 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				7B9309AF19AA2DD600DE46A0 /* CommCell.xib in Resources */,
 				7B217EFB191A7B9F00AEE684 /* CommViewController.xib in Resources */,
 				7B1BA1B4191FB64700669E2C /* comment.bundle in Resources */,
 				7B428D9D190E914D00860E94 /* InfoPlist.strings in Resources */,
