@@ -143,10 +143,15 @@
             [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
             [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
                 //先删除数据库中的所有post
-                [self removeAllPostsFromDatabase];
-                _posts = posts;
-                _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
-                [self.tableView reloadData];
+                if (posts != nil && (posts.postItems.count > 0)) {
+                    [self removeAllPostsFromDatabase];
+                    //重新设置orderValue
+//                    [[ItemStore sharedItemStore] resetOrderValue]; 
+                    _posts = posts;
+                    _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
+                    [self.tableView reloadData];
+                }
+
                 [self.tableView headerEndRefreshing];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
@@ -176,12 +181,13 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [ItemStore sharedItemStore].cotentsURL = urlStr;
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-            if (posts.postItems.count != 0) {
+            if (posts != nil && (posts.postItems.count > 0)) {
                 [_posts addPostItems:posts.postItems];
                 //保存当前为第几页
                 [self saveCurrPage];
+                [self.tableView reloadData];
             }
-            [self.tableView reloadData];
+            
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             [self.tableView footerEndRefreshing];
         }];
