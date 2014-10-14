@@ -92,7 +92,7 @@ static NSString * const CellIdentifier = @"CommCell";
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%d",[_postID integerValue]]];
-            [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts/1197/comments";
+            [ItemStore sharedItemStore].cotentsURL = url;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
                 _contents = contents;
                 _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
@@ -243,7 +243,7 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger count = 0;    //帖子总数
+    NSInteger count = 0;    //
     Content *content = nil;
     NSInteger preCount = 0;
     NSInteger temp = 0;
@@ -292,8 +292,11 @@ static NSString * const CellIdentifier = @"CommCell";
     if (cell == nil) {
 		cell = [[CommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
 	}
-    
-    [cell bindContent:content floorCount:count height:NULL];
+   
+    NSInteger floorCount =0;
+    if (currRows >0)
+        floorCount = currRows > 1?currRows-1:1;
+    [cell bindContent:content floorCount:floorCount height:NULL];
     return cell;
 }
 
@@ -315,32 +318,8 @@ static NSString * const CellIdentifier = @"CommCell";
         NSInteger count = 0;
         Content *content = nil;
         NSInteger preCount = 0;
-//        BOOL isFind = NO;
         NSInteger temp = 0;
-        /*
-        NSInteger arraySize = _contents.contentItems.count;
-        for (NSInteger i=arraySize-1; i>=0; i--) {
-            NSArray *array = [_contents.contentItems objectAtIndex:i];
-            preCount = count;
-            count += array.count;
-            if ((indexPath.row) <= count ) {
-                NSInteger tempIndex = indexPath.row-preCount;
-                if (tempIndex == 0 && array.count>1) {
-                    content = [array lastObject];
-                    break;
-                } else {
-                    if (array.count == 0)
-                        content = [array objectAtIndex:0];
-                    else
-                        content = [array objectAtIndex:tempIndex-1];
-                    break;
-                }
-                
-            }
-            
-        }
-         */
-      
+        
         for (NSArray *array in _contents.contentItems) {
             preCount = count;
             if (array.count == 0)
@@ -369,10 +348,6 @@ static NSString * const CellIdentifier = @"CommCell";
         }
         
         NSString *cellID;
-//        if (count > 1 &&  ((indexPath.row+1) == cellCount))    //最后一行一定是bottom类型
-//            cellID = kCommCellTypeBottom;
-//        else
-//            cellID = [self cellIDWithFloorCount:count floorIndex:content.floorIndex.integerValue];
         NSInteger currRows,preAllRows;
         currRows = content.currRows.integerValue;
         preAllRows = content.preAllRows.integerValue;
@@ -391,7 +366,10 @@ static NSString * const CellIdentifier = @"CommCell";
             cell = [[CommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
         CGFloat cellHeight;
-        [cell bindContent:content floorCount:count height:&cellHeight];
+        NSInteger floorCount =0;
+        if (currRows >0)
+            floorCount = currRows > 1?currRows-1:1;
+        [cell bindContent:content floorCount:floorCount height:&cellHeight];
         [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
         return cellHeight;
     }
@@ -404,9 +382,7 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (void)dealloc
 {
-    [_cellsHeightDic removeAllObjects];
     _cellsHeightDic = nil;
-    [_cellsDic removeAllObjects];
     _cellsDic = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
