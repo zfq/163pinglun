@@ -9,7 +9,7 @@
 #import "CommViewController.h"
 #import "CommCell.h"
 #import "ItemStore.h"
-#import "Contents.h"
+#import "Content.h"
 //#import "MBProgressHUD.h"
 #import "Reachability.h"
 
@@ -19,6 +19,7 @@ static NSString * const CellIdentifier = @"CommCell";
 {
     NSMutableDictionary *_cellsHeightDic;
     NSMutableDictionary *_cellsDic;
+    NSInteger cellCount;
 }
 @end
 
@@ -91,7 +92,7 @@ static NSString * const CellIdentifier = @"CommCell";
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%d",[_postID integerValue]]];
-            [ItemStore sharedItemStore].cotentsURL = url;
+            [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts/1197/comments";
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
                 _contents = contents;
                 _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
@@ -107,10 +108,10 @@ static NSString * const CellIdentifier = @"CommCell";
             [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
                 //移除等待view
                 [self removeActivityView:activityView];
-                
                 //处理数据
                 if (contents.count > 0) {
                     _contents = [[Contents alloc] initWithContents:contents];
+                    
                     _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
                     _cellsDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
                     [self.tableView reloadData];
@@ -154,16 +155,17 @@ static NSString * const CellIdentifier = @"CommCell";
     [noNetworkView addTarget:self action:@selector(reloadContents:) forControlEvents:UIControlEventTouchUpInside];
     
     //添加提示label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(self.tableView.frame, 30, 30)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.font = [UIFont systemFontOfSize:24];
     label.textColor = RGBCOLOR(153, 153, 153, 1);
     label.text = @"网络不可用\n点击屏幕重新加载";
     label.numberOfLines = 0;
     label.textAlignment = NSTextAlignmentCenter;
     [label sizeToFit];
-    label.center = CGPointMake(self.tableView.frame.size.width/2,self.tableView.frame.size.height/2);
+    label.center = CGPointMake(noNetworkView.frame.size.width/2,noNetworkView.frame.size.height/2-64);
     [noNetworkView addSubview:label];   //别忘添加logo图片
-    self.tableView.tableHeaderView = noNetworkView;
+    
+    [self.tableView addSubview:noNetworkView];
     self.tableView.scrollEnabled = NO;
 }
 
@@ -181,7 +183,7 @@ static NSString * const CellIdentifier = @"CommCell";
             __block UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             
-            //加载数据
+            //加载数据 1197
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%d",[_postID integerValue]]];
             [ItemStore sharedItemStore].cotentsURL = url;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
@@ -205,32 +207,93 @@ static NSString * const CellIdentifier = @"CommCell";
 {
 	if (_contents == nil)
 		return 0;
-	else
-		return _contents.contentItems.count;
+    else {
+        //cell行数
+        int count = 0;
+        for (NSArray *arry in _contents.contentItems) {
+            if (arry.count == 1)
+                count += 1;
+            else if (arry.count > 1)
+                count += (arry.count+1);
+        }
+        cellCount = count;
+        return count;
+    }
+}
+
+- (NSString *)cellIDWithFloorCount:(NSInteger)floorCount floorIndex:(NSInteger)floorIndex
+{
+    NSString *cellID = nil;
+    if (floorCount == 0)
+        return cellID;
+    
+    if (floorCount == 1) {
+        cellID = kCommCellTypeOnlyOne;
+    } else {
+        if (floorCount == 1)
+            cellID = kCommCellTypeBottom;
+        else if(floorIndex == floorCount)  //这里floorindex=1应有top和bottom类型
+            cellID = kCommCellTypeTop;
+        else
+            cellID = kCommCellTypeMiddle;
+    }
+        
+    return cellID;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CommCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSInteger count = 0;    //帖子总数
+    Content *content = nil;
+    NSInteger preCount = 0;
+    NSInteger temp = 0;
+    for (NSArray *array in _contents.contentItems) {
+        preCount = count;
+        if (array.count == 0)
+            temp = 0;
+        else
+            temp = array.count > 1 ? (array.count+1) : 1;
+        count += temp;
+        if ((indexPath.row+1) <= count ) {
+            NSInteger tempIndex = indexPath.row+1-preCount; //preCount为行数 tempIndex为content在当前块中所在的行
+            if (tempIndex == 1 && array.count>1) {
+                content = [array lastObject];
+                break;
+            } else if (array.count == 1){
+                content = [array objectAtIndex:0];
+                break;
+            } else if (tempIndex == 1){
+                content = [array lastObject];
+                break;
+            } else {
+                content = [array objectAtIndex:tempIndex-2];
+                break;
+            }
+            
+        }
+    }
+ 
+    NSString *cellID;
+    NSInteger currRows,preAllRows;
+    currRows = content.currRows.integerValue;
+    preAllRows = content.preAllRows.integerValue;
+    if (currRows == 1)
+        cellID = kCommCellTypeOnlyOne;
+    else {
+        if ((indexPath.row+1) == (preAllRows+1))
+            cellID = kCommCellTypeTop;
+        else if ((indexPath.row+1) == currRows+preAllRows)
+            cellID = kCommCellTypeBottom;
+        else
+            cellID = kCommCellTypeMiddle;
+    }
+    
+    CommCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-		cell = [[CommCell alloc] init];
-	} else {
-        //删除所有添加的子视图，除xib内的几个之外
-		@autoreleasepool
-        {
-            NSArray *subViews = cell.contentView.subviews;
-            [subViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                UIView *subView = (UIView *)obj;
-                NSInteger tag = subView.tag;
-                if (tag != 50 && tag != 51) {
-                    [subView removeFromSuperview];
-                    subView = nil;
-                }
-            }];
-		}
+		cell = [[CommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
 	}
     
-    [cell setCommModel:[_contents.contentItems objectAtIndex:(_contents.contentItems.count - indexPath.row - 1)]];
+    [cell bindContent:content floorCount:count height:NULL];
     return cell;
 }
 
@@ -248,8 +311,87 @@ static NSString * const CellIdentifier = @"CommCell";
     if (height != nil) {
         return height.floatValue;
     } else {
-        CommCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        CGFloat cellHeight = [cell heightWithCommModel:[_contents.contentItems objectAtIndex:(_contents.contentItems.count - indexPath.row - 1)]];
+        
+        NSInteger count = 0;
+        Content *content = nil;
+        NSInteger preCount = 0;
+//        BOOL isFind = NO;
+        NSInteger temp = 0;
+        /*
+        NSInteger arraySize = _contents.contentItems.count;
+        for (NSInteger i=arraySize-1; i>=0; i--) {
+            NSArray *array = [_contents.contentItems objectAtIndex:i];
+            preCount = count;
+            count += array.count;
+            if ((indexPath.row) <= count ) {
+                NSInteger tempIndex = indexPath.row-preCount;
+                if (tempIndex == 0 && array.count>1) {
+                    content = [array lastObject];
+                    break;
+                } else {
+                    if (array.count == 0)
+                        content = [array objectAtIndex:0];
+                    else
+                        content = [array objectAtIndex:tempIndex-1];
+                    break;
+                }
+                
+            }
+            
+        }
+         */
+      
+        for (NSArray *array in _contents.contentItems) {
+            preCount = count;
+            if (array.count == 0)
+                temp = 0;
+            else
+                temp = array.count > 1 ? (array.count+1) : 1;
+            count += temp;
+            if ((indexPath.row+1) <= count) {
+                NSInteger tempIndex = indexPath.row+1-preCount; //preCount为之前块的行数
+                if (tempIndex == 1 && array.count>1) {
+                    content = [array lastObject];
+                    break;
+                } else if (array.count == 1){
+                    content = [array objectAtIndex:0];
+                    break;
+                } else if (tempIndex == 1){
+                    content = [array lastObject];
+                    break;
+                } else {
+                    content = [array objectAtIndex:tempIndex-2];
+                    break;
+                }
+
+                
+            }
+        }
+        
+        NSString *cellID;
+//        if (count > 1 &&  ((indexPath.row+1) == cellCount))    //最后一行一定是bottom类型
+//            cellID = kCommCellTypeBottom;
+//        else
+//            cellID = [self cellIDWithFloorCount:count floorIndex:content.floorIndex.integerValue];
+        NSInteger currRows,preAllRows;
+        currRows = content.currRows.integerValue;
+        preAllRows = content.preAllRows.integerValue;
+        if (currRows == 1)
+            cellID = kCommCellTypeOnlyOne;
+        else {
+            if ( ( (indexPath.row+1) == (preAllRows+1)))
+                cellID = kCommCellTypeTop;
+            else if ((indexPath.row+1) == currRows+preAllRows)
+                cellID = kCommCellTypeBottom;
+            else
+                cellID = kCommCellTypeMiddle;
+        }
+        CommCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[CommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+        CGFloat cellHeight;
+        [cell bindContent:content floorCount:count height:&cellHeight];
         [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
         return cellHeight;
     }
