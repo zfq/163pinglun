@@ -17,7 +17,7 @@
     return [self initWithContents:nil];
 }
 
-- (instancetype)initWithContents:(NSArray *)contents    //这个初始化有问题
+- (instancetype)initWithContents:(NSArray *)contents    
 {
     self = [super init];
     if (self) {
@@ -32,7 +32,10 @@
 - (void)readFromJSONArray:(NSArray *)array
 {
     BOOL isDel = NO;
-    for (NSDictionary *dic in array) {
+    NSInteger preAllRows = 0;
+    
+    for (NSInteger i=array.count-1;i>=0;i--) {
+        NSDictionary *dic = [array objectAtIndex:i];
         NSDictionary *comments = [dic objectForKey:@"content"];
         NSNumber *postID = [dic objectForKey:@"post"];
         NSNumber *groupID = [dic objectForKey:@"ID"];
@@ -44,6 +47,10 @@
             isDel = YES;
         }
         
+        NSInteger currRows = 0;
+        if (comments.count > 0)
+            currRows = (comments.count == 1) ? 1 : (comments.count+1);
+        
         for (int i=1;i<=comments.count;i++) {
             NSString *indexstr = [NSString stringWithFormat:@"%d",i];
             NSDictionary *dic = [comments objectForKey:indexstr];
@@ -51,13 +58,18 @@
             [c readFromJSONDictionary:dic];
             c.postID = postID;
             c.groupID = groupID;
+            c.floorIndex = [NSNumber numberWithInt:i];
+            c.currRows = [NSNumber numberWithInteger:currRows];
+            c.preAllRows = [NSNumber numberWithInteger:preAllRows];
             [tempArray addObject:c];
         }
         
         [_contentItems addObject:tempArray];
         [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
+        
+        preAllRows += currRows;
     }
-    
+        
 }
 
 @end
