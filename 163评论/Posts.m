@@ -31,12 +31,12 @@
 
 - (void)readFromJSONArray:(NSArray *)array
 {
-    for (NSDictionary *dic in array) {
-//        Post *p = [[Post alloc] init];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dic = (NSDictionary *)obj;
         Post *p = [[ItemStore sharedItemStore] createPost];
         [p readFromJSONDictionary:dic];
         [_postItems addObject:p];
-    }
+    }];
 }
 
 - (void)addPostItems:(NSArray *)objects
