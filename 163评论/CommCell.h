@@ -8,19 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class Contents;
+extern NSString *const kCommCellTypeOnlyOne;
+extern NSString *const kCommCellTypeTop;
+extern NSString *const kCommCellTypeMiddle;
+extern NSString *const kCommCellTypeBottom;
+
+@class Content;
 
 @interface CommCell : UITableViewCell
 {
-    Contents *_contents;
-    NSMutableArray *_contentItems;
+    Content *_content;
 }
 
-@property (nonatomic,weak) IBOutlet UILabel *userLabel;
-@property (nonatomic,weak) IBOutlet UILabel *timeLabel;
+- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height;
 
-@property (nonatomic,strong) NSMutableArray *commModel;
-
-- (void)initSubViews;
-- (CGFloat)heightWithCommModel:(NSMutableArray *)model;
 @end
