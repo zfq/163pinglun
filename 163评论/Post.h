@@ -13,7 +13,7 @@
 @class Author;
 
 @interface Post : NSManagedObject <JSONSerializable>
-
+//@property (nonatomic, retain) NSNumber * orderValue; //顺序
 @property (nonatomic, retain) NSNumber * postID;  //帖子ID
 @property (nonatomic, retain) NSString * tag;     //所属标签
 @property (nonatomic, retain) NSString * title;   //帖子名
