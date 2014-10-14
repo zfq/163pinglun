@@ -20,5 +20,7 @@
 @property (nonatomic, retain) NSString * time;
 @property (nonatomic, retain) NSNumber *postID;
 @property (nonatomic, retain) NSNumber *groupID;
-
+@property (nonatomic, retain) NSNumber *floorIndex;
+@property (nonatomic, retain) NSNumber *preAllRows;
+@property (nonatomic, retain) NSNumber *currRows;
 @end

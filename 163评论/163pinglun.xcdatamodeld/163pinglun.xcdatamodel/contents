@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Author" representedClassName="Author" syncable="YES">
         <attribute name="authorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="authorName" optional="YES" attributeType="String" defaultValueString="阿猫阿狗" syncable="YES"/>
@@ -8,9 +8,12 @@
     </entity>
     <entity name="Content" representedClassName="Content" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currRows" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="floorIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="groupID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="postID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="preAllRows" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="user" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -30,8 +33,8 @@
         <attribute name="tagSlug" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Author" positionX="-54" positionY="18" width="128" height="105"/>
-        <element name="Content" positionX="-18" positionY="99" width="128" height="135"/>
+        <element name="Author" positionX="-54" positionY="18" width="128" height="103"/>
+        <element name="Content" positionX="-18" positionY="99" width="128" height="180"/>
         <element name="Post" positionX="-36" positionY="45" width="128" height="150"/>
         <element name="Tag" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
