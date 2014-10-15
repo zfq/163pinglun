@@ -26,7 +26,7 @@
     [super viewDidLoad];
     
     self.navigationBar.hidden = YES;
-    //设置阴影
+    //设置阴影,注意这里的view并不是rootViewController.view
     self.view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     self.view.layer.shadowOffset = CGSizeMake(-1, 0);
     self.view.layer.shadowOpacity = 1;
@@ -113,7 +113,7 @@
             if (offsetX > 0) {
                 [self moveView:offsetX];
             }
-            
+            self.view.userInteractionEnabled = NO; //设置在move过程中的view不再响应其他的touch事件
         }
             break;
         case UIGestureRecognizerStateEnded:
@@ -136,7 +136,7 @@
                     topView = nil;
                 }];
             }
-            
+            self.view.userInteractionEnabled = YES;
         }
             break;
         default:
