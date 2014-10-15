@@ -16,7 +16,7 @@
 - (instancetype)initWithFrame:(CGRect)frame menuItems:(NSArray *)menuItems;
 
 - (void)showMenuView;
-- (void)dismissMenuView;
+- (void)dismissMenuViewWithAnimation:(BOOL)animation;
 @end
 
 @protocol MenuViewDelegate <NSObject>

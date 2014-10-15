@@ -11,7 +11,7 @@
 
 @interface MenuView()
 {
-    
+    CGRect menuViewFrame;
 }
 @end
 @implementation MenuView
@@ -68,6 +68,7 @@
         CGRect rect = menuView.frame;
         rect.size.height = y;
         menuView.frame = rect;
+        menuViewFrame = rect;
         [self addSubview:menuView];
     }
     return self;
@@ -77,19 +78,83 @@
 - (void)showMenuView
 {
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    UIView *animationView = self.subviews.firstObject;
+    animationView.frame = menuViewFrame;
+    CGSize size = menuViewFrame.size;
+    CGFloat marginRight = SCREEN_WIDTH - CGRectGetMaxX(menuViewFrame);
+   
+    animationView.layer.bounds = CGRectMake(0, 0, size.width, size.height);
+    animationView.layer.position = CGPointMake(SCREEN_WIDTH-marginRight, 64);
+    animationView.alpha = 0;
+    animationView.layer.anchorPoint = CGPointMake(1, 0);
+    
+    animationView.transform = CGAffineTransformMakeScale(0.8,0.8);
     [topWindow.rootViewController.view addSubview:self];
+    
+    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.1 options:0 animations:^{
+        animationView.alpha = 1;
+        animationView.transform = CGAffineTransformMakeScale(1,1);
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+   
 }
 
-- (void)dismissMenuView
+- (void)dismissMenuViewWithAnimation:(BOOL)animation
 {
-    [self removeFromSuperview];
-    [_menuViewDelegate menuViewDidDisappear];
+    if (animation == NO) {
+        [self removeFromSuperview];
+    } else {
+        
+        UIView *animationView = self.subviews.firstObject;
+        //先放大，再加速缩小
+        CAKeyframeAnimation* animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+        animation.fillMode = kCAFillModeForwards;
+        animation.removedOnCompletion = NO;
+        animation.duration = 0.15;
+        NSMutableArray *values = [NSMutableArray array];
+        [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
+        [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05, 1.05, 1.0)]];
+        [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
+        animation.values = values;
+        
+        CABasicAnimation *alphaAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        alphaAnimation.fromValue = @1;
+        alphaAnimation.toValue = @0;
+        alphaAnimation.duration = 0.15;
+        alphaAnimation.fillMode = kCAFillModeForwards;
+        alphaAnimation.removedOnCompletion = NO;
+        alphaAnimation.beginTime = 0.15f;
+        //缩小
+
+        CAAnimationGroup *group = [CAAnimationGroup animation];
+        group.animations = @[animation,alphaAnimation];
+        group.duration = 0.3;
+        group.fillMode = kCAFillModeForwards;
+        group.removedOnCompletion = NO;
+        group.delegate = self;
+        [animationView.layer addAnimation:group forKey:nil];
+       
+    }
+   
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self removeFromSuperview];
+    [self dismissMenuViewWithAnimation:YES];
     [_menuViewDelegate menuViewDidDisappear];
 }
 
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    UIView *animationView = self.subviews.firstObject;
+    [animationView.layer removeAllAnimations];
+    [self removeFromSuperview];
+    
+    if ([_menuViewDelegate respondsToSelector:@selector(menuViewDidDisappear)]) {
+        [_menuViewDelegate menuViewDidDisappear];
+    }
+    
+}
 @end

@@ -30,7 +30,7 @@
 
 - (void)performAction
 {
-    [_menuView dismissMenuView];
+    [_menuView dismissMenuViewWithAnimation:NO];
     if (_menuItem.target && _menuItem.action) {
         [_menuItem.target performSelector:_menuItem.action withObject:nil afterDelay:0];
     }
