@@ -29,7 +29,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     UILabel *oneUserLabel;
     UILabel *oneTimeLabel;
     UILabel *oneContentLabel;
-
+    UILabel *oneSeparatorLabel;
     //top
     UILabel *topUserLabel;
     UILabel *topTimeLabel;
@@ -77,6 +77,10 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         oneTimeLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:oneTimeLabel];
         oneContentLabel = [self contentLabel];
+        [self.contentView addSubview:oneContentLabel];
+        oneSeparatorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        oneSeparatorLabel.backgroundColor = LABEL_COLOR;
+        [self.contentView addSubview:oneSeparatorLabel];
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         
@@ -127,12 +131,14 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         oneTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
         oneTimeLabel.text = content.time;
         
-        oneContentLabel.frame = CGRectMake(MARGIN_LEFT, MARGIN_BOTTOM, SCREEN_WIDTH-2*MARGIN_LEFT, 0);
+        oneContentLabel.frame = CGRectMake(MARGIN_LEFT, CGRectGetMaxY(oneUserLabel.frame), SCREEN_WIDTH-2*MARGIN_LEFT, 0);
         oneContentLabel.text = content.content;
         [oneContentLabel sizeToFit];
         
+        oneSeparatorLabel.frame = CGRectMake(0, CGRectGetMaxY(oneContentLabel.frame)+MARGIN_BOTTOM, SCREEN_WIDTH, 1);
+        
         if (height != nil)
-            *height = CGRectGetMaxY(oneContentLabel.frame)+MARGIN_BOTTOM;
+            *height = CGRectGetMaxY(oneSeparatorLabel.frame);
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         CGFloat timeLabelWidth = 94;
