@@ -198,6 +198,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 {
     UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN_LEFT, 2, 198, HEAD_HEIGHT)];
     userLabel.font = [UIFont systemFontOfSize:11];
+    userLabel.minimumScaleFactor = 0.8;
     userLabel.adjustsFontSizeToFitWidth = YES;
     userLabel.textColor = LABEL_COLOR;
     return userLabel;
