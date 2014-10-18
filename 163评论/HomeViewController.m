@@ -99,6 +99,7 @@
 - (void)showLookAround:(UIButton *)button
 {
     RandomPostViewController *vc = [[RandomPostViewController alloc] init];
+    [self addChildViewController:vc];
     [vc showRandomPostView];
 }
 

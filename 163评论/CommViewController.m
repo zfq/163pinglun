@@ -70,7 +70,10 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (void)back:(UIButton *)backButton
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.presentingViewController isKindOfClass:[UIViewController class]])
+        [self dismissViewControllerAnimated:YES completion:nil];
+    else
+        [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - 设置字体
 - (void)preferredContentSizeChanged:(NSNotification *)notification

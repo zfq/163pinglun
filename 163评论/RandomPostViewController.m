@@ -11,6 +11,7 @@
 #import "ItemStore.h"
 #import "RandomPosts.h"
 #import "RandomPost.h"
+#import "CommViewController.h"
 
 static NSString *randomCellIdentifier = @"randomCell";
 
@@ -42,8 +43,11 @@ static NSString *randomCellIdentifier = @"randomCell";
 
 - (void)loadView
 {
-    RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.view = view;
+//    if (self.view == nil) {
+        RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.view = view;
+//    }
+   
 }
 
 - (void)viewDidLoad
@@ -70,7 +74,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     panGesture.delegate = self;
     [postTableView addGestureRecognizer:panGesture];
     [self.view addSubview:postTableView];
-    
+  
     //添加nav阴影
     UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
     UIImageView *navImgView = [[UIImageView alloc] initWithImage:navImg];
@@ -92,7 +96,15 @@ static NSString *randomCellIdentifier = @"randomCell";
         [postTableView reloadData];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
+   
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
+    [postTableView deselectRowAtIndexPath:[postTableView indexPathForSelectedRow]  animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -103,17 +115,13 @@ static NSString *randomCellIdentifier = @"randomCell";
 
 - (void)showRandomPostView
 {
-    UIWindow *keywindow = [UIApplication sharedApplication].keyWindow;
-    [keywindow.rootViewController.view addSubview:self.view];
+    [self.parentViewController.view addSubview:self.view];
 }
 
 - (void)dismissRandomPostView
 {
     [self.view removeFromSuperview];
-    [postTableView removeFromSuperview];
-    [maskView removeFromSuperview];
-    postTableView = nil;
-    maskView = nil;
+    [self removeFromParentViewController];
     
     self.posts = nil;
     self.view = nil;
@@ -148,6 +156,30 @@ static NSString *randomCellIdentifier = @"randomCell";
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RandomPost *post = [_posts objectAtIndex:indexPath.row];
+    CommViewController *cVC = [[CommViewController alloc] init];
+    NSString *postID = [self postIDFromURL:post.postURL];
+    cVC.postID = [NSNumber numberWithInteger:[postID integerValue]];
+    
+    [self presentViewController:cVC animated:YES completion:nil];
+}
+
+- (NSString *)postIDFromURL:(NSString *)postURL
+{
+    NSString *regularStr = @"(\\d+?)$";
+    NSError *error = nil;
+    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regularStr options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error != nil) {
+        DNSLog(@"正则表达式出错:%@",NSStringFromSelector(_cmd));
+        return nil;
+    }
+    NSArray *results = [reg matchesInString:postURL options:NSMatchingReportCompletion range:NSMakeRange(0, postURL.length)];
+    NSTextCheckingResult *checkResult = [results firstObject];
+    
+    return [postURL substringWithRange:[checkResult range]];
+}
 #pragma mark - scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
