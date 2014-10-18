@@ -16,6 +16,7 @@
 {
     NSMutableArray *screenShots;
     CGPoint startPoint;
+//    CFAbsoluteTime lastChange;
 }
 @end
 
@@ -100,6 +101,7 @@
         return;
     }
     
+//    CGFloat velocityX = 0;
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
             startPoint = [gesture locationInView:FQ_KEY_WINDOW];
@@ -109,6 +111,10 @@
             break;
         case UIGestureRecognizerStateChanged: {
             CGPoint currPoint = [gesture locationInView:FQ_KEY_WINDOW];
+            
+//            CGPoint velocity = [gesture velocityInView:FQ_KEY_WINDOW];
+//            velocityX = velocity.x;
+//            lastChange = CFAbsoluteTimeGetCurrent();
             CGFloat offsetX = currPoint.x - startPoint.x;
             if (offsetX > 0) {
                 [self moveView:offsetX];
@@ -118,7 +124,9 @@
             break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled: {
-            CGPoint currPoint = [gesture locationInView:FQ_KEY_WINDOW];
+            
+            CGPoint currPoint = [gesture locationInView:FQ_KEY_WINDOW]; //这里应根据速度判断
+            
             if (currPoint.x-startPoint.x >= 100) {   //移动距离比较大 就pop
                 [UIView animateWithDuration:0.3 animations:^{
                     [self moveView:FQ_NAV_WIDTH];

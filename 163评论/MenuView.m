@@ -126,7 +126,6 @@
         alphaAnimation.fillMode = kCAFillModeForwards;
         alphaAnimation.removedOnCompletion = NO;
         alphaAnimation.beginTime = 0.15f;
-        //缩小
 
         CAAnimationGroup *group = [CAAnimationGroup animation];
         group.animations = @[animation,alphaAnimation];
