@@ -18,6 +18,7 @@
 #import "RandomPostViewController.h"
 #import "MenuView.h"
 #import "MenuItem.h"
+#import "SettingViewController.h"
 
 @interface HomeViewController ()
 {
@@ -46,25 +47,32 @@
     [super viewDidLoad];
     
     //添加更多btn
-    UIImage *moreImg = [UIImage imageNamed:@"more"];
+    UIImage *moreImg = [UIImage imageNamed:@"more1"];
     CGFloat height = 40;
     UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    moreButton.frame = CGRectMake(SCREEN_WIDTH-moreImg.size.width-10,20+(44-height)/2, moreImg.size.width+10, height);
+    moreButton.frame = CGRectMake(SCREEN_WIDTH-50,20+(44-height)/2, 50, height);
     [moreButton setImage:moreImg forState:UIControlStateNormal];
-    moreButton.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
+    moreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 50-moreImg.size.width-30, 0, 0);
     [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
+//    moreButton.backgroundColor = [UIColor redColor];
     [self.navView addSubview:moreButton];
     
     //添加logo
-    UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 20+12, 68, 23)];
-    blueView.backgroundColor = RGBCOLOR(0, 160, 233, 1);
-    [self.navView addSubview:blueView];
+    UIImage *logImg = [UIImage imageNamed:@"logo"];
+    UIImageView *logImgView = [[UIImageView alloc] initWithImage:logImg];
+    CGRect logImgFrame = logImgView.frame;
+    logImgFrame.origin = CGPointMake(15, 30);
+    logImgView.frame = logImgFrame;
+    [self.navView addSubview:logImgView];
 
     //注册cell
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
+    if (!_prototypeCell) {
+        _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
+    }
+    
     
     //集成刷新控件
     [self setupRefresh];
@@ -80,12 +88,13 @@
 - (void)showMenu:(UIButton *)button
 {
     if (!menu) {
-        CGRect frame = CGRectMake(157, 65, 157, 87);
+        CGRect frame = CGRectMake(157, 65, 157, 87+44);
         CGFloat btnHeight = 43;
 
         MenuItem *tagItem = [[MenuItem alloc] initWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showTag:)];
         MenuItem *lookItem = [[MenuItem alloc] initWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0) imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showLookAround:)];
-        menu = [[MenuView alloc] initWithFrame:frame menuItems:@[tagItem,lookItem]];
+        MenuItem *settingItem = [[MenuItem alloc] initWithTitle:@"设置" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showSetting:)];
+        menu = [[MenuView alloc] initWithFrame:frame menuItems:@[tagItem,lookItem,settingItem]];
        
     }
     [menu showMenuView];
@@ -103,6 +112,11 @@
     [vc showRandomPostView];
 }
 
+- (void)showSetting:(UIButton *)button
+{
+    SettingViewController *sVC = [[SettingViewController alloc] init];
+    [self presentViewController:sVC animated:YES completion:nil];
+}
 - (void)setupRefresh
 {
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
@@ -255,7 +269,7 @@
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
     cVC.postID = tempPost.postID;
-    
+    cVC.myTitleLabel.text = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];
 }
 
@@ -263,7 +277,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    _posts = nil;
+    if (self.view.superview == nil && self.view.window == nil) {
+        self.view = nil;
+    }
+    
     menu = nil;
 }
 
