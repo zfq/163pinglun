@@ -17,6 +17,7 @@
 #define FLOOR_WIDTH 15 //显示楼层的label的宽度
 
 #define LABEL_COLOR RGBCOLOR(51,153,255,1.0f) // 3399FF
+#define SEPARATOR_COLOR RGBCOLOR(33,41,44,0.5f)
 
 NSString *const kCommCellTypeOnlyOne = @"CommCellTypeOnlyOne";
 NSString *const kCommCellTypeTop = @"CommCellTypeTop";
@@ -30,6 +31,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     UILabel *oneTimeLabel;
     UILabel *oneContentLabel;
     UILabel *oneSeparatorLabel;
+    
     //top
     UILabel *topUserLabel;
     UILabel *topTimeLabel;
@@ -79,7 +81,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         oneContentLabel = [self contentLabel];
         [self.contentView addSubview:oneContentLabel];
         oneSeparatorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        oneSeparatorLabel.backgroundColor = LABEL_COLOR;
+        oneSeparatorLabel.backgroundColor = SEPARATOR_COLOR;
         [self.contentView addSubview:oneSeparatorLabel];
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
@@ -109,7 +111,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         bottomContentLabel = [self contentLabel];
         [self.contentView addSubview:bottomContentLabel];
         separatorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        separatorLabel.backgroundColor = LABEL_COLOR;
+        separatorLabel.backgroundColor = SEPARATOR_COLOR;
         [self.contentView addSubview:separatorLabel];
     }
 }
@@ -124,8 +126,8 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     NSInteger floorIndex = content.floorIndex.integerValue;
     NSString *reuseId = self.reuseIdentifier;
     if ([reuseId isEqualToString:kCommCellTypeOnlyOne]) {
-        CGFloat timeLabelWidth = 94;
-        oneUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, HEAD_HEIGHT);
+        CGFloat timeLabelWidth = 92;
+        oneUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
         oneUserLabel.text = content.user;
         
         oneTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
@@ -141,8 +143,8 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             *height = CGRectGetMaxY(oneSeparatorLabel.frame);
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
-        CGFloat timeLabelWidth = 94;
-        topUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, HEAD_HEIGHT);
+        CGFloat timeLabelWidth = 92;
+        topUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
         topUserLabel.text = content.user;
         
         topTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
