@@ -19,7 +19,7 @@
     // Override point for customization after application launch.
     
 //    [SocialSharing registerWeiboSDK];
-
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     HomeViewController *hVC = [[HomeViewController alloc] init];
     FQNavigationController *fVC = [[FQNavigationController alloc] initWithRootViewController:hVC];
    
