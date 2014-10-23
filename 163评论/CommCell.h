@@ -20,6 +20,6 @@ extern NSString *const kCommCellTypeBottom;
     Content *_content;
 }
 
-- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height;
+- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height fontSizeChanged:(BOOL)isChanged;
 
 @end

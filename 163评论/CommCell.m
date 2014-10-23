@@ -8,6 +8,7 @@
 
 #import "CommCell.h"
 #import "Content.h"
+#import "GeneralService.h"
 
 #define MARGIN_LEFT 15.0f  //指距离屏幕边缘的距离
 #define PADDING_LEFT 5.0f
@@ -97,7 +98,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     } else if ([reuseId isEqualToString:kCommCellTypeMiddle]) {
         middUserLabel = [self userLabel];
         floorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        floorLabel.font = [UIFont systemFontOfSize:11];
+        floorLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         floorLabel.textAlignment = NSTextAlignmentRight;
         middContentLabel = [self contentLabel];
         wallImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -116,7 +117,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     }
 }
 
-- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height
+- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height fontSizeChanged:(BOOL)isChanged
 {
     if (content == nil)
         return;
@@ -128,13 +129,19 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     if ([reuseId isEqualToString:kCommCellTypeOnlyOne]) {
         CGFloat timeLabelWidth = 92;
         oneUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
+        if (isChanged)
+            oneUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         oneUserLabel.text = content.user;
         
         oneTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
         oneTimeLabel.text = content.time;
+        if (isChanged)
+            oneTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
         oneContentLabel.frame = CGRectMake(MARGIN_LEFT, CGRectGetMaxY(oneUserLabel.frame), SCREEN_WIDTH-2*MARGIN_LEFT, 0);
         oneContentLabel.text = content.content;
+        if (isChanged)
+            oneContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
         [oneContentLabel sizeToFit];
         
         oneSeparatorLabel.frame = CGRectMake(0, CGRectGetMaxY(oneContentLabel.frame)+MARGIN_BOTTOM, SCREEN_WIDTH, 1);
@@ -146,9 +153,13 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         CGFloat timeLabelWidth = 92;
         topUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
         topUserLabel.text = content.user;
+        if (isChanged)
+            topUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
         topTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
         topTimeLabel.text = content.time;
+        if (isChanged)
+            topTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
         UIImage *roofImg = [self roofImgWithFloorCount:floorCount];
         CGRect roofImgFrame = CGRectMake(0, CGRectGetMaxY(topUserLabel.frame), SCREEN_WIDTH, roofImg.size.height);
@@ -162,13 +173,19 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         
         CGFloat labelX = [self labelXWithFloorCount:floorCount floorIndex:floorIndex];
         middUserLabel.frame = CGRectMake(labelX, 2, SCREEN_WIDTH-2*labelX-FLOOR_WIDTH, HEAD_HEIGHT);
+        if (isChanged)
+            middUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         middUserLabel.text = content.user;
         
         floorLabel.frame = CGRectMake(SCREEN_WIDTH-labelX-FLOOR_WIDTH, 2, FLOOR_WIDTH, HEAD_HEIGHT);
         floorLabel.text = content.floorIndex.description;
+        if (isChanged)
+            floorLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
         middContentLabel.frame = CGRectMake(labelX, CGRectGetMaxY(middUserLabel.frame), SCREEN_WIDTH-2*labelX, 0);
         middContentLabel.text = content.content;
+        if (isChanged)
+            middContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
         [middContentLabel sizeToFit];
         
         UIImage *wallImg = [self wallImgWithFloorCount:floorCount floorIndex:floorIndex];
@@ -185,6 +202,8 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
         bottomContentLabel.frame = CGRectMake(MARGIN_LEFT, MARGIN_BOTTOM, SCREEN_WIDTH-2*MARGIN_LEFT, 0);
         bottomContentLabel.text = content.content;
+        if (isChanged)
+            bottomContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
         [bottomContentLabel sizeToFit];
         
         separatorLabel.frame = CGRectMake(0, CGRectGetMaxY(bottomContentLabel.frame)+MARGIN_BOTTOM, SCREEN_WIDTH, 1);
@@ -199,7 +218,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 - (UILabel *)userLabel
 {
     UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN_LEFT, 2, 198, HEAD_HEIGHT)];
-    userLabel.font = [UIFont systemFontOfSize:11];
+    userLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
     userLabel.minimumScaleFactor = 0.8;
     userLabel.adjustsFontSizeToFitWidth = YES;
     userLabel.textColor = LABEL_COLOR;
@@ -211,7 +230,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     CGFloat timeLabelWidth = 84;
     CGRect timeLabelFrame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, 30);
     UILabel *timeLabel = [[UILabel alloc] initWithFrame: timeLabelFrame];
-    timeLabel.font = [UIFont systemFontOfSize:11];
+    timeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
     timeLabel.textAlignment = NSTextAlignmentRight;
     timeLabel.textColor = [UIColor darkGrayColor];
     return timeLabel;
@@ -220,7 +239,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 - (UILabel *)contentLabel
 {
     UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    contentLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    contentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]]; //preferredFontForTextStyle:UIFontTextStyleSubheadline
     contentLabel.numberOfLines = 0;
     contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
 
