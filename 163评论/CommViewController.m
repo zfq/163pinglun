@@ -20,6 +20,7 @@ static NSString * const CellIdentifier = @"CommCell";
     NSMutableDictionary *_cellsHeightDic;
     NSMutableDictionary *_cellsDic;
     NSInteger cellCount;
+    BOOL isChanged;
 }
 @end
 
@@ -37,7 +38,7 @@ static NSString * const CellIdentifier = @"CommCell";
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
+    //添加阴影
     // 添加返回按钮
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    backBtn.backgroundColor = [UIColor redColor];
@@ -48,6 +49,14 @@ static NSString * const CellIdentifier = @"CommCell";
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
+    //添加分享按钮
+    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    shareBtn.frame = CGRectMake(SCREEN_WIDTH-40-25, 22, 60, 40);
+    [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
+    [backBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navView addSubview:shareBtn];
+   
 	// 设置tableView
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -58,7 +67,8 @@ static NSString * const CellIdentifier = @"CommCell";
 	[self fetchComment];
     
     //注册设置字体大小通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
+    isChanged = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -75,9 +85,16 @@ static NSString * const CellIdentifier = @"CommCell";
     else
         [self.navigationController popViewControllerAnimated:YES];
 }
-#pragma mark - 设置字体
-- (void)preferredContentSizeChanged:(NSNotification *)notification
+
+- (void)share:(UIButton *)shareButton
 {
+    
+}
+
+#pragma mark - 设置字体
+- (void)fontSizeChanged:(NSNotification *)notification
+{
+    isChanged = YES;
     [_cellsHeightDic removeAllObjects];
     [self.tableView reloadData];
 }
@@ -103,6 +120,7 @@ static NSString * const CellIdentifier = @"CommCell";
                 
                 //更新UI
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                self.tableView.tableHeaderView=nil;
                 [self removeActivityView:activityView];
                 [self.tableView reloadData];
             }];
@@ -132,7 +150,6 @@ static NSString * const CellIdentifier = @"CommCell";
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     if ([view isKindOfClass:[UITableView class]]) {
         UITableView *tableView = (UITableView *)view;
-        //tableView.frame.size.height/2-NAV_HEIGHT(self)-STATUSBAR_HEIGHT
         activityView.center = CGPointMake(tableView.frame.size.width/2, tableView.frame.size.height/2);
         [tableView addSubview:activityView];
     } else {
@@ -168,7 +185,7 @@ static NSString * const CellIdentifier = @"CommCell";
     label.center = CGPointMake(noNetworkView.frame.size.width/2,noNetworkView.frame.size.height/2-64);
     [noNetworkView addSubview:label];   //别忘添加logo图片
     
-    [self.tableView addSubview:noNetworkView];
+    self.tableView.tableHeaderView= noNetworkView;
     self.tableView.scrollEnabled = NO;
 }
 
@@ -299,7 +316,7 @@ static NSString * const CellIdentifier = @"CommCell";
     NSInteger floorCount =0;
     if (currRows >0)
         floorCount = currRows > 1?currRows-1:1;
-    [cell bindContent:content floorCount:floorCount height:NULL];
+    [cell bindContent:content floorCount:floorCount height:NULL fontSizeChanged:isChanged];
     return cell;
 }
 
@@ -372,7 +389,7 @@ static NSString * const CellIdentifier = @"CommCell";
         NSInteger floorCount =0;
         if (currRows >0)
             floorCount = currRows > 1?currRows-1:1;
-        [cell bindContent:content floorCount:floorCount height:&cellHeight];
+        [cell bindContent:content floorCount:floorCount height:&cellHeight fontSizeChanged:isChanged];
         [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
         return cellHeight;
     }
@@ -381,12 +398,17 @@ static NSString * const CellIdentifier = @"CommCell";
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    if (self.view.window==nil && self.view.superview==nil) {
+        self.view = nil;
+        [_cellsDic removeAllObjects];
+        _cellsDic = nil;
+    }
 }
 
 - (void)dealloc
 {
     _cellsHeightDic = nil;
     _cellsDic = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FontSizeChangeNotification object:nil];
 }
 @end
