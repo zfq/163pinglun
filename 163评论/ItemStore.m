@@ -16,7 +16,7 @@
 #import "Contents.h"
 #import "RandomPost.h"
 #import "RandomPosts.h"
-
+#import <malloc/malloc.h>
 @interface ItemStore()
 {
     FQConnection *_currConnection;
@@ -250,7 +250,7 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"163pinglun.sqlite"];
+    NSURL *storeURL = [[self cacheDataDirectory] URLByAppendingPathComponent:@"163pinglun.sqlite"];
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -265,9 +265,11 @@
 #pragma mark - Application's Documents directory
 
 // Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory
+- (NSURL *)cacheDataDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *docURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+//    return [docURL URLByAppendingPathComponent:@"data"];
+    return docURL;
 }
 
 #pragma mark - fetch data from database
@@ -363,6 +365,20 @@
     });
 }
 
+- (void)deleteAllContents
+{
+    NSError *error = nil;
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Content"];
+    NSArray *contents = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (error != nil) {
+        DNSLog(@"删除contens失败:%@",[error localizedDescription]);
+    }
+    for (Content *content in contents) {
+        [self.managedObjectContext deleteObject:content];
+    }
+    [self saveContext];
+   
+}
 @end
 
 

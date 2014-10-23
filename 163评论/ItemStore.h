@@ -37,7 +37,7 @@
 - (void)cancelCurrentRequtest;
 
 - (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
+- (NSURL *)cacheDataDirectory;
 
 /* 本地数据库操作 */
 
@@ -46,4 +46,5 @@
 - (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID;    //同步
 - (void)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID completion:(void (^)(NSArray *contents))completion; //异步
 
+- (void)deleteAllContents;
 @end
