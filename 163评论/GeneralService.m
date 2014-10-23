@@ -6,14 +6,14 @@
 //  Copyright (c) 2014年 zhaofuqiang. All rights reserved.
 //
 
-#import "UIDeviceHardware.h"
+#import "GeneralService.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #import "MBProgressHUD.h"
 
 #define NETWORK_STATUS @"networkStatus"
 
-@implementation UIDeviceHardware
+@implementation GeneralService
 
 + (NSString *) platform{
     
@@ -127,6 +127,116 @@
 {
     NSNumber *isReachable = [[NSUserDefaults standardUserDefaults] objectForKey:NETWORK_STATUS];
     return isReachable.boolValue;
+}
+
+#pragma mark - 字体设置
++ (CGFloat)userFontSizeWithIndex:(NSInteger)index
+{
+    NSArray *array = [[self fontSizeDic] objectForKey:[@(index) stringValue]];
+    return ((NSNumber*)array.firstObject).floatValue;
+}
+
++ (CGFloat)contentFontSizeWithIndex:(NSInteger)index
+{
+    NSArray *array = [[self fontSizeDic] objectForKey:[@(index) stringValue]];
+    return ((NSNumber*)[array objectAtIndex:1]).floatValue;
+}
+
++ (NSDictionary *)fontSizeDic
+{
+    NSDictionary *dic = [[NSUserDefaults standardUserDefaults] objectForKey:kFontSizeStyle];
+    if (dic==nil || dic.count==0) {
+        dic = @{
+                @"0":@[@13,@20,@"巨大"],
+                @"1":@[@13,@18,@"很大"],
+                @"2":@[@12,@17,@"大"],
+                @"3":@[@11,@15,@"中"],
+                @"4":@[@11,@13,@"小"]
+                };
+        [[NSUserDefaults standardUserDefaults] setObject:dic forKey:kFontSizeStyle];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return dic;
+}
+
++ (CGFloat)currContentFontSize
+{
+    NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrContentFontSize];
+    if (fontSize==nil || fontSize.floatValue==0) {
+        fontSize = [NSNumber numberWithFloat:[self defaultContentFontSize]];
+        [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:kCurrContentFontSize];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return fontSize.floatValue;
+}
++ (void)saveCurrContentFontSize:(CGFloat)fontSize
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@(fontSize) forKey:kCurrContentFontSize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (CGFloat)currSubtitleFontSize
+{
+    NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrSubtitleFontSize];
+    if (fontSize==nil || fontSize.floatValue==0) {
+        fontSize = [NSNumber numberWithFloat:[self defaultSubtitleFontSize]];
+        [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:kCurrSubtitleFontSize];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return fontSize.floatValue;
+}
++ (void)saveCurrSubtitleFontSize:(CGFloat)fontSize
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@(fontSize) forKey:kCurrSubtitleFontSize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (CGFloat)defaultContentFontSize
+{
+    NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:kDefContentFontSize];
+    if (fontSize==nil || fontSize.floatValue==0) {
+        fontSize = @(DEFAULT_CONTENT_FONT_SIZE);
+        [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:kDefContentFontSize];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return fontSize.floatValue;
+}
+
++ (CGFloat)defaultSubtitleFontSize
+{
+    NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:kDefSubtitleFontSize];
+    if (fontSize==nil || fontSize.floatValue==0) {
+        fontSize = @(DEFAULT_SUBTITLE_FONT_SIZE);
+        [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:kDefSubtitleFontSize];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return fontSize.floatValue;
+}
+
++(NSString *)fontSizeName
+{
+    NSArray *array = [[self fontSizeDic] objectForKey:[@([self fontIndex]) stringValue]];
+    return [array lastObject];
+}
+
++ (NSInteger)fontIndex
+{
+    NSNumber *fontIndex = [[NSUserDefaults standardUserDefaults] objectForKey:kFontIndexStyle];
+    if (fontIndex==nil) {
+        fontIndex = @3;
+        [[NSUserDefaults standardUserDefaults] setObject:fontIndex forKey:kFontIndexStyle];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return fontIndex.integerValue;
+}
+
++ (BOOL)fontSizeIsChanged
+{
+    if ([self defaultContentFontSize]!= [self currContentFontSize] ||
+        [self defaultSubtitleFontSize]!=[self currSubtitleFontSize]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 @end
 
