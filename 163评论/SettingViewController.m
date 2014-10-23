@@ -9,10 +9,9 @@
 #import "SettingViewController.h"
 #import "ItemStore.h"
 #import "FontSetViewController.h"
-
+#import "GeneralService.h"
 @interface SettingViewController ()
 {
-//    NSArray *settingItems;
     UITableView *settingTableView;
 }
 @property (nonatomic,strong) NSArray *settingItems;
@@ -44,11 +43,11 @@
     [self.view addSubview:settingTableView];
 }
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    [settingTableView deselectRowAtIndexPath:[settingTableView indexPathForSelectedRow] animated:YES];
-//}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [settingTableView reloadData];
+}
 
 - (void)back:(UIButton *)backButton
 {
@@ -90,7 +89,10 @@
     NSDictionary *dic = (NSDictionary *)[array objectAtIndex:indexPath.row];
     NSString *title = [dic objectForKey:@"title"];
     cell.textLabel.text = title;
-    if (![title isEqualToString:@"去App store评分"]) {
+    if ([title isEqualToString:@"字号大小"]) {
+        cell.detailTextLabel.text = [GeneralService fontSizeName];
+    }
+    else if (![title isEqualToString:@"去App store评分"]) {
         cell.detailTextLabel.text = [dic objectForKey:@"content"];
     }
     
@@ -111,8 +113,7 @@
         case 1: {//字号大小
             FontSetViewController *fontVC = [[FontSetViewController alloc] init];
             fontVC.myTitleLabel.text = @"设置";
-
-            [self presentViewController:fontVC animated:YES completion:nil];
+            [self.navigationController pushViewController:fontVC animated:YES];
         } break;
         case 2: //清理缓存
             [[ItemStore sharedItemStore] deleteAllContents];
@@ -128,21 +129,12 @@
    
 }
 
-- (NSString *)dataCacheSize
-{
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *docPath = [paths firstObject];
-    return nil;
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     _settingItems = nil;
-    if (settingTableView.superview == nil) {
+    if (self.view.superview == nil && self.view.window==nil) {
         settingTableView = nil;
     }
-//
 }
 @end
