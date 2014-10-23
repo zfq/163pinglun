@@ -14,11 +14,12 @@
 #import "ItemStore.h"
 #import "MJRefresh.h"
 #import "Reachability.h"
-#import "UIDeviceHardware.h"
+#import "GeneralService.h"
 #import "RandomPostViewController.h"
 #import "MenuView.h"
 #import "MenuItem.h"
 #import "SettingViewController.h"
+#import "FQNavigationController.h"
 
 @interface HomeViewController ()
 {
@@ -115,7 +116,9 @@
 - (void)showSetting:(UIButton *)button
 {
     SettingViewController *sVC = [[SettingViewController alloc] init];
-    [self presentViewController:sVC animated:YES completion:nil];
+    FQNavigationController *nVC = [[FQNavigationController alloc] initWithRootViewController:sVC];
+    
+    [self presentViewController:nVC animated:YES completion:nil];
 }
 - (void)setupRefresh
 {
@@ -152,7 +155,7 @@
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {
             //设置网络可用
-            [UIDeviceHardware setNetworkReachability:YES];
+            [GeneralService setNetworkReachability:YES];
             //再从网络获取数据
             
             [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
@@ -160,8 +163,6 @@
                 //先删除数据库中的所有post
                 if (posts != nil && (posts.postItems.count > 0)) {
                     [self removeAllPostsFromDatabase];
-                    //重新设置orderValue
-//                    [[ItemStore sharedItemStore] resetOrderValue]; 
                     _posts = posts;
                     _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
                     [self.tableView reloadData];
@@ -176,8 +177,8 @@
             [self.tableView headerEndRefreshing];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             //提示网络不可用
-            [UIDeviceHardware setNetworkReachability:NO];
-            [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
+            [GeneralService setNetworkReachability:NO];
+            [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
         }
     }];
 }
@@ -186,7 +187,7 @@
 {
     if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
         //设置网络可用
-        [UIDeviceHardware setNetworkReachability:YES];
+        [GeneralService setNetworkReachability:YES];
         
         //获取当前页数
         NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
@@ -211,8 +212,8 @@
         [self.tableView footerEndRefreshing];
         
         //提示网络不可用
-        [UIDeviceHardware setNetworkReachability:NO];
-        [UIDeviceHardware showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
+        [GeneralService setNetworkReachability:NO];
+        [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
     }
 }
 
