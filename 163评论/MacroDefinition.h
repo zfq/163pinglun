@@ -30,7 +30,7 @@
 #define STATUSBAR_HEIGHT  [UIApplication sharedApplication].statusBarFrame.size.height
 
 //-----------------------程序内-------------------------------
-#define HOST_NAME     @"www.163pinglun.com"
+#define HOST_NAME     @"www.apple.com"
 
 #define kWeiboAppKey  @"1728477038"
 #define kRedirectURI  @"https://api.weibo.com/oauth2/default.html"
@@ -39,6 +39,19 @@
 #define kTencentAppID      @"1101994241"
 
 #define CURR_PAGE @"curr_page"
+
+#define TITLE_COLOR RGBCOLOR(0, 160, 233, 1)    //导航栏titl颜色
+#define DEFAULT_CONTENT_FONT_SIZE 15
+#define DEFAULT_SUBTITLE_FONT_SIZE 11
+
+#define kDefContentFontSize @"defaultContentFontSize"
+#define kDefSubtitleFontSize @"defaultSubtitleFontSize"
+#define kCurrContentFontSize @"currContentFontSize"
+#define kCurrSubtitleFontSize @"currSubtitleFontSize"
+#define kFontSizeStyle @"fontSizeStyle"
+#define kFontIndexStyle @"fontIndexStyle"
+#define FontSizeChangeNotification @"fontSizeChangeNotification"
+
 #endif
 
 //-----------------------日志打印-------------------------------
