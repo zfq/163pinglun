@@ -51,7 +51,8 @@
 
 - (void)back:(UIButton *)backButton
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSArray *)settingItems
