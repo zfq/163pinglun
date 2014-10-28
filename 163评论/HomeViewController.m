@@ -20,6 +20,7 @@
 #import "MenuItem.h"
 #import "SettingViewController.h"
 #import "FQNavigationController.h"
+#import "TagViewController.h"
 
 @interface HomeViewController ()
 {
@@ -103,7 +104,8 @@
 
 - (void)showTag:(UIButton *)button
 {
-    
+    TagViewController *tVC = [[TagViewController alloc] init];
+    [self.navigationController pushViewController:tVC animated:YES];
 }
 
 - (void)showLookAround:(UIButton *)button
@@ -116,9 +118,8 @@
 - (void)showSetting:(UIButton *)button
 {
     SettingViewController *sVC = [[SettingViewController alloc] init];
-    FQNavigationController *nVC = [[FQNavigationController alloc] initWithRootViewController:sVC];
-    
-    [self presentViewController:nVC animated:YES completion:nil];
+    sVC.myTitleLabel.text = @"设置";
+    [self.navigationController pushViewController:sVC animated:YES];
 }
 - (void)setupRefresh
 {
