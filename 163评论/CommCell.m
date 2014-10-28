@@ -18,7 +18,7 @@
 #define FLOOR_WIDTH 15 //显示楼层的label的宽度
 
 #define LABEL_COLOR RGBCOLOR(51,153,255,1.0f) // 3399FF
-#define SEPARATOR_COLOR RGBCOLOR(33,41,44,0.5f)
+#define SEPARATOR_COLOR RGBCOLOR(223,223,223,0.5f)
 
 NSString *const kCommCellTypeOnlyOne = @"CommCellTypeOnlyOne";
 NSString *const kCommCellTypeTop = @"CommCellTypeTop";

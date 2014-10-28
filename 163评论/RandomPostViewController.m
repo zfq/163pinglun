@@ -27,6 +27,8 @@ static NSString *randomCellIdentifier = @"randomCell";
     
     CGPoint beginTapPoint;
     CGPoint currTapPoint;
+    
+    NSRegularExpression *reg;
 }
 @end
 
@@ -42,12 +44,9 @@ static NSString *randomCellIdentifier = @"randomCell";
 }
 
 - (void)loadView
-{
-//    if (self.view == nil) {
-        RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        self.view = view;
-//    }
-   
+{ 
+    RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.view = view;
 }
 
 - (void)viewDidLoad
@@ -107,12 +106,6 @@ static NSString *randomCellIdentifier = @"randomCell";
     [postTableView deselectRowAtIndexPath:[postTableView indexPathForSelectedRow]  animated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)showRandomPostView
 {
     [self.parentViewController.view addSubview:self.view];
@@ -163,18 +156,22 @@ static NSString *randomCellIdentifier = @"randomCell";
     NSString *postID = [self postIDFromURL:post.postURL];
     cVC.postID = [NSNumber numberWithInteger:[postID integerValue]];
     
-    [self presentViewController:cVC animated:YES completion:nil];
+//    [self presentViewController:cVC animated:YES completion:nil];
+    [self.parentViewController.navigationController pushViewController:cVC animated:YES];
 }
 
 - (NSString *)postIDFromURL:(NSString *)postURL
 {
-    NSString *regularStr = @"(\\d+?)$";
-    NSError *error = nil;
-    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regularStr options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error != nil) {
-        DNSLog(@"正则表达式出错:%@",NSStringFromSelector(_cmd));
-        return nil;
+    if (reg == nil) {
+        NSString *regularStr = @"(\\d+?)$";
+        NSError *error = nil;
+        reg = [NSRegularExpression regularExpressionWithPattern:regularStr options:NSRegularExpressionCaseInsensitive error:&error];
+        if (error != nil) {
+            DNSLog(@"正则表达式出错:%@",NSStringFromSelector(_cmd));
+            return nil;
+        }
     }
+    
     NSArray *results = [reg matchesInString:postURL options:NSMatchingReportCompletion range:NSMakeRange(0, postURL.length)];
     NSTextCheckingResult *checkResult = [results firstObject];
     
@@ -291,4 +288,9 @@ static NSString *randomCellIdentifier = @"randomCell";
     maskView = nil;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    reg = nil;
+}
 @end
