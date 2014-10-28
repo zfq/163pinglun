@@ -21,15 +21,20 @@
     return self;
 }
 
-- (void)readFromJSONDictionary:(NSDictionary *)dictionary
+- (void)readFromJSONArray:(NSArray *)array
 {
-    NSArray *allKeys = [dictionary allKeys];
-    for (NSString *key in allKeys) {
-//        Tag *t = [[Tag alloc] init];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dic = (NSDictionary *)obj;
         Tag *t = [[ItemStore sharedItemStore] createTag];
-        NSDictionary *subDic = [dictionary objectForKey:key];
-        [t readFromJSONDictionary:subDic];
+        [t readFromJSONDictionary:dic];
         [_tagItems addObject:t];
-    }
+    }];
+//    for (NSString *key in allKeys) {
+////        Tag *t = [[Tag alloc] init];
+//        Tag *t = [[ItemStore sharedItemStore] createTag];
+//        NSDictionary *subDic = [dictionary objectForKey:key];
+//        [t readFromJSONDictionary:subDic];
+//        [_tagItems addObject:t];
+//    }
 }
 @end

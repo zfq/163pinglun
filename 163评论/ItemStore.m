@@ -124,8 +124,8 @@
 #pragma mark - fetch data from network
 - (void)fetchTagsWithCompletion:(void(^)(Tags * tags,NSError *error))block
 {
-//    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
-    NSURL *url = [NSURL URLWithString:_cotentsURL];
+    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
+    NSURL *url = [NSURL URLWithString:requestString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 7;
     Tags *t = [[Tags alloc] init];
@@ -133,7 +133,8 @@
         _currConnection = [[FQConnection alloc] initWithRequest:request];
     } else {
         _currConnection.request = request;
-    }    
+    }
+    _currConnection.isDictionary = NO;
     [_currConnection setCompletionBlock:block];
     [_currConnection setJsonRootObject:t];
     [_currConnection start];
