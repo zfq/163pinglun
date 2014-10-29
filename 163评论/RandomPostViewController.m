@@ -155,8 +155,6 @@ static NSString *randomCellIdentifier = @"randomCell";
     CommViewController *cVC = [[CommViewController alloc] init];
     NSString *postID = [self postIDFromURL:post.postURL];
     cVC.postID = [NSNumber numberWithInteger:[postID integerValue]];
-    
-//    [self presentViewController:cVC animated:YES completion:nil];
     [self.parentViewController.navigationController pushViewController:cVC animated:YES];
 }
 
@@ -216,28 +214,19 @@ static NSString *randomCellIdentifier = @"randomCell";
         beginTapPoint = currTapPoint;
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
 
-        //修复panGesture冲突问题
         currTapPoint = [gesture locationInView:keyWindow];
-        CGPoint translation = CGPointMake(currTapPoint.x-beginTapPoint.x, currTapPoint.y-beginTapPoint.y);
-        if (fabsf(translation.x) <= fabsf(translation.y) && (fabsf(translation.y)>=4))
-        {
-            return ;
-        }
-        
-        
-        if ((x-beginTapX+marginLeft) <= marginLeft) {
-            [self moveView:gestureView toX:marginLeft];
+        CGFloat temp = (x-beginTapX+marginLeft);
+        [self moveView:gestureView toX:temp];
+        if (temp <marginLeft) {
             maskView.alpha = originAlpha;
         } else {
-            [self moveView:gestureView toX:(x-beginTapX+marginLeft)];
-            maskView.alpha = originAlpha - originAlpha*(x-beginTapX)/(x-beginTapX+marginLeft);
+            maskView.alpha = originAlpha - originAlpha*(x-beginTapX)/temp;
         }
         
     } else if (gesture.state == UIGestureRecognizerStateEnded ||
                gesture.state == UIGestureRecognizerStateCancelled) {
         
-        CGFloat deltaX = x - beginTapX;
-        if (deltaX > gestureView.frame.size.width/2) {  //移除marskView
+        if (x - beginTapX > 100) {  //移除marskView
             
             [UIView animateWithDuration:0.3 animations:^{
                 [self moveView:gestureView toX:SCREEN_WIDTH];
@@ -268,7 +257,8 @@ static NSString *randomCellIdentifier = @"randomCell";
 {
     CGFloat width = SCREEN_WIDTH;
     x = (x > width ? width : x);
-    x = (x < 0 ? 0 : x);
+    x = (x < marginLeft ? marginLeft : x);
+
     CGRect originFrame = view.frame;
     originFrame.origin.x = x;
     view.frame = originFrame;
