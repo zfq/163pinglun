@@ -106,7 +106,7 @@
     __block Tag *tag = nil;
     [tagItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         tag = (Tag *)obj;
-        TagView *view = [[TagView alloc] initWithString:tag.tagName]; //tag.tagName
+        TagView *view = [[TagView alloc] initWithTag:tag]; //tag.tagName
         NSDictionary *dic = [colors objectForKey:[tag.tagID stringValue]];
         NSString *colorName = [dic objectForKey:@"color"];
         if (colorName == nil) {
@@ -116,6 +116,7 @@
         }
         view.frame = CGRectMake(0, 0, view.frame.size.width, 50);
         view.centerVertically = YES;
+        [view addTarget:self action:@selector(tapTagView:) forControlEvents:UIControlEventTouchUpInside];
         [tagViews addObject:view];
     }];
     
@@ -184,7 +185,7 @@
         beginTapY = currTapPoint.y;
         beginTapPoint = currTapPoint;
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
-      
+        tagScrollView.userInteractionEnabled = NO;
         currTapPoint = [gesture locationInView:keyWindow];
         CGFloat temp = (x-beginTapX+marginLeft);
         [self moveView:gestureView toX:temp];
@@ -218,6 +219,7 @@
                 [self moveView:gestureView toX:marginLeft];
                 maskView.alpha = originAlpha;
             } completion:^(BOOL finished) {
+                tagScrollView.userInteractionEnabled = YES;
             }];
             
         }
@@ -258,6 +260,14 @@
 
 }
 
+#pragma mark - tagView tap action
+- (void)tapTagView:(TagView *)tagView
+{
+    if ([_tvcDelegate respondsToSelector:@selector(didSelectTagView: controller:)]) {
+        [_tvcDelegate didSelectTagView:tagView controller:self];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -274,5 +284,6 @@
     [tagScrollView removeGestureRecognizer:panGesture];
     [tagScrollView removeObserver:self forKeyPath:@"panGestureRecognizer.state" context:nil];
     tagScrollView.tagScrollViewDelegate = nil;
+    self.tvcDelegate = nil;
 }
 @end

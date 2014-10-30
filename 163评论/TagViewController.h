@@ -7,11 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TagView.h"
+
+@protocol TagViewControllerDelegate;
 
 @interface TagViewController : UIViewController <UIGestureRecognizerDelegate>
+
+@property (nonatomic,weak) id<TagViewControllerDelegate> tvcDelegate;
 
 - (void)showTagView;
 - (void)dismissTagView;
 @end
 
+@protocol TagViewControllerDelegate <NSObject>
+
+@optional
+- (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC;
+
+@end
 

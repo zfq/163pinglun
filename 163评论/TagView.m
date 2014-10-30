@@ -7,6 +7,7 @@
 //
 
 #import "TagView.h"
+//#import "Tag.h"
 
 @interface TagView()
 {
@@ -36,6 +37,12 @@
         [self addSubview:self.tagLabel];
     }
     return self;
+}
+
+- (instancetype)initWithTag:(Tag *)postTag
+{
+    _postTag = postTag;
+    return [self initWithString:postTag.tagName];
 }
 
 //考虑点击翻转显示另一面为多少个话题
@@ -75,7 +82,6 @@
 
 - (void)setTagLabelCenterHorizontal:(BOOL)horizontalCenter vertical:(BOOL)verticalCenter
 {
-    
     if (_tagLabel != nil) {
         CGRect originFrame = _tagLabel.frame;
         if (horizontalCenter) {
@@ -89,4 +95,8 @@
     }
 }
 
+- (void)tap
+{
+    
+}
 @end

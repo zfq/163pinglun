@@ -207,7 +207,7 @@ static NSString *randomCellIdentifier = @"randomCell";
         beginTapX = x;
         beginTapPoint = currTapPoint;
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
-
+        postTableView.userInteractionEnabled = NO;
         currTapPoint = [gesture locationInView:keyWindow];
         CGFloat temp = (x-beginTapX+marginLeft);
         [self moveView:gestureView toX:temp];
@@ -240,6 +240,10 @@ static NSString *randomCellIdentifier = @"randomCell";
             [UIView animateWithDuration:0.3 animations:^{
                 [self moveView:gestureView toX:marginLeft];
                 maskView.alpha = originAlpha;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    postTableView.userInteractionEnabled = YES;
+                }
             }];
             
         }
