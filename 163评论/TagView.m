@@ -9,9 +9,9 @@
 #import "TagView.h"
 //#import "Tag.h"
 
-@interface TagView()
+@interface TagView() 
 {
-   
+    void (^comple)();
 }
 @end
 @implementation TagView
@@ -95,8 +95,34 @@
     }
 }
 
-- (void)tap
+- (void)tapTagView:(TagView *)v completion:(void (^)())completion
 {
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    animation.delegate = self;
+    NSMutableArray *values = [NSMutableArray array];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.2, 1.2, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9, 0.9, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
+    animation.values = values;
+    animation.duration = 0.3;
+    animation.timingFunctions = @[
+                                  [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+                                  [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear],
+                                  [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
+                                  [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]
+                                  ];
+
+    [v.layer addAnimation:animation forKey:nil];
     
+    comple = completion;
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (comple != nil) {
+        comple();
+    }
 }
 @end

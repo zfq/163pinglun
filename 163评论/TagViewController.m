@@ -18,6 +18,7 @@
     TagScrollView *tagScrollView;
     
     UIPanGestureRecognizer *panGesture;
+    UITapGestureRecognizer *tapGesture;
     
     CGFloat marginLeft;
     CGFloat beginTapX;
@@ -46,7 +47,7 @@
     maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEITHT-navHeight)];
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
     [maskView addGestureRecognizer:tapGesture];
     [self.view addSubview:maskView];
     
@@ -155,20 +156,28 @@
     self.view = nil;
 }
 
+- (void)dismissTagViewWithAnimation:(BOOL)animation
+{
+    if (animation) {
+        [UIView animateWithDuration:0.3 animations:^{
+            [self moveView:tagScrollView toX:SCREEN_WIDTH];
+            maskView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [maskView removeGestureRecognizer:tapGesture];
+            [self dismissTagView];
+            [[ItemStore sharedItemStore] cancelCurrentRequtest];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        }];
+    } else {
+        [self dismissTagView];
+    }
+        
+    
+}
 #pragma mark - tap gesture
 - (void)tapGestureAction:(UITapGestureRecognizer *)gesture
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        [self moveView:tagScrollView toX:SCREEN_WIDTH];
-        maskView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [gesture.view removeGestureRecognizer:gesture];
-        [self dismissTagView];
-        [[ItemStore sharedItemStore] cancelCurrentRequtest];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    }];
-    
-    gesture = nil;
+    [self dismissTagViewWithAnimation:YES];
 }
 
 #pragma mark - pan gesture
@@ -263,9 +272,12 @@
 #pragma mark - tagView tap action
 - (void)tapTagView:(TagView *)tagView
 {
-    if ([_tvcDelegate respondsToSelector:@selector(didSelectTagView: controller:)]) {
-        [_tvcDelegate didSelectTagView:tagView controller:self];
-    }
+    [tagView tapTagView:tagView completion:^{
+        if ([_tvcDelegate respondsToSelector:@selector(didSelectTagView: controller:)]) {
+            [_tvcDelegate didSelectTagView:tagView controller:self];
+        }
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {

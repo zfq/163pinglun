@@ -22,5 +22,5 @@
 - (instancetype)initWithString:(NSString *)tag;
 - (instancetype)initWithTag:(Tag *)postTag;
 
-- (void)tap;
+- (void)tapTagView:(TagView *)v completion:(void (^)())completion;
 @end

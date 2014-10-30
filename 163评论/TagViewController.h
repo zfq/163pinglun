@@ -16,7 +16,7 @@
 @property (nonatomic,weak) id<TagViewControllerDelegate> tvcDelegate;
 
 - (void)showTagView;
-- (void)dismissTagView;
+- (void)dismissTagViewWithAnimation:(BOOL)animation;
 @end
 
 @protocol TagViewControllerDelegate <NSObject>
