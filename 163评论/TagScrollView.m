@@ -202,6 +202,7 @@
     }
     tagView = nil;
 }
+
 #pragma mark - scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

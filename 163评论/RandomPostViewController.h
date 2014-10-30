@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RandomPostViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate>
+@interface RandomPostViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic,strong) NSMutableArray *posts;
 

@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FQBaseViewController.h"
 
-@interface TagViewController : FQBaseViewController
+@interface TagViewController : UIViewController <UIGestureRecognizerDelegate>
 
+- (void)showTagView;
+- (void)dismissTagView;
 @end
+
+

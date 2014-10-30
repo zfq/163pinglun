@@ -8,28 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "TagView.h"
-/**
- *  代理
- */
-@protocol TagScrollViewDelegate <NSObject>
-@optional
 
-
-@end
-
-/**
- * 数据源
- */
-@protocol TagScrollViewDatasource <NSObject>
-
-
-@end
-
+@protocol TagScrollViewDelegate,TagScrollViewDatasource;
 
 @interface TagScrollView : UIScrollView <UIScrollViewDelegate>
 
-@property (nonatomic,weak) id<TagScrollViewDelegate> tagDelegate;
-@property (nonatomic,weak) id<TagScrollViewDatasource> tagDatasource;
+@property (nonatomic,weak) id<TagScrollViewDelegate> tagScrollViewDelegate;
+@property (nonatomic,weak) id<TagScrollViewDatasource> tagScrollViewDatasource;
 
 @property (nonatomic,strong) NSArray *tagViews;
 @property (nonatomic,strong) NSArray *tagsCountInCell;
@@ -45,4 +30,18 @@
 - (void)addVisibleTagView;
 @end
 
+/**
+ *  代理
+ */
+@protocol TagScrollViewDelegate <NSObject>
+@optional
 
+@end
+
+/**
+ * 数据源
+ */
+@protocol TagScrollViewDatasource <NSObject>
+
+
+@end

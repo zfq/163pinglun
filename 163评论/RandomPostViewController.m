@@ -53,6 +53,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 {
     [super viewDidLoad];
     
+    //添加maskView
     CGFloat navHeight = 64;
     originAlpha = 0.7;
     maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEITHT-navHeight)];
@@ -73,7 +74,8 @@ static NSString *randomCellIdentifier = @"randomCell";
     panGesture.delegate = self;
     [postTableView addGestureRecognizer:panGesture];
     [self.view addSubview:postTableView];
-  
+    [postTableView addObserver:self forKeyPath:@"panGestureRecognizer.state" options:NSKeyValueObservingOptionNew context:nil];
+    
     //添加nav阴影
     UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
     UIImageView *navImgView = [[UIImageView alloc] initWithImage:navImg];
@@ -113,11 +115,12 @@ static NSString *randomCellIdentifier = @"randomCell";
 
 - (void)dismissRandomPostView
 {
-    [self.view removeFromSuperview];
     [self removeFromParentViewController];
-    
+    [self.view removeFromSuperview];
+    [postTableView removeGestureRecognizer:panGesture];
     self.posts = nil;
     self.view = nil;
+    reg = nil;
 }
 
 
@@ -175,16 +178,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     
     return [postURL substringWithRange:[checkResult range]];
 }
-#pragma mark - scrollView delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    panGesture.enabled = NO;
-}
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    panGesture.enabled = YES;
-}
 #pragma mark - tap gesture
 - (void)tapGestureAction:(UITapGestureRecognizer *)gesture
 {
@@ -270,17 +264,36 @@ static NSString *randomCellIdentifier = @"randomCell";
     return YES;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    switch (postTableView.panGestureRecognizer.state) {
+        case UIGestureRecognizerStateChanged:{
+            panGesture.enabled = NO;
+        }break;
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateEnded:{
+            panGesture.enabled = YES;
+        }break;
+        default:
+            break;
+    }
+    
+}
+
 - (void)dealloc
 {
     [postTableView removeGestureRecognizer:panGesture];
-    panGesture = nil;
-    postTableView = nil;
-    maskView = nil;
+    [postTableView removeObserver:self forKeyPath:@"panGestureRecognizer.state" context:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    if (self.parentViewController == nil) {
+        [postTableView removeGestureRecognizer:panGesture];
+        [self.view removeFromSuperview];
+        self.view = nil;
+    }
     reg = nil;
 }
 @end
