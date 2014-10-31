@@ -22,12 +22,12 @@
 #import "FQNavigationController.h"
 #import "TagViewController.h"
 
-@interface HomeViewController ()
+@interface HomeViewController () <TagViewControllerDelegate>
 {
     NSInteger _currPage;
     UITableViewCell *_prototypeCell;
     NSMutableDictionary *_cellsHeightDic;
-    
+//    TagViewController *tVC;
     MenuView *menu;
 }
 @end
@@ -75,7 +75,6 @@
         _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     }
     
-    
     //集成刷新控件
     [self setupRefresh];
     [self fetchPostFromDatabase];
@@ -105,7 +104,9 @@
 - (void)showTag:(UIButton *)button
 {
     TagViewController *tVC = [[TagViewController alloc] init];
-    [self.navigationController pushViewController:tVC animated:YES];
+    tVC.tvcDelegate = self;
+    [self addChildViewController:tVC];
+    [tVC showTagView];
 }
 
 - (void)showLookAround:(UIButton *)button
@@ -224,6 +225,20 @@
     [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_PAGE];
 }
 
+- (NSString *)urlStringWithCurrPage:(NSInteger)page headRefreshing:(BOOL)headRefreshing isTag:(BOOL)isTag
+{
+    NSString *urlStr;
+    if (isTag) {
+        urlStr = [NSString stringWithFormat:@"http://163pinglun.com"];
+    } else {
+        if (headRefreshing) {
+            urlStr = @"http://163pinglun.com/wp-json/posts";
+        } else {
+            urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
+        }
+    }
+    return urlStr;
+}
 #pragma mark - tableView dateSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -273,6 +288,14 @@
     cVC.postID = tempPost.postID;
     cVC.myTitleLabel.text = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];
+}
+
+#pragma mark - tagScrollViewDelegate
+- (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC
+{
+    [tVC dismissTagViewWithAnimation:YES];
+//    NSLog(@"%@",tagView.postTag.tagName);
+    [self.tableView headerBeginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
