@@ -274,7 +274,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         if (count > 5)
             roofImgName = @"comment.bundle/comment_roof_5";
         else
-            roofImgName = [NSString stringWithFormat:@"comment.bundle/comment_roof_%d", count - 1];
+            roofImgName = [NSString stringWithFormat:@"comment.bundle/comment_roof_%zi", count - 1];
         
         roofImg = [UIImage imageNamed:roofImgName];
         //拉伸
@@ -299,12 +299,12 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             }
             else
             {
-                wallImgName = [NSString stringWithFormat:@"comment.bundle/comment_wall_%d",count - floorIndex];
+                wallImgName = [NSString stringWithFormat:@"comment.bundle/comment_wall_%zi",count - floorIndex];
             }
         }
         else
         {
-            wallImgName = [NSString stringWithFormat:@"comment.bundle/comment_wall_%d",count - floorIndex];
+            wallImgName = [NSString stringWithFormat:@"comment.bundle/comment_wall_%zi",count - floorIndex];
         }
         
         wallImg = [UIImage imageNamed:wallImgName];
@@ -329,12 +329,12 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             }
             else
             {
-                groundImgName = [NSString stringWithFormat:@"comment.bundle/comment_ground_%d",floorCount - floorIndex];
+                groundImgName = [NSString stringWithFormat:@"comment.bundle/comment_ground_%zi",floorCount - floorIndex];
             }
         }
         else
         {
-            groundImgName = [NSString stringWithFormat:@"comment.bundle/comment_ground_%d",floorCount - floorIndex];
+            groundImgName = [NSString stringWithFormat:@"comment.bundle/comment_ground_%zi",floorCount - floorIndex];
         }
         
         groundImg = [UIImage imageNamed:groundImgName];
