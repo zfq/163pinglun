@@ -23,7 +23,7 @@
         return;
     }
     NSNumber *ID = [dictionary objectForKey:@"ID"];
-    self.authorID = [NSString stringWithFormat:@"%d",[ID integerValue]];
+    self.authorID = [NSString stringWithFormat:@"%zi",[ID integerValue]];
     self.authorName = [dictionary objectForKey:@"name"];
     self.authorSlug = [dictionary objectForKey:@"slug"];
 }

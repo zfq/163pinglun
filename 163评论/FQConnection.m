@@ -52,7 +52,7 @@ static NSMutableArray *sharedConnectionList = nil;
     [sharedConnectionList removeObject:connection];
     
     //提示错误信息
-    NSString *errorCode = [NSString stringWithFormat:@"%d", error.code];
+    NSString *errorCode = [NSString stringWithFormat:@"%zi", error.code];
     [GeneralService showHUDWithTitle:errorCode andDetail:[NSError urlErrorDesciptionForCode:error.code] image:@"MBProgressHUD.bundle/error"];
 
      [sharedConnectionList removeObject:connection];

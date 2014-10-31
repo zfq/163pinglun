@@ -127,7 +127,7 @@
     NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
     NSURL *url = [NSURL URLWithString:requestString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.timeoutInterval = 7;
+    request.timeoutInterval = 40;
     Tags *t = [[Tags alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -145,7 +145,7 @@
 //    NSString *requestString = @"http://163pinglun.com/wp-json/posts";
     NSURL *url = [NSURL URLWithString:_cotentsURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.timeoutInterval = 7;
+    request.timeoutInterval = 40;
     Posts *posts = [[Posts alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -163,7 +163,7 @@
     NSString *requestString = _cotentsURL;
     NSURL *url = [NSURL URLWithString:requestString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.timeoutInterval = 7;
+    request.timeoutInterval = 40;
     Contents *contents = [[Contents alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -181,7 +181,7 @@
     NSString *requestURL = @"http://163pinglun.com/wp-admin/admin-ajax.php?action=random_post";
     NSURL *url = [NSURL URLWithString:requestURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.timeoutInterval = 7;
+    request.timeoutInterval = 40;
     RandomPosts *posts = [[RandomPosts alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
