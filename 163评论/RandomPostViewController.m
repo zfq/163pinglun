@@ -12,6 +12,7 @@
 #import "RandomPosts.h"
 #import "RandomPost.h"
 #import "CommViewController.h"
+#import "UITableView+SmoothMove.h"
 
 static NSString *randomCellIdentifier = @"randomCell";
 
@@ -102,7 +103,8 @@ static NSString *randomCellIdentifier = @"randomCell";
     [[ItemStore sharedItemStore] fetchRandomPostsWithCompletion:^(RandomPosts *randomPosts, NSError *error) {
         _posts = randomPosts.randomPosts;
         [postTableView setTableFooterView:[self randomPostFooterView]];
-        [postTableView reloadData];
+        [postTableView beginSmoothMoveAnimationWithCount:_posts.count];
+//        [postTableView reloadData];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
 }
