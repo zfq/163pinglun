@@ -128,6 +128,7 @@
     NSURL *url = [NSURL URLWithString:requestString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;
+    [request setHTTPMethod:@"GET"];
     Tags *t = [[Tags alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -146,6 +147,7 @@
     NSURL *url = [NSURL URLWithString:_cotentsURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;
+    [request setHTTPMethod:@"GET"];
     Posts *posts = [[Posts alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
@@ -164,6 +166,7 @@
     NSURL *url = [NSURL URLWithString:requestString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;
+    [request setHTTPMethod:@"GET"];
     Contents *contents = [[Contents alloc] init];
     if (_currConnection == nil) {
         _currConnection = [[FQConnection alloc] initWithRequest:request];
