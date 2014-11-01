@@ -27,8 +27,10 @@
     NSInteger _currPage;
     UITableViewCell *_prototypeCell;
     NSMutableDictionary *_cellsHeightDic;
-//    TagViewController *tVC;
     MenuView *menu;
+    
+    NSString *tagName;
+    NSInteger currTagPage;
 }
 @end
 
@@ -39,7 +41,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
+        currTagPage = 1;
     }
     return self;
 }
@@ -77,7 +79,7 @@
     
     //集成刷新控件
     [self setupRefresh];
-    [self fetchPostFromDatabase];
+    [self fetchPostFromDatabase];    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -154,22 +156,24 @@
 - (void)headerRereshing
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+    
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {
             //设置网络可用
-            [GeneralService setNetworkReachability:YES];
-            //再从网络获取数据
-            
-            [ItemStore sharedItemStore].cotentsURL = @"http://163pinglun.com/wp-json/posts";
+//            [GeneralService setNetworkReachability:YES];
+            [ItemStore sharedItemStore].cotentsURL = [self urlStringWithCurrPage:0 headRefreshing:YES tagName:tagName];
             [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
                 //先删除数据库中的所有post
-                if (posts != nil && (posts.postItems.count > 0)) {
-                    [self removeAllPostsFromDatabase];
-                    _posts = posts;
-                    _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
-                    [self.tableView reloadData];
+                if (error == nil) {
+                    if (posts != nil && (posts.postItems.count > 0)) {
+                        [self removeAllPostsFromDatabase];
+                        _posts = posts;
+                        _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
+                        [self.tableView reloadData];
+                    }
                 }
-
+                
                 [self.tableView headerEndRefreshing];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
@@ -191,24 +195,30 @@
         //设置网络可用
         [GeneralService setNetworkReachability:YES];
         
-        //获取当前页数
-        NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
-        _currPage = [currPage integerValue];
-        _currPage++;
-        NSString *urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
+//        //获取当前页数
+//        NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
+//        _currPage = [currPage integerValue];
+//        _currPage++;
+//        NSString *urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        [ItemStore sharedItemStore].cotentsURL = urlStr;
+        [ItemStore sharedItemStore].cotentsURL = [self urlStringWithCurrPage:_currPage headRefreshing:NO tagName:tagName];
+        
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-            if (posts != nil && (posts.postItems.count > 0)) {
+            if (posts != nil && (posts.postItems.count > 0))
+            {
                 [_posts addPostItems:posts.postItems];
-                //保存当前为第几页
-                [self saveCurrPage];
+                if (tagName == nil)
+                    [self saveCurrPage]; //保存当前为第几页
+                else
+                    currTagPage ++;
+              
                 [self.tableView reloadData];
             }
-            
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             [self.tableView footerEndRefreshing];
         }];
+        
+        
 
     } else {
         [self.tableView footerEndRefreshing];
@@ -225,20 +235,30 @@
     [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_PAGE];
 }
 
-- (NSString *)urlStringWithCurrPage:(NSInteger)page headRefreshing:(BOOL)headRefreshing isTag:(BOOL)isTag
+- (NSString *)urlStringWithCurrPage:(NSInteger)page headRefreshing:(BOOL)headRefreshing tagName:(NSString *)tag
 {
     NSString *urlStr;
-    if (isTag) {
-        urlStr = [NSString stringWithFormat:@"http://163pinglun.com"];
+    if (tag != nil) {
+        if (headRefreshing)
+            currTagPage = 1;
+        else
+            currTagPage ++;
+        urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&filter[tag]=%@&page=%zi",tag,currTagPage];
     } else {
         if (headRefreshing) {
             urlStr = @"http://163pinglun.com/wp-json/posts";
         } else {
-            urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
+            //获取当前页数
+            NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
+            _currPage = [currPage integerValue];
+            _currPage++;
+            urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%zi",_currPage];
         }
     }
+    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return urlStr;
 }
+
 #pragma mark - tableView dateSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -294,8 +314,11 @@
 - (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC
 {
     [tVC dismissTagViewWithAnimation:YES];
-//    NSLog(@"%@",tagView.postTag.tagName);
+    tagName = tagView.postTag.tagName;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
     [self.tableView headerBeginRefreshing];
+    
 }
 
 - (void)didReceiveMemoryWarning
