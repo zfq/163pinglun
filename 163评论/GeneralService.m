@@ -229,15 +229,6 @@
     return fontIndex.integerValue;
 }
 
-+ (BOOL)fontSizeIsChanged
-{
-    if ([self defaultContentFontSize]!= [self currContentFontSize] ||
-        [self defaultSubtitleFontSize]!=[self currSubtitleFontSize]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
 @end
 
 

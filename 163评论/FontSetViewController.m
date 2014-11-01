@@ -233,12 +233,11 @@
     //刷新界面
     [self createSubViewsIfNeeded];
     
-    if ([GeneralService fontSizeIsChanged]) {
-        fontSizeIsChanged = YES;
-        fontSizeStyleIndex = @(row);
-        [[NSUserDefaults standardUserDefaults] setObject:@(row) forKey:kFontIndexStyle];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    fontSizeIsChanged = YES;
+    fontSizeStyleIndex = @(row);
+    [[NSUserDefaults standardUserDefaults] setObject:@(row) forKey:kFontIndexStyle];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     //保存当前字体大小
     [self saveCurrFontSyle];
 }
