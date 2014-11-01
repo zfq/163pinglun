@@ -19,7 +19,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 {
     UIView *maskView;
     UITableView *postTableView;
-    
+    UIView *postFooterView;
     UIPanGestureRecognizer *panGesture;
     CGFloat marginLeft;
     CGFloat beginTapX;
@@ -91,15 +91,21 @@ static NSString *randomCellIdentifier = @"randomCell";
     } completion:nil];
     
     //加载数据
+    [self loadRandomPostData];
+}
+
+- (void)loadRandomPostData
+{
+    //加载数据
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [_posts removeAllObjects];
     [[ItemStore sharedItemStore] fetchRandomPostsWithCompletion:^(RandomPosts *randomPosts, NSError *error) {
         _posts = randomPosts.randomPosts;
+        [postTableView setTableFooterView:[self randomPostFooterView]];
         [postTableView reloadData];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
-   
 }
-
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -122,7 +128,6 @@ static NSString *randomCellIdentifier = @"randomCell";
     self.view = nil;
     reg = nil;
 }
-
 
 #pragma mark - tableView datasource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -159,6 +164,35 @@ static NSString *randomCellIdentifier = @"randomCell";
     NSString *postID = [self postIDFromURL:post.postURL];
     cVC.postID = [NSNumber numberWithInteger:[postID integerValue]];
     [self.parentViewController.navigationController pushViewController:cVC animated:YES];
+}
+
+#pragma mark - footer view
+- (UIView *)randomPostFooterView
+{
+    if (postFooterView == nil) {
+        postFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, postTableView.frame.size.width, 50)];
+        postFooterView.backgroundColor = [UIColor clearColor];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:@"换一组" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+        button.bounds = CGRectMake(0, 0, 100, 44);
+        [button setTitleColor:TITLE_COLOR forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+        [button setBackgroundColor:[UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0]];
+        button.layer.borderWidth = 1;
+        button.layer.borderColor = SEPARATOR_COLOR.CGColor;
+        button.layer.cornerRadius = 4;
+        button.layer.masksToBounds = YES;
+        button.center = CGPointMake(postFooterView.bounds.size.width/2, postFooterView.frame.size.height/2 + 8);
+        [button addTarget:self action:@selector(loadNewPosts:) forControlEvents:UIControlEventTouchUpInside];
+        [postFooterView addSubview:button];
+    }
+    return postFooterView;
+}
+
+- (void)loadNewPosts:(UIButton *)button
+{
+    [self loadRandomPostData];
 }
 
 - (NSString *)postIDFromURL:(NSString *)postURL
