@@ -29,7 +29,8 @@ static NSMutableArray *sharedConnectionList = nil;
 {
     container = [[NSMutableData alloc] init];
     internalConnection = [[NSURLConnection alloc] initWithRequest:self.request delegate:self startImmediately:YES];
-    
+//    [internalConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+//    [internalConnection start];
     if (sharedConnectionList == nil)
         sharedConnectionList = [[NSMutableArray alloc] init];
     
@@ -48,8 +49,6 @@ static NSMutableArray *sharedConnectionList = nil;
 {
     if (self.completionBlock != nil)
         [self completionBlock](nil,error);
-    
-    [sharedConnectionList removeObject:connection];
     
     //提示错误信息
     NSString *errorCode = [NSString stringWithFormat:@"%zi", error.code];
@@ -86,6 +85,7 @@ static NSMutableArray *sharedConnectionList = nil;
         [self completionBlock](rootObject,nil);
     
     [sharedConnectionList removeObject:connection];
+    connection = nil;
 }
 @end
 
