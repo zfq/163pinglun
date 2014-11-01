@@ -55,11 +55,11 @@
     marginLeft = 55;
     tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 64, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-64)];
     tagScrollView.backgroundColor = [UIColor whiteColor];
-    tagScrollView.leftMargin = 5;
-    tagScrollView.rightMargin = 5;
-    tagScrollView.topMargin = 5;
-    tagScrollView.horizontalPadding = 5;
-    tagScrollView.verticalPadding = 5;
+    tagScrollView.leftMargin = 3;
+    tagScrollView.rightMargin = 3;
+    tagScrollView.topMargin = 3;
+    tagScrollView.horizontalPadding = 3;
+    tagScrollView.verticalPadding = 3;
     panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
     panGesture.delegate = self;
     [tagScrollView addGestureRecognizer:panGesture];
@@ -115,7 +115,7 @@
         }else {
             view.tagLabel.textColor = [self colorFromHexStr:colorName];
         }
-        view.frame = CGRectMake(0, 0, view.frame.size.width, 50);
+        view.frame = CGRectMake(0, 0, view.frame.size.width+10, 50);
         view.centerVertically = YES;
         [view addTarget:self action:@selector(tapTagView:) forControlEvents:UIControlEventTouchUpInside];
         [tagViews addObject:view];
@@ -165,15 +165,14 @@
         } completion:^(BOOL finished) {
             [maskView removeGestureRecognizer:tapGesture];
             [self dismissTagView];
-            [[ItemStore sharedItemStore] cancelCurrentRequtest];
+//            [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个有问题,因为当前请求可能还未完成,不能取消
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         }];
     } else {
         [self dismissTagView];
     }
-        
-    
 }
+
 #pragma mark - tap gesture
 - (void)tapGestureAction:(UITapGestureRecognizer *)gesture
 {

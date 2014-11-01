@@ -11,8 +11,9 @@
 
 @interface TagView() 
 {
-    void (^comple)();
+//    void (^comple)();
 }
+@property (nonatomic,copy) void (^comple)();
 @end
 @implementation TagView
 
@@ -111,18 +112,31 @@
                                   [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
                                   [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear],
                                   [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
+                                  [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear],
                                   [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]
                                   ];
-
-    [v.layer addAnimation:animation forKey:nil];
     
-    comple = completion;
+    [v.layer addAnimation:animation forKey:nil];
+   self.comple = completion;
+    
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if (comple != nil) {
-        comple();
+    /*
+    if (flag == YES) {
+        if (comple != nil) {
+            comple();
+        }
     }
+    dispatch_async(dispatch_get_main_queue(), comple);
+    */
+    if (flag == YES) {
+        if (self.comple != nil) {
+            self.comple();
+        }
+    }
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"tapTagViewNotification" object:self];
 }
+
 @end
