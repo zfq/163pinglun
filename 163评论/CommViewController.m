@@ -41,7 +41,6 @@ static NSString * const CellIdentifier = @"CommCell";
     //添加阴影
     // 添加返回按钮
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    backBtn.backgroundColor = [UIColor redColor];
     backBtn.frame = CGRectMake(10, 22, 60, 40);
     [backBtn setImage:[UIImage imageNamed:@"navgation_back"] forState:UIControlStateNormal];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -111,7 +110,7 @@ static NSString * const CellIdentifier = @"CommCell";
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%d",[_postID integerValue]]];
+            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
             [ItemStore sharedItemStore].cotentsURL = url;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
                 _contents = contents;
@@ -204,7 +203,7 @@ static NSString * const CellIdentifier = @"CommCell";
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             
             //加载数据 1197
-            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%d",[_postID integerValue]]];
+            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
             [ItemStore sharedItemStore].cotentsURL = url;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
                 _contents = contents;
