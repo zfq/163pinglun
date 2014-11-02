@@ -57,7 +57,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     //添加maskView
     CGFloat navHeight = 64;
     originAlpha = 0.7;
-    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEITHT-navHeight)];
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
@@ -67,7 +67,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     //添加tableView
     marginLeft = 55;
     
-    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-navHeight) style:UITableViewStylePlain];
+    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-navHeight) style:UITableViewStylePlain];
     postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     postTableView.dataSource = self;
     postTableView.delegate = self;

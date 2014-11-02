@@ -29,5 +29,5 @@
 + (CGFloat)defaultSubtitleFontSize;
 + (NSInteger)fontIndex;
 + (NSString *)fontSizeName;
-+ (BOOL)fontSizeIsChanged;
+//+ (BOOL)fontSizeIsChanged;
 @end

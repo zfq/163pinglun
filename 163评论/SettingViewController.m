@@ -34,7 +34,7 @@
     //添加tableView
     CGFloat navHeght = 64;
     if (!settingTableView) {
-        settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, navHeght, SCREEN_WIDTH, SCREEN_HEITHT-navHeght)
+        settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, navHeght, SCREEN_WIDTH, SCREEN_HEIGHT-navHeght)
                                                         style:UITableViewStyleGrouped];
         settingTableView.dataSource = self;
         settingTableView.delegate = self;

@@ -51,7 +51,7 @@
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(40, SCREEN_HEITHT-200, SCREEN_WIDTH-80, 80)];
+    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(40, SCREEN_HEIGHT-200, SCREEN_WIDTH-80, 80)];
     pickerView.showsSelectionIndicator = YES;
     pickerView.backgroundColor = scrollView.backgroundColor;
     pickerView.dataSource = self;
@@ -71,9 +71,9 @@
 - (void)createSubViewsIfNeeded
 {
     if (!scrollView) {
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEITHT-64-180)];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64-180)];
         scrollView.alwaysBounceVertical = YES;
-        scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEITHT-64-180);
+        scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT-64-180);
         scrollView.backgroundColor = self.view.backgroundColor;
         [self.view addSubview:scrollView];
     }

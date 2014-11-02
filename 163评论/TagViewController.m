@@ -34,7 +34,7 @@
 
 - (void)loadView
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEITHT)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.view = view;
 }
 - (void)viewDidLoad {
@@ -44,7 +44,7 @@
     //添加maskView
     CGFloat navHeight = 64;
     originAlpha = 0.7;
-    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEITHT-navHeight)];
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
@@ -53,7 +53,7 @@
     
     //添加scrollView
     marginLeft = 55;
-    tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 64, SCREEN_WIDTH-marginLeft, SCREEN_HEITHT-64)];
+    tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 64, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-64)];
     tagScrollView.backgroundColor = [UIColor whiteColor];
     tagScrollView.leftMargin = 3;
     tagScrollView.rightMargin = 3;
