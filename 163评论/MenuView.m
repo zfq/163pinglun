@@ -18,7 +18,7 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEITHT)];
+    self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
     }
@@ -27,7 +27,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame menuItems:(NSArray *)menuItems
 {
-    self = [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEITHT)];
+    self = [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     if (self) {
         //显示menuView
         UIView *menuView = [[UIView alloc] init];
