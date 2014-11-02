@@ -157,7 +157,6 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
-    
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {
             //设置网络可用
@@ -218,8 +217,6 @@
             [self.tableView footerEndRefreshing];
         }];
         
-        
-
     } else {
         [self.tableView footerEndRefreshing];
         
@@ -306,6 +303,7 @@
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
     cVC.postID = tempPost.postID;
+    cVC.title = tempPost.title;
     cVC.myTitleLabel.text = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];
 }

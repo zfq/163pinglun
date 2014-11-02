@@ -12,10 +12,12 @@
 #import "Content.h"
 //#import "MBProgressHUD.h"
 #import "Reachability.h"
+#import "ShareView.h"
+#import "SocialSharing.h"
 
 static NSString * const CellIdentifier = @"CommCell";
 
-@interface CommViewController ()
+@interface CommViewController () <ShareViewDeleage>
 {
     NSMutableDictionary *_cellsHeightDic;
     NSMutableDictionary *_cellsDic;
@@ -52,8 +54,8 @@ static NSString * const CellIdentifier = @"CommCell";
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     shareBtn.frame = CGRectMake(SCREEN_WIDTH-40-25, 22, 60, 40);
     [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
-    [backBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    [shareBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    [shareBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:shareBtn];
    
 	// 设置tableView
@@ -87,9 +89,23 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (void)share:(UIButton *)shareButton
 {
+    ShareView *view = [[ShareView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    view.shareViewDelegate = self;
+    [self.view addSubview:view];
     
+    [view showShareView];
 }
 
+#pragma mark - share delegate
+- (void)didTapedShareItem:(ShareItem *)shareItem
+{
+    NSString *text = [NSString stringWithFormat:@"%@ http://163pinglun.com/archives/%zi",self.title,self.postID.integerValue];
+    [[SocialSharing sharedInstance] sendWeiboWithText:text image:nil completion:^(BOOL success) {
+        if (success) {
+            NSLog(@"成功");
+        }
+    }];
+}
 #pragma mark - 设置字体
 - (void)fontSizeChanged:(NSNotification *)notification
 {
