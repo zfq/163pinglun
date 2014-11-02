@@ -19,9 +19,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     // 添加导航view
     UIView *bcgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FQ_SCREEN_WIDTH, 64)];
-    bcgView.backgroundColor = [UIColor colorWithRed:0.129 green:0.160 blue:0.172 alpha:0.9];
+    bcgView.backgroundColor = [UIColor colorWithRed:0.129 green:0.160 blue:0.172 alpha:0.85];
+
     [bcgView addSubview:self.navView];
     [self.view addSubview:bcgView];
 

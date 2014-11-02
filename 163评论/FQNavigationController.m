@@ -17,6 +17,7 @@
     NSMutableArray *screenShots;
     CGPoint startPoint;
 //    CFAbsoluteTime lastChange;
+
 }
 @end
 
@@ -27,12 +28,15 @@
     [super viewDidLoad];
     
     self.navigationBar.hidden = YES;
-    //设置阴影,注意这里的view并不是rootViewController.view
-    self.view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    self.view.layer.shadowOffset = CGSizeMake(-1, 0);
-    self.view.layer.shadowOpacity = 1;
-    self.view.layer.shadowRadius = 2;
-    self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+
+    //添加阴影,注意这里的view并不是rootViewController.view
+    UIImage *shadowImg = [UIImage imageNamed:@"shadow_left"];
+    CGFloat width = shadowImg.size.width;
+    shadowImg = [shadowImg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 5, 0) resizingMode:UIImageResizingModeStretch];
+    UIImageView *shadowImgView = [[UIImageView alloc] initWithFrame:CGRectMake(-width, 0, width, SCREEN_HEIGHT)];
+    shadowImgView.image = shadowImg;
+    [self.view addSubview:shadowImgView];
+    
     //添加手势
     self.interactivePopGestureRecognizer.enabled = NO;
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
@@ -78,6 +82,7 @@
 - (void)addSnapshotView
 {
     UIView *lastScreenShotView = [screenShots lastObject];
+
     [FQ_KEY_WINDOW insertSubview:lastScreenShotView belowSubview:self.view];
 }
 
@@ -159,6 +164,7 @@
     self.view.frame = originFrame;
     CGFloat quarterWidth = FQ_NAV_WIDTH/4;
     static BOOL beginMove = YES;
+//    beginMove = YES;
     UIView *view = [screenShots lastObject];
     
     if (beginMove) {
