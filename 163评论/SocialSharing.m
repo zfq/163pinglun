@@ -7,8 +7,8 @@
 //
 
 #import "SocialSharing.h"
-#import "TencentOpenAPI/QQApiInterface.h"
-
+//#import "TencentOpenAPI/QQApiInterface.h"
+#import <TencentOpenAPI/QQApiInterface.h>
 @interface SocialSharing()
 {
     TencentOAuth *_tencentOAuth;
@@ -17,6 +17,8 @@
     NSString *_description;
     NSString *_urlString;
     UIImage *_image;
+    
+    SocialSharingType _shareType;
 }
 @end
 
@@ -28,11 +30,25 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         socialSharing = [[SocialSharing alloc] init];
+        
+        [socialSharing registerWeiboSDK];
     });
     return socialSharing;
 }
 
-+ (BOOL)handleURL:(NSURL *)url withSocailSharingType:(SocialSharingType)sharingType
+- (BOOL)handleURL:(NSURL *)url
+{
+    NSString *shareName = self.shareTypeName;
+    if ([shareName isEqualToString:@"新浪微博"]) {
+        _shareType = SocialSharingTypeWeibo;
+    } else if ([shareName isEqualToString:@"QQ空间"]) {
+        _shareType = SocialSharingTypeTencent;
+    }
+    
+    return [self handleURL:url withSocailSharingType:_shareType];
+}
+
+- (BOOL)handleURL:(NSURL *)url withSocailSharingType:(SocialSharingType)sharingType
 {
     SocialSharing *sharing = [[self class] sharedInstance];
     switch (sharingType) {
@@ -49,7 +65,7 @@
     }
 }
 
-+ (BOOL)registerWeiboSDK
+- (BOOL)registerWeiboSDK
 {
     [WeiboSDK enableDebugMode:YES];
     return [WeiboSDK registerApp:kWeiboAppKey];
@@ -80,7 +96,7 @@
     return messageObj;
 }
 
-+ (void)sendWeiboWithText:(NSString *)text image:(UIImage *)image completion:(void (^)(BOOL success))completion
+- (void)sendWeiboWithText:(NSString *)text image:(UIImage *)image completion:(void (^)(BOOL success))completion
 {
     //创建微博信息
     WBMessageObject *messageObj = [[self class] initMessageWithText:text image:image];
@@ -105,7 +121,7 @@
 {
     if ([request isKindOfClass:WBProvideMessageForWeiboRequest.class])
     {
-        NSLog(@"wewe成功");
+//        NSLog(@"wewe成功");
     }
 }
 
@@ -113,6 +129,7 @@
 {
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
+        /*
         NSString *title = @"发送结果";
         NSString *message = [NSString stringWithFormat:@"响应状态: %d\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode, response.userInfo, response.requestUserInfo];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
@@ -121,6 +138,7 @@
                                               cancelButtonTitle:@"确定"
                                               otherButtonTitles:nil];
         [alert show];
+         */
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
@@ -171,7 +189,7 @@
     return [_tencentOAuth authorize:permissions inSafari:NO];
 }
 
-+ (void)sendQQShareWithTitle:(NSString *)title description:(NSString *)description image:(UIImage *)image url:(NSString *)urlString
+- (void)sendQQShareWithTitle:(NSString *)title description:(NSString *)description image:(UIImage *)image url:(NSString *)urlString
 {
     SocialSharing *sharing = [[self class] sharedInstance];
     sharing->_title = description;
