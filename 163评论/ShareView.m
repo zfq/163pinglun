@@ -41,6 +41,7 @@
         [self addSubview:subView];
         
         [subView addSubview:self.weiboItem];
+        [subView addSubview:self.qqItem];
         
         CGSize subViewSize = subView.frame.size;
         CGFloat cancelBtnHeight = 36;
@@ -95,6 +96,17 @@
         _weiboItem.shareItemDelegate = self;
     }
     return _weiboItem;
+}
+
+- (ShareItem *)qqItem
+{
+    if (_qqItem == nil) {
+        _qqItem = [[ShareItem alloc] initWithFrame:CGRectMake(100, 20, 60, 60)];
+        _qqItem.title = @"QQ空间";
+        _qqItem.img = [UIImage imageNamed:@"zone"];
+        _qqItem.shareItemDelegate = self;
+    }
+    return _qqItem;
 }
 
 #pragma mark - shareItem delegate

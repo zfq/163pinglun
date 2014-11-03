@@ -38,6 +38,7 @@
     imgView.image = self.img;
     imgView.bounds = CGRectMake(0, 0, self.img.size.width, self.img.size.height);
     imgView.center = CGPointMake(itemSize.width/2.0, imgView.frame.size.height/2.0+2);
+//    imgView.backgroundColor = [UIColor grayColor];
     CGFloat labelHeight = 26;
     titleLabel.frame = CGRectMake(0, CGRectGetMaxY(imgView.frame), itemSize.width, labelHeight);
     titleLabel.font = [UIFont systemFontOfSize:13];
