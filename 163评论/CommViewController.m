@@ -13,6 +13,7 @@
 //#import "MBProgressHUD.h"
 #import "Reachability.h"
 #import "ShareView.h"
+#import "ShareItem.h"
 #import "SocialSharing.h"
 
 static NSString * const CellIdentifier = @"CommCell";
@@ -99,12 +100,19 @@ static NSString * const CellIdentifier = @"CommCell";
 #pragma mark - share delegate
 - (void)didTapedShareItem:(ShareItem *)shareItem
 {
-    NSString *text = [NSString stringWithFormat:@"%@ http://163pinglun.com/archives/%zi",self.title,self.postID.integerValue];
-    [[SocialSharing sharedInstance] sendWeiboWithText:text image:nil completion:^(BOOL success) {
-        if (success) {
-            NSLog(@"成功");
-        }
-    }];
+    NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
+    if ([shareItem.title isEqualToString:@"新浪微博"]) {
+        NSString *text = [self.title stringByAppendingString:url];
+        [[SocialSharing sharedInstance] sendWeiboWithText:text image:nil completion:^(BOOL success) {
+            if (success) {
+                NSLog(@"成功");
+            }
+        }];
+    } else if ([shareItem.title isEqualToString:@"QQ空间"]) {
+        UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
+        [[SocialSharing sharedInstance] sendQQShareWithTitle:self.title description:nil image:img url:url];
+    }
+   
 }
 #pragma mark - 设置字体
 - (void)fontSizeChanged:(NSNotification *)notification

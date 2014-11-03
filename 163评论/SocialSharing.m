@@ -192,14 +192,14 @@
 - (void)sendQQShareWithTitle:(NSString *)title description:(NSString *)description image:(UIImage *)image url:(NSString *)urlString
 {
     SocialSharing *sharing = [[self class] sharedInstance];
-    sharing->_title = description;
+    sharing->_title = title;
     sharing->_description = description;
     sharing->_image = image;
     sharing->_urlString = urlString;
     if ([sharing tencentOAuthLoad]) {
-        NSLog(@"authorize YES");
+        DNSLog(@"authorize YES");
     } else {
-        NSLog(@"authorize NO");
+        DNSLog(@"authorize NO");
     }
    
 }
@@ -223,9 +223,9 @@
                 SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqApiObject];
                 QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
                 if (sent == EQQAPISENDSUCESS) {
-                    NSLog(@"发表成功");
+                    DNSLog(@"发表成功");
                 } else {
-                    NSLog(@"发表失败:%d",sent);
+                    DNSLog(@"发表失败:%d",sent);
                 }
                 
             });
