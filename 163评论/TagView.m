@@ -60,7 +60,10 @@
 {
     if (!_tagLabel) {
         _tagLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _tagLabel.font = [UIFont systemFontOfSize:18];
+        if (_postTag != nil)
+            _tagLabel.font = [self fontWithCount:_postTag.count.integerValue];
+        else
+            _tagLabel.font = [UIFont systemFontOfSize:17.0];
     }
     return _tagLabel;
 }
@@ -134,4 +137,17 @@
     }
 }
 
+- (UIFont *)fontWithCount:(NSInteger)count
+{
+    if (count <= 10)
+        return [UIFont systemFontOfSize:13.0];
+    else if (count > 10 && count<=50)
+        return [UIFont systemFontOfSize:15.0];
+    else if (count > 50 && count<=100)
+        return [UIFont systemFontOfSize:17.0];
+    else if (count > 100 && count<=200)
+        return [UIFont systemFontOfSize:19.0];
+    else
+        return [UIFont boldSystemFontOfSize:19.0];
+}
 @end
