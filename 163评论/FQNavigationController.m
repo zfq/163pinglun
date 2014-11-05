@@ -36,6 +36,13 @@
     UIImageView *shadowImgView = [[UIImageView alloc] initWithFrame:CGRectMake(-width, 0, width, SCREEN_HEIGHT)];
     shadowImgView.image = shadowImg;
     [self.view addSubview:shadowImgView];
+    CALayer *layer = self.view.layer;
+    layer.shadowColor = [UIColor blackColor].CGColor;
+    layer.shadowOpacity = 0.3;
+    layer.shadowOffset = CGSizeMake(-5, 0);
+    layer.shadowRadius = 10;
+    layer.masksToBounds = NO;
+    layer.shadowPath =[UIBezierPath bezierPathWithRect:layer.bounds].CGPath;
     
     //添加手势
     self.interactivePopGestureRecognizer.enabled = NO;
