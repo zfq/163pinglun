@@ -27,6 +27,8 @@
     
     CGPoint beginTapPoint;
     CGPoint currTapPoint;
+    
+    BOOL hasLoaded;  //判断tag是否成功加载出来
 }
 @end
 
@@ -37,6 +39,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.view = view;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -81,6 +84,7 @@
     } completion:nil];
     
     //加载数据 添加tagViews
+    hasLoaded = NO;
     [self loadTagData];
     
 }
@@ -90,9 +94,11 @@
     //获取数据
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [[ItemStore sharedItemStore] fetchTagsWithCompletion:^(Tags *tags, NSError *error) {
-        if (error == nil)
-        {
+        if (error == nil) {
+            hasLoaded = YES;
             [self createTagViewsWithTags:tags.tagItems];
+        } else {
+            hasLoaded = NO;
         }
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
@@ -165,7 +171,10 @@
         } completion:^(BOOL finished) {
             [maskView removeGestureRecognizer:tapGesture];
             [self dismissTagView];
-//            [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个有问题,因为当前请求可能还未完成,不能取消
+            if (hasLoaded == NO) {
+                 [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个仅仅是取消对tag的请求
+            }
+           
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         }];
     } else {
@@ -213,7 +222,7 @@
                 maskView.alpha = 0;
             } completion:^(BOOL finished) {
                 [self dismissTagView];
-                //取消当前请求
+                //取消当前对tag的请求
                 [[ItemStore sharedItemStore] cancelCurrentRequtest];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];

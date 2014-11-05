@@ -76,6 +76,7 @@ static NSString * const CellIdentifier = @"CommCell";
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    //取消请求
     [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
