@@ -119,6 +119,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 - (void)showRandomPostView
 {
     [self.parentViewController.view addSubview:self.view];
+    [self didMoveToParentViewController:self.parentViewController];
 }
 
 - (void)dismissRandomPostView
@@ -307,7 +308,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     switch (postTableView.panGestureRecognizer.state) {
-        case UIGestureRecognizerStateChanged:{
+        case UIGestureRecognizerStateBegan: {
             panGesture.enabled = NO;
         }break;
         case UIGestureRecognizerStateCancelled:

@@ -152,6 +152,7 @@
 - (void)showTagView
 {
     [self.parentViewController.view addSubview:self.view];
+    [self didMoveToParentViewController:self.parentViewController];
 }
 
 - (void)dismissTagView
@@ -263,8 +264,9 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    
     switch (tagScrollView.panGestureRecognizer.state) {
-        case UIGestureRecognizerStateChanged:{
+        case UIGestureRecognizerStateBegan: {
             panGesture.enabled = NO;
         }break;
         case UIGestureRecognizerStateCancelled:
