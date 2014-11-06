@@ -38,6 +38,8 @@
                                                         style:UITableViewStyleGrouped];
         settingTableView.dataSource = self;
         settingTableView.delegate = self;
+        settingTableView.backgroundColor = RGBCOLOR(232, 233, 232, 1);
+        settingTableView.separatorColor = RGBCOLOR(209, 209, 209, 1);
     }
     
     [self.view addSubview:settingTableView];
@@ -82,9 +84,12 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
         cell.textLabel.highlightedTextColor = [UIColor whiteColor];
+        cell.textLabel.textColor = RGBCOLOR(38, 38, 38, 1);
+        cell.detailTextLabel.textColor = RGBCOLOR(38, 38, 38, 1);
         UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
         backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f); //RGBCOLOR(51,153,255,1.0f)
         cell.selectedBackgroundView = backgroundView;
+        cell.backgroundColor = RGBCOLOR(254, 254, 254, 1);
     }
     NSArray *array = [self.settingItems objectAtIndex:indexPath.section];
     NSDictionary *dic = (NSDictionary *)[array objectAtIndex:indexPath.row];
