@@ -14,11 +14,10 @@
 
 @interface TagViewController () <TagScrollViewDelegate>
 {
-    UIView *maskView;
+    UIControl *maskView;
     TagScrollView *tagScrollView;
     
     UIPanGestureRecognizer *panGesture;
-    UITapGestureRecognizer *tapGesture;
     
     CGFloat marginLeft;
     CGFloat beginTapX;
@@ -47,17 +46,17 @@
     //添加maskView
     CGFloat navHeight = 64;
     originAlpha = 0.7;
-    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
+    maskView = [[UIControl alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
-    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
-    [maskView addGestureRecognizer:tapGesture];
+    [maskView addTarget:self action:@selector(tapMaskView) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:maskView];
     
     //添加scrollView
     marginLeft = 55;
     tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 64, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-64)];
-    tagScrollView.backgroundColor = [UIColor whiteColor];
+    tagScrollView.backgroundColor = RGBCOLOR(254, 254, 254, 1);
     tagScrollView.leftMargin = 3;
     tagScrollView.rightMargin = 3;
     tagScrollView.topMargin = 3;
@@ -170,7 +169,6 @@
             [self moveView:tagScrollView toX:SCREEN_WIDTH];
             maskView.alpha = 0;
         } completion:^(BOOL finished) {
-            [maskView removeGestureRecognizer:tapGesture];
             [self dismissTagView];
             if (hasLoaded == NO) {
                  [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个仅仅是取消对tag的请求
@@ -184,7 +182,7 @@
 }
 
 #pragma mark - tap gesture
-- (void)tapGestureAction:(UITapGestureRecognizer *)gesture
+- (void)tapMaskView
 {
     [self dismissTagViewWithAnimation:YES];
 }
