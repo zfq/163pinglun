@@ -45,13 +45,13 @@
         
         CGSize subViewSize = subView.frame.size;
         CGFloat cancelBtnHeight = 36;
-        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0,subViewSize.height-cancelBtnHeight-30, viewSize.width, 10)];
+        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0,subViewSize.height-cancelBtnHeight-30, viewSize.width, 6)];
         separatorView.backgroundColor = [UIColor colorWithRed:0.894 green:0.894 blue:0.894 alpha:1];
         [subView addSubview:separatorView];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.bounds = CGRectMake(0, 0, subViewSize.width, cancelBtnHeight);
-        button.center = CGPointMake(subViewSize.width/2, subViewSize.height-button.bounds.size.height/2 - 10);
+        button.center = CGPointMake(subViewSize.width/2, subViewSize.height-button.bounds.size.height/2 - 14);
         [button setTitle:@"取消" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
