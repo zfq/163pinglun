@@ -12,6 +12,7 @@
 
 @interface Tag : NSManagedObject <JSONSerializable>
 
+@property (nonatomic,retain) NSNumber *index;       //序号
 @property (nonatomic, retain) NSNumber * tagID;     //标签ID
 @property (nonatomic, retain) NSString * tagName;   //标签名
 @property (nonatomic, retain) NSString * tagSlug;   //别名

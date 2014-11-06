@@ -11,6 +11,7 @@
 
 @implementation Tag
 
+@dynamic index;
 @dynamic tagID;
 @dynamic tagName;
 @dynamic tagSlug;
@@ -22,5 +23,6 @@
     self.tagName = [dictionary objectForKey:@"name"];
     self.tagSlug = [dictionary objectForKey:@"slug"];
     self.count = [dictionary objectForKey:@"count"];
+    //index 在Tags中赋值
 }
 @end

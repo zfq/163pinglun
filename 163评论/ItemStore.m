@@ -16,7 +16,7 @@
 #import "Contents.h"
 #import "RandomPost.h"
 #import "RandomPosts.h"
-#import <malloc/malloc.h>
+
 @interface ItemStore()
 {
     FQConnection *_currConnection;
@@ -48,15 +48,7 @@
 
 - (Post *)createPost
 {
-//    NSInteger preCount = self.allPosts.count;
-    Post *p = [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];
-//    NSInteger currCount = self.allPosts.count;
-//    if (preCount == currCount) {
-//        [self.allPosts addObject:p];
-//    }
-
-//    p.orderValue = [NSNumber numberWithInteger:(self.allPosts.count)];
-    return p;
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];;
 }
 
 - (Content *)createContent
@@ -277,28 +269,13 @@
 }
 
 #pragma mark - fetch data from database
-/*
-- (NSMutableArray *)allPosts
-{
-    if (!_allPosts) {
-        NSError *error = nil;
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
-        NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"orderValue" ascending:YES];
-        [request setSortDescriptors:[NSArray arrayWithObject:sd]];
-        NSArray *posts = [self.managedObjectContext executeFetchRequest:request error:&error];
-        if (error != nil) {
-            DNSLog(@"查询tags失败:%@",[error localizedDescription]);
-            return nil;
-        }
-        _allPosts = [[NSMutableArray alloc] initWithArray:posts];
-    }
-    return _allPosts;
-}
-*/
+
 - (NSArray *)fetchTagsFromDatabase
 {
     NSError *error = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Tag"];
+    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
     NSArray *tags = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (error != nil) {
         DNSLog(@"查询tags失败:%@",[error localizedDescription]);

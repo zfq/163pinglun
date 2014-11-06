@@ -26,6 +26,7 @@
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *dic = (NSDictionary *)obj;
         Tag *t = [[ItemStore sharedItemStore] createTag];
+        t.index = @(idx);
         [t readFromJSONDictionary:dic];
         [_tagItems addObject:t];
     }];
