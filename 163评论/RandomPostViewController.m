@@ -13,6 +13,7 @@
 #import "RandomPost.h"
 #import "CommViewController.h"
 #import "UITableView+SmoothMove.h"
+#import "PlaceholderView.h"
 
 static NSString *randomCellIdentifier = @"randomCell";
 
@@ -61,13 +62,10 @@ static NSString *randomCellIdentifier = @"randomCell";
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
     [maskView addTarget:self action:@selector(tapMaskView) forControlEvents:UIControlEventTouchUpInside];
-//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
-//    [maskView addGestureRecognizer:tapGesture];
     [self.view addSubview:maskView];
     
     //添加tableView
     marginLeft = 55;
-    
     postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-navHeight) style:UITableViewStylePlain];
     postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     postTableView.dataSource = self;
@@ -102,10 +100,19 @@ static NSString *randomCellIdentifier = @"randomCell";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_posts removeAllObjects];
     [[ItemStore sharedItemStore] fetchRandomPostsWithCompletion:^(RandomPosts *randomPosts, NSError *error) {
-        _posts = randomPosts.randomPosts;
-        [postTableView setTableFooterView:[self randomPostFooterView]];
-        [postTableView beginSmoothMoveAnimationWithCount:_posts.count];
-//        [postTableView reloadData];
+        if (error == nil) {
+            _posts = randomPosts.randomPosts;
+            if (_posts.count >0) {
+                postTableView.tableHeaderView = nil;
+                [postTableView setTableFooterView:[self randomPostFooterView]];
+                [postTableView beginSmoothMoveAnimationWithCount:_posts.count];
+            }
+        } else {
+            //添加占位符
+            UIView *pView = [[PlaceholderView alloc] initWithFrame:postTableView.bounds content:@"网络不可用\n请检查网络" fontSize:20];
+            postTableView.tableHeaderView = pView;
+        }
+    
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
 }
@@ -233,7 +240,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     return [postURL substringWithRange:[checkResult range]];
 }
 
-#pragma mark - tap gesture
+#pragma mark - tap action
 - (void)tapMaskView
 {
     [self dismissRandomPostViewWithAnimation:YES];

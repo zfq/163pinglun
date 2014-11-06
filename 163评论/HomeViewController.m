@@ -21,6 +21,7 @@
 #import "SettingViewController.h"
 #import "FQNavigationController.h"
 #import "TagViewController.h"
+#import "PlaceholderView.h"
 
 @interface HomeViewController () <TagViewControllerDelegate>
 {
@@ -58,7 +59,6 @@
     [moreButton setImage:moreImg forState:UIControlStateNormal];
     moreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 50-moreImg.size.width-30, 0, 0);
     [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
-//    moreButton.backgroundColor = [UIColor redColor];
     [self.navView addSubview:moreButton];
     
     //添加logo
@@ -79,6 +79,8 @@
     
     //集成刷新控件
     [self setupRefresh];
+    
+    //获取数据
     [self fetchPostFromDatabase];    
 }
 
@@ -87,6 +89,7 @@
     [super viewDidAppear:animated];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
+
 #pragma mark - 显示菜单
 - (void)showMenu:(UIButton *)button
 {
@@ -124,6 +127,7 @@
     sVC.myTitleLabel.text = @"设置";
     [self.navigationController pushViewController:sVC animated:YES];
 }
+
 - (void)setupRefresh
 {
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
@@ -137,9 +141,18 @@
 - (void)fetchPostFromDatabase
 {
     NSArray *postArray = [[ItemStore sharedItemStore] fetchPostsFromDatabase];
-    _posts = [[Posts alloc] initWithPosts:postArray];
-    _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
-    [self.tableView reloadData];   
+    if (postArray == nil || postArray.count==0) {
+        //隐藏footer
+        [self.tableView setFooterHidden:YES];
+        //添加站位提示view
+        PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
+        self.tableView.tableHeaderView = pView;
+    } else {
+        _posts = [[Posts alloc] initWithPosts:postArray];
+        _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
+        self.tableView.tableHeaderView = nil;
+        [self.tableView reloadData];
+    }
 }
 
 - (void)removeAllPostsFromDatabase
@@ -159,8 +172,7 @@
 
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {
-            //设置网络可用
-//            [GeneralService setNetworkReachability:YES];
+
             [ItemStore sharedItemStore].cotentsURL = [self urlStringWithCurrPage:0 headRefreshing:YES tagName:tagName];
             [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
                 //先删除数据库中的所有post
@@ -169,6 +181,7 @@
                         [self removeAllPostsFromDatabase];
                         _posts = posts;
                         _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
+                        self.tableView.tableHeaderView = nil;
                         [self.tableView reloadData];
                     }
                 }
@@ -178,14 +191,20 @@
             }];
             _currPage = 1;
             [self saveCurrPage];
+            
+            //显示footer
+            [self.tableView setFooterHidden:NO];
+            
         } else {
+            
             [self.tableView headerEndRefreshing];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            
             //提示网络不可用
-            [GeneralService setNetworkReachability:NO];
             [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
         }
     }];
+    
 }
 
 - (void)footerRereshing
@@ -194,11 +213,6 @@
         //设置网络可用
         [GeneralService setNetworkReachability:YES];
         
-//        //获取当前页数
-//        NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
-//        _currPage = [currPage integerValue];
-//        _currPage++;
-//        NSString *urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%ld",(long)_currPage];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [ItemStore sharedItemStore].cotentsURL = [self urlStringWithCurrPage:_currPage headRefreshing:NO tagName:tagName];
         
