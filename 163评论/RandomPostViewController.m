@@ -18,7 +18,7 @@ static NSString *randomCellIdentifier = @"randomCell";
 
 @interface RandomPostViewController ()
 {
-    UIView *maskView;
+    UIControl *maskView;
     UITableView *postTableView;
     UIView *postFooterView;
     UIPanGestureRecognizer *panGesture;
@@ -57,11 +57,12 @@ static NSString *randomCellIdentifier = @"randomCell";
     //添加maskView
     CGFloat navHeight = 64;
     originAlpha = 0.7;
-    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
+    maskView = [[UIControl alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
-    [maskView addGestureRecognizer:tapGesture];
+    [maskView addTarget:self action:@selector(tapMaskView) forControlEvents:UIControlEventTouchUpInside];
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
+//    [maskView addGestureRecognizer:tapGesture];
     [self.view addSubview:maskView];
     
     //添加tableView
@@ -112,7 +113,6 @@ static NSString *randomCellIdentifier = @"randomCell";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [postTableView deselectRowAtIndexPath:[postTableView indexPathForSelectedRow]  animated:YES];
 }
 
@@ -127,11 +127,28 @@ static NSString *randomCellIdentifier = @"randomCell";
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
     [postTableView removeGestureRecognizer:panGesture];
-    self.posts = nil;
-    self.view = nil;
-    reg = nil;
+    [[ItemStore sharedItemStore] cancelCurrentRequtest];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//    self.posts = nil;
+//    self.view = nil;
+//    reg = nil;
 }
 
+- (void)dismissRandomPostViewWithAnimation:(BOOL)animation
+{
+    if (animation) {
+        [UIView animateWithDuration:0.3 animations:^{
+            [self moveView:postTableView toX:SCREEN_WIDTH];
+            maskView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self dismissRandomPostView];
+            
+        }];
+    } else {
+        [self dismissRandomPostView];
+    }
+    
+}
 #pragma mark - tableView datasource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -217,19 +234,9 @@ static NSString *randomCellIdentifier = @"randomCell";
 }
 
 #pragma mark - tap gesture
-- (void)tapGestureAction:(UITapGestureRecognizer *)gesture
+- (void)tapMaskView
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        [self moveView:postTableView toX:SCREEN_WIDTH];
-        maskView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [gesture.view removeGestureRecognizer:gesture];
-        [self dismissRandomPostView];
-        [[ItemStore sharedItemStore] cancelCurrentRequtest];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    }];
-
-    gesture = nil;
+    [self dismissRandomPostViewWithAnimation:YES];
 }
 
 #pragma mark - pan gesture

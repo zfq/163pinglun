@@ -50,7 +50,6 @@
     maskView.backgroundColor = [UIColor blackColor]; //blackColor
     maskView.alpha = 0;
     [maskView addTarget:self action:@selector(tapMaskView) forControlEvents:UIControlEventTouchUpInside];
-
     [self.view addSubview:maskView];
     
     //添加scrollView
