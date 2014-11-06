@@ -38,7 +38,7 @@
     [self.view addSubview:shadowImgView];
     CALayer *layer = self.view.layer;
     layer.shadowColor = [UIColor blackColor].CGColor;
-    layer.shadowOpacity = 0.3;
+    layer.shadowOpacity = 0.4;
     layer.shadowOffset = CGSizeMake(-5, 0);
     layer.shadowRadius = 10;
     layer.masksToBounds = NO;
@@ -148,7 +148,7 @@
                     }
                 }];
             } else {    //移动距离太小 不pop,因为之前已经add过了
-                [UIView animateWithDuration:0.3 animations:^{
+                [UIView animateWithDuration:0.15 animations:^{
                     [self moveView:0];
                 } completion:^(BOOL finished) {
                     UIView *topView = (UIView *)[screenShots lastObject];
@@ -184,6 +184,11 @@
         newFrame.origin.x = -quarterWidth+x/4;
         view.frame = newFrame;
     }
+}
+
+-(NSTimeInterval)animationDurationForDistance:(CGFloat)distance{
+    NSTimeInterval duration = MAX(distance/840.f,0.15);
+    return duration;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

@@ -233,7 +233,7 @@
             
         } else {
             
-            [UIView animateWithDuration:0.3 animations:^{
+            [UIView animateWithDuration:0.2f animations:^{
                 [self moveView:gestureView toX:marginLeft];
                 maskView.alpha = originAlpha;
             } completion:^(BOOL finished) {
@@ -260,6 +260,11 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
+}
+
+-(NSTimeInterval)animationDurationForDistance:(CGFloat)distance{
+    NSTimeInterval duration = MAX(distance/840.f,0.20);
+    return duration;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

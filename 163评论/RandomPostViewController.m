@@ -274,7 +274,7 @@ static NSString *randomCellIdentifier = @"randomCell";
             
         } else {
             
-            [UIView animateWithDuration:0.3 animations:^{
+            [UIView animateWithDuration:0.2f animations:^{
                 [self moveView:gestureView toX:marginLeft];
                 maskView.alpha = originAlpha;
             } completion:^(BOOL finished) {
@@ -297,6 +297,11 @@ static NSString *randomCellIdentifier = @"randomCell";
     CGRect originFrame = view.frame;
     originFrame.origin.x = x;
     view.frame = originFrame;
+}
+
+-(NSTimeInterval)animationDurationForDistance:(CGFloat)distance{
+    NSTimeInterval duration = MAX(distance/840.f,0.20);
+    return duration;
 }
 
 #pragma mark - UIGestureRecognizer delegate
