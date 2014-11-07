@@ -128,9 +128,6 @@
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if (flag == YES) {
-//        if (self.comple != nil) {
-//            self.comple();
-//        }
         if (comple != nil) {
             comple();
         }
