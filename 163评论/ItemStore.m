@@ -247,7 +247,10 @@
     }
     
     NSURL *storeURL = [[self cacheDataDirectory] URLByAppendingPathComponent:@"163pinglun.sqlite"];
-    
+//    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:storeURL.absoluteString];
+//    if (isExist == NO) {
+//        DNSLog(@"sqlite文件不存在");
+//    }
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {

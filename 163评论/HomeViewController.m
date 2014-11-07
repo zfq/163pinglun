@@ -142,16 +142,15 @@
 {
     NSArray *postArray = [[ItemStore sharedItemStore] fetchPostsFromDatabase];
     if (postArray == nil || postArray.count==0) {
-        //隐藏footer
-        [self.tableView setFooterHidden:YES];
-        //添加站位提示view
-        PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
-        self.tableView.tableHeaderView = pView;
+        [self.tableView headerBeginRefreshing];
     } else {
-        _posts = [[Posts alloc] initWithPosts:postArray];
-        _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
-        self.tableView.tableHeaderView = nil;
-        [self.tableView reloadData];
+        Post *firstP = _posts.postItems.firstObject;
+        if (firstP.title != nil) {
+            _posts = [[Posts alloc] initWithPosts:postArray];
+            _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
+            self.tableView.tableHeaderView = nil;
+            [self.tableView reloadData];
+        }
     }
 }
 
@@ -199,6 +198,11 @@
             
             [self.tableView headerEndRefreshing];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            if (_posts==nil || _posts.postItems.count ==0) {
+                //添加站位提示view
+                PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
+                self.tableView.tableHeaderView = pView;
+            }
             
             //提示网络不可用
             [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];

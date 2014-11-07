@@ -11,6 +11,7 @@
 #import "ItemStore.h"
 #import "Tag.h"
 #import "Tags.h"
+#import "Reachability.h"
 
 @interface TagViewController () <TagScrollViewDelegate>
 {
@@ -90,16 +91,26 @@
 - (void)loadTagData
 {
     //获取数据
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [[ItemStore sharedItemStore] fetchTagsWithCompletion:^(Tags *tags, NSError *error) {
-        if (error == nil) {
-            hasLoaded = YES;
-            [self createTagViewsWithTags:tags.tagItems];
+    [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
+        if (isReachable) {
+            
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+            [[ItemStore sharedItemStore] fetchTagsWithCompletion:^(Tags *tags, NSError *error) {
+                if (error == nil) {
+                    hasLoaded = YES;
+                    [self createTagViewsWithTags:tags.tagItems];
+                } else {
+                    hasLoaded = NO;
+                }
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            }];
+            
         } else {
-            hasLoaded = NO;
+            NSArray *tagItems = [[ItemStore sharedItemStore] fetchTagsFromDatabase];
+            [self createTagViewsWithTags:tagItems];
         }
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
+    
 }
 
 #pragma mark - 创建tagViews
