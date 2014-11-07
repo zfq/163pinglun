@@ -203,7 +203,7 @@
                 PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
                 self.tableView.tableHeaderView = pView;
             }
-            
+            [self.tableView setFooterHidden:YES];
             //提示网络不可用
             [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
         }

@@ -224,7 +224,7 @@ static NSString * const CellIdentifier = @"CommCell";
             self.tableView.tableHeaderView = nil;
             self.tableView.scrollEnabled = YES;
             weakControl = nil;
-            __block UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
+            UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             
             //加载数据 1197
