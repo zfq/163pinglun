@@ -49,11 +49,11 @@
 		7B48EA48191253BB0051C095 /* TagStoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B48EA47191253BB0051C095 /* TagStoreTest.m */; };
 		7B48EA4B19128FE10051C095 /* Posts.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B48EA4A19128FE10051C095 /* Posts.m */; };
 		7B4E392819B3175E00C6514A /* RandomPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E392719B3175E00C6514A /* RandomPostViewController.m */; };
+		7B5D8EBB1A0BAA0B00F7757D /* PlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D8EBA1A0BAA0B00F7757D /* PlaceholderView.m */; };
 		7B63833E1A0643BB004017A0 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B63833B1A0643BB004017A0 /* ShareView.m */; };
 		7B63833F1A0643BB004017A0 /* ShareItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B63833D1A0643BB004017A0 /* ShareItem.m */; };
 		7B6383401A0655E3004017A0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4E81995FFC5000F5028 /* TencentOpenAPI.framework */; };
 		7B6383441A065D7C004017A0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B6383421A065D7C004017A0 /* TencentOpenApi_IOS_Bundle.bundle */; };
-		7B6383451A065D7C004017A0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B6383431A065D7C004017A0 /* TencentOpenAPI.framework */; };
 		7B68872519AB7AAD004997CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B68872419AB7AAD004997CC /* AppDelegate.m */; };
 		7B69D4FF19F40907009A7B61 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B69D4FE19F40907009A7B61 /* SettingViewController.m */; };
 		7B722FED197D450800CA7DBB /* 163pinglun.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7B722FEB197D450800CA7DBB /* 163pinglun.xcdatamodeld */; };
@@ -179,6 +179,8 @@
 		7B48EA4A19128FE10051C095 /* Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Posts.m; sourceTree = "<group>"; };
 		7B4E392619B3175E00C6514A /* RandomPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPostViewController.h; sourceTree = "<group>"; };
 		7B4E392719B3175E00C6514A /* RandomPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPostViewController.m; sourceTree = "<group>"; };
+		7B5D8EB91A0BAA0B00F7757D /* PlaceholderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderView.h; sourceTree = "<group>"; };
+		7B5D8EBA1A0BAA0B00F7757D /* PlaceholderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderView.m; sourceTree = "<group>"; };
 		7B63833A1A0643BB004017A0 /* ShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareView.h; sourceTree = "<group>"; };
 		7B63833B1A0643BB004017A0 /* ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareView.m; sourceTree = "<group>"; };
 		7B63833C1A0643BB004017A0 /* ShareItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareItem.h; sourceTree = "<group>"; };
@@ -258,7 +260,6 @@
 				7BEBD4F51996008C000F5028 /* libstdc++.dylib in Frameworks */,
 				7BEBD4F319960079000F5028 /* CoreTelephony.framework in Frameworks */,
 				7BEBD4F11996006B000F5028 /* libsqlite3.dylib in Frameworks */,
-				7B6383451A065D7C004017A0 /* TencentOpenAPI.framework in Frameworks */,
 				7BEBD4EF19960057000F5028 /* SystemConfiguration.framework in Frameworks */,
 				7BEBD4ED1996003F000F5028 /* libiconv.dylib in Frameworks */,
 				7BEBD4EB19960029000F5028 /* Security.framework in Frameworks */,
@@ -326,14 +327,11 @@
 		7B217EFC191A7C1800AEE684 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7B5D8EB81A0BA99F00F7757D /* PlaceholderView */,
+				7B5D8EB71A0BA98700F7757D /* Cell */,
 				7B6383391A06439C004017A0 /* ShareView */,
 				7BAFE6F719FF94A100A2914B /* TagView */,
 				7B851B4719D16BD6002FC92F /* MenuView */,
-				7BEB0D731970C77000EBACC6 /* PostCell.h */,
-				7BEB0D741970C77000EBACC6 /* PostCell.m */,
-				7BEB0D761970C78D00EBACC6 /* PostCell.xib */,
-				7B9309AB19AA2D8600DE46A0 /* CommCell.h */,
-				7B9309AC19AA2D8600DE46A0 /* CommCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -469,6 +467,27 @@
 				7B468B1D198C8A700061AB58 /* UIView+Extension.m */,
 			);
 			path = MJRefresh;
+			sourceTree = "<group>";
+		};
+		7B5D8EB71A0BA98700F7757D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7BEB0D731970C77000EBACC6 /* PostCell.h */,
+				7BEB0D741970C77000EBACC6 /* PostCell.m */,
+				7BEB0D761970C78D00EBACC6 /* PostCell.xib */,
+				7B9309AB19AA2D8600DE46A0 /* CommCell.h */,
+				7B9309AC19AA2D8600DE46A0 /* CommCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		7B5D8EB81A0BA99F00F7757D /* PlaceholderView */ = {
+			isa = PBXGroup;
+			children = (
+				7B5D8EB91A0BAA0B00F7757D /* PlaceholderView.h */,
+				7B5D8EBA1A0BAA0B00F7757D /* PlaceholderView.m */,
+			);
+			name = PlaceholderView;
 			sourceTree = "<group>";
 		};
 		7B6383391A06439C004017A0 /* ShareView */ = {
@@ -840,7 +859,7 @@
 		7B428D87190E914D00860E94 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = zhaofuqiang;
 				TargetAttributes = {
 					7B428DA9190E914D00860E94 = {
@@ -939,6 +958,7 @@
 				7B48EA4B19128FE10051C095 /* Posts.m in Sources */,
 				7B4E392819B3175E00C6514A /* RandomPostViewController.m in Sources */,
 				7BB0377A19E59B7200576838 /* FQNavigationController.m in Sources */,
+				7B5D8EBB1A0BAA0B00F7757D /* PlaceholderView.m in Sources */,
 				7B428DCE190EA02F00860E94 /* ItemStore.m in Sources */,
 				7B468B23198C8A700061AB58 /* UIScrollView+Extension.m in Sources */,
 				7BFFE04F196EA05900F1A349 /* MBProgressHUD.m in Sources */,
@@ -1031,7 +1051,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1049,6 +1070,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1080,6 +1102,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
