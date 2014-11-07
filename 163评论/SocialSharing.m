@@ -67,7 +67,7 @@
 
 - (BOOL)registerWeiboSDK
 {
-    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK enableDebugMode:YES]; //Release时把它改为NO
     return [WeiboSDK registerApp:kWeiboAppKey];
 }
 
