@@ -144,13 +144,13 @@
     if (postArray == nil || postArray.count==0) {
         [self.tableView headerBeginRefreshing];
     } else {
+        _posts = [[Posts alloc] initWithPosts:postArray];
+        _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
         Post *firstP = _posts.postItems.firstObject;
         if (firstP.title != nil) {
-            _posts = [[Posts alloc] initWithPosts:postArray];
-            _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
             self.tableView.tableHeaderView = nil;
             [self.tableView reloadData];
-        }
+        } 
     }
 }
 
