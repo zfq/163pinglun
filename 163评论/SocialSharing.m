@@ -8,6 +8,7 @@
 
 #import "SocialSharing.h"
 //#import "TencentOpenAPI/QQApiInterface.h"
+#import "GeneralService.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 @interface SocialSharing()
 {
@@ -67,7 +68,7 @@
 
 - (BOOL)registerWeiboSDK
 {
-    [WeiboSDK enableDebugMode:YES]; //Release时把它改为NO
+    [WeiboSDK enableDebugMode:NO]; //Release时把它改为NO
     return [WeiboSDK registerApp:kWeiboAppKey];
 }
 
@@ -129,7 +130,7 @@
 {
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
-        /*
+    /*
         NSString *title = @"发送结果";
         NSString *message = [NSString stringWithFormat:@"响应状态: %d\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode, response.userInfo, response.requestUserInfo];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
@@ -138,7 +139,8 @@
                                               cancelButtonTitle:@"确定"
                                               otherButtonTitles:nil];
         [alert show];
-         */
+      */
+        [GeneralService showHUDWithTitle:@"分享成功" andDetail:nil image:@"MBProgressHUD.bundle/success"];
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {

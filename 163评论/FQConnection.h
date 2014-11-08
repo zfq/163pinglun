@@ -18,7 +18,7 @@
 @property (nonatomic,copy) NSURLRequest *request;
 @property (nonatomic,copy) void (^completionBlock)(id obj,NSError *err);
 @property (nonatomic,strong) id<NSXMLParserDelegate> xmlRootObject;
-@property (nonatomic,strong) id<JSONSerializable> jsonRootObject;
+@property (nonatomic,strong) id<JSONSerializable> jsonRootObject;   //不能设置为weak
 @property (nonatomic) BOOL isDictionary;
 
 - (instancetype) initWithRequest:(NSURLRequest *)req;
