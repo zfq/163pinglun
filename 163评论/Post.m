@@ -11,6 +11,9 @@
 #import "ItemStore.h"
 #import "NSString+Html.h"
 
+#define kPostValidationDomain @"PostValidationDomain"
+#define kPostValidationPostOrExceptCode 1001
+
 @implementation Post
 
 @dynamic postID;
@@ -110,6 +113,24 @@
     return postTime;
 }
 
-
+- (BOOL)validateTitleOrExpert:(NSError **)outError
+{
+    if ((self.title.length ==0) && (self.excerpt.length == 0)) {
+        if (outError != NULL) {
+            NSString *errorStr = NSLocalizedString(@"标题和摘要不能为空", @"标题和摘要不能为空");
+            NSDictionary *userInfoDic = @{NSLocalizedDescriptionKey:errorStr};
+            NSError *error = [[NSError alloc] initWithDomain:kPostValidationDomain code:kPostValidationPostOrExceptCode userInfo:userInfoDic];
+            *outError = error;
+        }
+        return NO;
+    } else {
+        return YES;
+    }
+    
+}
+- (BOOL)validateForInsert:(NSError *__autoreleasing *)error
+{
+    return [self validateTitleOrExpert:error];
+}
 
 @end
