@@ -113,6 +113,36 @@
 
 }
 
+- (void)deleteAllContents
+{
+    [self deleteAllIEntityWithName:@"Content"];
+}
+
+- (void)deleteAllTags
+{
+    [self deleteAllIEntityWithName:@"Tag"];
+}
+
+- (void)deleteAllIEntityWithName:(NSString *)entityName
+{
+    if (entityName == nil || [entityName isEqualToString:@""]) {
+        return;
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+    NSError *error;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (results == nil) {
+        DNSLog(@"删除%@失败:%@",entityName,[error localizedDescription]);
+    } else {
+        for (NSManagedObject *obj in results) {
+            [self.managedObjectContext deleteObject:obj];
+        }
+    }
+    
+    [self saveContext];
+}
+
 #pragma mark - fetch data from network
 - (void)fetchTagsWithCompletion:(void(^)(Tags * tags,NSError *error))block
 {
@@ -349,20 +379,7 @@
     });
 }
 
-- (void)deleteAllContents
-{
-    NSError *error = nil;
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Content"];
-    NSArray *contents = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (error != nil) {
-        DNSLog(@"删除contens失败:%@",[error localizedDescription]);
-    }
-    for (Content *content in contents) {
-        [self.managedObjectContext deleteObject:content];
-    }
-    [self saveContext];
-   
-}
+
 @end
 
 

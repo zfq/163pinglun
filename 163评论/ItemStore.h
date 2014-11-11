@@ -18,7 +18,6 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-//@property (nonatomic,strong) NSMutableArray *allPosts;
 + (ItemStore*)sharedItemStore;
 
 /* 创建数据对象 */
@@ -27,7 +26,10 @@
 - (Content *)createContent;
 - (Author *)createAuthorWithAuthorID:(NSNumber *)authorID;
 - (Author *)searchAuthorWithAuthorID:(NSNumber *)authorID;
+
+/*删除数据对象*/
 - (void)deleteAllContentByPostID:(NSNumber *)postID;
+- (void)deleteAllTags;
 
 /* 网络部分操作 */
 - (void)fetchTagsWithCompletion:(void(^)(Tags *tags,NSError *error))block;
@@ -40,7 +42,6 @@
 - (NSURL *)cacheDataDirectory;
 
 /* 本地数据库操作 */
-
 - (NSArray *)fetchTagsFromDatabase;
 - (NSArray *)fetchPostsFromDatabase;
 - (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID;    //同步

@@ -28,7 +28,7 @@
     CGPoint beginTapPoint;
     CGPoint currTapPoint;
     
-    BOOL hasLoaded;  //判断tag是否成功加载出来
+    BOOL isSuccessLoadedTag;  //判断tag是否成功加载出来
 }
 @end
 
@@ -83,7 +83,7 @@
     } completion:nil];
     
     //加载数据 添加tagViews
-    hasLoaded = NO;
+    isSuccessLoadedTag = NO;
     [self loadTagData];
     
 }
@@ -96,11 +96,11 @@
             
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             [[ItemStore sharedItemStore] fetchTagsWithCompletion:^(Tags *tags, NSError *error) {
-                if (error == nil) {
-                    hasLoaded = YES;
+                if (tags.tagItems.count > 0) {
+                    isSuccessLoadedTag = YES;
                     [self createTagViewsWithTags:tags.tagItems];
                 } else {
-                    hasLoaded = NO;
+                    isSuccessLoadedTag = NO;
                 }
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
@@ -180,7 +180,7 @@
             maskView.alpha = 0;
         } completion:^(BOOL finished) {
             [self dismissTagView];
-            if (hasLoaded == NO) {
+            if (isSuccessLoadedTag == NO) {
                  [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个仅仅是取消对tag的请求
             }
            

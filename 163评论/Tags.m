@@ -23,6 +23,13 @@
 
 - (void)readFromJSONArray:(NSArray *)array
 {
+    if (array == nil || array.count == 0) {
+        return;
+    } else {
+        //先删除所有tags
+        [[ItemStore sharedItemStore] deleteAllTags];
+    }
+    
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *dic = (NSDictionary *)obj;
         Tag *t = [[ItemStore sharedItemStore] createTag];
@@ -30,12 +37,6 @@
         [t readFromJSONDictionary:dic];
         [_tagItems addObject:t];
     }];
-//    for (NSString *key in allKeys) {
-////        Tag *t = [[Tag alloc] init];
-//        Tag *t = [[ItemStore sharedItemStore] createTag];
-//        NSDictionary *subDic = [dictionary objectForKey:key];
-//        [t readFromJSONDictionary:subDic];
-//        [_tagItems addObject:t];
-//    }
+
 }
 @end
