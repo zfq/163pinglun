@@ -60,8 +60,8 @@
 {
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     
-    animation.values =@[@(1.0),@(1.3),@(1.1)];;
-    animation.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+    animation.values =@[@(1.0),@(1.3),@(1.0)];;
+    animation.keyTimes = @[@(0.0),@(0.4),@(1.0)];
 
     animation.fillMode = kCAFillModeForwards;
     animation.removedOnCompletion = NO;
@@ -76,7 +76,7 @@
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     animation.delegate = self;
     animation.values =@[@(1.0),@(0.7),@(1.0)];;
-    animation.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+    animation.keyTimes = @[@(0.0),@(0.4),@(1.0)];
     animation.calculationMode = kCAAnimationLinear;
     
     return animation;
