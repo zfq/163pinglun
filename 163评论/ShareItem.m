@@ -64,7 +64,7 @@
     animation.keyTimes = @[@(0.0),@(0.4),@(1.0)];
 
     animation.fillMode = kCAFillModeForwards;
-    animation.removedOnCompletion = NO;
+    animation.removedOnCompletion = YES;
     animation.calculationMode = kCAAnimationLinear;
     
     return animation;
