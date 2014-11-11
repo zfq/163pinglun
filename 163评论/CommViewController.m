@@ -372,11 +372,11 @@ static NSString * const CellIdentifier = @"CommCell";
                 temp = array.count > 1 ? (array.count+1) : 1;
             count += temp;
             if ((indexPath.row+1) <= count) {
-                NSInteger tempIndex = indexPath.row+1-preCount; //preCount为之前块的行数
-                if (tempIndex == 1 && array.count>1) {
+                NSInteger tempIndex = indexPath.row+1-preCount; //preCount为之前所有栋的总行数，tempIndex是当前这一栋的第几行
+                if (tempIndex == 1 && array.count>1) {  //如果是这一栋的第一行
                     content = [array lastObject];
                     break;
-                } else if (array.count == 1){
+                } else if (array.count == 1){   //表示只有一层
                     content = [array objectAtIndex:0];
                     break;
                 } else if (tempIndex == 1){
