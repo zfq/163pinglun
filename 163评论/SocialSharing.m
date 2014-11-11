@@ -140,7 +140,10 @@
                                               otherButtonTitles:nil];
         [alert show];
       */
-        [GeneralService showHUDWithTitle:@"分享成功" andDetail:nil image:@"MBProgressHUD.bundle/success"];
+        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
+            [GeneralService showHUDWithTitle:@"分享成功" andDetail:nil image:@"MBProgressHUD.bundle/success"];
+        }
+        
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
