@@ -97,8 +97,7 @@
     } completion:^(BOOL finished) {
         
     }];
-    
-   
+ 
 }
 
 - (void)dismissMenuViewWithAnimation:(BOOL)animation
@@ -112,7 +111,7 @@
         CAKeyframeAnimation* animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
         animation.fillMode = kCAFillModeForwards;
         animation.removedOnCompletion = NO;
-        animation.duration = 0.15;
+        animation.duration = 0.15f;
         NSMutableArray *values = [NSMutableArray array];
         [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
         [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05, 1.05, 1.0)]];
@@ -122,14 +121,14 @@
         CABasicAnimation *alphaAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
         alphaAnimation.fromValue = @1;
         alphaAnimation.toValue = @0;
-        alphaAnimation.duration = 0.15;
+        alphaAnimation.duration = 0.15f;
         alphaAnimation.fillMode = kCAFillModeForwards;
         alphaAnimation.removedOnCompletion = NO;
         alphaAnimation.beginTime = 0.15f;
 
         CAAnimationGroup *group = [CAAnimationGroup animation];
         group.animations = @[animation,alphaAnimation];
-        group.duration = 0.3;
+        group.duration = 0.3f;
         group.fillMode = kCAFillModeForwards;
         group.removedOnCompletion = NO;
         group.delegate = self;
@@ -147,12 +146,15 @@
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    UIView *animationView = self.subviews.firstObject;
-    [animationView.layer removeAllAnimations];
-    [self removeFromSuperview];
-    
-    if ([_menuViewDelegate respondsToSelector:@selector(menuViewDidDisappear)]) {
-        [_menuViewDelegate menuViewDidDisappear];
+    if (flag == YES) {
+        UIView *animationView = self.subviews.firstObject;
+        [animationView.layer removeAllAnimations];
+        [self removeFromSuperview];
+        
+        if ([_menuViewDelegate respondsToSelector:@selector(menuViewDidDisappear)]) {
+            [_menuViewDelegate menuViewDidDisappear];
+        }
+
     }
     
 }
