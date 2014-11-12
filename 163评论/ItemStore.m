@@ -233,7 +233,6 @@
             if ( ![managedObjectContext save:&error]) {
                 DNSLog(@"保存失败:%@",[error userInfo]);
             }
-//            abort();
         }
     }
 }
@@ -277,15 +276,10 @@
     }
     
     NSURL *storeURL = [[self cacheDataDirectory] URLByAppendingPathComponent:@"163pinglun.sqlite"];
-//    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:storeURL.absoluteString];
-//    if (isExist == NO) {
-//        DNSLog(@"sqlite文件不存在");
-//    }
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
         DNSLog(@"创建数据库失败:%@",[error userInfo]);
-//        abort();
     }
     
     return _persistentStoreCoordinator;
@@ -297,52 +291,49 @@
 - (NSURL *)cacheDataDirectory
 {
     NSURL *docURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-//    return [docURL URLByAppendingPathComponent:@"data"];
     return docURL;
 }
 
 #pragma mark - fetch data from database
+- (NSArray *)fetchAllItemsFromDBWithItemName:(NSString *)itemName sortKey:(NSString *)sortKey ascending:(BOOL)ascending predicate:(NSPredicate *)predicate
+{
+    if (itemName == nil || [itemName isEqualToString:@""])
+        return nil;
+    
+    NSError *error;
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:itemName];
+    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:sortKey ascending:ascending];
+    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
+    if (predicate != nil)
+        [request setPredicate:predicate];
+    NSArray *items = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (error != nil) {
+        DNSLog(@"查询%@失败:%@",itemName,[error localizedDescription]);
+    }
+    return items;
+}
 
 - (NSArray *)fetchTagsFromDatabase
 {
-    NSError *error = nil;
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Tag"];
-    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
-    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
-    NSArray *tags = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (error != nil) {
-        DNSLog(@"查询tags失败:%@",[error localizedDescription]);
-    }
-    return tags;
+    return [self fetchAllItemsFromDBWithItemName:@"Tag" sortKey:@"index" ascending:YES predicate:nil];
 }
 
-- (NSArray *)fetchPostsFromDatabase
+- (NSArray *)fetchAllPostsFromDatabase
 {
-    NSError *error = nil;
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
-    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"postID" ascending:NO];
-    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
-    NSArray *posts = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (error != nil) {
-        DNSLog(@"查询posts失败:%@",[error localizedDescription]);
-    }
-    return posts;
+    return [self fetchAllItemsFromDBWithItemName:@"Post" sortKey:@"postID" ascending:NO predicate:nil];
+}
+
+- (NSArray *)fetchAllPostsFromDatabaseWithTagName:(NSString *)tagName
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag == %@",tagName];
+    return [self fetchAllItemsFromDBWithItemName:@"Post" sortKey:@"postID" ascending:NO predicate:predicate];
 }
 
 - (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID
 {
-    NSError *error = nil;
-    NSMutableArray *contentItems = [[NSMutableArray alloc] init];
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Content"];
-    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"floorIndex" ascending:YES];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postID == %@",postID];
-    [request setPredicate:predicate];
-    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
-    NSArray *contents = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (error != nil) {
-        DNSLog(@"查询contens失败:%@",[error localizedDescription]);
-    }
-    
+    NSArray *contents = [self fetchAllItemsFromDBWithItemName:@"Content" sortKey:@"floorIndex" ascending:YES predicate:predicate];
+    NSMutableArray *contentItems = [[NSMutableArray alloc] init];
     NSMutableArray *groupIDs = [[NSMutableArray alloc] init];
     NSNumber *groupID = nil;
     for (Content *content in contents) {
@@ -350,7 +341,6 @@
             groupID = content.groupID;
             [groupIDs addObject:content.groupID];
         }
-        
     }
     for (int i=0; i<groupIDs.count; i++) {
         NSMutableArray *array = [[NSMutableArray alloc] init];
