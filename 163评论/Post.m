@@ -126,11 +126,16 @@
     } else {
         return YES;
     }
-    
 }
+
 - (BOOL)validateForInsert:(NSError *__autoreleasing *)error
 {
-    return [self validateTitleOrExpert:error];
+    BOOL result = [super validateForInsert:error];
+    if (result) {
+         return [self validateTitleOrExpert:error];
+    } else {
+        return result;
+    }
 }
 
 @end
