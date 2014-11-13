@@ -13,6 +13,7 @@
 #import "Post.h"
 #import "ItemStore.h"
 #import "MJRefresh.h"
+#import "MJRefreshHeaderView.h"
 #import "Reachability.h"
 #import "GeneralService.h"
 #import "RandomPostViewController.h"
@@ -25,24 +26,29 @@
 
 @interface HomeViewController () <TagViewControllerDelegate>
 {
-    NSInteger _currPage;
-    UITableViewCell *_prototypeCell;
-    NSMutableDictionary *_cellsHeightDic;
+    NSInteger _homePageIndex;
+    UITableViewCell *_prototypeCell;        //预留一个用来计算高度
+    NSMutableDictionary *_cellsHeightDic;   //所有cell的高度
     MenuView *menu;
     
-    NSString *tagName;
-    NSInteger currTagPage;
+    NSString *_tagName;
+    NSInteger tagPageIndex;
 }
+
+@property (nonatomic,assign) NSInteger homePageIndex;
+@property (nonatomic,strong) NSString *tagName;
 @end
 
 @implementation HomeViewController
+@synthesize homePageIndex = _homePageIndex;
+@synthesize tagName = _tagName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        currTagPage = 1;
+        tagPageIndex = 1;
     }
     return self;
 }
@@ -80,7 +86,7 @@
     //集成刷新控件
     [self setupRefresh];
     
-    //获取数据
+    //优先从数据库中获取数据
     [self fetchPostFromDatabase];    
 }
 
@@ -137,11 +143,11 @@
 }
 
 #pragma mark - fetch posts
-
 - (void)fetchPostFromDatabase
 {
-    NSArray *postArray = [[ItemStore sharedItemStore] fetchPostsFromDatabase];
-    if (postArray == nil || postArray.count==0) {
+    NSArray *postArray = [[ItemStore sharedItemStore] fetchAllPostsFromDatabase];
+    
+    if (postArray == nil || postArray.count==0) {   //如果数据库中没有想要数据，就从网络加载
         [self.tableView headerBeginRefreshing];
     } else {
         _posts = [[Posts alloc] initWithPosts:postArray];
@@ -154,7 +160,8 @@
     }
 }
 
-- (void)removeAllPostsFromDatabase
+#pragma mark 删除旧的post数据
+- (void)removeAllOldPostsFromDatabase
 {
     if (_posts.postItems.count > 0) {
         for (Post *p in _posts.postItems) {
@@ -170,31 +177,33 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
-        if (isReachable) {
-
-            [ItemStore sharedItemStore].cotentsURL = [self urlStringWithCurrPage:0 headRefreshing:YES tagName:tagName];
+        if (isReachable) {  //网络可用
+            [ItemStore sharedItemStore].cotentsURL = [self urlStringWithHeadRefreshing:YES tagName:self.tagName];
             [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
                 //先删除数据库中的所有post
-                if (error == nil) {
-                    if (posts != nil && (posts.postItems.count > 0)) {
-                        [self removeAllPostsFromDatabase];
+                if (error == nil)
+                {
+                    if (posts != nil && (posts.postItems.count > 0))
+                    {
+                        [self removeAllOldPostsFromDatabase];
                         _posts = posts;
                         _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
                         self.tableView.tableHeaderView = nil;
                         [self.tableView reloadData];
+                        
+                        if (self.tagName != nil)
+                            self.tagName = nil;  //以便下拉返回首页
                     }
-                }
+                } //end if(error == nil)
                 
                 [self.tableView headerEndRefreshing];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
-            _currPage = 1;
-            [self saveCurrPage];
-            
+            self.homePageIndex = 1;
             //显示footer
             [self.tableView setFooterHidden:NO];
             
-        } else {
+        } else {    //网络不可用
             
             [self.tableView headerEndRefreshing];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -216,18 +225,20 @@
     if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
         //设置网络可用
         [GeneralService setNetworkReachability:YES];
-        
+       
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        [ItemStore sharedItemStore].cotentsURL = [self urlStringWithCurrPage:_currPage headRefreshing:NO tagName:tagName];
+        [ItemStore sharedItemStore].cotentsURL = [self urlStringWithHeadRefreshing:NO tagName:self.tagName];
         
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
             if (posts != nil && (posts.postItems.count > 0))
             {
                 [_posts addPostItems:posts.postItems];
-                if (tagName == nil)
-                    [self saveCurrPage]; //保存当前为第几页
+                if (self.tagName == nil)
+                {
+//                    [self saveCurrHomePage];
+                }//保存当前为第几页
                 else
-                    currTagPage ++;
+                    tagPageIndex ++;
               
                 [self.tableView reloadData];
             }
@@ -244,30 +255,61 @@
     }
 }
 
-- (void)saveCurrPage
+- (NSInteger)homePageIndex
 {
-    NSNumber *currPage = [NSNumber numberWithInteger:_currPage];
-    [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_PAGE];
+    NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_HOME_PAGE];
+    //如果不存在就创建
+    if (currPage == nil || currPage.integerValue == 0) {
+        currPage = [NSNumber numberWithInteger:1];
+        [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_HOME_PAGE];
+    }
+    _homePageIndex = [currPage integerValue];
+    return _homePageIndex;
 }
 
-- (NSString *)urlStringWithCurrPage:(NSInteger)page headRefreshing:(BOOL)headRefreshing tagName:(NSString *)tag
+- (void)setHomePageIndex:(NSInteger)homePageIndex
+{
+    NSNumber *currPage = [NSNumber numberWithInteger:homePageIndex];
+    [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_HOME_PAGE];
+    _homePageIndex = homePageIndex;
+}
+
+- (NSString *)tagName
+{
+    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"tagName"];
+    if (name == nil || [name isEqualToString:@""]) {
+        return nil;
+    } else {
+        return name;
+    }
+}
+
+- (void)setTagName:(NSString *)tagName
+{
+    if (tagName == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tagName"];
+    } else {
+        [[NSUserDefaults standardUserDefaults]  setObject:tagName forKey:@"tagName"];
+    }
+    _tagName = tagName;
+}
+
+- (NSString *)urlStringWithHeadRefreshing:(BOOL)headRefreshing tagName:(NSString *)tag
 {
     NSString *urlStr;
     if (tag != nil) {
         if (headRefreshing)
-            currTagPage = 1;
+            tagPageIndex = 1;
         else
-            currTagPage ++;
-        urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&filter[tag]=%@&page=%zi",tag,currTagPage];
+            tagPageIndex ++;
+        urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&filter[tag]=%@&page=%zi",tag,tagPageIndex];
     } else {
         if (headRefreshing) {
             urlStr = @"http://163pinglun.com/wp-json/posts";
         } else {
-            //获取当前页数
-            NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_PAGE];
-            _currPage = [currPage integerValue];
-            _currPage++;
-            urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%zi",_currPage];
+            //设置当前页数
+            self.homePageIndex += 1;
+            urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%zi",self.homePageIndex];
         }
     }
     urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -326,11 +368,11 @@
     [self.navigationController pushViewController:cVC animated:YES];
 }
 
-#pragma mark - tagScrollViewDelegate
+#pragma mark - tagScrollView Delegate 标签视图代理
 - (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC
 {
     [tVC dismissTagViewWithAnimation:YES];
-    tagName = tagView.postTag.tagName;
+    self.tagName = tagView.postTag.tagName;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
     [self.tableView headerBeginRefreshing];
