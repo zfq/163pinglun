@@ -62,7 +62,7 @@
     Author *author = [self searchAuthorWithAuthorID:authorID];
     if (author == nil) {
         author = [NSEntityDescription insertNewObjectForEntityForName:@"Author" inManagedObjectContext:self.managedObjectContext];
-        [self saveContext];
+//        [self saveContext];  //这里不能保存 因为Post的信息还没有完全赋值完
         return author;
     } else {
         return author;
