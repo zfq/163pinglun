@@ -11,9 +11,9 @@
 
 @interface TagView() 
 {
-    void (^comple)();
+//    void (^comple)();
 }
-//@property (nonatomic,copy) void (^comple)();
+@property (nonatomic,copy) void (^comple)();
 @end
 @implementation TagView
 
@@ -121,16 +121,33 @@
     
     [v.layer addAnimation:animation forKey:nil];
 //   self.comple = completion;
-    comple = completion;
+    self.comple = completion;
     
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if (flag == YES) {
-        if (comple != nil) {
-            comple();
+        if (self.comple != nil) {
+            self.comple();
         }
+    }
+}
+
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    [self setTagViewSelected:selected];
+}
+
+- (void)setTagViewSelected:(BOOL)select
+{
+    CALayer *layer = self.tagLabel.layer;
+    if (select) {
+        layer.borderWidth = 1.0;
+        layer.borderColor = [UIColor redColor].CGColor;
+    } else {
+        layer.borderWidth = 0;
     }
 }
 

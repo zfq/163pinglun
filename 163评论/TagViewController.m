@@ -29,6 +29,7 @@
     CGPoint currTapPoint;
     
     BOOL isSuccessLoadedTag;  //判断tag是否成功加载出来
+//    NSInteger preTagViewIndex;  //前一个被选中的tagView的索引
 }
 @end
 
@@ -84,6 +85,7 @@
     
     //加载数据 添加tagViews
     isSuccessLoadedTag = NO;
+//    preTagViewIndex = -1;
     [self loadTagData];
     
 }
@@ -132,6 +134,9 @@
         }
         view.frame = CGRectMake(0, 0, view.frame.size.width+10, 50);
         view.centerVertically = YES;
+        if ([self preTagViewIndex] != -1 && idx == [self preTagViewIndex]) {
+            view.selected = YES;
+        }
         [view addTarget:self action:@selector(tapTagView:) forControlEvents:UIControlEventTouchUpInside];
         [tagViews addObject:view];
     }];
@@ -292,9 +297,35 @@
 
 }
 
+- (NSInteger)preTagViewIndex
+{
+    NSString *key = @"preTagViewIndex";
+    NSNumber *preIndex = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if (preIndex == nil ) {
+        preIndex = [NSNumber numberWithInteger:-1];
+        [[NSUserDefaults standardUserDefaults] setObject:preIndex forKey:key];
+    }
+    return preIndex.integerValue;
+}
+
+- (void)setPreTagViewIndex:(NSInteger)preIndex
+{
+    NSString *key = @"preTagViewIndex";
+    [[NSUserDefaults standardUserDefaults] setObject:@(preIndex) forKey:key];
+}
 #pragma mark - tagView tap action
 - (void)tapTagView:(TagView *)tagView
 {
+    NSInteger preIndex = [self preTagViewIndex];
+    if (preIndex != -1) {
+        //取消前一个的选中状态
+        TagView *tv = [tagScrollView.tagViews objectAtIndex:preIndex];
+        tv.selected = NO;
+    }
+    //设置当前的为选中状态
+    tagView.selected = YES;
+    [self setPreTagViewIndex: [tagScrollView.tagViews indexOfObject:tagView]];
+    
     [tagView tapTagView:tagView completion:^{
         if ([_tvcDelegate respondsToSelector:@selector(didSelectTagView: controller:)]) {
             [_tvcDelegate didSelectTagView:tagView controller:self];

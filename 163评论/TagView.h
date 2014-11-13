@@ -23,4 +23,5 @@
 - (instancetype)initWithTag:(Tag *)postTag;
 
 - (void)tapTagView:(TagView *)v completion:(void (^)())completion;
+- (void)setTagViewSelected:(BOOL)select;
 @end
