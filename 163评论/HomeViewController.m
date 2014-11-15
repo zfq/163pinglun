@@ -67,6 +67,12 @@
     [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:moreButton];
     
+    //添加searchbar
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
+    searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    
+//    [self.tableView setTableHeaderView:view];
+    [self.tableView addSubview:searchBar];
     //添加logo
     UIImage *logImg = [UIImage imageNamed:@"logo"];
     UIImageView *logImgView = [[UIImageView alloc] initWithImage:logImg];
@@ -84,7 +90,7 @@
     }
     
     //集成刷新控件
-    [self setupRefresh];
+//    [self setupRefresh];
     
     //优先从数据库中获取数据
     [self fetchPostFromDatabase];    
@@ -368,6 +374,10 @@
     [self.navigationController pushViewController:cVC animated:YES];
 }
 
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 40;
+//}
 #pragma mark - tagScrollView Delegate 标签视图代理
 - (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC
 {
