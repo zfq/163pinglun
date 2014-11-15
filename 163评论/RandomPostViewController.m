@@ -65,7 +65,7 @@ static NSString *randomCellIdentifier = @"randomCell";
     [self.view addSubview:maskView];
     
     //添加tableView
-    marginLeft = 55;
+    marginLeft = (55 * SCREEN_WIDTH)/320.0f;
     postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-navHeight) style:UITableViewStylePlain];
     postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     postTableView.dataSource = self;
@@ -154,8 +154,8 @@ static NSString *randomCellIdentifier = @"randomCell";
     } else {
         [self dismissRandomPostView];
     }
-    
 }
+
 #pragma mark - tableView datasource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -174,7 +174,7 @@ static NSString *randomCellIdentifier = @"randomCell";
         
         //添加分割线
         CGFloat height = cell.contentView.frame.size.height;
-        CGFloat width = cell.contentView.frame.size.width;
+        CGFloat width = tableView.frame.size.width;
         UILabel *separatorLine = [[UILabel alloc] initWithFrame:CGRectMake(15, height-1, width, 1)];
         separatorLine.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [cell.contentView addSubview:separatorLine];
@@ -210,7 +210,7 @@ static NSString *randomCellIdentifier = @"randomCell";
         button.layer.borderColor = SEPARATOR_COLOR.CGColor;
         button.layer.cornerRadius = 4;
         button.layer.masksToBounds = YES;
-        button.center = CGPointMake(postFooterView.bounds.size.width/2, postFooterView.frame.size.height/2 + 8);
+        button.center = CGPointMake(postFooterView.bounds.size.width/2, postFooterView.frame.size.height/2);
         [button addTarget:self action:@selector(loadNewPosts:) forControlEvents:UIControlEventTouchUpInside];
         [postFooterView addSubview:button];
     }
