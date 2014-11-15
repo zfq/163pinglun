@@ -70,9 +70,9 @@
     //添加searchbar
 //    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
 //    searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    
 //    [self.tableView setTableHeaderView:view];
 //    [self.tableView addSubview:searchBar];
+    
     //添加logo
     UIImage *logImg = [UIImage imageNamed:@"logo"];
     UIImageView *logImgView = [[UIImageView alloc] initWithImage:logImg];
@@ -90,7 +90,7 @@
     }
     
     //集成刷新控件
-//    [self setupRefresh];
+    [self setupRefresh];
     
     //优先从数据库中获取数据
     [self fetchPostFromDatabase];    
@@ -111,7 +111,6 @@
         CGFloat btnHeight = 43;
         CGRect frame = CGRectMake(SCREEN_WIDTH-menuWidth-rightMargin, 65, menuWidth, 3 * btnHeight + (3-1));
         
-
         MenuItem *tagItem = [[MenuItem alloc] initWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showTag:)];
         MenuItem *lookItem = [[MenuItem alloc] initWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0) imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showLookAround:)];
         MenuItem *settingItem = [[MenuItem alloc] initWithTitle:@"设置" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showSetting:)];
