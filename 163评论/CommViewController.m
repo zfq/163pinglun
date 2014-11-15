@@ -104,9 +104,10 @@ static NSString * const CellIdentifier = @"CommCell";
     NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
         NSString *text = [self.title stringByAppendingString:url];
-        [[SocialSharing sharedInstance] sendWeiboWithText:text image:nil completion:^(BOOL success) {
-            if (success) {
-                NSLog(@"成功");
+        UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
+        [[SocialSharing sharedInstance] sendWeiboWithText:text image:img completion:^(BOOL success) {
+            if (success) {  //这个success也可能是取消的success
+//                NSLog(@"成功");
             }
         }];
     } else if ([shareItem.title isEqualToString:@"QQ空间"]) {

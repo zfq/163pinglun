@@ -32,7 +32,7 @@ typedef enum {
 @property (nonatomic, assign, readonly) UIEdgeInsets scrollViewOriginalInset;
 
 #pragma mark - 内部的控件
-@property (nonatomic, weak, readonly) UILabel *statusLabel;
+@property (nonatomic, weak) UILabel *statusLabel;
 @property (nonatomic, weak, readonly) UIImageView *arrowImage;
 @property (nonatomic, weak, readonly) UIActivityIndicatorView *activityView;
 

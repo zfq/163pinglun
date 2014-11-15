@@ -38,7 +38,8 @@
 #define kTencentAppKey     @"j0Fj8pHh7PkS7Sws"
 #define kTencentAppID      @"1101994241"
 
-#define CURR_PAGE @"curr_page"
+#define CURR_HOME_PAGE @"currHomePage"
+#define CURR_TAG_PAGE @"currTagPage"
 
 #define TITLE_COLOR RGBCOLOR(0, 160, 233, 1)    //导航栏titl颜色
 #define LABEL_COLOR RGBCOLOR(51,153,255,1.0f) // 3399FF
