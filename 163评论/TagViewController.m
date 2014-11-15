@@ -55,7 +55,7 @@
     [self.view addSubview:maskView];
     
     //添加scrollView
-    marginLeft = 55;
+    marginLeft = (55 * SCREEN_WIDTH)/320.0f;
     tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 64, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-64)];
     tagScrollView.backgroundColor = RGBCOLOR(254, 254, 254, 1);
     tagScrollView.leftMargin = 3;
