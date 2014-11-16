@@ -173,14 +173,13 @@ static NSString * const CellIdentifier = @"CommCell";
 - (UIActivityIndicatorView *)addActivityViewInView:(UIView *)view
 {
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    if ([view isKindOfClass:[UITableView class]]) {
-        UITableView *tableView = (UITableView *)view;
-        activityView.center = CGPointMake(tableView.frame.size.width/2, tableView.frame.size.height/2);
-        [tableView addSubview:activityView];
-    } else {
-        activityView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
-        [view addSubview:activityView];
-    }
+
+    activityView.translatesAutoresizingMaskIntoConstraints = NO;
+    [view addSubview:activityView];
+    
+    NSLayoutConstraint *hConstraint = [NSLayoutConstraint constraintWithItem:activityView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0.0f];
+    NSLayoutConstraint *vConstraint = [NSLayoutConstraint constraintWithItem:activityView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0f constant:0.0f];
+    [self.view addConstraints:@[hConstraint,vConstraint]];
     
     [activityView startAnimating];
     return activityView;
