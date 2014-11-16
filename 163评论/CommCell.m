@@ -11,6 +11,7 @@
 #import "GeneralService.h"
 
 #define MARGIN_LEFT 15.0f  //指距离屏幕边缘的距离
+#define TOP_MARGIN 2.0f
 #define PADDING_LEFT 5.0f
 #define HEAD_HEIGHT 30 // headLabel的高度
 
@@ -82,6 +83,20 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         oneSeparatorLabel.backgroundColor = SEPARATOR_COLOR;
         [self.contentView addSubview:oneSeparatorLabel];
         
+        //添加autoLayout
+        oneUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        oneTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        NSDictionary *nameMap = @{@"oneUserLabel":oneUserLabel,@"oneTimeLabel":oneTimeLabel};
+        //宽度
+        NSString *vfH = @"H:|-15-[oneUserLabel(>=192)]-(>=14)-[oneTimeLabel(>=84)]-15-|";
+        NSArray *topConsH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
+        [self.contentView addConstraints:topConsH];
+        //高度
+        NSArray *oneUserV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[oneUserLabel(>=30)]" options:0 metrics:nil views:nameMap];
+        NSArray *oneTimeV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[oneTimeLabel(>=30)]" options:0 metrics:nil views:nameMap];
+        [self.contentView addConstraints:oneUserV];
+        [self.contentView addConstraints:oneTimeV];
+        
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         
         topUserLabel = [self userLabel];
@@ -92,7 +107,22 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         roofImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:roofImgView];
         
+        //添加autoLayout
+        topUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        topTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        NSDictionary *nameMap = @{@"topUserLabel":topUserLabel,@"topTimeLabel":topTimeLabel};
+        //宽度
+        NSString *vfH = @"H:|-15-[topUserLabel(>=192)]-(>=14)-[topTimeLabel(>=84)]-15-|";
+        NSArray *topConsH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
+        [self.contentView addConstraints:topConsH];
+        //高度
+        NSArray *topUserV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[topUserLabel(>=30)]" options:0 metrics:nil views:nameMap];
+        NSArray *topTimeV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[topTimeLabel(>=30)]" options:0 metrics:nil views:nameMap];
+        [self.contentView addConstraints:topUserV];
+        [self.contentView addConstraints:topTimeV];
+        
     } else if ([reuseId isEqualToString:kCommCellTypeMiddle]) {
+        
         middUserLabel = [self userLabel];
         floorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         floorLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
@@ -105,6 +135,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         [self.contentView addSubview:floorLabel];
         [self.contentView addSubview:middContentLabel];
         [self.contentView addSubview:groundImgView];
+        
     } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
         bottomContentLabel = [self contentLabel];
         [self.contentView addSubview:bottomContentLabel];
@@ -124,13 +155,13 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     NSInteger floorIndex = content.floorIndex.integerValue;
     NSString *reuseId = self.reuseIdentifier;
     if ([reuseId isEqualToString:kCommCellTypeOnlyOne]) {
-        CGFloat timeLabelWidth = 92;
-        oneUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
+//        CGFloat timeLabelWidth = 92;
+//        oneUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
         if (isChanged)
             oneUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         oneUserLabel.text = content.user;
         
-        oneTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
+//        oneTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
         oneTimeLabel.text = content.time;
         if (isChanged)
             oneTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
@@ -147,13 +178,13 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             *height = CGRectGetMaxY(oneSeparatorLabel.frame);
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
-        CGFloat timeLabelWidth = 92;
-        topUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
+//        CGFloat timeLabelWidth = 92;
+//        topUserLabel.frame = CGRectMake(MARGIN_LEFT, 2, SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth-5, HEAD_HEIGHT);
         topUserLabel.text = content.user;
         if (isChanged)
             topUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
-        topTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
+//        topTimeLabel.frame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, HEAD_HEIGHT);
         topTimeLabel.text = content.time;
         if (isChanged)
             topTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
@@ -216,8 +247,8 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 {
     UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN_LEFT, 2, 198, HEAD_HEIGHT)];
     userLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
-    userLabel.minimumScaleFactor = 0.8;
-    userLabel.adjustsFontSizeToFitWidth = YES;
+//    userLabel.minimumScaleFactor = 0.8;
+//    userLabel.adjustsFontSizeToFitWidth = YES;
     userLabel.textColor = LABEL_COLOR;
     return userLabel;
 }
