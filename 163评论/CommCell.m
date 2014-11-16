@@ -86,16 +86,25 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         //添加autoLayout
         oneUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
         oneTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        NSDictionary *nameMap = @{@"oneUserLabel":oneUserLabel,@"oneTimeLabel":oneTimeLabel};
+        oneContentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        oneSeparatorLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        NSDictionary *nameMap = @{@"user":oneUserLabel,@"time":oneTimeLabel,@"content":oneContentLabel,@"separator":oneSeparatorLabel};
         //宽度
-        NSString *vfH = @"H:|-15-[oneUserLabel(>=192)]-(>=14)-[oneTimeLabel(>=84)]-15-|";
+        NSString *vfH = @"H:|-15-[user(>=192)]-(>=14)-[time(>=84)]-15-|";
         NSArray *topConsH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
         [self.contentView addConstraints:topConsH];
         //高度
-        NSArray *oneUserV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[oneUserLabel(>=30)]" options:0 metrics:nil views:nameMap];
-        NSArray *oneTimeV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[oneTimeLabel(>=30)]" options:0 metrics:nil views:nameMap];
+        NSArray *oneUserV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[user(>=30)]" options:0 metrics:nil views:nameMap];
+        NSArray *oneTimeV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[time(>=30)]" options:0 metrics:nil views:nameMap];
         [self.contentView addConstraints:oneUserV];
         [self.contentView addConstraints:oneTimeV];
+        //为contentlabel添加autolayout
+        NSArray *contentH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[content]-15-|" options:0 metrics:nil views:nameMap];
+        [self.contentView addConstraints:contentH];
+        NSArray *separatorH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[separator]-0-|" options:0 metrics:nil views:nameMap];
+        [self.contentView addConstraints:separatorH];
+        NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[user]-0-[content]-5-[separator(1)]-0-|" options:0 metrics:0 views:nameMap];
+        [self.contentView addConstraints:consV];
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         
@@ -110,14 +119,14 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         //添加autoLayout
         topUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
         topTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        NSDictionary *nameMap = @{@"topUserLabel":topUserLabel,@"topTimeLabel":topTimeLabel};
+        NSDictionary *nameMap = @{@"user":topUserLabel,@"time":topTimeLabel};
         //宽度
-        NSString *vfH = @"H:|-15-[topUserLabel(>=192)]-(>=14)-[topTimeLabel(>=84)]-15-|";
+        NSString *vfH = @"H:|-15-[user(>=192)]-(>=14)-[time(>=84)]-15-|";
         NSArray *topConsH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
         [self.contentView addConstraints:topConsH];
         //高度
-        NSArray *topUserV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[topUserLabel(>=30)]" options:0 metrics:nil views:nameMap];
-        NSArray *topTimeV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[topTimeLabel(>=30)]" options:0 metrics:nil views:nameMap];
+        NSArray *topUserV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[user(>=30)]" options:0 metrics:nil views:nameMap];
+        NSArray *topTimeV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[time(>=30)]" options:0 metrics:nil views:nameMap];
         [self.contentView addConstraints:topUserV];
         [self.contentView addConstraints:topTimeV];
         
@@ -166,7 +175,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         if (isChanged)
             oneTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
-        oneContentLabel.frame = CGRectMake(MARGIN_LEFT, CGRectGetMaxY(oneUserLabel.frame), SCREEN_WIDTH-2*MARGIN_LEFT, 0);
+//        oneContentLabel.frame = CGRectMake(MARGIN_LEFT, CGRectGetMaxY(oneUserLabel.frame), SCREEN_WIDTH-2*MARGIN_LEFT, 0);
         oneContentLabel.text = content.content;
         if (isChanged)
             oneContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
