@@ -59,13 +59,20 @@
     
     //添加更多btn
     UIImage *moreImg = [UIImage imageNamed:@"more1"];
-    CGFloat height = 40;
     UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    moreButton.frame = CGRectMake(SCREEN_WIDTH-50,20+(44-height)/2, 50, height);
+    moreButton.backgroundColor = [UIColor redColor];
     [moreButton setImage:moreImg forState:UIControlStateNormal];
     moreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 50-moreImg.size.width-30, 0, 0);
     [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
+    moreButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.navView addSubview:moreButton];
+    
+    //为moreBtn添加约束
+    NSDictionary *nameMap = @{@"moreBtn":moreButton};
+    NSArray *moreBtnConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-22-[moreBtn(40)]" options:0 metrics:nil views:nameMap];
+    NSArray *moreBtnConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[moreBtn(50)]-0-|" options:0 metrics:nil views:nameMap];
+    [self.navView addConstraints:moreBtnConsV];
+    [self.navView addConstraints:moreBtnConsH];
     
     //添加searchbar
 //    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
