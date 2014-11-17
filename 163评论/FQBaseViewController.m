@@ -20,18 +20,16 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    // 添加导航view
+    //添加导航view
     UIView *bcgView = [[UIView alloc] init];
     bcgView.backgroundColor = [UIColor colorWithRed:0.129 green:0.160 blue:0.172 alpha:0.85];
     [self.view addSubview:bcgView];
     
-    //先对bcgView添加约束
+    //为bcgView添加约束
     bcgView.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *nameMap = @{@"navView":self.navView,@"bcgView":bcgView};
-    //设置宽度
     NSLayoutConstraint *bcgViewW = [NSLayoutConstraint constraintWithItem:bcgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
     [self.view addConstraint:bcgViewW];
-    
     NSArray *bcgViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bcgView]-0-|" options:0 metrics:nil views:nameMap];
     NSArray *bcgViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bcgView(64)]" options:0 metrics:nil views:nameMap];
     [self.view addConstraints:bcgViewV];
@@ -67,11 +65,22 @@
     if (!_myTitleLabel) {
         CGFloat width = 80;
         CGFloat height = 35;
-        _myTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake((SCREEN_WIDTH-width)/2, 20+(44-height)/2, width, height)];
+        _myTitleLabel = [[UILabel alloc] init];
         _myTitleLabel.textAlignment = NSTextAlignmentCenter;
         _myTitleLabel.font = [UIFont systemFontOfSize:20];
         _myTitleLabel.textColor = TITLE_COLOR;
         [self.navView addSubview:_myTitleLabel];
+        //为titleLabel添加约束
+        NSDictionary *nameMap = @{@"myTitle":_myTitleLabel};
+        _myTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *consW = [NSLayoutConstraint constraintWithItem:_myTitleLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.navView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+        [self.navView addConstraint:consW];
+        NSString *vfH = [NSString stringWithFormat:@"H:[myTitle(%f)]",width];
+        NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
+        NSString *vfV = [NSString stringWithFormat:@"V:|-%f-[myTitle(%f)]",20+(44-height)/2,height];
+        NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:nameMap];
+        [self.navView addConstraints:consH];
+        [self.navView addConstraints:consV];
     }
     return _myTitleLabel;
 }
