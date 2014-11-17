@@ -21,21 +21,42 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     // 添加导航view
-    UIView *bcgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FQ_SCREEN_WIDTH, 64)];
+    UIView *bcgView = [[UIView alloc] init];
     bcgView.backgroundColor = [UIColor colorWithRed:0.129 green:0.160 blue:0.172 alpha:0.85];
-
-    [bcgView addSubview:self.navView];
     [self.view addSubview:bcgView];
-
+    
+    //先对bcgView添加约束
+    bcgView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *nameMap = @{@"navView":self.navView,@"bcgView":bcgView};
+    //设置宽度
+    NSLayoutConstraint *bcgViewW = [NSLayoutConstraint constraintWithItem:bcgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    [self.view addConstraint:bcgViewW];
+    
+    NSArray *bcgViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bcgView]-0-|" options:0 metrics:nil views:nameMap];
+    NSArray *bcgViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bcgView(64)]" options:0 metrics:nil views:nameMap];
+    [self.view addConstraints:bcgViewV];
+    [self.view addConstraints:bcgViewH];
+    
+    //对navView添加约束
+    UIImage *navBcgImg = [UIImage imageNamed:@"navigationbar_background"];
+    self.navView.image = navBcgImg;
+    [bcgView addSubview:self.navView];
+    self.navView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *navViewW = [NSLayoutConstraint constraintWithItem:self.navView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:bcgView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    [bcgView addConstraint:navViewW];
+    NSArray *navViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[navView]-0-|" options:0 metrics:nil views:nameMap];
+    NSString *vfV = [NSString stringWithFormat:@"V:|-0-[navView(%f)]",navBcgImg.size.height];
+    NSArray *navViewV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:nameMap];
+    [bcgView addConstraints:navViewH];
+    [bcgView addConstraints:navViewV];
+   
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (UIImageView *)navView
 {
     if (!_navView) {
-        UIImage *navBcgImg = [UIImage imageNamed:@"navigationbar_background"];
-        _navView = [[UIImageView alloc] initWithImage:navBcgImg];
-        _navView.frame = CGRectMake(0, 0, SCREEN_WIDTH, navBcgImg.size.height);
+        _navView = [[UIImageView alloc] init];
         _navView.userInteractionEnabled = YES;
     }
     return _navView;
