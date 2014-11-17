@@ -60,7 +60,6 @@
     //添加更多btn
     UIImage *moreImg = [UIImage imageNamed:@"more1"];
     UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    moreButton.backgroundColor = [UIColor redColor];
     [moreButton setImage:moreImg forState:UIControlStateNormal];
     moreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 50-moreImg.size.width-30, 0, 0);
     [moreButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
@@ -87,7 +86,7 @@
     logImgFrame.origin = CGPointMake(15, 30);
     logImgView.frame = logImgFrame;
     [self.navView addSubview:logImgView];
-
+    
     //注册cell
     UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
