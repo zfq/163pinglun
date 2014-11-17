@@ -12,11 +12,12 @@
 
 @interface ShareItem : UIControl
 
-@property (nonatomic,strong) UIImage *img;
-@property (nonatomic,strong) NSString *title;
+@property (nonatomic,strong,readonly) UIImage *img;
+@property (nonatomic,strong,readonly) NSString *title;
 
 @property (nonatomic,weak) id<ShareItemDeleage> shareItemDelegate;
 
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title image:(UIImage *)img;
 @end
 
 @protocol ShareItemDeleage <NSObject>

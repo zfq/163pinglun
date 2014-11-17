@@ -20,30 +20,48 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [self addSubview:imgView];
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [self addSubview:titleLabel];
-        
-        [self addTarget:self action:@selector(zoomInItem) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(zoomOutItem) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
 
-- (void)layoutSubviews
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title image:(UIImage *)img
 {
-    [super layoutSubviews];
-    CGSize itemSize = self.frame.size;
-    imgView.image = self.img;
-    imgView.bounds = CGRectMake(0, 0, self.img.size.width, self.img.size.height);
-    imgView.center = CGPointMake(itemSize.width/2.0, imgView.frame.size.height/2.0+2);
-//    imgView.backgroundColor = [UIColor grayColor];
-    CGFloat labelHeight = 26;
-    titleLabel.frame = CGRectMake(0, CGRectGetMaxY(imgView.frame), itemSize.width, labelHeight);
-    titleLabel.font = [UIFont systemFontOfSize:13];
-    titleLabel.text = self.title;
+    self = [self initWithFrame:frame];
+    _img = img;
+    _title = title;
+    
+    imgView = [[UIImageView alloc] init];
+    imgView.image = img;
+    [self addSubview:imgView];
+    
+    titleLabel = [[UILabel alloc] init];
+    titleLabel.text = title;
+    titleLabel.font = [UIFont systemFontOfSize:13.0f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:titleLabel];
+    
+    [self addTarget:self action:@selector(zoomInItem) forControlEvents:UIControlEventTouchDown];
+    [self addTarget:self action:@selector(zoomOutItem) forControlEvents:UIControlEventTouchUpInside];
+    
+    //添加约束
+    NSDictionary *nameMap = @{@"img":imgView,@"title":titleLabel};
+    imgView.translatesAutoresizingMaskIntoConstraints = NO;
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *imgW = [NSLayoutConstraint constraintWithItem:imgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:img.size.width];
+    [imgView addConstraint:imgW];
+    NSLayoutConstraint *imgCenterX = [NSLayoutConstraint constraintWithItem:imgView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+    [self addConstraint:imgCenterX];
+    
+    NSLayoutConstraint *titleW = [NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:self.frame.size.width];
+    [titleLabel addConstraint:titleW];
+    NSLayoutConstraint *titleCenterX = [NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+    [self addConstraint:titleCenterX];
+    
+    NSString *vfV = [NSString stringWithFormat:@"V:|-2-[img(%f)]-(>=0)-[title(26)]-0-|",img.size.height];
+    NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:nameMap];
+    [self addConstraints:consV];
+    
+    return self;
 }
 
 - (void)zoomInItem
