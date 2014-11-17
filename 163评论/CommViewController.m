@@ -53,12 +53,18 @@ static NSString * const CellIdentifier = @"CommCell";
     
     //添加分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    shareBtn.frame = CGRectMake(SCREEN_WIDTH-40-25, 22, 60, 40);
     [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
     [shareBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
     [shareBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:shareBtn];
-   
+    NSDictionary *nameMap = @{@"shareBtn":shareBtn};
+    shareBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[shareBtn(60)]-5-|" options:0 metrics:nil views:nameMap];
+    NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-22-[shareBtn(40)]" options:0 metrics:nil views:nameMap];
+    [self.navView addConstraints:consH];
+    [self.navView addConstraints:consV];
+    
+    
 	// 设置tableView
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -414,7 +420,16 @@ static NSString * const CellIdentifier = @"CommCell";
         if (currRows >0)
             floorCount = currRows > 1?currRows-1:1;
         [cell bindContent:content floorCount:floorCount height:&cellHeight fontSizeChanged:isChanged];
-        [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
+        
+        if ([cellID isEqualToString:kCommCellTypeOnlyOne]) {
+            [cell.contentView setNeedsUpdateConstraints];
+            [cell.contentView updateConstraintsIfNeeded];
+            CGFloat h = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+            [_cellsHeightDic setObject:[NSNumber numberWithFloat:h] forKey:row];
+        } else {
+            [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
+        }
+        
         return cellHeight;
     }
 }
