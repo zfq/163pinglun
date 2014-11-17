@@ -98,7 +98,7 @@
     
     //为self添加约束
     UIView *rootView = topWindow.rootViewController.view;
-    [topWindow.rootViewController.view addSubview:self]; //--------===========tianjia
+    [topWindow.rootViewController.view addSubview:self]; 
     self.translatesAutoresizingMaskIntoConstraints = NO;
     NSLayoutConstraint *selfConsW = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:rootView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
     NSLayoutConstraint *selfConsH = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:rootView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
