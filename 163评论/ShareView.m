@@ -36,30 +36,50 @@
     CGSize viewSize = self.bounds.size;
     CGFloat height = 260;
     if (subView == nil) {
-        subView = [[UIView alloc] initWithFrame:CGRectMake(0, viewSize.height, viewSize.width, height)];
+        subView = [[UIView alloc] init];
         subView.backgroundColor = [UIColor colorWithRed:0.964 green:0.964 blue:0.964 alpha:1];
         [self addSubview:subView];
-        
         [subView addSubview:self.weiboItem];
         [subView addSubview:self.qqItem];
         
-        CGSize subViewSize = subView.frame.size;
-        CGFloat cancelBtnHeight = 36;
-        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0,subViewSize.height-cancelBtnHeight-30, viewSize.width, 6)];
+        //为subView添加约束
+        NSDictionary *nameMap = @{@"subView":subView};
+        subView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *subViewConsW = [NSLayoutConstraint constraintWithItem:subView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+         NSLayoutConstraint *subViewConsCenterX = [NSLayoutConstraint constraintWithItem:subView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+        [self addConstraints:@[subViewConsW,subViewConsCenterX]];
+        NSArray *subViewConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[subView(260)]-0-|" options:0 metrics:nil views:nameMap];
+        [self addConstraints:subViewConsV];
+        
+        //为separatorView添加约束
+        UIView *separatorView = [[UIView alloc] init];
         separatorView.backgroundColor = [UIColor colorWithRed:0.894 green:0.894 blue:0.894 alpha:1];
         [subView addSubview:separatorView];
+        separatorView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *sepaConsW = [NSLayoutConstraint constraintWithItem:separatorView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:subView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+        NSLayoutConstraint *sepaConsCenterX = [NSLayoutConstraint constraintWithItem:separatorView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:subView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+        [subView addConstraints:@[sepaConsW,sepaConsCenterX]];
         
+        //为cancelBtn添加约束
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.bounds = CGRectMake(0, 0, subViewSize.width, cancelBtnHeight);
-        button.center = CGPointMake(subViewSize.width/2, subViewSize.height-button.bounds.size.height/2 - 14);
         [button setTitle:@"取消" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         [button setBackgroundColor:[UIColor colorWithRed:0.964 green:0.964 blue:0.964 alpha:1]];
         [button addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
         [subView addSubview:button];
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *btnConsW = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:subView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+        NSLayoutConstraint *btnConsCenterX = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:subView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+        [subView addConstraints:@[btnConsW,btnConsCenterX]];
+        //添加纵向约束
+        NSDictionary *nameMapV = @{@"separa":separatorView,@"btn":button};
+        NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[separa(6)]-0-[btn(36)]-14-|" options:0 metrics:nil views:nameMapV];
+        [subView addConstraints:consV];
+
     }
     
+    subView.transform = CGAffineTransformMakeTranslation(0, -subView.frame.size.height);
     [UIView animateWithDuration:0.3 animations:^{
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
         subView.frame = CGRectMake(0, viewSize.height - height, viewSize.width, height);
@@ -90,9 +110,7 @@
 - (ShareItem *)weiboItem
 {
     if (_weiboItem == nil) {
-        _weiboItem = [[ShareItem alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
-        _weiboItem.title = @"新浪微博";
-        _weiboItem.img = [UIImage imageNamed:@"weibo"];
+        _weiboItem = [[ShareItem alloc] initWithFrame:CGRectMake(20, 20, 60, 60) title:@"新浪微博" image:[UIImage imageNamed:@"weibo"]];
         _weiboItem.shareItemDelegate = self;
     }
     return _weiboItem;
@@ -101,9 +119,7 @@
 - (ShareItem *)qqItem
 {
     if (_qqItem == nil) {
-        _qqItem = [[ShareItem alloc] initWithFrame:CGRectMake(100, 20, 60, 60)];
-        _qqItem.title = @"QQ空间";
-        _qqItem.img = [UIImage imageNamed:@"zone"];
+        _qqItem = [[ShareItem alloc] initWithFrame:CGRectMake(100, 20, 60, 60) title:@"QQ空间" image:[UIImage imageNamed:@"zone"]];
         _qqItem.shareItemDelegate = self;
     }
     return _qqItem;
