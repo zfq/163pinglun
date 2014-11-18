@@ -178,20 +178,20 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         NSArray *wallConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
         [self.contentView addConstraints:wallConsH];
         //2.设置user和floor 默认偏移15
-        midAllConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[user(>=0)]-(>=0)-[floor(15)]-15-|" options:0 metrics:nil views:midDic];
-        [self.contentView addConstraints:midAllConsH];
+//        midAllConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[user(>=0)]-(>=0)-[floor(15)]-15-|" options:0 metrics:nil views:midDic];
+//        [self.contentView addConstraints:midAllConsH];
         //3.设置floor 约束
         NSArray *floorV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[floor(30)]" options:0 metrics:nil views:midDic];
         [self.contentView addConstraints:floorV];
         
-        NSString *vfV = @"V:|-0-[user(30)]-0-[content(>=0)]-0-[groundImg(4)]-0-|";
-        midAllConsV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:midDic];
-        [self.contentView addConstraints:midAllConsV];
+//        NSString *vfV = @"V:|-0-[user(30)]-0-[content(>=0)]-0-[groundImg(4)]-0-|";
+//        midAllConsV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:midDic];
+//        [self.contentView addConstraints:midAllConsV];
         NSArray *groundImgH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[groundImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
         [self.contentView addConstraints:groundImgH];
         //5.设置content宽度
-        midContentConsW = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[content(>=0)]-15-|" options:0 metrics:nil views:midDic];
-        [self.contentView addConstraints:midContentConsW];
+//        midContentConsW = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[content(>=0)]-15-|" options:0 metrics:nil views:midDic];
+//        [self.contentView addConstraints:midContentConsW];
         
         //5.设置wallImg高度
         NSArray *wallImgConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
