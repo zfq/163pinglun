@@ -438,13 +438,14 @@ static NSString * const CellIdentifier = @"CommCell";
         [cell setNeedsLayout];
         [cell layoutIfNeeded];
         
-        if (![cellID isEqualToString:kCommCellTypeMiddle]) {  //[cellID isEqualToString:kCommCellTypeOnlyOne] || [cellID isEqualToString:kCommCellTypeTop]
+//        if (![cellID isEqualToString:kCommCellTypeMiddle]) {  //[cellID isEqualToString:kCommCellTypeOnlyOne] || [cellID isEqualToString:kCommCellTypeTop]
             [cell.contentView setNeedsUpdateConstraints];
+        [cell.contentView updateConstraintsIfNeeded];
             CGFloat h = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
             [_cellsHeightDic setObject:[NSNumber numberWithFloat:h] forKey:row];
-        } else {
-            [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
-        }
+//        } else {
+//            [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
+//        }
         
         return cellHeight;
     }
