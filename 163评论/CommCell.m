@@ -43,6 +43,11 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     UIImageView *wallImgView;
     UIImageView *groundImgView;
     
+    NSDictionary *midDic;
+    NSArray *midAllConsV;       //user content ground vertical
+    NSArray *midAllConsH;       //user floor horizon
+    NSArray *midContentConsW;   //conten宽度
+    
     //bottom
     UILabel *bottomContentLabel;
     UILabel *separatorLabel;
@@ -158,6 +163,41 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         [self.contentView addSubview:middContentLabel];
         [self.contentView addSubview:groundImgView];
         
+        //添加约束
+        if (midDic == nil) {
+            midDic = @{@"user":middUserLabel,@"floor":floorLabel,@"wallImg":wallImgView,
+                        @"content":middContentLabel,@"groundImg":groundImgView};
+        }
+        middUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        floorLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        middContentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        wallImgView.translatesAutoresizingMaskIntoConstraints = NO;
+        groundImgView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        //1.设置wallImg宽度
+        NSArray *wallConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:wallConsH];
+        //2.设置user和floor 默认偏移15
+        midAllConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[user(>=0)]-(>=0)-[floor(15)]-15-|" options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:midAllConsH];
+        //3.设置floor 约束
+        NSArray *floorV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[floor(30)]" options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:floorV];
+        
+        NSString *vfV = @"V:|-0-[user(30)]-0-[content(>=0)]-0-[groundImg(4)]-0-|";
+        midAllConsV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:midAllConsV];
+        NSArray *groundImgH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[groundImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:groundImgH];
+        //5.设置content宽度
+        midContentConsW = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[content(>=0)]-15-|" options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:midContentConsW];
+        
+        //5.设置wallImg高度
+        NSArray *wallImgConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:wallImgConsV];
+
+        
     } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
         bottomContentLabel = [self contentLabel];
         [self.contentView addSubview:bottomContentLabel];
@@ -221,79 +261,48 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     } else if ([reuseId isEqualToString:kCommCellTypeMiddle]) {
         
         CGFloat labelX = [self labelXWithFloorCount:floorCount floorIndex:floorIndex];
-        middUserLabel.frame = CGRectMake(labelX, 2, SCREEN_WIDTH-2*labelX-FLOOR_WIDTH, HEAD_HEIGHT);
         if (isChanged)
             middUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         middUserLabel.text = content.user;
         
-        floorLabel.frame = CGRectMake(SCREEN_WIDTH-labelX-FLOOR_WIDTH, 2, FLOOR_WIDTH, HEAD_HEIGHT);
         floorLabel.text = content.floorIndex.description;
         if (isChanged)
             floorLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         
-        middContentLabel.frame = CGRectMake(labelX, CGRectGetMaxY(middUserLabel.frame), SCREEN_WIDTH-2*labelX, 0);
         middContentLabel.text = content.content;
         if (isChanged)
             middContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
-        [middContentLabel sizeToFit];
         
         UIImage *wallImg = [self wallImgWithFloorCount:floorCount floorIndex:floorIndex];
-        wallImgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(middContentLabel.frame)+MARGIN_BOTTOM);
         wallImgView.image = wallImg;
         
         UIImage *groundImg = [self groundImgWithFloorCount:floorCount floorIndex:floorIndex];
-        groundImgView.frame = CGRectMake(0, CGRectGetMaxY(wallImgView.frame), SCREEN_WIDTH, groundImg.size.height);
         groundImgView.image = groundImg;
-        /*
-        NSDictionary *nameMap = @{@"user":middUserLabel,@"floor":floorLabel,@"wallImg":wallImgView,
-                                  @"content":middContentLabel,@"groundImg":groundImgView};
-        middUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        floorLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        middContentLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        wallImgView.translatesAutoresizingMaskIntoConstraints = NO;
-        groundImgView.translatesAutoresizingMaskIntoConstraints = NO;
-        //1.设置wallImg宽度
-//        NSLayoutConstraint *wallImgW = [NSLayoutConstraint constraintWithItem:wallImgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-        NSArray *wallConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:nameMap];
-//        [self.contentView addConstraint:wallImgW];
-        [self.contentView addConstraints:wallConsH];
-        //2.设置user和floor宽度
-        NSString *vfH =  [NSString stringWithFormat:@"H:|-%f-[user(>=0)]-(>=0)-[floor(15)]-%f-|",labelX,labelX];
-        NSArray *midConsH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
-        [self.contentView addConstraints:midConsH];
-        //3.设置floor 约束
-//        NSLayoutConstraint *floorH = [NSLayoutConstraint constraintWithItem:floorLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:HEAD_HEIGHT];
-        NSArray *floorV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[floor(30)]" options:0 metrics:nil views:nameMap];
-        [self.contentView addConstraints:floorV];
         
-//        [floorLabel addConstraint:floorH];
-        //4.设置user content ground 高度
+        //重新设置某些布局
+        [self.contentView removeConstraints:midAllConsV];
+        [self.contentView removeConstraints:midAllConsH];
+        [self.contentView removeConstraints:midContentConsW];
+        NSString *vfH =  [NSString stringWithFormat:@"H:|-%f-[user(>=0)]-(>=0)-[floor(15)]-%f-|",labelX,labelX];
+        midAllConsH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:midAllConsH];
+        
         NSString *vfV = [NSString stringWithFormat:@"V:|-0-[user(30)]-0-[content(>=0)]-0-[groundImg(%f)]-0-|",groundImg.size.height];
-        NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:nameMap];
-        [self.contentView addConstraints:consV];
-        NSArray *groundImgH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[groundImg(>=0)]-0-|" options:0 metrics:nil views:nameMap];
-        [self.contentView addConstraints:groundImgH];
-        //5.设置content宽度
+        midAllConsV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:midAllConsV];
+        
         NSString *contentVfH = [NSString stringWithFormat:@"H:|-%f-[content(>=0)]-%f-|",labelX,labelX];
-        NSArray *contentConsH = [NSLayoutConstraint constraintsWithVisualFormat:contentVfH options:0 metrics:nil views:nameMap];
-        [self.contentView addConstraints:contentConsH];
-    
-        //5.设置wallImg高度
-        NSArray *wallImgConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:nameMap];
-        [self.contentView addConstraints:wallImgConsV];
-      */
+        midContentConsW = [NSLayoutConstraint constraintsWithVisualFormat:contentVfH options:0 metrics:nil views:midDic];
+        [self.contentView addConstraints:midContentConsW];
+        
         if (height != nil)
             *height = CGRectGetMaxY(groundImgView.frame);
         
     } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
-//        bottomContentLabel.frame = CGRectMake(MARGIN_LEFT, MARGIN_BOTTOM, SCREEN_WIDTH-2*MARGIN_LEFT, 0);
         bottomContentLabel.text = content.content;
         if (isChanged)
             bottomContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
-//        [bottomContentLabel sizeToFit];
-        
-//        separatorLabel.frame = CGRectMake(0, CGRectGetMaxY(bottomContentLabel.frame)+MARGIN_BOTTOM, SCREEN_WIDTH, 1);
-        
+
         if (height != nil)
             *height = CGRectGetMaxY(separatorLabel.frame);
     }
@@ -304,19 +313,16 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 #pragma mark - 创建label
 - (UILabel *)userLabel
 {
-    UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN_LEFT, 2, 198, HEAD_HEIGHT)];
+    UILabel *userLabel = [[UILabel alloc] init];
     userLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
-//    userLabel.minimumScaleFactor = 0.8;
-//    userLabel.adjustsFontSizeToFitWidth = YES;
+
     userLabel.textColor = LABEL_COLOR;
     return userLabel;
 }
 
 - (UILabel *)timeLabel
 {
-    CGFloat timeLabelWidth = 84;
-    CGRect timeLabelFrame = CGRectMake(SCREEN_WIDTH-MARGIN_LEFT-timeLabelWidth, 2, timeLabelWidth, 30);
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame: timeLabelFrame];
+    UILabel *timeLabel = [[UILabel alloc] init];
     timeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
     timeLabel.textAlignment = NSTextAlignmentRight;
     timeLabel.textColor = [UIColor darkGrayColor];
@@ -326,7 +332,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 - (UILabel *)contentLabel
 {
     UILabel *contentLabel = [[UILabel alloc] init];
-    contentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]]; //preferredFontForTextStyle:UIFontTextStyleSubheadline
+    contentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
     contentLabel.numberOfLines = 0;
     contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
 
