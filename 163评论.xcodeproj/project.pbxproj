@@ -21,6 +21,7 @@
 		7B324F9219D4661A0079F7F8 /* NSError+networkMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B324F9119D4661A0079F7F8 /* NSError+networkMsg.m */; };
 		7B366C4A19D071F600A22857 /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B366C4919D071F600A22857 /* MenuItem.m */; };
 		7B366C4D19D0836B00A22857 /* MenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B366C4C19D0836B00A22857 /* MenuItemView.m */; };
+		7B3CA74D1A1A287700175E4B /* RandomPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */; };
 		7B428D93190E914D00860E94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B428D92190E914D00860E94 /* Foundation.framework */; };
 		7B428D95190E914D00860E94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B428D94190E914D00860E94 /* CoreGraphics.framework */; };
 		7B428D97190E914D00860E94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B428D96190E914D00860E94 /* UIKit.framework */; };
@@ -33,7 +34,6 @@
 		7B428DB6190E914D00860E94 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B428DB4190E914D00860E94 /* InfoPlist.strings */; };
 		7B428DB8190E914D00860E94 /* _63__Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B428DB7190E914D00860E94 /* _63__Tests.m */; };
 		7B428DCE190EA02F00860E94 /* ItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B428DCD190EA02F00860E94 /* ItemStore.m */; };
-		7B44D55D19B2BBB20031B9E1 /* RandomPostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B44D55C19B2BBB20031B9E1 /* RandomPostView.m */; };
 		7B468B1E198C8A700061AB58 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B468B0E198C8A700061AB58 /* MJRefresh.bundle */; };
 		7B468B1F198C8A700061AB58 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B468B11198C8A700061AB58 /* MJRefreshBaseView.m */; };
 		7B468B20198C8A700061AB58 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B468B13198C8A700061AB58 /* MJRefreshConst.m */; };
@@ -49,6 +49,8 @@
 		7B48EA48191253BB0051C095 /* TagStoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B48EA47191253BB0051C095 /* TagStoreTest.m */; };
 		7B48EA4B19128FE10051C095 /* Posts.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B48EA4A19128FE10051C095 /* Posts.m */; };
 		7B4E392819B3175E00C6514A /* RandomPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E392719B3175E00C6514A /* RandomPostViewController.m */; };
+		7B50FD891A1AF08200A36619 /* RandomPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B50FD871A1AF08200A36619 /* RandomPostCell.m */; };
+		7B50FD8A1A1AF08200A36619 /* RandomPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B50FD881A1AF08200A36619 /* RandomPostCell.xib */; };
 		7B5D8EBB1A0BAA0B00F7757D /* PlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D8EBA1A0BAA0B00F7757D /* PlaceholderView.m */; };
 		7B63833E1A0643BB004017A0 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B63833B1A0643BB004017A0 /* ShareView.m */; };
 		7B63833F1A0643BB004017A0 /* ShareItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B63833D1A0643BB004017A0 /* ShareItem.m */; };
@@ -136,6 +138,7 @@
 		7B366C4919D071F600A22857 /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
 		7B366C4B19D0836B00A22857 /* MenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemView.h; sourceTree = "<group>"; };
 		7B366C4C19D0836B00A22857 /* MenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemView.m; sourceTree = "<group>"; };
+		7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RandomPostViewController.xib; sourceTree = "<group>"; };
 		7B428D8F190E914D00860E94 /* 163评论.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "163评论.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B428D92190E914D00860E94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7B428D94190E914D00860E94 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -153,8 +156,6 @@
 		7B428DB7190E914D00860E94 /* _63__Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _63__Tests.m; sourceTree = "<group>"; };
 		7B428DCC190EA02F00860E94 /* ItemStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemStore.h; sourceTree = "<group>"; };
 		7B428DCD190EA02F00860E94 /* ItemStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemStore.m; sourceTree = "<group>"; };
-		7B44D55B19B2BBB20031B9E1 /* RandomPostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPostView.h; sourceTree = "<group>"; };
-		7B44D55C19B2BBB20031B9E1 /* RandomPostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPostView.m; sourceTree = "<group>"; };
 		7B468B0E198C8A700061AB58 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		7B468B0F198C8A700061AB58 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		7B468B10198C8A700061AB58 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -179,6 +180,9 @@
 		7B48EA4A19128FE10051C095 /* Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Posts.m; sourceTree = "<group>"; };
 		7B4E392619B3175E00C6514A /* RandomPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPostViewController.h; sourceTree = "<group>"; };
 		7B4E392719B3175E00C6514A /* RandomPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPostViewController.m; sourceTree = "<group>"; };
+		7B50FD861A1AF08200A36619 /* RandomPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPostCell.h; sourceTree = "<group>"; };
+		7B50FD871A1AF08200A36619 /* RandomPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPostCell.m; sourceTree = "<group>"; };
+		7B50FD881A1AF08200A36619 /* RandomPostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RandomPostCell.xib; sourceTree = "<group>"; };
 		7B5D8EB91A0BAA0B00F7757D /* PlaceholderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderView.h; sourceTree = "<group>"; };
 		7B5D8EBA1A0BAA0B00F7757D /* PlaceholderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderView.m; sourceTree = "<group>"; };
 		7B63833A1A0643BB004017A0 /* ShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareView.h; sourceTree = "<group>"; };
@@ -594,10 +598,12 @@
 		7BAFE6FF19FF961F00A2914B /* RandomPost */ = {
 			isa = PBXGroup;
 			children = (
-				7B44D55B19B2BBB20031B9E1 /* RandomPostView.h */,
-				7B44D55C19B2BBB20031B9E1 /* RandomPostView.m */,
 				7B4E392619B3175E00C6514A /* RandomPostViewController.h */,
 				7B4E392719B3175E00C6514A /* RandomPostViewController.m */,
+				7B50FD861A1AF08200A36619 /* RandomPostCell.h */,
+				7B50FD871A1AF08200A36619 /* RandomPostCell.m */,
+				7B50FD881A1AF08200A36619 /* RandomPostCell.xib */,
+				7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */,
 			);
 			name = RandomPost;
 			sourceTree = "<group>";
@@ -894,10 +900,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B50FD8A1A1AF08200A36619 /* RandomPostCell.xib in Resources */,
 				7B217EFB191A7B9F00AEE684 /* CommViewController.xib in Resources */,
 				7B1BA1B4191FB64700669E2C /* comment.bundle in Resources */,
 				7B428D9D190E914D00860E94 /* InfoPlist.strings in Resources */,
 				7BEB0D771970C78D00EBACC6 /* PostCell.xib in Resources */,
+				7B3CA74D1A1A287700175E4B /* RandomPostViewController.xib in Resources */,
 				7BB0377419E5971600576838 /* FQBaseViewController.xib in Resources */,
 				7B428DA5190E914D00860E94 /* Images.xcassets in Resources */,
 				7BAFE70319FFA1B700A2914B /* tagColor.plist in Resources */,
@@ -934,7 +942,6 @@
 			files = (
 				7B468B21198C8A700061AB58 /* MJRefreshFooterView.m in Sources */,
 				7BD59EC219CF229B00A992EE /* MenuView.m in Sources */,
-				7B44D55D19B2BBB20031B9E1 /* RandomPostView.m in Sources */,
 				7BB0377319E5971600576838 /* FQBaseViewController.m in Sources */,
 				7BAFE6FD19FF94B400A2914B /* TagScrollView.m in Sources */,
 				7B13386B1912027600D97902 /* FQConnection.m in Sources */,
@@ -977,6 +984,7 @@
 				7B428D9F190E914D00860E94 /* main.m in Sources */,
 				7B48EA2E1912467C0051C095 /* Tags.m in Sources */,
 				7B300BD119CFE1C9008EACA6 /* UIButton+menuItem.m in Sources */,
+				7B50FD891A1AF08200A36619 /* RandomPostCell.m in Sources */,
 				7BEB0D751970C77000EBACC6 /* PostCell.m in Sources */,
 				7BAFF13219F557DC00E9EB62 /* FontSetViewController.m in Sources */,
 				7B69D4FF19F40907009A7B61 /* SettingViewController.m in Sources */,
