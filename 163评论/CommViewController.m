@@ -64,7 +64,6 @@ static NSString * const CellIdentifier = @"CommCell";
     [self.navView addConstraints:consH];
     [self.navView addConstraints:consV];
     
-    
 	// 设置tableView
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -97,11 +96,23 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (void)share:(UIButton *)shareButton
 {
-    ShareView *view = [[ShareView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    view.shareViewDelegate = self;
-    [self.view addSubview:view];
+    ShareView *shareView = [[ShareView alloc] init]; //WithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+    shareView.shareViewDelegate = self;
+    [self.view addSubview:shareView];
     
-    [view showShareView];
+    //为shareView添加约束
+    NSDictionary *nameMap = @{@"shareView":shareView};
+    shareView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *shareViewConsW = [NSLayoutConstraint constraintWithItem:shareView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    NSLayoutConstraint *shareViewConsH = [NSLayoutConstraint constraintWithItem:shareView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+    NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[shareView]-0-|" options:0 metrics:nil views:nameMap];
+    NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[shareView]-0-|" options:0 metrics:nil views:nameMap];
+    [self.view addConstraints:@[shareViewConsW,shareViewConsH]];
+    [self.view addConstraints:consH];
+    [self.view addConstraints:consV];
+    
+    
+    [shareView showShareView];
 }
 
 #pragma mark - share delegate
@@ -347,16 +358,101 @@ static NSString * const CellIdentifier = @"CommCell";
     if (currRows >0)
         floorCount = currRows > 1?currRows-1:1;
     [cell bindContent:content floorCount:floorCount height:NULL fontSizeChanged:isChanged];
+   
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
     NSNumber *height = [_cellsHeightDic objectForKey:row];
+    
     return height.floatValue;
+     */
+    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+    NSNumber *height = [_cellsHeightDic objectForKey:row];
+    if (height != nil) {
+        return height.floatValue;
+    } else {
+        
+        NSInteger count = 0;
+        Content *content = nil;
+        NSInteger preCount = 0;
+        NSInteger temp = 0;
+        
+        for (NSArray *array in _contents.contentItems) {
+            preCount = count;
+            if (array.count == 0)
+                temp = 0;
+            else
+                temp = array.count > 1 ? (array.count+1) : 1;
+            count += temp;
+            if ((indexPath.row+1) <= count) {
+                NSInteger tempIndex = indexPath.row+1-preCount; //preCount为之前所有栋的总行数，tempIndex是当前这一栋的第几行
+                if (tempIndex == 1 && array.count>1) {  //如果是这一栋的第一行
+                    content = [array lastObject];
+                    break;
+                } else if (array.count == 1){   //表示只有一层
+                    content = [array objectAtIndex:0];
+                    break;
+                } else if (tempIndex == 1){
+                    content = [array lastObject];
+                    break;
+                } else {
+                    content = [array objectAtIndex:tempIndex-2];
+                    break;
+                }
+                
+                
+            }
+        }
+        
+        NSString *cellID;
+        NSInteger currRows,preAllRows;
+        currRows = content.currRows.integerValue;
+        preAllRows = content.preAllRows.integerValue;
+        if (currRows == 1)
+            cellID = kCommCellTypeOnlyOne;
+        else {
+            if ( ( (indexPath.row+1) == (preAllRows+1)))
+                cellID = kCommCellTypeTop;
+            else if ((indexPath.row+1) == currRows+preAllRows)
+                cellID = kCommCellTypeBottom;
+            else
+                cellID = kCommCellTypeMiddle;
+        }
+        CommCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[CommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+        CGFloat cellHeight;
+        NSInteger floorCount =0;
+        if (currRows >0)
+            floorCount = currRows > 1?currRows-1:1;
+        [cell bindContent:content floorCount:floorCount height:&cellHeight fontSizeChanged:isChanged];
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
+        
+        cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
+        [cell setNeedsLayout];
+        [cell layoutIfNeeded];
+        
+        if (![cellID isEqualToString:kCommCellTypeMiddle]) {  //[cellID isEqualToString:kCommCellTypeOnlyOne] || [cellID isEqualToString:kCommCellTypeTop]
+            [cell.contentView setNeedsUpdateConstraints];
+            CGFloat h = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+            [_cellsHeightDic setObject:[NSNumber numberWithFloat:h] forKey:row];
+        } else {
+            [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
+        }
+        
+        return cellHeight;
+    }
+
+    
 }
 
+/*
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
@@ -420,11 +516,16 @@ static NSString * const CellIdentifier = @"CommCell";
         if (currRows >0)
             floorCount = currRows > 1?currRows-1:1;
         [cell bindContent:content floorCount:floorCount height:&cellHeight fontSizeChanged:isChanged];
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
         
-        if ([cellID isEqualToString:kCommCellTypeOnlyOne]) {
+        cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
+        [cell setNeedsLayout];
+        [cell layoutIfNeeded];
+        
+        if ([cellID isEqualToString:kCommCellTypeOnlyOne] || [cellID isEqualToString:kCommCellTypeTop]) {
             [cell.contentView setNeedsUpdateConstraints];
-            [cell.contentView updateConstraintsIfNeeded];
-            CGFloat h = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+            CGFloat h = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
             [_cellsHeightDic setObject:[NSNumber numberWithFloat:h] forKey:row];
         } else {
             [_cellsHeightDic setObject:[NSNumber numberWithFloat:cellHeight] forKey:row];
@@ -433,7 +534,7 @@ static NSString * const CellIdentifier = @"CommCell";
         return cellHeight;
     }
 }
-
+*/
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

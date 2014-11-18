@@ -32,7 +32,7 @@
                 <constraint firstAttribute="bottom" secondItem="gGS-gn-Gev" secondAttribute="bottom" id="UmX-0F-Kar"/>
                 <constraint firstAttribute="trailing" secondItem="gGS-gn-Gev" secondAttribute="trailing" id="ujo-1x-JLO"/>
             </constraints>
-            <point key="canvasLocation" x="139" y="157"/>
+            <point key="canvasLocation" x="109" y="158"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
