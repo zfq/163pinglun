@@ -7,15 +7,15 @@
 //
 
 #import "RandomPostViewController.h"
-#import "RandomPostView.h"
 #import "ItemStore.h"
 #import "RandomPosts.h"
 #import "RandomPost.h"
 #import "CommViewController.h"
 #import "UITableView+SmoothMove.h"
 #import "PlaceholderView.h"
+#import "RandomPostCell.h"
 
-static NSString *randomCellIdentifier = @"randomCell";
+static NSString *reuseId = @"RandomPostCell";
 
 @interface RandomPostViewController ()
 {
@@ -41,32 +41,26 @@ static NSString *randomCellIdentifier = @"randomCell";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.view.backgroundColor = [UIColor clearColor];
     }
     return self;
-}
-
-- (void)loadView
-{ 
-    RandomPostView *view = [[RandomPostView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.view = view;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     //添加maskView
-    CGFloat navHeight = 64;
     originAlpha = 0.7;
-    maskView = [[UIControl alloc] initWithFrame:CGRectMake(0, navHeight, SCREEN_WIDTH, SCREEN_HEIGHT-navHeight)];
-    maskView.backgroundColor = [UIColor blackColor]; //blackColor
+    maskView = [[UIControl alloc] init];
+    maskView.backgroundColor = [UIColor blackColor];
     maskView.alpha = 0;
     [maskView addTarget:self action:@selector(tapMaskView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:maskView];
-    
+
     //添加tableView
-    marginLeft = (55 * SCREEN_WIDTH)/320.0f;
-    postTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-navHeight) style:UITableViewStylePlain];
+    marginLeft = (55 * (self.view.frame.size.width))/320.0f;
+    postTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     postTableView.dataSource = self;
     postTableView.delegate = self;
@@ -76,20 +70,58 @@ static NSString *randomCellIdentifier = @"randomCell";
     [self.view addSubview:postTableView];
     [postTableView addObserver:self forKeyPath:@"panGestureRecognizer.state" options:NSKeyValueObservingOptionNew context:nil];
     
+    //注册cell
+    UINib *nib = [UINib nibWithNibName:@"RandomPostCell" bundle:nil];
+    [postTableView registerNib:nib forCellReuseIdentifier:reuseId];
+    
+    //为postTableView添加约束
+    NSDictionary *nameMap1 = @{@"postTable":postTableView};
+    postTableView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *tableViewConsH = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];
+    NSLayoutConstraint *tableViewConsW = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-marginLeft];
+    [self.view addConstraints:@[tableViewConsH,tableViewConsW]];
+
+    NSString *vfH = [NSString stringWithFormat:@"H:|-%f-[postTable]",marginLeft];
+    NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap1];
+    NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-64-[postTable]" options:0 metrics:nil views:nameMap1];
+    [self.view addConstraints:consH];
+    [self.view addConstraints:consV];
+    
     //添加nav阴影
     UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
     UIImageView *navImgView = [[UIImageView alloc] initWithImage:navImg];
-    navImgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, navImg.size.height);
     [self.view addSubview:navImgView];
     
+    //为maskView和navImgView添加约束
+    NSDictionary *nameMap2 = @{@"mask":maskView,@"navImg":navImgView};
+    maskView.translatesAutoresizingMaskIntoConstraints = NO;
+    navImgView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *maskViewConsH = [NSLayoutConstraint constraintWithItem:maskView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];//-64
+    [self.view addConstraint:maskViewConsH];
+    NSArray *maskConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[mask(>=0)]-0-|" options:0 metrics:nil views:nameMap2];
+    NSArray *maskConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[mask]-0-|" options:0 metrics:nil views:nameMap2];
+    [self.view addConstraints:maskConsH];
+    [self.view addConstraints:maskConsV];
+
+    NSLayoutConstraint *navImgViewConsW = [NSLayoutConstraint constraintWithItem:navImgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    NSLayoutConstraint *navImgViewConsCenterX = [NSLayoutConstraint constraintWithItem:navImgView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+    [self.view addConstraints:@[navImgViewConsW,navImgViewConsCenterX]];
+    NSString *vfV = [NSString stringWithFormat:@"V:|-0-[navImg(%f)]",navImg.size.height];
+    NSArray *navImgConsV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:nameMap2];
+    [self.view addConstraints:navImgConsV];
+   
     //设置maskView透明度渐变及tableView的滑入
+    CGRect originRect = postTableView.frame;
+    originRect.origin.x = self.view.frame.size.width;
+    postTableView.frame = originRect;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         CGRect rect = postTableView.frame;
         rect.origin.x = marginLeft;
         postTableView.frame = rect;
         maskView.alpha = originAlpha;
     } completion:nil];
-    
+
     //加载数据
     [self loadRandomPostData];
 }
@@ -120,12 +152,24 @@ static NSString *randomCellIdentifier = @"randomCell";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+//    postTableView.transform = CGAffineTransformMakeTranslation(postTableView.frame.size.width, 0);
     [postTableView deselectRowAtIndexPath:[postTableView indexPathForSelectedRow]  animated:YES];
 }
 
 - (void)showRandomPostView
 {
+    [self willMoveToParentViewController:self.parentViewController];
+    
     [self.parentViewController.view addSubview:self.view];
+    
+    //为self.view添加约束
+    NSDictionary *nameMap = @{@"viewSelf":self.view};
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    NSArray *viewConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[viewSelf(>=0)]-0-|" options:0 metrics:nil views:nameMap];
+    NSArray *viewConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[viewSelf(>=0)]-0-|" options:0 metrics:nil views:nameMap];
+    [self.parentViewController.view addConstraints:viewConsH];
+    [self.parentViewController.view addConstraints:viewConsV];
+    
     [self didMoveToParentViewController:self.parentViewController];
 }
 
@@ -167,23 +211,16 @@ static NSString *randomCellIdentifier = @"randomCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"randomCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"randomCell"];
-        cell.textLabel.font = [UIFont systemFontOfSize:14.0];
-        
-        //添加分割线
-        CGFloat height = cell.contentView.frame.size.height;
-        CGFloat width = tableView.frame.size.width;
-        UILabel *separatorLine = [[UILabel alloc] initWithFrame:CGRectMake(15, height-1, width, 1)];
-        separatorLine.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        [cell.contentView addSubview:separatorLine];
-    }
+    RandomPostCell *cell = (RandomPostCell *)[tableView dequeueReusableCellWithIdentifier:reuseId];
     RandomPost *post = [_posts objectAtIndex:indexPath.row];
-    cell.textLabel.text = post.title;
+    cell.myContentLabel.text = post.title;
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RandomPost *post = [_posts objectAtIndex:indexPath.row];
@@ -202,7 +239,6 @@ static NSString *randomCellIdentifier = @"randomCell";
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:@"换一组" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-        button.bounds = CGRectMake(0, 0, 100, 44);
         [button setTitleColor:TITLE_COLOR forState:UIControlStateNormal];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         [button setBackgroundColor:[UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0]];
@@ -210,9 +246,28 @@ static NSString *randomCellIdentifier = @"randomCell";
         button.layer.borderColor = SEPARATOR_COLOR.CGColor;
         button.layer.cornerRadius = 4;
         button.layer.masksToBounds = YES;
-        button.center = CGPointMake(postFooterView.bounds.size.width/2, postFooterView.frame.size.height/2);
         [button addTarget:self action:@selector(loadNewPosts:) forControlEvents:UIControlEventTouchUpInside];
         [postFooterView addSubview:button];
+        //为btn添加约束
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *btnConsW = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:100];
+        NSLayoutConstraint *btnConsH = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:44];
+        [button addConstraints:@[btnConsW,btnConsH]];
+        NSLayoutConstraint *btnConsCenterX = [NSLayoutConstraint constraintWithItem:button
+                                                                          attribute:NSLayoutAttributeCenterX
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:postFooterView
+                                                                          attribute:NSLayoutAttributeCenterX
+                                                                         multiplier:1.0
+                                                                           constant:0];
+        NSLayoutConstraint *btnConsCenterY = [NSLayoutConstraint constraintWithItem:button
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:postFooterView
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                         multiplier:1.0 constant:0];
+        [postFooterView addConstraints:@[btnConsCenterX,btnConsCenterY]];
+        
     }
     return postFooterView;
 }
