@@ -76,6 +76,8 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
+    //下面的不能少！！！
     [self.contentView layoutSubviews];
     oneContentLabel.preferredMaxLayoutWidth = CGRectGetWidth(oneContentLabel.frame);
     middContentLabel.preferredMaxLayoutWidth = CGRectGetWidth(middContentLabel.frame);
@@ -177,21 +179,12 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         //1.设置wallImg宽度
         NSArray *wallConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
         [self.contentView addConstraints:wallConsH];
-        //2.设置user和floor 默认偏移15
-//        midAllConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[user(>=0)]-(>=0)-[floor(15)]-15-|" options:0 metrics:nil views:midDic];
-//        [self.contentView addConstraints:midAllConsH];
-        //3.设置floor 约束
+
         NSArray *floorV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[floor(30)]" options:0 metrics:nil views:midDic];
         [self.contentView addConstraints:floorV];
         
-//        NSString *vfV = @"V:|-0-[user(30)]-0-[content(>=0)]-0-[groundImg(4)]-0-|";
-//        midAllConsV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:midDic];
-//        [self.contentView addConstraints:midAllConsV];
         NSArray *groundImgH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[groundImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
         [self.contentView addConstraints:groundImgH];
-        //5.设置content宽度
-//        midContentConsW = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[content(>=0)]-15-|" options:0 metrics:nil views:midDic];
-//        [self.contentView addConstraints:midContentConsW];
         
         //5.设置wallImg高度
         NSArray *wallImgConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[wallImg(>=0)]-0-|" options:0 metrics:nil views:midDic];
