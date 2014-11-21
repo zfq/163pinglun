@@ -171,6 +171,8 @@ static NSString *reuseId = @"RandomPostCell";
 {
     [self willMoveToParentViewController:self.parentViewController];
     
+    [_posts removeAllObjects];
+    postTableView.tableFooterView = nil;
     [self.parentViewController.view addSubview:self.view];
     
     //为self.view添加约束
