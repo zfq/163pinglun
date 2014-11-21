@@ -23,16 +23,21 @@
 {
     self = [self initWithFrame:frame];
     
-    _placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _placeholderLabel = [[UILabel alloc] init];
     _placeholderLabel.text = contentStr;
     _placeholderLabel.font = [UIFont systemFontOfSize:fontSize];
     _placeholderLabel.textColor = RGBCOLOR(153, 153, 153, 1);
     _placeholderLabel.numberOfLines = 0;
     _placeholderLabel.textAlignment = NSTextAlignmentCenter;
-    [_placeholderLabel sizeToFit];
-    _placeholderLabel.center = CGPointMake(frame.size.width/2,frame.size.height/2-64);
+
     [self addSubview:_placeholderLabel];   //别忘添加logo图片
     
+    //为_placeholderLabel添加布局约束
+    _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *consCenterX = [NSLayoutConstraint constraintWithItem:_placeholderLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+    NSLayoutConstraint *consCenterY = [NSLayoutConstraint constraintWithItem:_placeholderLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0];
+    [self addConstraints:@[consCenterX,consCenterY]];
+
     return self;
 }
 
