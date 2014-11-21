@@ -29,10 +29,13 @@
     NSInteger _homePageIndex;
     UITableViewCell *_prototypeCell;        //预留一个用来计算高度
     NSMutableDictionary *_cellsHeightDic;   //所有cell的高度
-    MenuView *menu;
+   
     
     NSString *_tagName;
     NSInteger tagPageIndex;
+    
+    MenuView *menu;                     //菜单
+    RandomPostViewController *randomVC; //随便看看
 }
 
 @property (nonatomic,assign) NSInteger homePageIndex;
@@ -136,9 +139,12 @@
 
 - (void)showLookAround:(UIButton *)button
 {
-    RandomPostViewController *vc = [[RandomPostViewController alloc] init];
-    [self addChildViewController:vc];
-    [vc showRandomPostView];
+    if (randomVC == nil) {
+        randomVC = [[RandomPostViewController alloc] init];
+    }
+    
+    [self addChildViewController:randomVC];
+    [randomVC showRandomPostView];
 }
 
 - (void)showSetting:(UIButton *)button
