@@ -35,7 +35,6 @@
     NSInteger tagPageIndex;
     
     MenuView *menu;                     //菜单
-    RandomPostViewController *randomVC; //随便看看
 }
 
 @property (nonatomic,assign) NSInteger homePageIndex;
@@ -139,12 +138,9 @@
 
 - (void)showLookAround:(UIButton *)button
 {
-    if (randomVC == nil) {
-        randomVC = [[RandomPostViewController alloc] init];
-    }
-    
-    [self addChildViewController:randomVC];
-    [randomVC showRandomPostView];
+    RandomPostViewController *rVC = [[RandomPostViewController alloc] init];
+    [self addChildViewController:rVC];
+    [rVC showRandomPostView];
 }
 
 - (void)showSetting:(UIButton *)button
@@ -388,10 +384,6 @@
     [self.navigationController pushViewController:cVC animated:YES];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return 40;
-//}
 #pragma mark - tagScrollView Delegate 标签视图代理
 - (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC
 {
@@ -400,13 +392,13 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
     [self.tableView headerBeginRefreshing];
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
     if (self.view.superview == nil && self.view.window == nil) {
         self.view = nil;
     }
