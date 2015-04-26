@@ -21,6 +21,7 @@
 		7B324F9219D4661A0079F7F8 /* NSError+networkMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B324F9119D4661A0079F7F8 /* NSError+networkMsg.m */; };
 		7B366C4A19D071F600A22857 /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B366C4919D071F600A22857 /* MenuItem.m */; };
 		7B366C4D19D0836B00A22857 /* MenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B366C4C19D0836B00A22857 /* MenuItemView.m */; };
+		7B3C92FE1A3B349A0089D7AD /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3C92FD1A3B349A0089D7AD /* Launch Screen.xib */; };
 		7B3CA74D1A1A287700175E4B /* RandomPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */; };
 		7B428D93190E914D00860E94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B428D92190E914D00860E94 /* Foundation.framework */; };
 		7B428D95190E914D00860E94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B428D94190E914D00860E94 /* CoreGraphics.framework */; };
@@ -138,6 +139,7 @@
 		7B366C4919D071F600A22857 /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
 		7B366C4B19D0836B00A22857 /* MenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemView.h; sourceTree = "<group>"; };
 		7B366C4C19D0836B00A22857 /* MenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemView.m; sourceTree = "<group>"; };
+		7B3C92FD1A3B349A0089D7AD /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RandomPostViewController.xib; sourceTree = "<group>"; };
 		7B428D8F190E914D00860E94 /* 163评论.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "163评论.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B428D92190E914D00860E94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -404,6 +406,7 @@
 				7B428DC8190E9F4E00860E94 /* AppDelegate */,
 				7B428DA4190E914D00860E94 /* Images.xcassets */,
 				7B428D99190E914D00860E94 /* Supporting Files */,
+				7B3C92FD1A3B349A0089D7AD /* Launch Screen.xib */,
 			);
 			path = "163评论";
 			sourceTree = "<group>";
@@ -600,10 +603,10 @@
 			children = (
 				7B4E392619B3175E00C6514A /* RandomPostViewController.h */,
 				7B4E392719B3175E00C6514A /* RandomPostViewController.m */,
+				7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */,
 				7B50FD861A1AF08200A36619 /* RandomPostCell.h */,
 				7B50FD871A1AF08200A36619 /* RandomPostCell.m */,
 				7B50FD881A1AF08200A36619 /* RandomPostCell.xib */,
-				7B3CA74C1A1A287700175E4B /* RandomPostViewController.xib */,
 			);
 			name = RandomPost;
 			sourceTree = "<group>";
@@ -913,6 +916,7 @@
 				7B6383441A065D7C004017A0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				7B29B7FA1991249300E91D0B /* WeiboSDK.bundle in Resources */,
 				7B21044919F4A0B000E76DEF /* setting.plist in Resources */,
+				7B3C92FE1A3B349A0089D7AD /* Launch Screen.xib in Resources */,
 				7BFFE054196EC1D400F1A349 /* MBProgressHUD.bundle in Resources */,
 				7B468B1E198C8A700061AB58 /* MJRefresh.bundle in Resources */,
 			);

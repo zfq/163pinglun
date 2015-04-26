@@ -16,7 +16,9 @@
     [self setHidden:NO];
     [self setContentOffset:self.contentOffset animated:NO];
     //连续点击问题修复：cell复位已经确保之前动画被取消
-    [[self class] cancelPreviousPerformRequestsWithTarget:self];
+//    [[self class] cancelPreviousPerformRequestsWithTarget:self];
+//    [NSRunLoop cancelPreviousPerformRequestsWithTarget:self];
+    
     NSArray *array = [self indexPathsForVisibleRows];
     for (int i=0 ; i < [array count]; i++) {
         NSIndexPath *path = [array objectAtIndex:i];
@@ -65,7 +67,7 @@
     CAAnimationGroup *group = [CAAnimationGroup animation];
     group.animations = @[animation,alphaAnimation];
     group.duration = 0.3;
-    group.removedOnCompletion = NO;
+    group.removedOnCompletion = YES;
     group.fillMode = kCAFillModeForwards;
     [layer addAnimation:group forKey:@"smoothMove"];
 }
