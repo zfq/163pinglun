@@ -30,7 +30,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="AG8-Zl-tEH"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>

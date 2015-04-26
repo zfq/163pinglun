@@ -35,7 +35,8 @@
     shadowImg = [shadowImg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 5, 0) resizingMode:UIImageResizingModeStretch];
     UIImageView *shadowImgView = [[UIImageView alloc] initWithFrame:CGRectMake(-width, 0, width, SCREEN_HEIGHT)];
     shadowImgView.image = shadowImg;
-    [self.view addSubview:shadowImgView];
+//    [self.view insertSubview:shadowImgView atIndex:0];
+//    [self.view addSubview:shadowImgView];
     CALayer *layer = self.view.layer;
     layer.shadowColor = [UIColor blackColor].CGColor;
     layer.shadowOpacity = 0.4;
