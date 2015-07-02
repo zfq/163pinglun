@@ -9,7 +9,7 @@
 
 #import "FQNavigationController.h"
 
-#define FQ_KEY_WINDOW  [[UIApplication sharedApplication]keyWindow]
+#define FQ_KEY_WINDOW  [[UIApplication sharedApplication] keyWindow]
 #define FQ_NAV_WIDTH   [UIScreen mainScreen].bounds.size.width
 
 @interface FQNavigationController ()
@@ -28,7 +28,7 @@
     [super viewDidLoad];
     
     self.navigationBar.hidden = YES;
-
+    /*
     //添加阴影,注意这里的view并不是rootViewController.view
     UIImage *shadowImg = [UIImage imageNamed:@"shadow_left"];
     CGFloat width = shadowImg.size.width;
@@ -49,6 +49,7 @@
     self.interactivePopGestureRecognizer.enabled = NO;
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
     [self.view addGestureRecognizer:panGesture];
+     */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,6 +57,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
 #pragma mark - push/pop
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
@@ -196,6 +198,7 @@
 {
     return YES;
 }
+ */
 @end
 
 
