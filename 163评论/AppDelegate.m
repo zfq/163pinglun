@@ -11,17 +11,19 @@
 #import "ItemStore.h"
 #import "FQNavigationController.h"
 #import "SocialSharing.h"
+#import "MLBlackTransition.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    //启动返回手势
+    [MLBlackTransition validatePanPackWithMLBlackTransitionGestureRecognizerType:MLBlackTransitionGestureRecognizerTypePan];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     HomeViewController *hVC = [[HomeViewController alloc] init];
     FQNavigationController *fVC = [[FQNavigationController alloc] initWithRootViewController:hVC];
-   
     self.window.rootViewController = fVC;
     
     self.window.backgroundColor = [UIColor whiteColor];
