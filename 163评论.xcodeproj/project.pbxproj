@@ -94,6 +94,7 @@
 		7BEBD4F71996009C000F5028 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4F61996009C000F5028 /* libz.dylib */; };
 		7BFFE04F196EA05900F1A349 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFFE04E196EA05900F1A349 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7BFFE054196EC1D400F1A349 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BFFE053196EC1D400F1A349 /* MBProgressHUD.bundle */; };
+		B1DF31E41B4A449900511059 /* MLBlackTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DF31E31B4A449900511059 /* MLBlackTransition.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,6 +255,8 @@
 		7BFFE04D196EA05900F1A349 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		7BFFE04E196EA05900F1A349 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		7BFFE053196EC1D400F1A349 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		B1DF31E21B4A449900511059 /* MLBlackTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLBlackTransition.h; sourceTree = "<group>"; };
+		B1DF31E31B4A449900511059 /* MLBlackTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLBlackTransition.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -759,6 +762,7 @@
 		7BFFE04B196E9FCF00F1A349 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				B1DF31E11B4A449900511059 /* MLTransition */,
 				7BB0376F19E596E400576838 /* FQBaseViewController */,
 				7B468B0D198C8A700061AB58 /* MJRefresh */,
 				7B19FE951988894600D4EAC7 /* FQNavigationController */,
@@ -804,6 +808,15 @@
 				7B1BA1B3191FB64700669E2C /* comment.bundle */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B1DF31E11B4A449900511059 /* MLTransition */ = {
+			isa = PBXGroup;
+			children = (
+				B1DF31E21B4A449900511059 /* MLBlackTransition.h */,
+				B1DF31E31B4A449900511059 /* MLBlackTransition.m */,
+			);
+			path = MLTransition;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -953,6 +966,7 @@
 				7BB1352F19829A8F00718C62 /* Content.m in Sources */,
 				7B468B24198C8A700061AB58 /* UIScrollView+MJRefresh.m in Sources */,
 				7B22A9D0191D2F41001943F3 /* Contents.m in Sources */,
+				B1DF31E41B4A449900511059 /* MLBlackTransition.m in Sources */,
 				7B366C4D19D0836B00A22857 /* MenuItemView.m in Sources */,
 				7B776CDC1A052C82001E1B15 /* UITableView+SmoothMove.m in Sources */,
 				7B468B22198C8A700061AB58 /* MJRefreshHeaderView.m in Sources */,
