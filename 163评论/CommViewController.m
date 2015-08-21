@@ -160,7 +160,7 @@ static NSString * const CellIdentifier = @"CommCell";
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-#ifdef TEST_163_LOSS
+#if TEST_163_LOSS
             NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";  //8484 10798
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
@@ -180,7 +180,7 @@ static NSString * const CellIdentifier = @"CommCell";
                 [self.tableView reloadData];
             }];
         } else {    //网络不可用
-#ifdef TEST_163_LOSS
+#if TEST_163_LOSS
             _postID = [NSNumber numberWithInteger:10798];
 #endif
             [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
@@ -339,7 +339,7 @@ static NSString * const CellIdentifier = @"CommCell";
             weakControl = nil;
             UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-#ifdef TEST_163_LOSS
+#if TEST_163_LOSS
             NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
