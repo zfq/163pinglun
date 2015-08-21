@@ -337,7 +337,7 @@
     NSMutableArray *groupIDs = [[NSMutableArray alloc] init];
     NSNumber *groupID = nil;
     for (Content *content in contents) {
-        if (groupID.intValue != content.groupID.intValue) {
+        if ((groupID !=nil) || (groupID.intValue != content.groupID.intValue)) {
             groupID = content.groupID;
             [groupIDs addObject:content.groupID];
         }
