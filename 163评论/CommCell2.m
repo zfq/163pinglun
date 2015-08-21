@@ -10,6 +10,7 @@
 #import "Content.h"
 #import "GeneralService.h"
 #import "UIFont+Custom.h"
+#import "TOMSimpleLinkLabel.h"
 
 #define MARGIN_LEFT 15.0f  //指距离屏幕边缘的距离
 #define TOP_MARGIN 2.0f
@@ -29,7 +30,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     //只有1层
     UILabel *oneUserLabel;
     UILabel *oneTimeLabel;
-    UILabel *oneContentLabel;
+    TOMSimpleLinkLabel *oneContentLabel;
     UIView *oneSeparatorView;
     
     //top
@@ -40,7 +41,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     //middle
     UILabel *middUserLabel;
     UILabel *floorLabel;
-    UILabel *middContentLabel;
+    TOMSimpleLinkLabel *middContentLabel;
     UIImageView *wallImgView;
     UIImageView *groundImgView;
     
@@ -50,7 +51,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     NSArray *midContentConsW;   //conten宽度
     
     //bottom
-    UILabel *bottomContentLabel;
+    TOMSimpleLinkLabel *bottomContentLabel;
     UIView *separatorView;
 }
 @end
@@ -334,12 +335,18 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 
 - (UILabel *)contentLabel
 {
-    UILabel *contentLabel = [[UILabel alloc] init];
+    TOMSimpleLinkLabel *contentLabel = [[TOMSimpleLinkLabel alloc] init];
     contentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
     //    contentLabel.font = [UIFont customYouYuanFontWithSize:[GeneralService currContentFontSize]];
     contentLabel.numberOfLines = 0;
     contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
     
+    //设置选中的背景色
+    contentLabel.tom_red = 0.2;
+    contentLabel.tom_green = 0.6;
+    contentLabel.tom_blue = 1;
+    contentLabel.tom_alpha = 0.3;
+
     return contentLabel;
 }
 
