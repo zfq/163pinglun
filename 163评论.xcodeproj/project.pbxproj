@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		7B130CBC19BF3A3000BC96EB /* NSString+html.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B130CBB19BF3A3000BC96EB /* NSString+html.m */; };
 		7B13386B1912027600D97902 /* FQConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13386A1912027600D97902 /* FQConnection.m */; };
-		7B1BA1B4191FB64700669E2C /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B1BA1B3191FB64700669E2C /* comment.bundle */; };
-		7B21044919F4A0B000E76DEF /* setting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B21044819F4A0B000E76DEF /* setting.plist */; };
 		7B217EFA191A7B9F00AEE684 /* CommViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B217EF8191A7B9F00AEE684 /* CommViewController.m */; };
 		7B217EFB191A7B9F00AEE684 /* CommViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B217EF9191A7B9F00AEE684 /* CommViewController.xib */; };
 		7B22A9D0191D2F41001943F3 /* Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22A9CF191D2F41001943F3 /* Contents.m */; };
@@ -64,13 +62,11 @@
 		7B723004197D5CF700CA7DBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B723003197D5CF700CA7DBB /* CoreData.framework */; };
 		7B776CDC1A052C82001E1B15 /* UITableView+SmoothMove.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B776CDB1A052C82001E1B15 /* UITableView+SmoothMove.m */; };
 		7B776CDF1A053025001E1B15 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B776CDE1A053025001E1B15 /* SocialSharing.m */; };
-		7B9309AD19AA2D8600DE46A0 /* CommCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9309AC19AA2D8600DE46A0 /* CommCell.m */; };
 		7BA8580E1913E201002ADB85 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8580D1913E201002ADB85 /* Reachability.m */; };
 		7BAB04CD198E7A650007DAF4 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB04CC198E7A650007DAF4 /* GTMNSString+HTML.m */; };
 		7BABED3A196D8BA10075B850 /* GeneralService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BABED39196D8BA10075B850 /* GeneralService.m */; };
 		7BAFE6FC19FF94B400A2914B /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAFE6F919FF94B400A2914B /* TagView.m */; };
 		7BAFE6FD19FF94B400A2914B /* TagScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAFE6FB19FF94B400A2914B /* TagScrollView.m */; };
-		7BAFE70319FFA1B700A2914B /* tagColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BAFE70219FFA1B700A2914B /* tagColor.plist */; };
 		7BAFF13219F557DC00E9EB62 /* FontSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAFF13119F557DC00E9EB62 /* FontSetViewController.m */; };
 		7BB0377319E5971600576838 /* FQBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB0377119E5971600576838 /* FQBaseViewController.m */; };
 		7BB0377419E5971600576838 /* FQBaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB0377219E5971600576838 /* FQBaseViewController.xib */; };
@@ -93,7 +89,12 @@
 		7BEBD4F51996008C000F5028 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4F41996008C000F5028 /* libstdc++.dylib */; };
 		7BEBD4F71996009C000F5028 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4F61996009C000F5028 /* libz.dylib */; };
 		7BFFE04F196EA05900F1A349 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFFE04E196EA05900F1A349 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7BFFE054196EC1D400F1A349 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BFFE053196EC1D400F1A349 /* MBProgressHUD.bundle */; };
+		B15F1FAD1B81D9FB00333749 /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B15F1FA71B81D9FB00333749 /* comment.bundle */; };
+		B15F1FAE1B81D9FB00333749 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B15F1FA81B81D9FB00333749 /* MBProgressHUD.bundle */; };
+		B15F1FAF1B81D9FB00333749 /* setting.plist in Resources */ = {isa = PBXBuildFile; fileRef = B15F1FAA1B81D9FB00333749 /* setting.plist */; };
+		B15F1FB01B81D9FB00333749 /* tagColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = B15F1FAB1B81D9FB00333749 /* tagColor.plist */; };
+		B15F1FB41B81DDB400333749 /* UIFont+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = B15F1FB31B81DDB400333749 /* UIFont+Custom.m */; };
+		B15F1FBC1B8317A100333749 /* CommCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = B15F1FBB1B8317A100333749 /* CommCell2.m */; };
 		B1DF31E41B4A449900511059 /* MLBlackTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DF31E31B4A449900511059 /* MLBlackTransition.m */; };
 /* End PBXBuildFile section */
 
@@ -120,8 +121,6 @@
 		7B1338691912027600D97902 /* FQConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQConnection.h; sourceTree = "<group>"; };
 		7B13386A1912027600D97902 /* FQConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQConnection.m; sourceTree = "<group>"; };
 		7B13386C1912089400D97902 /* JSONSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
-		7B1BA1B3191FB64700669E2C /* comment.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = comment.bundle; sourceTree = "<group>"; };
-		7B21044819F4A0B000E76DEF /* setting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = setting.plist; sourceTree = "<group>"; };
 		7B217EF7191A7B9F00AEE684 /* CommViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommViewController.h; sourceTree = "<group>"; };
 		7B217EF8191A7B9F00AEE684 /* CommViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommViewController.m; sourceTree = "<group>"; };
 		7B217EF9191A7B9F00AEE684 /* CommViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommViewController.xib; sourceTree = "<group>"; };
@@ -205,8 +204,6 @@
 		7B776CDB1A052C82001E1B15 /* UITableView+SmoothMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SmoothMove.m"; sourceTree = "<group>"; };
 		7B776CDD1A053025001E1B15 /* SocialSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialSharing.h; sourceTree = "<group>"; };
 		7B776CDE1A053025001E1B15 /* SocialSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialSharing.m; sourceTree = "<group>"; };
-		7B9309AB19AA2D8600DE46A0 /* CommCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommCell.h; sourceTree = "<group>"; };
-		7B9309AC19AA2D8600DE46A0 /* CommCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommCell.m; sourceTree = "<group>"; };
 		7BA8580C1913E201002ADB85 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		7BA8580D1913E201002ADB85 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		7BAB04CB198E7A650007DAF4 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
@@ -218,7 +215,6 @@
 		7BAFE6F919FF94B400A2914B /* TagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagView.m; sourceTree = "<group>"; };
 		7BAFE6FA19FF94B400A2914B /* TagScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagScrollView.h; sourceTree = "<group>"; };
 		7BAFE6FB19FF94B400A2914B /* TagScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagScrollView.m; sourceTree = "<group>"; };
-		7BAFE70219FFA1B700A2914B /* tagColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagColor.plist; sourceTree = "<group>"; };
 		7BAFF13019F557DC00E9EB62 /* FontSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontSetViewController.h; sourceTree = "<group>"; };
 		7BAFF13119F557DC00E9EB62 /* FontSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontSetViewController.m; sourceTree = "<group>"; };
 		7BB0377019E5971600576838 /* FQBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQBaseViewController.h; sourceTree = "<group>"; };
@@ -254,7 +250,14 @@
 		7BEBD4F61996009C000F5028 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		7BFFE04D196EA05900F1A349 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		7BFFE04E196EA05900F1A349 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		7BFFE053196EC1D400F1A349 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		B15F1FA71B81D9FB00333749 /* comment.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = comment.bundle; sourceTree = "<group>"; };
+		B15F1FA81B81D9FB00333749 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		B15F1FAA1B81D9FB00333749 /* setting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = setting.plist; sourceTree = "<group>"; };
+		B15F1FAB1B81D9FB00333749 /* tagColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagColor.plist; sourceTree = "<group>"; };
+		B15F1FB21B81DDB400333749 /* UIFont+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Custom.h"; sourceTree = "<group>"; };
+		B15F1FB31B81DDB400333749 /* UIFont+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Custom.m"; sourceTree = "<group>"; };
+		B15F1FBA1B8317A100333749 /* CommCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommCell2.h; sourceTree = "<group>"; };
+		B15F1FBB1B8317A100333749 /* CommCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommCell2.m; sourceTree = "<group>"; };
 		B1DF31E21B4A449900511059 /* MLBlackTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLBlackTransition.h; sourceTree = "<group>"; };
 		B1DF31E31B4A449900511059 /* MLBlackTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLBlackTransition.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -417,9 +420,9 @@
 		7B428D99190E914D00860E94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B15F1FA31B81D9FB00333749 /* Resource */,
 				7BD59EC319CF22E600A992EE /* Other */,
 				7BFFE04B196E9FCF00F1A349 /* Util */,
-				7BFFE04C196EA01100F1A349 /* Resources */,
 				7B428D9A190E914D00860E94 /* 163评论-Info.plist */,
 				7B428D9B190E914D00860E94 /* InfoPlist.strings */,
 				7B428D9E190E914D00860E94 /* main.m */,
@@ -485,8 +488,8 @@
 				7BEB0D731970C77000EBACC6 /* PostCell.h */,
 				7BEB0D741970C77000EBACC6 /* PostCell.m */,
 				7BEB0D761970C78D00EBACC6 /* PostCell.xib */,
-				7B9309AB19AA2D8600DE46A0 /* CommCell.h */,
-				7B9309AC19AA2D8600DE46A0 /* CommCell.m */,
+				B15F1FBA1B8317A100333749 /* CommCell2.h */,
+				B15F1FBB1B8317A100333749 /* CommCell2.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -514,6 +517,8 @@
 		7B63A9FF19700EFC00F28EDB /* Catgroy */ = {
 			isa = PBXGroup;
 			children = (
+				B15F1FB21B81DDB400333749 /* UIFont+Custom.h */,
+				B15F1FB31B81DDB400333749 /* UIFont+Custom.m */,
 				7B776CD91A052C6A001E1B15 /* SmoothMove */,
 				7B130CBA19BF3A3000BC96EB /* NSString+html.h */,
 				7B130CBB19BF3A3000BC96EB /* NSString+html.m */,
@@ -773,16 +778,6 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
-		7BFFE04C196EA01100F1A349 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				7BFFE052196EA12000F1A349 /* Images */,
-				7B21044819F4A0B000E76DEF /* setting.plist */,
-				7BAFE70219FFA1B700A2914B /* tagColor.plist */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		7BFFE050196EA0D600F1A349 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,13 +796,39 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
-		7BFFE052196EA12000F1A349 /* Images */ = {
+		B15F1FA31B81D9FB00333749 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				7BFFE053196EC1D400F1A349 /* MBProgressHUD.bundle */,
-				7B1BA1B3191FB64700669E2C /* comment.bundle */,
+				B15F1FA41B81D9FB00333749 /* font */,
+				B15F1FA61B81D9FB00333749 /* img */,
+				B15F1FA91B81D9FB00333749 /* plist */,
 			);
-			name = Images;
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		B15F1FA41B81D9FB00333749 /* font */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = font;
+			sourceTree = "<group>";
+		};
+		B15F1FA61B81D9FB00333749 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				B15F1FA71B81D9FB00333749 /* comment.bundle */,
+				B15F1FA81B81D9FB00333749 /* MBProgressHUD.bundle */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
+		B15F1FA91B81D9FB00333749 /* plist */ = {
+			isa = PBXGroup;
+			children = (
+				B15F1FAA1B81D9FB00333749 /* setting.plist */,
+				B15F1FAB1B81D9FB00333749 /* tagColor.plist */,
+			);
+			path = plist;
 			sourceTree = "<group>";
 		};
 		B1DF31E11B4A449900511059 /* MLTransition */ = {
@@ -884,6 +905,9 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = zhaofuqiang;
 				TargetAttributes = {
+					7B428D8E190E914D00860E94 = {
+						DevelopmentTeam = L8BM2397DG;
+					};
 					7B428DA9190E914D00860E94 = {
 						TestTargetID = 7B428D8E190E914D00860E94;
 					};
@@ -918,19 +942,19 @@
 			files = (
 				7B50FD8A1A1AF08200A36619 /* RandomPostCell.xib in Resources */,
 				7B217EFB191A7B9F00AEE684 /* CommViewController.xib in Resources */,
-				7B1BA1B4191FB64700669E2C /* comment.bundle in Resources */,
+				B15F1FAE1B81D9FB00333749 /* MBProgressHUD.bundle in Resources */,
 				7B428D9D190E914D00860E94 /* InfoPlist.strings in Resources */,
 				7BEB0D771970C78D00EBACC6 /* PostCell.xib in Resources */,
+				B15F1FB01B81D9FB00333749 /* tagColor.plist in Resources */,
+				B15F1FAF1B81D9FB00333749 /* setting.plist in Resources */,
 				7B3CA74D1A1A287700175E4B /* RandomPostViewController.xib in Resources */,
 				7BB0377419E5971600576838 /* FQBaseViewController.xib in Resources */,
 				7B428DA5190E914D00860E94 /* Images.xcassets in Resources */,
-				7BAFE70319FFA1B700A2914B /* tagColor.plist in Resources */,
+				B15F1FAD1B81D9FB00333749 /* comment.bundle in Resources */,
 				7BEB0D721970C48E00EBACC6 /* HomeViewController.xib in Resources */,
 				7B6383441A065D7C004017A0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				7B29B7FA1991249300E91D0B /* WeiboSDK.bundle in Resources */,
-				7B21044919F4A0B000E76DEF /* setting.plist in Resources */,
 				7B3C92FE1A3B349A0089D7AD /* Launch Screen.xib in Resources */,
-				7BFFE054196EC1D400F1A349 /* MBProgressHUD.bundle in Resources */,
 				7B468B1E198C8A700061AB58 /* MJRefresh.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -957,6 +981,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B15F1FB41B81DDB400333749 /* UIFont+Custom.m in Sources */,
 				7B468B21198C8A700061AB58 /* MJRefreshFooterView.m in Sources */,
 				7BD59EC219CF229B00A992EE /* MenuView.m in Sources */,
 				7BB0377319E5971600576838 /* FQBaseViewController.m in Sources */,
@@ -988,10 +1013,10 @@
 				7B468B23198C8A700061AB58 /* UIScrollView+Extension.m in Sources */,
 				7BFFE04F196EA05900F1A349 /* MBProgressHUD.m in Sources */,
 				7B776CDF1A053025001E1B15 /* SocialSharing.m in Sources */,
+				B15F1FBC1B8317A100333749 /* CommCell2.m in Sources */,
 				7BB1353019829A8F00718C62 /* Post.m in Sources */,
 				7BABED3A196D8BA10075B850 /* GeneralService.m in Sources */,
 				7BAB04CD198E7A650007DAF4 /* GTMNSString+HTML.m in Sources */,
-				7B9309AD19AA2D8600DE46A0 /* CommCell.m in Sources */,
 				7B722FED197D450800CA7DBB /* 163pinglun.xcdatamodeld in Sources */,
 				7B24572B19F92E1C00A9DB6C /* TagViewController.m in Sources */,
 				7B130CBC19BF3A3000BC96EB /* NSString+html.m in Sources */,
@@ -1139,7 +1164,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: guangming wan (AJ83XXX44L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/163评论/qq",
@@ -1147,6 +1172,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "163评论/163评论-Prefix.pch";
 				INFOPLIST_FILE = "163评论/163评论-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/163评论/libWeiboSDK",
@@ -1165,7 +1191,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: guangming wan (AJ83XXX44L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/163评论/qq",
@@ -1173,6 +1199,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "163评论/163评论-Prefix.pch";
 				INFOPLIST_FILE = "163评论/163评论-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/163评论/libWeiboSDK",
