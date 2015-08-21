@@ -65,5 +65,14 @@
 #define DNSLog(...)
 #endif
 
+#define DEBUG_163 1
+#ifdef DEBUG_163
+#define debug_163(xx,...) NSLog(xx,##__VA_ARGS__)
+#else
+#define debug_163(xx,...) ((void)0)
+#endif
+
+//---------------测试---------
+#define TEST_163_LOSS 1
 
 
