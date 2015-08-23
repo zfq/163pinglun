@@ -265,7 +265,7 @@
     NSArray *array = @[content,@(floorCount),cellID];
     [_contentInfoDic setObject:array forKey:key];
     
-    [cell bindContent:content floorCount:floorCount height:&cellHeight fontSizeChanged:isChanged];
+    [cell bindContent:content floorCount:floorCount forHeight:&cellHeight fontSizeChanged:isChanged];
     
     return cellHeight;
 }

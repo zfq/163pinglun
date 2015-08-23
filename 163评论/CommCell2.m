@@ -118,6 +118,169 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     }
 }
 
+- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount forHeight:(CGFloat *)height fontSizeChanged:(BOOL)isChanged
+{
+    if (content == nil)
+        return;
+    
+    _content = content;
+    
+    CGFloat separatorHeight = 1;
+    CGFloat marginTop = 10;
+    CGFloat userMarginLeft = 15;
+    CGFloat timeHeight = 30;
+    CGFloat minGap = 20;
+    CGFloat sw = SCREEN_WIDTH;
+    
+    //获得当前的楼层为第几层
+    NSInteger floorIndex = content.floorIndex.integerValue;
+    NSString *reuseId = self.reuseIdentifier;
+    if ([reuseId isEqualToString:kCommCellTypeOnlyOne]) {
+        if (isChanged)
+            oneUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
+        oneUserLabel.text = content.user;
+        
+        oneTimeLabel.text = content.time;
+        if (isChanged)
+            oneTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
+        
+        oneContentLabel.text = content.content;
+        if (isChanged)
+            oneContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
+        
+        //计算高度
+        CGFloat timeWidth = 100;   //timeLabel的最大宽度为100
+        CGSize timeSize = [oneTimeLabel sizeThatFits:CGSizeMake(timeWidth, timeHeight)];
+        CGFloat maxUserLabelWidth = sw - 2 * userMarginLeft - timeSize.width - minGap;
+        CGSize userLabelSize = [oneUserLabel sizeThatFits:CGSizeMake(maxUserLabelWidth, timeHeight)];
+        if (userLabelSize.width > maxUserLabelWidth) {
+            userLabelSize.width = maxUserLabelWidth;
+        }
+        //计算frame --oneUserLabel
+        CGRect originFrame = oneUserLabel.frame;
+        originFrame.origin = CGPointMake(userMarginLeft, marginTop);
+        originFrame.size = userLabelSize;
+        oneUserLabel.frame = originFrame;
+        
+        //--oneTimeLabel
+        originFrame = oneTimeLabel.frame;
+        originFrame.size = timeSize;
+        originFrame.origin = CGPointMake(sw - userMarginLeft - timeSize.width, marginTop);
+        oneTimeLabel.frame = originFrame;
+        
+        //--oneContentLabel
+        CGSize maxContentLabelSize = CGSizeMake(sw - 2 * userMarginLeft, HUGE_VALF);
+        CGSize contentLabelSize = [oneContentLabel sizeThatFits:maxContentLabelSize];
+        originFrame = oneContentLabel.frame;
+        originFrame.origin = CGPointMake(userMarginLeft, CGRectGetMaxY(oneUserLabel.frame) + marginTop);
+        originFrame.size = contentLabelSize;
+        oneContentLabel.frame = originFrame;
+        
+        //--oneSeparatorView
+        oneSeparatorView.frame = CGRectMake(0, CGRectGetMaxY(oneContentLabel.frame), sw, separatorHeight);
+        
+        if (height != nil)
+            *height = CGRectGetMaxY(oneSeparatorView.frame);
+        
+    } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
+        
+        topUserLabel.text = content.user;
+        if (isChanged)
+            topUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
+        
+        topTimeLabel.text = content.time;
+        if (isChanged)
+            topTimeLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
+        
+        UIImage *roofImg = [self roofImgWithFloorCount:floorCount];
+        roofImgView.image = roofImg;
+        
+        CGFloat timeWidth = 100;   //timeLabel的最大宽度为100
+        CGSize timeSize = [topTimeLabel sizeThatFits:CGSizeMake(timeWidth, timeHeight)];
+        CGFloat maxUserLabelWidth = sw - 2 * userMarginLeft - timeSize.width - minGap;
+        CGSize userLabelSize = [topUserLabel sizeThatFits:CGSizeMake(maxUserLabelWidth, timeHeight)];
+        if (userLabelSize.width > maxUserLabelWidth) {
+            userLabelSize.width = maxUserLabelWidth;
+        }
+        //计算frame --topUserLabel
+        CGRect originFrame = topUserLabel.frame;
+        originFrame.origin = CGPointMake(userMarginLeft, marginTop);
+        originFrame.size = userLabelSize;
+        topUserLabel.frame = originFrame;
+        
+        //--topTimeLabel
+        originFrame = topTimeLabel.frame;
+        originFrame.size = timeSize;
+        originFrame.origin = CGPointMake(sw - userMarginLeft - timeSize.width, marginTop);
+        topTimeLabel.frame = originFrame;
+        
+        //--roofImgView
+        roofImgView.frame = CGRectMake(0, CGRectGetMaxY(topUserLabel.frame) + marginTop, sw, roofImg.size.height);
+        if (height != nil)
+            *height = CGRectGetMaxY(roofImgView.frame);
+        
+    } else if ([reuseId isEqualToString:kCommCellTypeMiddle]) {
+        
+        CGFloat labelX = [self labelXWithFloorCount:floorCount floorIndex:floorIndex];
+        if (isChanged)
+            middUserLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
+        middUserLabel.text = content.user;
+        
+        floorLabel.text = content.floorIndex.description;
+        if (isChanged)
+            floorLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
+        
+        middContentLabel.text = content.content;
+        if (isChanged)
+            middContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
+        
+//        UIImage *wallImg = [self wallImgWithFloorCount:floorCount floorIndex:floorIndex];
+        UIImage *groundImg = [self groundImgWithFloorCount:floorCount floorIndex:floorIndex];
+        
+        //计算坐标 --floorLabel
+        CGSize maxFloorSize = CGSizeMake(40, timeHeight);
+        CGSize floorSize = [floorLabel sizeThatFits:maxFloorSize];
+//        CGRect floorFrame = CGRectMake(sw - labelX - floorSize.width, marginTop, floorSize.width, floorSize.height);
+        
+        //--middUserLabel
+        CGFloat maxUserLabelWidth = sw - 2 * labelX - minGap - floorSize.width;
+        CGSize maxUserLabelSize = CGSizeMake(maxUserLabelWidth, timeHeight);
+        CGSize userLabelSize = [middUserLabel sizeThatFits:maxUserLabelSize];
+        if (userLabelSize.width > maxUserLabelWidth) {
+            userLabelSize.width = maxUserLabelWidth;
+        }
+        CGRect middUserFrame = CGRectMake(labelX, marginTop, userLabelSize.width, userLabelSize.height);
+        
+        //--middContentLabel
+        CGSize maxContentLabelSize = CGSizeMake(sw - 2 * labelX, HUGE_VALF);
+        CGSize contentLabelSize = [middContentLabel sizeThatFits:maxContentLabelSize];
+        CGRect contentFrame = CGRectMake(labelX, CGRectGetMaxY(middUserFrame) + marginTop, contentLabelSize.width, contentLabelSize.height);
+        
+        //--wallImgView
+        CGRect wallImgFrame = CGRectMake(0, 0, sw, CGRectGetMaxY(contentFrame) + marginTop);
+        
+        //--groundImgView
+        CGRect groundImgFrame = CGRectMake(0, CGRectGetMaxY(wallImgFrame), sw, groundImg.size.height);
+        
+        if (height != nil)
+            *height = CGRectGetMaxY(groundImgFrame);
+        
+    } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
+        bottomContentLabel.text = content.content;
+        if (isChanged)
+            bottomContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
+        
+        //--bottomContentLabel
+        CGSize maxBottomContentLabelSize = CGSizeMake(sw - 2 * userMarginLeft, HUGE_VALF);
+        CGSize bottomContentLabelSize = [bottomContentLabel sizeThatFits:maxBottomContentLabelSize];
+        CGRect contentFrame = CGRectMake(userMarginLeft, marginTop, bottomContentLabelSize.width, bottomContentLabelSize.height);
+        
+        if (height != nil)
+            *height = CGRectGetMaxY(contentFrame) + marginTop;
+        
+    }
+
+}
 - (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height fontSizeChanged:(BOOL)isChanged
 {
     if (content == nil)

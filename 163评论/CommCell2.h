@@ -21,5 +21,5 @@ extern NSString *const kCommCellTypeBottom;
 }
 
 - (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount height:(CGFloat *)height fontSizeChanged:(BOOL)isChanged;
-
+- (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount forHeight:(CGFloat *)height fontSizeChanged:(BOOL)isChanged;
 @end
