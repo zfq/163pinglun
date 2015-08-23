@@ -17,18 +17,18 @@
 #import "SocialSharing.h"
 #import "CommCell2.h"
 
-static NSString * const CellIdentifier = @"CommCell";
-
-@interface CommViewController () <ShareViewDeleage>
+@interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
-    NSMutableDictionary *_cellsHeightDic;
-    NSMutableDictionary *_cellsDic;
     NSInteger cellCount;
     BOOL isChanged;
     
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
 }
+
+@property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
+@property (nonatomic,strong) NSMutableDictionary *cellsDic;
+
 @end
 
 @implementation CommViewController
@@ -72,17 +72,17 @@ static NSString * const CellIdentifier = @"CommCell";
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     _contentInfoDic = [[NSMutableDictionary alloc] init];
-    //注册cell
-//    [self.tableView registerNib:[UINib nibWithNibName:@"CommCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"CommCell2" bundle:nil] forCellReuseIdentifier:CellIdentifier];
     //获取跟帖
 	[self fetchComment];
     
     //注册设置字体大小通知
     isChanged = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -117,7 +117,6 @@ static NSString * const CellIdentifier = @"CommCell";
     [self.view addConstraints:@[shareViewConsW,shareViewConsH]];
     [self.view addConstraints:consH];
     [self.view addConstraints:consV];
-    
     
     [shareView showShareView];
 }
@@ -156,48 +155,49 @@ static NSString * const CellIdentifier = @"CommCell";
     
     //添加等待view
     __block UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
-    
+    CommViewController *__weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 #if TEST_163_LOSS
-            NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";  //8484 10798
+            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
             [ItemStore sharedItemStore].cotentsURL = url;
+            
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
-                _contents = contents;
-                _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
-                _cellsDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
+                weakSelf.contents = contents;
+                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
+                weakSelf.cellsDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
                 
-                [self caculatorHeight];
+                [weakSelf caculatorHeight];
                 
                 //更新UI
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-                self.tableView.tableHeaderView=nil;
-                [self removeActivityView:activityView];
-                [self.tableView reloadData];
+                weakSelf.tableView.tableHeaderView=nil;
+                [weakSelf removeActivityView:activityView];
+                [weakSelf.tableView reloadData];
             }];
         } else {    //网络不可用
 #if TEST_163_LOSS
-            _postID = [NSNumber numberWithInteger:10798];
+            _postID = [NSNumber numberWithInteger:8484];
 #endif
             [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
                 //移除等待view
-                [self removeActivityView:activityView];
+                [weakSelf removeActivityView:activityView];
                 //处理数据
                 if (contents.count > 0) {
-                    _contents = [[Contents alloc] initWithContents:contents];
+                    weakSelf.contents = [[Contents alloc] initWithContents:contents];
                     
-                    _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
-                    _cellsDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
+                    weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:weakSelf.contents.contentItems.count];
+                    weakSelf.cellsDic = [NSMutableDictionary dictionaryWithCapacity:weakSelf.contents.contentItems.count];
                     
-                    [self caculatorHeight];
+                    [weakSelf caculatorHeight];
                     
-                    [self.tableView reloadData];
+                    [weakSelf.tableView reloadData];
                 } else {
-                    [self addNoNetworkView];
+                    [weakSelf addNoNetworkView];
                 }
             }];
         }
@@ -330,30 +330,30 @@ static NSString * const CellIdentifier = @"CommCell";
 - (void)reloadContents:(UIControl *)control
 {
     __block UIControl *weakControl = control;
-    
+    CommViewController *__weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
             //更新UI
-            self.tableView.tableHeaderView = nil;
-            self.tableView.scrollEnabled = YES;
+            weakSelf.tableView.tableHeaderView = nil;
+            weakSelf.tableView.scrollEnabled = YES;
             weakControl = nil;
             UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 #if TEST_163_LOSS
-            NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";
+            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
             [ItemStore sharedItemStore].cotentsURL = url;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
-                _contents = contents;
-                _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
-                _cellsDic = [NSMutableDictionary dictionaryWithCapacity:_contents.contentItems.count];
+                weakSelf.contents = contents;
+                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
+                weakSelf.cellsDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
                 
                 //更新UI
-                [self removeActivityView:activityView];
+                [weakSelf removeActivityView:activityView];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-                [self.tableView reloadData];
+                [weakSelf.tableView reloadData];
             }];
         }
     }];
@@ -435,8 +435,7 @@ static NSString * const CellIdentifier = @"CommCell";
 
 - (void)dealloc
 {
-    _cellsHeightDic = nil;
-    _cellsDic = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FontSizeChangeNotification object:nil];
+//    NSLog(@"r co");
 }
 @end
