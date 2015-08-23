@@ -30,7 +30,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     //只有1层
     UILabel *oneUserLabel;
     UILabel *oneTimeLabel;
-    TOMSimpleLinkLabel *oneContentLabel;
+    UILabel *oneContentLabel;
     UIView *oneSeparatorView;
     
     //top
@@ -41,9 +41,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     //middle
     UILabel *middUserLabel;
     UILabel *floorLabel;
-    TOMSimpleLinkLabel *middContentLabel;
-    UIImageView *wallImgView;
-    UIImageView *groundImgView;
+    UILabel *middContentLabel;
     
     NSDictionary *midDic;
     NSArray *midAllConsV;       //user content ground vertical
@@ -51,8 +49,10 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     NSArray *midContentConsW;   //conten宽度
     
     //bottom
-    TOMSimpleLinkLabel *bottomContentLabel;
-    UIView *separatorView;
+    UILabel *bottomContentLabel;
+    
+    UIImageView *comBcgImgView;
+    BOOL drawed;
 }
 @end
 @implementation CommCell2
@@ -64,6 +64,11 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         // Initialization code
         self.backgroundColor = [UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0];
         [self addSubViewsWithId:reuseIdentifier];
+        
+        comBcgImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.contentView insertSubview:comBcgImgView atIndex:0];
+        
+        drawed = NO;
     }
     return self;
 }
@@ -107,20 +112,9 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         floorLabel.font = [UIFont systemFontOfSize:[GeneralService currSubtitleFontSize]];
         floorLabel.textAlignment = NSTextAlignmentRight;
         middContentLabel = [self contentLabel];
-        wallImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        groundImgView = [[UIImageView alloc] initWithFrame:CGRectZero];;
-        [self.contentView addSubview:wallImgView];
-        [self.contentView addSubview:middUserLabel];
-        [self.contentView addSubview:floorLabel];
-        [self.contentView addSubview:middContentLabel];
-        [self.contentView addSubview:groundImgView];
         
     } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
         bottomContentLabel = [self contentLabel];
-        [self.contentView addSubview:bottomContentLabel];
-        separatorView = [[UIView alloc] initWithFrame:CGRectZero];
-        separatorView.backgroundColor = SEPARATOR_COLOR;
-        [self.contentView addSubview:separatorView];
     }
 }
 
@@ -241,53 +235,79 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             middContentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
         
         UIImage *wallImg = [self wallImgWithFloorCount:floorCount floorIndex:floorIndex];
-        wallImgView.image = wallImg;
-        
         UIImage *groundImg = [self groundImgWithFloorCount:floorCount floorIndex:floorIndex];
-        groundImgView.image = groundImg;
         
         //计算坐标 --floorLabel
         CGSize maxFloorSize = CGSizeMake(40, timeHeight);
         CGSize floorSize = [floorLabel sizeThatFits:maxFloorSize];
-        CGRect originFrame = floorLabel.frame;
-        originFrame.origin = CGPointMake(sw - labelX - floorSize.width, marginTop);
-        originFrame.size = floorSize;
-        floorLabel.frame = originFrame;
+        CGRect floorFrame = CGRectMake(sw - labelX - floorSize.width, marginTop, floorSize.width, floorSize.height);
         
         //--middUserLabel
         CGFloat maxUserLabelWidth = sw - 2 * labelX - minGap - floorSize.width;
         CGSize maxUserLabelSize = CGSizeMake(maxUserLabelWidth, timeHeight);
         CGSize userLabelSize = [middUserLabel sizeThatFits:maxUserLabelSize];
-        originFrame = middUserLabel.frame;
-        originFrame.origin = CGPointMake(labelX, marginTop);
         if (userLabelSize.width > maxUserLabelWidth) {
             userLabelSize.width = maxUserLabelWidth;
         }
-        originFrame.size = userLabelSize;
-        middUserLabel.frame = originFrame;
+        CGRect middUserFrame = CGRectMake(labelX, marginTop, userLabelSize.width, userLabelSize.height);
         
         //--middContentLabel
         CGSize maxContentLabelSize = CGSizeMake(sw - 2 * labelX, HUGE_VALF);
         CGSize contentLabelSize = [middContentLabel sizeThatFits:maxContentLabelSize];
-        originFrame = middContentLabel.frame;
-        originFrame.origin = CGPointMake(labelX, CGRectGetMaxY(middUserLabel.frame) + marginTop);
-        originFrame.size = contentLabelSize;
-        middContentLabel.frame = originFrame;
+        CGRect contentFrame = CGRectMake(labelX, CGRectGetMaxY(middUserFrame) + marginTop, contentLabelSize.width, contentLabelSize.height);
         
         //--wallImgView
-        originFrame = wallImgView.frame;
-        originFrame.origin = CGPointMake(0, 0);
-        originFrame.size = CGSizeMake(sw, CGRectGetMaxY(middContentLabel.frame) + marginTop);
-        wallImgView.frame = originFrame;
+        CGRect wallImgFrame = CGRectMake(0, 0, sw, CGRectGetMaxY(contentFrame) + marginTop);
         
         //--groundImgView
-        originFrame = groundImgView.frame;
-        originFrame.origin = CGPointMake(0, CGRectGetMaxY(wallImgView.frame));
-        originFrame.size = CGSizeMake(sw, groundImg.size.height);
-        groundImgView.frame = originFrame;
+        CGRect groundImgFrame = CGRectMake(0, CGRectGetMaxY(wallImgFrame), sw, groundImg.size.height);
         
         if (height != nil)
-            *height = CGRectGetMaxY(groundImgView.frame);
+            *height = CGRectGetMaxY(groundImgFrame);
+        
+//        if (drawed) {
+//            return;
+//        }
+//        drawed = YES;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ //
+            
+            CGSize imgSize = CGSizeMake(sw, CGRectGetMaxY(groundImgFrame));
+            UIGraphicsBeginImageContextWithOptions(imgSize, YES, 0);
+            //1.先draw wallImg
+            [wallImg drawInRect:CGRectMake(0, 0, sw, wallImgFrame.size.height)];
+            //2.draw userLabel
+            NSDictionary *userAttr = @{
+                                       NSFontAttributeName:middUserLabel.font,
+                                       NSForegroundColorAttributeName:middUserLabel.textColor
+                                       };
+            [middUserLabel.text drawInRect:middUserFrame withAttributes:userAttr];
+            //3.draw floorLabel
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.alignment = NSTextAlignmentLeft;
+            NSDictionary *floorAttr = @{
+                                        NSFontAttributeName:middUserLabel.font,
+                                        NSForegroundColorAttributeName:middUserLabel.textColor,
+                                        NSParagraphStyleAttributeName:paragraphStyle
+                                        };
+            [floorLabel.text drawInRect:floorFrame withAttributes:floorAttr];
+            
+            NSDictionary *attr = @{
+                                   NSFontAttributeName:[UIFont systemFontOfSize:[GeneralService currContentFontSize]]
+                                   };
+            [middContentLabel.text drawInRect:contentFrame withAttributes:attr];
+            //4.draw groundImg
+            [groundImg drawInRect:groundImgFrame];
+            
+            UIImage *comBcgImg = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                comBcgImgView.frame = CGRectMake(0, 0, sw,CGRectGetMaxY(groundImgFrame));
+                comBcgImgView.image = nil;
+                comBcgImgView.image = comBcgImg;
+            });
+        });
+        
         
     } else if ([reuseId isEqualToString:kCommCellTypeBottom]) {
         bottomContentLabel.text = content.content;
@@ -297,19 +317,37 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         //--bottomContentLabel
         CGSize maxBottomContentLabelSize = CGSizeMake(sw - 2 * userMarginLeft, HUGE_VALF);
         CGSize bottomContentLabelSize = [bottomContentLabel sizeThatFits:maxBottomContentLabelSize];
-        CGRect originFrame = bottomContentLabel.frame;
-        originFrame.origin = CGPointMake(userMarginLeft, marginTop);
-        originFrame.size = bottomContentLabelSize;
-        bottomContentLabel.frame = originFrame;
-        
-        //--sepatatorView
-        originFrame = separatorView.frame;
-        originFrame.origin = CGPointMake(0, CGRectGetMaxY(bottomContentLabel.frame) + marginTop);
-        originFrame.size = CGSizeMake(sw, separatorHeight);
-        separatorView.frame = originFrame;
+        CGRect contentFrame = CGRectMake(userMarginLeft, marginTop, bottomContentLabelSize.width, bottomContentLabelSize.height);
         
         if (height != nil)
-            *height = CGRectGetMaxY(separatorView.frame);
+            *height = CGRectGetMaxY(contentFrame) + marginTop;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{     //dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+            
+            CGSize imgSize = CGSizeMake(sw, CGRectGetMaxY(contentFrame) + marginTop);
+            UIGraphicsBeginImageContextWithOptions(imgSize, YES, 0);
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            //1.draw backgroundColor
+            [[UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0] setFill];
+            CGContextFillRect(context, CGRectMake(0, 0, imgSize.width, imgSize.height));
+            //2.draw content
+            NSDictionary *attr = @{
+                                   NSFontAttributeName:[UIFont systemFontOfSize:[GeneralService currContentFontSize]],
+                                   };
+            [bottomContentLabel.text drawInRect:contentFrame withAttributes:attr];
+            //3.draw separatorLine
+            CGContextSetStrokeColorWithColor(context, SEPARATOR_COLOR.CGColor);
+            CGContextMoveToPoint(context, 0, imgSize.height - 1);
+            CGContextAddLineToPoint(context, sw, imgSize.height);
+            CGContextStrokePath(context);
+            UIImage *comBcgImg = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            dispatch_async(dispatch_get_main_queue(), ^{
+                comBcgImgView.frame = CGRectMake(0, 0, sw,imgSize.height);
+                comBcgImgView.image = nil;
+                comBcgImgView.image = comBcgImg;
+            });
+        });
     }
     
 }
@@ -335,17 +373,17 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 
 - (UILabel *)contentLabel
 {
-    TOMSimpleLinkLabel *contentLabel = [[TOMSimpleLinkLabel alloc] init];
+    UILabel *contentLabel = [[UILabel alloc] init];
     contentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
     //    contentLabel.font = [UIFont customYouYuanFontWithSize:[GeneralService currContentFontSize]];
     contentLabel.numberOfLines = 0;
     contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
     
     //设置选中的背景色
-    contentLabel.tom_red = 0.2;
-    contentLabel.tom_green = 0.6;
-    contentLabel.tom_blue = 1;
-    contentLabel.tom_alpha = 0.3;
+//    contentLabel.tom_red = 0.2;
+//    contentLabel.tom_green = 0.6;
+//    contentLabel.tom_blue = 1;
+//    contentLabel.tom_alpha = 0.3;
 
     return contentLabel;
 }
@@ -450,6 +488,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 
 - (void)dealloc
 {
-    
+//    NSLog(@"r");
 }
 @end

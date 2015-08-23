@@ -41,7 +41,7 @@
 #define CURR_HOME_PAGE @"currHomePage"
 #define CURR_TAG_PAGE @"currTagPage"
 
-#define TITLE_COLOR RGBCOLOR(0, 160, 233, 1)    //导航栏titl颜色
+#define TITLE_COLOR RGBCOLOR(0, 160, 233, 1)    //导航栏title颜色
 #define LABEL_COLOR RGBCOLOR(51,153,255,1.0f) // 3399FF
 #define SEPARATOR_COLOR RGBCOLOR(223,223,223,0.5f)
 
@@ -73,6 +73,6 @@
 #endif
 
 //---------------测试---------
-#define TEST_163_LOSS 1
+#define TEST_163_LOSS 0
 
 
