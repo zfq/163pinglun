@@ -128,4 +128,9 @@ typedef NS_ENUM(NSInteger, TOMLinkLabelState) {
             break;
     }
 }
+
+- (void)dealloc
+{
+    [self removeGestureRecognizer:t_longGesture];
+}
 @end
