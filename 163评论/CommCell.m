@@ -9,6 +9,7 @@
 #import "CommCell.h"
 #import "Content.h"
 #import "GeneralService.h"
+#import "UIFont+Custom.h"
 
 #define MARGIN_LEFT 15.0f  //指距离屏幕边缘的距离
 #define TOP_MARGIN 2.0f
@@ -326,6 +327,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 {
     UILabel *contentLabel = [[UILabel alloc] init];
     contentLabel.font = [UIFont systemFontOfSize:[GeneralService currContentFontSize]];
+//    contentLabel.font = [UIFont customYouYuanFontWithSize:[GeneralService currContentFontSize]];
     contentLabel.numberOfLines = 0;
     contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
 
