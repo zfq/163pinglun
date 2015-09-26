@@ -15,7 +15,7 @@
 #import "ShareView.h"
 #import "ShareItem.h"
 #import "SocialSharing.h"
-#import "CommCell2.h"
+#import "CommCell3.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -251,9 +251,9 @@
         else
             cellID = kCommCellTypeMiddle;
     }
-    CommCell2 *cell = [_tableView dequeueReusableCellWithIdentifier:cellID];
+    CommCell3 *cell = [_tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[CommCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[CommCell3 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
     CGFloat cellHeight;
@@ -408,9 +408,9 @@
     NSNumber *floorCountNum = arry[1];
     NSString *cellID = arry[2];
     
-    CommCell2 *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    CommCell3 *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[CommCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[CommCell3 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
     [cell bindContent:content floorCount:floorCountNum.integerValue height:NULL fontSizeChanged:isChanged];
