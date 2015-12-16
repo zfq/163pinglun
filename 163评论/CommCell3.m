@@ -463,13 +463,22 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         if (height != nil)
             *height = CGRectGetMaxY(groundImgFrame);
         
+        middUserLabel.data = midUserData;
+        middUserLabel.frame = middUserFrame;
+        floorLabel.data = floorData;
+        floorLabel.frame = floorFrame;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ //
             
             CGSize imgSize = CGSizeMake(sw, CGRectGetMaxY(groundImgFrame));
             UIGraphicsBeginImageContextWithOptions(imgSize, YES, 0);
+            CGContextRef context = UIGraphicsGetCurrentContext();
             //1.先draw wallImg
             [wallImg drawInRect:CGRectMake(0, 0, sw, wallImgFrame.size.height)];
             
+            //2.draw userLabel
+            [middUserLabel.layer renderInContext:context];
+            //3.draw floorLabel
+            [floorLabel.layer renderInContext:context];
             //4.draw groundImg
             [groundImg drawInRect:groundImgFrame];
             
@@ -478,10 +487,10 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                middUserLabel.data = midUserData;
-                middUserLabel.frame = middUserFrame;
-                floorLabel.data = floorData;
-                floorLabel.frame = floorFrame;
+//                middUserLabel.data = midUserData;
+//                middUserLabel.frame = middUserFrame;
+//                floorLabel.data = floorData;
+//                floorLabel.frame = floorFrame;
                 middContentLabel.data = contentData;
                 middContentLabel.frame = contentFrame;
                 
@@ -489,13 +498,13 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
                 comBcgImgView.image = nil;
                 comBcgImgView.image = comBcgImg;
                 
-                if (middUserLabel.superview == nil) {
-                    [self.contentView addSubview:middUserLabel];
-                    [self.contentView addSubview:floorLabel];
+                if (middContentLabel.superview == nil) {
+//                    [self.contentView addSubview:middUserLabel];
+//                    [self.contentView addSubview:floorLabel];
                     [self.contentView addSubview:middContentLabel];
                 } else {
-                    [middUserLabel setNeedsDisplay];
-                    [floorLabel setNeedsDisplay];
+//                    [middUserLabel setNeedsDisplay];
+//                    [floorLabel setNeedsDisplay];
                     [middContentLabel setNeedsDisplay];
                 }
             });

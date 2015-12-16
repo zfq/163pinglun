@@ -41,15 +41,29 @@
     formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSDate *date = [formatter dateFromString:time];
     
-    NSTimeInterval interval = [currDate timeIntervalSinceDate:date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
+    NSDateComponents *currDateComps = [calendar components:unitFlags fromDate:currDate];
+    NSInteger currYear=[currDateComps year];
+    NSInteger currMonth = [currDateComps month];
+    NSInteger currDay = [currDateComps day];
     
-    NSInteger oneDay = 24 * 60 * 60;
-    NSInteger oneHour = 60 * 60;
-    NSInteger oneMinute = 60;
-    if (interval < 2*oneDay)
-    {
-        if (interval < oneDay)
-        {
+    NSDateComponents *sDateComps = [calendar components:unitFlags fromDate:date];
+    NSInteger sYear=[sDateComps year];
+    NSInteger sMonth = [sDateComps month];
+    NSInteger sDay = [sDateComps day];
+    
+    if ((currYear != sYear) || (currMonth != sMonth)) {
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm";
+        NSString *dateStr = [formatter stringFromDate:date];
+        postTime = dateStr;
+    } else {
+        NSTimeInterval interval = [currDate timeIntervalSinceDate:date];
+        
+        NSInteger oneHour = 3600;   //60 * 60
+        NSInteger oneMinute = 60;
+        
+        if (currDay == sDay) {
             if (interval < oneHour)
             {
                 if (interval < oneMinute)
@@ -65,19 +79,16 @@
                 NSString *todayDateStr = [formatter stringFromDate:date];
                 postTime = [NSString stringWithFormat:@"今天 %@",todayDateStr];
             }
+        } else {
+            if (currDay == sDay+1) {
+                formatter.dateFormat = @"HH:mm";
+                NSString *oldDateStr = [formatter stringFromDate:date];
+                postTime = [NSString stringWithFormat:@"昨天 %@",oldDateStr];
+            } else {
+                postTime = time;
+            }
+            
         }
-        else
-        {
-            formatter.dateFormat = @"HH:mm";
-            NSString *oldDateStr = [formatter stringFromDate:date];
-            postTime = [NSString stringWithFormat:@"昨天 %@",oldDateStr];;
-        }
-    }
-    else
-    {
-        formatter.dateFormat = @"yyyy-MM-dd HH:mm";
-        NSString *dateStr = [formatter stringFromDate:date];
-        postTime = dateStr;
     }
     
     return postTime;

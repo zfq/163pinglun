@@ -160,7 +160,7 @@
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 #if TEST_163_LOSS
-            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
+            NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";  //8484:多段 字多 10798:多段 16458：长
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
@@ -181,7 +181,7 @@
             }];
         } else {    //网络不可用
 #if TEST_163_LOSS
-            _postID = [NSNumber numberWithInteger:8484];
+            _postID = [NSNumber numberWithInteger:10798];
 #endif
             [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
                 //移除等待view
@@ -340,7 +340,7 @@
             UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 #if TEST_163_LOSS
-            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";
+            NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
