@@ -884,11 +884,6 @@
 			attributes = {
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = zhaofuqiang;
-				TargetAttributes = {
-					7B428D8E190E914D00860E94 = {
-						DevelopmentTeam = L8BM2397DG;
-					};
-				};
 			};
 			buildConfigurationList = 7B428D8A190E914D00860E94 /* Build configuration list for PBXProject "163评论" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -76,6 +76,7 @@ static NSMutableArray *sharedConnectionList = nil;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONDictionary:dictionary];
         } else {
+            NSString *str = [[NSString alloc] initWithData:container encoding:NSUTF8StringEncoding];
             NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONArray:array];
         }
