@@ -65,6 +65,17 @@ static NSMutableArray *sharedConnectionList = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+#ifdef TEST_163_LOSS
+    NSString *fileName = nil;
+    if ([self.request.URL.absoluteString rangeOfString:@"baidu"].length > 0) {
+        fileName = @"post";
+    } else {
+        fileName = @"comment2";
+    }
+    NSString *postJsonPath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"json"];
+    container = [[NSMutableData alloc] initWithContentsOfFile:postJsonPath];
+#endif
+    
     id rootObject = nil;
     if (self.xmlRootObject != nil) {
         NSXMLParser *parser = [[NSXMLParser alloc] initWithData:container];
@@ -76,7 +87,6 @@ static NSMutableArray *sharedConnectionList = nil;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONDictionary:dictionary];
         } else {
-            NSString *str = [[NSString alloc] initWithData:container encoding:NSUTF8StringEncoding];
             NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONArray:array];
         }

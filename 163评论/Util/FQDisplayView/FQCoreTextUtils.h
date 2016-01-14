@@ -13,7 +13,7 @@
 
 @interface FQCoreTextUtils : NSObject
 
-+ (FQCoreTextLinkData *)touchLinkInView:(UIView *)view atPoint:(CGPoint)point data:(FQCoreTextData *)data;
+//+ (FQCoreTextLinkData *)touchLinkInView:(UIView *)view atPoint:(CGPoint)point data:(FQCoreTextData *)data;
 
 + (CFIndex)touchContentOffsetInView:(UIView *)view atPoint:(CGPoint)point data:(FQCoreTextData *)data;
 

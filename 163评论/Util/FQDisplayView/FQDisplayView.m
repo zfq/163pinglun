@@ -34,6 +34,11 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
 @property (nonatomic) CTDisplayViewStyle ctDisplayState;
 @property (nonatomic,strong) MagnifierView *magnifierView;
 
+//-------手势-----
+@property (nonatomic) UILongPressGestureRecognizer *longPressGesture;
+@property (nonatomic) UIPanGestureRecognizer *panGesture;
+@property (nonatomic) UITapGestureRecognizer *tapGesture;
+
 @end
 
 @implementation FQDisplayView
@@ -43,7 +48,8 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
     self = [super initWithFrame:frame];
     if (self) {
         _heighlightTextBcgColor = [UIColor blueColor];
-        [self setupEvent];
+        
+        _canBeSelected = NO;
     }
     return self;
 }
@@ -85,6 +91,23 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
     [self setNeedsDisplay];
 }
 
+- (void)setCanBeSelected:(BOOL)canBeSelected
+{
+    _canBeSelected = canBeSelected;
+    
+    if (_canBeSelected == NO) {
+        //移除所有手势
+        NSArray *gestures = self.gestureRecognizers;
+        if (gestures.count == 0) {
+            [gestures enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [self removeGestureRecognizer:obj];
+            }];
+        }
+    } else {
+        //添加手势
+        [self setupEvent];
+    }
+}
 #pragma mark - menu
 - (void)showMenu
 {
@@ -195,17 +218,23 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
 - (void)setupEvent
 {
     //添加长按手势
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
-    [self addGestureRecognizer:longPressGesture];
+    if (!_longPressGesture) {
+        _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
+        [self addGestureRecognizer:_longPressGesture];
+    }
     
     //添加移动手势
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
-    panGesture.delegate = self;
-    [self addGestureRecognizer:panGesture];
+    if (!_panGesture) {
+        _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
+        _panGesture.delegate = self;
+        [self addGestureRecognizer:_panGesture];
+    }
     
     //添加tap手势
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [self addGestureRecognizer:tapGesture];
+    if (!_tapGesture) {
+        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+        [self addGestureRecognizer:_tapGesture];
+    }
 }
 
 - (void)longPressGesture:(UILongPressGestureRecognizer *)gesture
@@ -328,6 +357,14 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
     self.ctDisplayState = CTDisplayViewStyleNormal;
 }
 
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+//{
+//    if (_ctDisplayState == CTDisplayViewStyleNormal && _otherPanGestureView) {
+//        return _otherPanGestureView;
+//    } else {
+//        return [super hitTest:point withEvent:event];
+//    }
+//}
 #pragma mark gesture delegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
@@ -344,8 +381,6 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
 #pragma mark drawRect
 - (void)drawRect:(CGRect)rect
 {
-    [super drawRect:rect];
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     //1.先翻转坐标，保证与UIKit的坐标相同
@@ -373,23 +408,6 @@ typedef NS_ENUM(NSInteger, CTDisplayViewStyle) {
             CGContextDrawImage(context, imgData.imagePostion, img.CGImage);
         }
     }
-
-//    CGMutablePathRef path = CGPathCreateMutable();
-//    CGPathAddRect(path, NULL, rect);
-//    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"Hello World"
-//                                      "ahahha 这是一句很长的话"
-//                                      "谨以此书献给哈里斯和法拉，他们为我启蒙。献给所有阿富汗的孩子"];
-//
-//    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)attrString);
-//    CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, attrString.length), path, NULL);
-//    
-//    //3. draw
-//    CTFrameDraw(frame, context);
-//    
-//    //4.释放资源
-//    CFRelease(frame);
-//    CFRelease(framesetter);
-//    CFRelease(path);
 }
 
 - (void)drawSelectionArea

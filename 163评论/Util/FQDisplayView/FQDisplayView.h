@@ -17,4 +17,9 @@
 @property (nonatomic,strong) FQCoreTextData * data;
 
 @property (nonatomic,strong) UIColor *heighlightTextBcgColor;   //字体高亮的背景色
+
+@property (nonatomic,weak) UIView *otherPanGestureView;  //
+
+@property (nonatomic,assign) BOOL canBeSelected;    //是否是可选择的，即是否可选择其中的文本 默认是NO
+
 @end

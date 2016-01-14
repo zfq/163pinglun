@@ -33,6 +33,9 @@
 
 - (NSString *)postTimeFromTime:(NSString *)time
 {
+    if (!time) {
+        return @"昨天";
+    }
     NSString *postTime = nil;
     NSDate *currDate = [NSDate date];
     

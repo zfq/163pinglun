@@ -7,9 +7,10 @@
 //
 
 #import "ShareItem.h"
+
 @interface ShareItem()
 {
-    UIImageView *imgView;
+    UIImageView *_myImgView;
     UILabel *titleLabel;
 }
 @end
@@ -30,9 +31,9 @@
     _img = img;
     _title = title;
     
-    imgView = [[UIImageView alloc] init];
-    imgView.image = img;
-    [self addSubview:imgView];
+    _myImgView = [[UIImageView alloc] init];
+    _myImgView.image = img;
+    [self addSubview:_myImgView];
     
     titleLabel = [[UILabel alloc] init];
     titleLabel.text = title;
@@ -44,12 +45,12 @@
     [self addTarget:self action:@selector(zoomOutItem) forControlEvents:UIControlEventTouchUpInside];
     
     //添加约束
-    NSDictionary *nameMap = @{@"img":imgView,@"title":titleLabel};
-    imgView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *nameMap = @{@"img":_myImgView,@"title":titleLabel};
+    _myImgView.translatesAutoresizingMaskIntoConstraints = NO;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    NSLayoutConstraint *imgW = [NSLayoutConstraint constraintWithItem:imgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:img.size.width];
-    [imgView addConstraint:imgW];
-    NSLayoutConstraint *imgCenterX = [NSLayoutConstraint constraintWithItem:imgView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+    NSLayoutConstraint *imgW = [NSLayoutConstraint constraintWithItem:_myImgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:img.size.width];
+    [_myImgView addConstraint:imgW];
+    NSLayoutConstraint *imgCenterX = [NSLayoutConstraint constraintWithItem:_myImgView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
     [self addConstraint:imgCenterX];
     
     NSLayoutConstraint *titleW = [NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1.0 constant:self.frame.size.width];

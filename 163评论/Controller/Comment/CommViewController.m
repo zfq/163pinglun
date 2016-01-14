@@ -15,7 +15,10 @@
 #import "ShareView.h"
 #import "ShareItem.h"
 #import "SocialSharing.h"
-#import "CommCell3.h"
+#import "CommCell2.h"
+//#import "CommCell3.h"
+//#import "CommCell4.h"
+#import "ZFQFPSView.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -24,12 +27,24 @@
     
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
+    
+//    NSMutableArray *_needPreLoadRows;
 }
 
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
 @property (nonatomic,strong) NSMutableDictionary *cellsDic;
 
 @end
+
+const NSInteger PRE_LOAD_NUM = 1;
+typedef struct {
+    NSInteger topBegin;
+    NSInteger topEnd;
+    NSInteger bottomBegin;
+    NSInteger bottomEnd;
+}NeedPreLoadContext;
+
+NeedPreLoadContext preloadContext = {0,0,0,0};
 
 @implementation CommViewController
 
@@ -76,6 +91,7 @@
     self.tableView.dataSource = self;
     
     _contentInfoDic = [[NSMutableDictionary alloc] init];
+    
     //获取跟帖
 	[self fetchComment];
     
@@ -83,6 +99,10 @@
     isChanged = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
     
+    //添加displayView
+//    CGFloat height = 30;
+//    ZFQFPSView *fpsView = [[ZFQFPSView alloc] initWithFrame:CGRectMake(20, SCREEN_HEIGHT - height - 20, 50, height)];
+//    [self.view addSubview:fpsView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -126,7 +146,7 @@
 {
     NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
-        NSString *text = [self.title stringByAppendingString:url];
+        NSString *text = [self.myTitle stringByAppendingString:url];
         UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
         [[SocialSharing sharedInstance] sendWeiboWithText:text image:img completion:^(BOOL success) {
             if (success) {  //这个success也可能是取消的success
@@ -135,7 +155,7 @@
         }];
     } else if ([shareItem.title isEqualToString:@"QQ空间"]) {
         UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
-        [[SocialSharing sharedInstance] sendQQShareWithTitle:self.title description:nil image:img url:url];
+        [[SocialSharing sharedInstance] sendQQShareWithTitle:self.myTitle description:nil image:img url:url];
     }
    
 }
@@ -160,7 +180,8 @@
         if (isReachable) {  //网络可用
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 #if TEST_163_LOSS
-            NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";  //8484:多段 字多 10798:多段 16458：长
+//            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
+            NSString *url = @"http://www.biying.com";
 #else
             NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
@@ -251,9 +272,9 @@
         else
             cellID = kCommCellTypeMiddle;
     }
-    CommCell3 *cell = [_tableView dequeueReusableCellWithIdentifier:cellID];
+    CommCell2 *cell = [_tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[CommCell3 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[CommCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
     CGFloat cellHeight;
@@ -407,13 +428,12 @@
     Content *content = arry[0];
     NSNumber *floorCountNum = arry[1];
     NSString *cellID = arry[2];
-    
-    CommCell3 *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    CommCell2 *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[CommCell3 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[CommCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    
-    [cell bindContent:content floorCount:floorCountNum.integerValue height:NULL fontSizeChanged:isChanged];
+//    cell.panGestureView = self.view;
+    [cell bindContent:content floorCount:floorCountNum.integerValue fontSizeChanged:isChanged];
     return cell;
 }
 
@@ -422,6 +442,56 @@
     NSNumber *cellHeightNum = [_cellsHeight objectAtIndex:indexPath.row];
     return cellHeightNum.floatValue;
 }
+
+#pragma mark - 预加载
+/*
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    preloadContext.topBegin = 0;
+    preloadContext.topEnd = 0;
+    preloadContext.bottomBegin = 0;
+    preloadContext.bottomEnd = 0;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    //1.计算要加载的cell 在滚动范围内的前后n行
+    NSArray *array = _tableView.indexPathsForVisibleRows;
+    if (array.count == 0) {
+        return;
+    }
+    NSInteger topRow = [array.firstObject row];     //0~ num-1
+    NSInteger bottomRow = [array.lastObject row];   //0~ num-1
+    NSInteger numberOfRows = [self tableView:_tableView numberOfRowsInSection:0];
+    
+    //2.保存前面需要预加载的row
+    NSInteger begin = topRow - PRE_LOAD_NUM;
+    begin = begin < 0 ? 0 : begin;
+    preloadContext.topBegin = begin;
+    preloadContext.topEnd = topRow;
+    
+    //3.保存后面需要预加载的row
+    NSInteger bottomEnd = bottomRow + PRE_LOAD_NUM;
+    bottomEnd = bottomEnd > numberOfRows ? numberOfRows : bottomEnd;
+    preloadContext.bottomBegin = bottomRow;
+    preloadContext.bottomEnd = bottomEnd;
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    //1.加载cell
+    for (NSInteger i = preloadContext.topBegin; i < preloadContext.topEnd; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        
+        [_tableView cellForRowAtIndexPath:indexPath];
+    }
+    for (NSInteger i = preloadContext.bottomBegin; i < preloadContext.bottomEnd; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        
+        [_tableView cellForRowAtIndexPath:indexPath];
+    }
+}
+ */
 
 - (void)didReceiveMemoryWarning
 {

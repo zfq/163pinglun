@@ -39,7 +39,7 @@
 
 - (IBAction)sendWB:(UIButton *)sender
 {
-    [SocialSharing sendWeiboWithText:@"第一条分享的微博" image:[UIImage imageNamed:@"tom.png"] completion:^(BOOL success) {
+    [[SocialSharing sharedInstance] sendWeiboWithText:@"第一条分享的微博" image:[UIImage imageNamed:@"tom.png"] completion:^(BOOL success) {
         if (success == YES) {
             NSLog(@"成功");
         } else {
@@ -51,7 +51,7 @@
 - (IBAction)sendTencent:(UIButton *)sender
 {
     UIImage *tom = [UIImage imageNamed:@"tom"];
-    [SocialSharing sendQQShareWithTitle:@"title" description:@"a lot of description" image:tom url:@"www.163pinglun.com"];
+    [[SocialSharing sharedInstance] sendQQShareWithTitle:@"title" description:@"a lot of description" image:tom url:@"www.163pinglun.com"];
 }
 
 - (IBAction)capture:(id)sender

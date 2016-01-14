@@ -24,6 +24,7 @@
 #import "TagViewController.h"
 #import "PlaceholderView.h"
 
+#import "ZFQQueuePool.h"
 @interface HomeViewController () <TagViewControllerDelegate>
 {
     NSInteger _homePageIndex;
@@ -35,6 +36,7 @@
     NSInteger tagPageIndex;
     
     MenuView *menu;                     //菜单
+    ZFQQueuePool *pool;
 }
 
 @property (nonatomic,assign) NSInteger homePageIndex;
@@ -51,6 +53,8 @@
     if (self) {
         // Custom initialization
         tagPageIndex = 1;
+        
+        pool = [[ZFQQueuePool alloc] init];
     }
     return self;
 }
@@ -312,6 +316,9 @@
 
 - (NSString *)urlStringWithHeadRefreshing:(BOOL)headRefreshing tagName:(NSString *)tag
 {
+#ifdef TEST_163_LOSS
+    return @"http://www.baidu.com";
+#endif
     NSString *urlStr;
     if (tag != nil) {
         if (headRefreshing)
