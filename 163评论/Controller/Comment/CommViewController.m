@@ -7,18 +7,14 @@
 //
 
 #import "CommViewController.h"
-//#import "CommCell.h"
 #import "ItemStore.h"
 #import "Content.h"
-//#import "MBProgressHUD.h"
 #import "Reachability.h"
 #import "ShareView.h"
 #import "ShareItem.h"
 #import "SocialSharing.h"
-#import "CommCell2.h"
-//#import "CommCell3.h"
-//#import "CommCell4.h"
-#import "ZFQFPSView.h"
+#import "CommCell5.h"
+#import "ZFQMenuObject.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -28,23 +24,14 @@
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
     
-//    NSMutableArray *_needPreLoadRows;
+    CommCell5 *_assistCell;
 }
 
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
 @property (nonatomic,strong) NSMutableDictionary *cellsDic;
+@property (nonatomic,strong) ZFQMenuObject *menuObject;
 
 @end
-
-const NSInteger PRE_LOAD_NUM = 1;
-typedef struct {
-    NSInteger topBegin;
-    NSInteger topEnd;
-    NSInteger bottomBegin;
-    NSInteger bottomEnd;
-}NeedPreLoadContext;
-
-NeedPreLoadContext preloadContext = {0,0,0,0};
 
 @implementation CommViewController
 
@@ -60,8 +47,8 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    //添加阴影
-    // 添加返回按钮
+
+    //1. 添加返回按钮
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake(10, 22, 60, 40);
     [backBtn setImage:[UIImage imageNamed:@"navgation_back"] forState:UIControlStateNormal];
@@ -70,7 +57,7 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
-    //添加分享按钮
+    //2.添加分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
     [shareBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
@@ -83,7 +70,7 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     [self.navView addConstraints:consH];
     [self.navView addConstraints:consV];
     
-	// 设置tableView
+	//3. 设置tableView
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -92,17 +79,12 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     
     _contentInfoDic = [[NSMutableDictionary alloc] init];
     
-    //获取跟帖
+    //4.获取跟帖
 	[self fetchComment];
     
-    //注册设置字体大小通知
+    //5.注册设置字体大小通知
     isChanged = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
-    
-    //添加displayView
-//    CGFloat height = 30;
-//    ZFQFPSView *fpsView = [[ZFQFPSView alloc] initWithFrame:CGRectMake(20, SCREEN_HEIGHT - height - 20, 50, height)];
-//    [self.view addSubview:fpsView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -113,6 +95,9 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+//#pragma mark - getter setter
+
+#pragma mark - action
 - (void)back:(UIButton *)backButton
 {
     if ([self.presentingViewController isKindOfClass:[UIViewController class]])
@@ -174,7 +159,7 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     //否则就从数据库里去取
     
     //添加等待view
-    __block UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
+//    __block UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
     CommViewController *__weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
@@ -197,7 +182,7 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
                 //更新UI
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                 weakSelf.tableView.tableHeaderView=nil;
-                [weakSelf removeActivityView:activityView];
+//                [weakSelf removeActivityView:activityView];
                 [weakSelf.tableView reloadData];
             }];
         } else {    //网络不可用
@@ -206,7 +191,7 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
 #endif
             [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
                 //移除等待view
-                [weakSelf removeActivityView:activityView];
+//                [weakSelf removeActivityView:activityView];
                 //处理数据
                 if (contents.count > 0) {
                     weakSelf.contents = [[Contents alloc] initWithContents:contents];
@@ -272,9 +257,9 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
         else
             cellID = kCommCellTypeMiddle;
     }
-    CommCell2 *cell = [_tableView dequeueReusableCellWithIdentifier:cellID];
+    CommCell5 *cell = [_tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[CommCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[CommCell5 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
     CGFloat cellHeight;
@@ -306,6 +291,7 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
 #pragma mark - 指示视图
 - (UIActivityIndicatorView *)addActivityViewInView:(UIView *)view
 {
+    //如果往scrollView上添加subView,则对于8.0以下的系统要使用frame，不能使用autolayout
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
     activityView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -345,6 +331,44 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     
     self.tableView.tableHeaderView= noNetworkView;
     self.tableView.scrollEnabled = NO;
+}
+
+#pragma mark - 显示菜单
+- (ZFQMenuObject *)menuObject
+{
+    if (!_menuObject) {
+        _menuObject = [[ZFQMenuObject alloc] init];
+    }
+    return _menuObject;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (action == @selector(copyContent) || action == @selector(shareContent) || action == @selector(snapshootContent)) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (void)copyContent
+{
+    [_assistCell copyContentToPasteboard];
+}
+
+- (void)snapshootContent
+{
+    NSLog(@"快照");
+}
+
+- (void)shareContent
+{
+    NSLog(@"分享");
 }
 
 #pragma mark - 重新加载
@@ -428,12 +452,23 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     Content *content = arry[0];
     NSNumber *floorCountNum = arry[1];
     NSString *cellID = arry[2];
-    CommCell2 *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    CommCell5 *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[CommCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[CommCell5 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-//    cell.panGestureView = self.view;
     [cell bindContent:content floorCount:floorCountNum.integerValue fontSizeChanged:isChanged];
+
+    //显示菜单
+    _assistCell = cell;
+    CommViewController * __weak weakSelf = self;
+    cell.hightlightBlk = ^(NSString *content,CGRect contentFrame) {
+        weakSelf.menuObject.content = content;
+        weakSelf.menuObject.contentFrame = contentFrame;
+        weakSelf.menuObject.hostView = weakSelf.view;
+        [weakSelf.view becomeFirstResponder];
+        [weakSelf.menuObject showMenu];
+    };
+    
     return cell;
 }
 
@@ -442,56 +477,6 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
     NSNumber *cellHeightNum = [_cellsHeight objectAtIndex:indexPath.row];
     return cellHeightNum.floatValue;
 }
-
-#pragma mark - 预加载
-/*
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    preloadContext.topBegin = 0;
-    preloadContext.topEnd = 0;
-    preloadContext.bottomBegin = 0;
-    preloadContext.bottomEnd = 0;
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    //1.计算要加载的cell 在滚动范围内的前后n行
-    NSArray *array = _tableView.indexPathsForVisibleRows;
-    if (array.count == 0) {
-        return;
-    }
-    NSInteger topRow = [array.firstObject row];     //0~ num-1
-    NSInteger bottomRow = [array.lastObject row];   //0~ num-1
-    NSInteger numberOfRows = [self tableView:_tableView numberOfRowsInSection:0];
-    
-    //2.保存前面需要预加载的row
-    NSInteger begin = topRow - PRE_LOAD_NUM;
-    begin = begin < 0 ? 0 : begin;
-    preloadContext.topBegin = begin;
-    preloadContext.topEnd = topRow;
-    
-    //3.保存后面需要预加载的row
-    NSInteger bottomEnd = bottomRow + PRE_LOAD_NUM;
-    bottomEnd = bottomEnd > numberOfRows ? numberOfRows : bottomEnd;
-    preloadContext.bottomBegin = bottomRow;
-    preloadContext.bottomEnd = bottomEnd;
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    //1.加载cell
-    for (NSInteger i = preloadContext.topBegin; i < preloadContext.topEnd; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        
-        [_tableView cellForRowAtIndexPath:indexPath];
-    }
-    for (NSInteger i = preloadContext.bottomBegin; i < preloadContext.bottomEnd; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        
-        [_tableView cellForRowAtIndexPath:indexPath];
-    }
-}
- */
 
 - (void)didReceiveMemoryWarning
 {
@@ -506,6 +491,6 @@ NeedPreLoadContext preloadContext = {0,0,0,0};
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FontSizeChangeNotification object:nil];
-//    NSLog(@"r co");
+    DNSLog(@"释放 commentVC");
 }
 @end

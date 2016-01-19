@@ -70,7 +70,7 @@ static NSMutableArray *sharedConnectionList = nil;
     if ([self.request.URL.absoluteString rangeOfString:@"baidu"].length > 0) {
         fileName = @"post";
     } else {
-        fileName = @"comment2";
+        fileName = @"comment1";
     }
     NSString *postJsonPath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"json"];
     container = [[NSMutableData alloc] initWithContentsOfFile:postJsonPath];
@@ -87,6 +87,8 @@ static NSMutableArray *sharedConnectionList = nil;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONDictionary:dictionary];
         } else {
+            //过滤尾部的<!--xxx-->
+            container = [self resultDataFromData:container];
             NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONArray:array];
         }
@@ -98,6 +100,27 @@ static NSMutableArray *sharedConnectionList = nil;
     
     [sharedConnectionList removeObject:connection];
     connection = nil;
+}
+
+- (NSMutableData *)resultDataFromData:(NSMutableData *)data
+{
+    NSString *tempStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *pattern = @"(<!--.*-->)$";
+    NSError *error;
+    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error != nil) {
+        return nil;
+    } else {
+        NSArray *match = [reg matchesInString:tempStr options:NSMatchingReportCompletion range:NSMakeRange(0, [tempStr length])];
+        if (match.count > 0) {
+            NSTextCheckingResult *result = match.firstObject;
+            NSRange range = [result range];
+            NSString *subStr = [tempStr substringToIndex:range.location];
+            return [[NSMutableData alloc] initWithData:[subStr dataUsingEncoding:NSUTF8StringEncoding]];
+        } else {
+            return data;
+        }
+    }
 }
 @end
 

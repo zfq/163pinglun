@@ -73,7 +73,6 @@
 #endif
 
 //---------------测试---------
-#define TEST_163_LOSS 1
-#define TEST_163_COMMENT 1
+#define TEST_163_LOSS 0
 
 
