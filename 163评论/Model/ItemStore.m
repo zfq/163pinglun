@@ -16,6 +16,7 @@
 #import "Contents.h"
 #import "RandomPost.h"
 #import "RandomPosts.h"
+#import "MacroDefinition.h"
 
 @interface ItemStore()
 {

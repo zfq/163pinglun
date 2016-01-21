@@ -12,6 +12,7 @@
 #import "FQNavigationController.h"
 #import "SocialSharing.h"
 #import "MLBlackTransition.h"
+#import "MacroDefinition.h"
 
 @implementation AppDelegate
 
@@ -41,9 +42,10 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    if ([[ItemStore sharedItemStore].managedObjectContext hasChanges]) {
-        [[ItemStore sharedItemStore] saveContext];
-    }
+   
+//    if ([[ItemStore sharedItemStore].managedObjectContext hasChanges]) {
+//        [[ItemStore sharedItemStore] saveContext];
+//    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

@@ -12,6 +12,7 @@
 #import "UIFont+Custom.h"
 #import "TOMSimpleLinkLabel.h"
 #import "ZFQQueuePool.h"
+#import "MacroDefinition.h"
 
 #define MARGIN_LEFT 15.0f  //指距离屏幕边缘的距离
 #define TOP_MARGIN 2.0f
@@ -815,7 +816,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         if (self.hightlightBlk) {
             UIWindow *window = [UIApplication sharedApplication].keyWindow;
             CGRect newRect = [self convertRect:_contentLabelFrame toView:window];
-            self.hightlightBlk(_detailContent,newRect);
+            self.hightlightBlk(_detailContent,newRect,self);
         }
     }
     [_longPressTimer invalidate];

@@ -7,6 +7,7 @@
 //
 
 #import "PlaceholderView.h"
+#import "MacroDefinition.h"
 
 @implementation PlaceholderView
 

@@ -10,6 +10,8 @@
 #import "ItemStore.h"
 #import "FontSetViewController.h"
 #import "GeneralService.h"
+#import "MacroDefinition.h"
+
 @interface SettingViewController ()
 {
     UITableView *settingTableView;

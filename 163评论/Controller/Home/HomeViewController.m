@@ -23,6 +23,7 @@
 #import "FQNavigationController.h"
 #import "TagViewController.h"
 #import "PlaceholderView.h"
+#import "MacroDefinition.h"
 
 #import "ZFQQueuePool.h"
 @interface HomeViewController () <TagViewControllerDelegate>

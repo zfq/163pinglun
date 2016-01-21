@@ -8,6 +8,7 @@
 
 #import "MenuView.h"
 #import "MenuItemView.h"
+#import "MacroDefinition.h"
 
 @interface MenuView()
 {

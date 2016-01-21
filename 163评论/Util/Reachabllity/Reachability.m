@@ -53,7 +53,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 
 #import "Reachability.h"
-
+#import "MacroDefinition.h"
 
 NSString *kReachabilityChangedNotification = @"kNetworkReachabilityChangedNotification";
 
@@ -117,6 +117,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 			returnValue->localWiFiRef = NO;
 		}
 	}
+
 	return returnValue;
 }
 

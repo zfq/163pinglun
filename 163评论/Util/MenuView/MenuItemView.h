@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 @class MenuView,MenuItem;
 
 @interface MenuItemView : UIView

@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #import "MBProgressHUD.h"
+#import "MacroDefinition.h"
 
 #define NETWORK_STATUS @"networkStatus"
 

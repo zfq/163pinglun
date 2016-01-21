@@ -7,6 +7,7 @@
 //
 
 #import "FQBaseViewController.h"
+#import "MacroDefinition.h"
 
 #define FQ_SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 

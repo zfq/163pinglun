@@ -15,6 +15,7 @@
 #import "SocialSharing.h"
 #import "CommCell5.h"
 #import "ZFQMenuObject.h"
+#import "MacroDefinition.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -61,7 +62,7 @@
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
     [shareBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
-    [shareBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    [shareBtn addTarget:self action:@selector(tapShareBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:shareBtn];
     NSDictionary *nameMap = @{@"shareBtn":shareBtn};
     shareBtn.translatesAutoresizingMaskIntoConstraints = NO;
@@ -106,7 +107,7 @@
         [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)share:(UIButton *)shareButton
+- (void)tapShareBtnAction
 {
     ShareView *shareView = [[ShareView alloc] init]; //WithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
     shareView.shareViewDelegate = self;
@@ -131,7 +132,8 @@
 {
     NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
-        NSString *text = [self.myTitle stringByAppendingString:url];
+        NSString *text = [_assistCell content];
+        text = [text stringByAppendingString:url];
         UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
         [[SocialSharing sharedInstance] sendWeiboWithText:text image:img completion:^(BOOL success) {
             if (success) {  //这个success也可能是取消的success
@@ -368,7 +370,7 @@
 
 - (void)shareContent
 {
-    NSLog(@"分享");
+    [self tapShareBtnAction];
 }
 
 #pragma mark - 重新加载
@@ -459,14 +461,15 @@
     [cell bindContent:content floorCount:floorCountNum.integerValue fontSizeChanged:isChanged];
 
     //显示菜单
-    _assistCell = cell;
     CommViewController * __weak weakSelf = self;
-    cell.hightlightBlk = ^(NSString *content,CGRect contentFrame) {
+    cell.hightlightBlk = ^(NSString *content,CGRect contentFrame,CommCell5 *commCell) {
         weakSelf.menuObject.content = content;
         weakSelf.menuObject.contentFrame = contentFrame;
         weakSelf.menuObject.hostView = weakSelf.view;
         [weakSelf.view becomeFirstResponder];
         [weakSelf.menuObject showMenu];
+        
+        _assistCell = commCell;
     };
     
     return cell;

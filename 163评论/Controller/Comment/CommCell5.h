@@ -23,9 +23,10 @@ extern NSString *const kCommCellTypeBottom;
 }
 
 @property (nonatomic) UIColor *hightlightColor;
-@property (nonatomic,copy) void (^hightlightBlk)(NSString *content,CGRect contentFrame);
+@property (nonatomic,copy) void (^hightlightBlk)(NSString *content,CGRect contentFrame,CommCell5 *commCell);
 
 - (NSString *)content;
+
 - (void)copyContentToPasteboard;
 - (UIImage *)contentSnapshoot;
 

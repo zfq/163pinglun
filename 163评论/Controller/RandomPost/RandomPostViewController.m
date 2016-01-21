@@ -13,7 +13,7 @@
 #import "CommViewController.h"
 #import "UITableView+SmoothMove.h"
 #import "PlaceholderView.h"
-//#import "RandomPostCell.h"
+#import "MacroDefinition.h"
 
 static NSString *reuseId = @"RandomPostCell";
 

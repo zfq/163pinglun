@@ -12,6 +12,7 @@
 #import "Tag.h"
 #import "Tags.h"
 #import "Reachability.h"
+#import "MacroDefinition.h"
 
 @interface TagViewController () <TagScrollViewDelegate>
 {

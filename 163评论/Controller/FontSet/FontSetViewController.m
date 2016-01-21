@@ -8,6 +8,7 @@
 
 #import "FontSetViewController.h"
 #import "GeneralService.h"
+#import "MacroDefinition.h"
 
 @interface FontSetViewController () <UIPickerViewDataSource,UIPickerViewDelegate>
 {
