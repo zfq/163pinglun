@@ -29,6 +29,9 @@
 #define NAV_HEIGHT(VC)    (VC).navigationController.navigationBar.bounds.size.height
 #define STATUSBAR_HEIGHT  [UIApplication sharedApplication].statusBarFrame.size.height
 
+//-----------------release----
+#define zfq_CFRelease(cfRef) if (cfRef != NULL) {CFRelease(cfRef);}
+
 //-----------------------程序内-------------------------------
 #define HOST_NAME     @"www.apple.com"
 
@@ -56,6 +59,9 @@
 #define kFontIndexStyle @"fontIndexStyle"
 #define FontSizeChangeNotification @"fontSizeChangeNotification"
 
+
+#define LOGO @"163评论"
+#define HOSTURL @"www.163pinglun.com"
 #endif
 
 //-----------------------日志打印-------------------------------

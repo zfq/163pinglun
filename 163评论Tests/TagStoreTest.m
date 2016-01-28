@@ -10,6 +10,8 @@
 //#import "ItemStore.h"
 //#import "Tags.h"
 //#import "Tag.h"
+#import "NSString+Addition.h"
+
 @interface TagStoreTest : XCTestCase
 
 @end
@@ -26,6 +28,11 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)test1
+{
+    [NSString SinglLineTextSizeWithAttrStr:nil preferWidth:200];
 }
 
 - (void)testExample

@@ -16,6 +16,7 @@
 #import "CommCell5.h"
 #import "ZFQMenuObject.h"
 #import "MacroDefinition.h"
+#import "UIImage+Content.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -25,7 +26,8 @@
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
     
-    CommCell5 *_assistCell;
+//    CommCell5 *_assistCell;
+    Content *_assistContent;
 }
 
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
@@ -132,20 +134,42 @@
 {
     NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
-        NSString *text = [_assistCell content];
-        text = [text stringByAppendingString:url];
-        UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
+        NSString *originText = [_assistContent content];
+        NSString *text = [originText stringByAppendingString:url];
+        UIImage *img = [UIImage imageWithContent:_assistContent size:CGSizeMake(300, 480)];
+        NSLog(@"%f,%f",img.size.width,img.size.height);
+        /*
         [[SocialSharing sharedInstance] sendWeiboWithText:text image:img completion:^(BOOL success) {
             if (success) {  //这个success也可能是取消的success
 //                NSLog(@"成功");
             }
         }];
+         */
     } else if ([shareItem.title isEqualToString:@"QQ空间"]) {
         UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
         [[SocialSharing sharedInstance] sendQQShareWithTitle:self.myTitle description:nil image:img url:url];
     }
-   
 }
+
++ (NSString *)SubStrFromStr:(NSString *)str pattern:(NSString *)pattern
+{
+    NSError *error;
+    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error != nil) {
+        return nil;
+    } else {
+        NSArray *match = [reg matchesInString:str options:NSMatchingReportCompletion range:NSMakeRange(0, [str length])];
+        if (match.count > 0) {
+            NSTextCheckingResult *result = match.firstObject;
+            NSRange range = [result range];
+            NSString *subStr = [str substringToIndex:range.location];
+            return subStr;
+        } else {
+            return str;
+        }
+    }
+}
+
 #pragma mark - 设置字体
 - (void)fontSizeChanged:(NSNotification *)notification
 {
@@ -360,12 +384,14 @@
 
 - (void)copyContent
 {
-    [_assistCell copyContentToPasteboard];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = _assistContent.content;
 }
 
 - (void)snapshootContent
 {
-    NSLog(@"快照");
+    UIImage *img = [UIImage imageWithContent:_assistContent size:CGSizeMake(300, 480)];
+    UIImageWriteToSavedPhotosAlbum(img, NULL, NULL, NULL);
 }
 
 - (void)shareContent
@@ -462,16 +488,15 @@
 
     //显示菜单
     CommViewController * __weak weakSelf = self;
-    cell.hightlightBlk = ^(NSString *content,CGRect contentFrame,CommCell5 *commCell) {
-        weakSelf.menuObject.content = content;
+    cell.hightlightBlk = ^(Content *content,CGRect contentFrame) {
+        weakSelf.menuObject.content = content.content;
         weakSelf.menuObject.contentFrame = contentFrame;
         weakSelf.menuObject.hostView = weakSelf.view;
         [weakSelf.view becomeFirstResponder];
         [weakSelf.menuObject showMenu];
         
-        _assistCell = commCell;
+        _assistContent = content;
     };
-    
     return cell;
 }
 
