@@ -10,6 +10,8 @@
 
 @interface PostViewModel : NSObject
 
+@property (nonatomic,copy) NSString *tagName;
+
 /**
  *  获取加载指定标签对应的帖子列表的url
  *
@@ -18,7 +20,7 @@
  *
  *  @return 指定标签对应的帖子列表的url
  */
-- (NSString *)postUrlWithTagName:(NSString *)tagName headRefreshing:(BOOL)headRefreshing;
+- (NSString *)postUrlWithHeadRefreshing:(BOOL)headRefreshing;
 
 - (NSInteger)homePageIndex;
 - (void)setHomePageIndex:(NSInteger)homePageIndex;

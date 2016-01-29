@@ -32,7 +32,6 @@
     UITableViewCell *_prototypeCell;        //预留一个用来计算高度
     NSMutableDictionary *_cellsHeightDic;   //所有cell的高度
    
-    NSString *_tagName;
     NSInteger tagPageIndex;
     
     MenuView *menu;                     //菜单
@@ -137,7 +136,7 @@
 - (void)showTodayPost:(UIButton *)button
 {
     //开始下拉刷新
-    self.tagName = nil;
+    self.viewModel.tagName = nil;
     [self.tableView headerBeginRefreshing];
 }
 
@@ -211,7 +210,7 @@
     HomeViewController * __weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
-            [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithTagName:weakSelf.tagName headRefreshing:YES];
+            [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithHeadRefreshing:YES];
             [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
                 //先删除数据库中的所有post
                 if (error == nil)
@@ -261,7 +260,7 @@
        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
-        [ItemStore sharedItemStore].cotentsURL = [self.viewModel postUrlWithTagName:self.tagName headRefreshing:NO];
+        [ItemStore sharedItemStore].cotentsURL = [self.viewModel postUrlWithHeadRefreshing:NO];
         
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
             if (posts != nil && (posts.postItems.count > 0))
@@ -287,26 +286,6 @@
         [GeneralService setNetworkReachability:NO];
         [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
     }
-}
-
-- (NSString *)tagName
-{
-    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"tagName"];
-    if (name == nil || [name isEqualToString:@""]) {
-        return nil;
-    } else {
-        return name;
-    }
-}
-
-- (void)setTagName:(NSString *)tagName
-{
-    if (tagName == nil) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tagName"];
-    } else {
-        [[NSUserDefaults standardUserDefaults]  setObject:tagName forKey:@"tagName"];
-    }
-    _tagName = tagName;
 }
 
 #pragma mark - tableView dateSource delegate
@@ -365,7 +344,7 @@
 - (void)didSelectTagView:(TagView *)tagView controller:(TagViewController *)tVC
 {
     [tVC dismissTagViewWithAnimation:YES];
-    self.tagName = tagView.postTag.tagName;
+    self.viewModel.tagName = tagView.postTag.tagName;
 
     //开始下拉刷新
     [self.tableView headerBeginRefreshing];

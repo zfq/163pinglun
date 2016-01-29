@@ -17,15 +17,41 @@
 @end
 
 @implementation PostViewModel
+@synthesize tagName = _tagName;
 
 #pragma mark - getter setter方法
+
+- (NSString *)tagName
+{
+    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"tagName"];
+    if (name == nil || [name isEqualToString:@""]) {
+        return nil;
+    } else {
+        return name;
+    }
+}
+
+- (void)setTagName:(NSString *)tagName
+{
+    if (tagName == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tagName"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults]  setObject:tagName forKey:@"tagName"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    _tagName = tagName;
+}
+
 - (NSInteger)homePageIndex
 {
-    NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_HOME_PAGE];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *currPage = [userDefaults objectForKey:CURR_HOME_PAGE];
     //如果不存在就创建
     if (currPage == nil || currPage.integerValue == 0) {
         currPage = [NSNumber numberWithInteger:1];
-        [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_HOME_PAGE];
+        [userDefaults setObject:currPage forKey:CURR_HOME_PAGE];
+        [userDefaults synchronize];
     }
     _homePageIndex = [currPage integerValue];
     return _homePageIndex;
@@ -33,20 +59,24 @@
 
 - (void)setHomePageIndex:(NSInteger)homePageIndex
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
     NSNumber *currPage = [NSNumber numberWithInteger:homePageIndex];
-    [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_HOME_PAGE];
+    [userDefaults setObject:currPage forKey:CURR_HOME_PAGE];
+    [userDefaults synchronize];
+    
     _homePageIndex = homePageIndex;
 }
 
-- (NSString *)postUrlWithTagName:(NSString *)tagName headRefreshing:(BOOL)headRefreshing
+- (NSString *)postUrlWithHeadRefreshing:(BOOL)headRefreshing
 {
     NSString *urlStr;
-    if (tagName != nil) {
+    if (self.tagName != nil) {
         if (headRefreshing)
             _currPageIndex = 1;
         else
             _currPageIndex ++;
-        urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&filter[tag]=%@&page=%zi",tagName,_currPageIndex];
+        urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&filter[tag]=%@&page=%zi",self.tagName,_currPageIndex];
     } else {
         if (headRefreshing) {
             urlStr = @"http://163pinglun.com/wp-json/posts";
