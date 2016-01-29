@@ -94,6 +94,7 @@
 		1F74C7A01C4894B2005D74B9 /* CommCell5.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F74C79E1C4894B2005D74B9 /* CommCell5.m */; };
 		1F7707361C461CAC00F7133F /* ZFQQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7707351C461CAC00F7133F /* ZFQQueuePool.m */; };
 		1F7E33A71C47BA3A0063F941 /* comment2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F7E33A61C47BA3A0063F941 /* comment2.json */; };
+		1FAA00501C5B06C1007A3853 /* PostViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA004F1C5B06C1007A3853 /* PostViewModel.m */; };
 		1FAD8E511C31780A00F63A24 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAD8E4E1C31780A00F63A24 /* UIView+Additions.m */; };
 		1FAD8E521C31780A00F63A24 /* VVeboLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAD8E501C31780A00F63A24 /* VVeboLabel.m */; };
 		7B3C92FE1A3B349A0089D7AD /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3C92FD1A3B349A0089D7AD /* Launch Screen.xib */; };
@@ -270,6 +271,8 @@
 		1F7707341C461CAC00F7133F /* ZFQQueuePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQQueuePool.h; sourceTree = "<group>"; };
 		1F7707351C461CAC00F7133F /* ZFQQueuePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQQueuePool.m; sourceTree = "<group>"; };
 		1F7E33A61C47BA3A0063F941 /* comment2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment2.json; sourceTree = "<group>"; };
+		1FAA004E1C5B06C1007A3853 /* PostViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewModel.h; sourceTree = "<group>"; };
+		1FAA004F1C5B06C1007A3853 /* PostViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewModel.m; sourceTree = "<group>"; };
 		1FAD8E4D1C31780A00F63A24 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
 		1FAD8E4E1C31780A00F63A24 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
 		1FAD8E4F1C31780A00F63A24 /* VVeboLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVeboLabel.h; sourceTree = "<group>"; };
@@ -742,6 +745,8 @@
 			children = (
 				1F3DF21C1C25464E00DC8F07 /* HomeViewController.h */,
 				1F3DF21D1C25464E00DC8F07 /* HomeViewController.m */,
+				1FAA004E1C5B06C1007A3853 /* PostViewModel.h */,
+				1FAA004F1C5B06C1007A3853 /* PostViewModel.m */,
 				1F3DF21E1C25464E00DC8F07 /* HomeViewController.xib */,
 				1F3DF21F1C25464E00DC8F07 /* PostCell.h */,
 				1F3DF2201C25464E00DC8F07 /* PostCell.m */,
@@ -1002,6 +1007,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FAA00501C5B06C1007A3853 /* PostViewModel.m in Sources */,
 				1F3DF20A1C2542B100DC8F07 /* Tags.m in Sources */,
 				1F3DF1861C25423200DC8F07 /* GeneralService.m in Sources */,
 				1F3DF1791C25423200DC8F07 /* Reachability.m in Sources */,

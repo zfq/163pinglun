@@ -24,28 +24,24 @@
 #import "TagViewController.h"
 #import "PlaceholderView.h"
 #import "MacroDefinition.h"
+#import "PostViewModel.h"
 
-#import "ZFQQueuePool.h"
 @interface HomeViewController () <TagViewControllerDelegate>
 {
     NSInteger _homePageIndex;
     UITableViewCell *_prototypeCell;        //预留一个用来计算高度
     NSMutableDictionary *_cellsHeightDic;   //所有cell的高度
    
-    
     NSString *_tagName;
     NSInteger tagPageIndex;
     
     MenuView *menu;                     //菜单
-    ZFQQueuePool *pool;
 }
-
-@property (nonatomic,assign) NSInteger homePageIndex;
+@property (nonatomic) PostViewModel *viewModel;
 @property (nonatomic,strong) NSString *tagName;
 @end
 
 @implementation HomeViewController
-@synthesize homePageIndex = _homePageIndex;
 @synthesize tagName = _tagName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -54,8 +50,6 @@
     if (self) {
         // Custom initialization
         tagPageIndex = 1;
-        
-        pool = [[ZFQQueuePool alloc] init];
     }
     return self;
 }
@@ -63,6 +57,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _viewModel = [[PostViewModel alloc] init];
     
     //添加更多btn
     UIImage *moreImg = [UIImage imageNamed:@"more1"];
@@ -122,17 +118,30 @@
         CGFloat menuWidth = 157;
         CGFloat rightMargin = 6;
         CGFloat btnHeight = 43;
-        CGRect frame = CGRectMake(SCREEN_WIDTH-menuWidth-rightMargin, 65, menuWidth, 3 * btnHeight + (3-1));
         
-        MenuItem *tagItem = [[MenuItem alloc] initWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showTag:)];
-        MenuItem *lookItem = [[MenuItem alloc] initWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0) imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showLookAround:)];
-        MenuItem *settingItem = [[MenuItem alloc] initWithTitle:@"设置" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,frame.size.width, btnHeight) target:self action:@selector(showSetting:)];
-        menu = [[MenuView alloc] initWithFrame:frame menuItems:@[tagItem,lookItem,settingItem]];
-       
+        MenuItem *homeItem = [[MenuItem alloc] initWithTitle:@"今日评论" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0) frame:CGRectMake(0, 0,menuWidth, btnHeight) target:self action:@selector(showTodayPost:)];
+        MenuItem *tagItem = [[MenuItem alloc] initWithTitle:@"标签" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,menuWidth, btnHeight) target:self action:@selector(showTag:)];
+        MenuItem *lookItem = [[MenuItem alloc] initWithTitle:@"随便看看" titleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0) imageName:@"menu_look_around" imageEdgeInset:UIEdgeInsetsMake(0, -40, 0, 0) frame:CGRectMake(0, 0,menuWidth, btnHeight) target:self action:@selector(showLookAround:)];
+        MenuItem *settingItem = [[MenuItem alloc] initWithTitle:@"设置" titleEdgeInsets:UIEdgeInsetsMake(0, -58, 0, 0) imageName:@"menu_tag" imageEdgeInset:UIEdgeInsetsMake(0, -68, 0, 0) frame:CGRectMake(0, 0,menuWidth, btnHeight) target:self action:@selector(showSetting:)];
+        
+        NSArray *items = @[homeItem,tagItem,lookItem,settingItem];
+        NSUInteger itemNum = items.count;
+        CGRect frame = CGRectMake(SCREEN_WIDTH-menuWidth-rightMargin, 65, menuWidth, itemNum * btnHeight + (itemNum-1));
+
+        menu = [[MenuView alloc] initWithFrame:frame menuItems:items];
     }
     [menu showMenuView];
 }
 
+//今日评论
+- (void)showTodayPost:(UIButton *)button
+{
+    //开始下拉刷新
+    self.tagName = nil;
+    [self.tableView headerBeginRefreshing];
+}
+
+//标签
 - (void)showTag:(UIButton *)button
 {
     TagViewController *tVC = [[TagViewController alloc] init];
@@ -141,6 +150,7 @@
     [tVC showTagView];
 }
 
+//随便看看
 - (void)showLookAround:(UIButton *)button
 {
     RandomPostViewController *rVC = [[RandomPostViewController alloc] init];
@@ -148,6 +158,7 @@
     [rVC showRandomPostView];
 }
 
+//设置
 - (void)showSetting:(UIButton *)button
 {
     SettingViewController *sVC = [[SettingViewController alloc] init];
@@ -197,9 +208,10 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
+    HomeViewController * __weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
-            [ItemStore sharedItemStore].cotentsURL = [self urlStringWithHeadRefreshing:YES tagName:self.tagName];
+            [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithTagName:weakSelf.tagName headRefreshing:YES];
             [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
                 //先删除数据库中的所有post
                 if (error == nil)
@@ -220,7 +232,7 @@
                 [self.tableView headerEndRefreshing];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
-            self.homePageIndex = 1;
+            [weakSelf.viewModel setHomePageIndex:1];
             //显示footer
             [self.tableView setFooterHidden:NO];
             
@@ -248,7 +260,8 @@
         [GeneralService setNetworkReachability:YES];
        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        [ItemStore sharedItemStore].cotentsURL = [self urlStringWithHeadRefreshing:NO tagName:self.tagName];
+        
+        [ItemStore sharedItemStore].cotentsURL = [self.viewModel postUrlWithTagName:self.tagName headRefreshing:NO];
         
         [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
             if (posts != nil && (posts.postItems.count > 0))
@@ -276,25 +289,6 @@
     }
 }
 
-- (NSInteger)homePageIndex
-{
-    NSNumber *currPage = [[NSUserDefaults standardUserDefaults] objectForKey:CURR_HOME_PAGE];
-    //如果不存在就创建
-    if (currPage == nil || currPage.integerValue == 0) {
-        currPage = [NSNumber numberWithInteger:1];
-        [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_HOME_PAGE];
-    }
-    _homePageIndex = [currPage integerValue];
-    return _homePageIndex;
-}
-
-- (void)setHomePageIndex:(NSInteger)homePageIndex
-{
-    NSNumber *currPage = [NSNumber numberWithInteger:homePageIndex];
-    [[NSUserDefaults standardUserDefaults] setObject:currPage forKey:CURR_HOME_PAGE];
-    _homePageIndex = homePageIndex;
-}
-
 - (NSString *)tagName
 {
     NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"tagName"];
@@ -313,31 +307,6 @@
         [[NSUserDefaults standardUserDefaults]  setObject:tagName forKey:@"tagName"];
     }
     _tagName = tagName;
-}
-
-- (NSString *)urlStringWithHeadRefreshing:(BOOL)headRefreshing tagName:(NSString *)tag
-{
-#ifdef TEST_163_LOSS
-    return @"http://www.baidu.com";
-#endif
-    NSString *urlStr;
-    if (tag != nil) {
-        if (headRefreshing)
-            tagPageIndex = 1;
-        else
-            tagPageIndex ++;
-        urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&filter[tag]=%@&page=%zi",tag,tagPageIndex];
-    } else {
-        if (headRefreshing) {
-            urlStr = @"http://163pinglun.com/wp-json/posts";
-        } else {
-            //设置当前页数
-            self.homePageIndex += 1;
-            urlStr = [NSString stringWithFormat:@"http://163pinglun.com/index.php?json_route=/posts&page=%zi",self.homePageIndex];
-        }
-    }
-    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    return urlStr;
 }
 
 #pragma mark - tableView dateSource delegate
@@ -397,8 +366,8 @@
 {
     [tVC dismissTagViewWithAnimation:YES];
     self.tagName = tagView.postTag.tagName;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
+    //开始下拉刷新
     [self.tableView headerBeginRefreshing];
 }
 
