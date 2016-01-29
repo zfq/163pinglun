@@ -27,10 +27,12 @@ extern NSString *const kCommCellTypeBottom;
 
 - (NSString *)content;
 
-- (void)copyContentToPasteboard;
-- (UIImage *)contentSnapshoot;
+//- (void)copyContentToPasteboard;
+//- (UIImage *)contentSnapshoot;
 
 - (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount fontSizeChanged:(BOOL)isChanged;
+
+//计算高度
 - (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount forHeight:(CGFloat *)height fontSizeChanged:(BOOL)isChanged;
 
 @end

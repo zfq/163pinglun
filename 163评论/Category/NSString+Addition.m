@@ -119,4 +119,18 @@
     return coreTextSize;
 }
 
+- (NSString *)weiboTextWithUrl:(NSString *)url
+{
+    NSUInteger urlLength = url.length + 1;  //留个空格
+    NSInteger maxLength = 140;
+    if (self.length + urlLength > maxLength) {
+        //
+        NSUInteger realLength = maxLength - urlLength;
+        NSString *subStr = [self substringToIndex:realLength];
+        NSString *weiboStr = [NSString stringWithFormat:@"%@ %@",subStr,url];
+        return weiboStr;
+    } else {
+        return [NSString stringWithFormat:@"%@ %@",self,url];
+    }
+}
 @end

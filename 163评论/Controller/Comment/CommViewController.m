@@ -17,6 +17,7 @@
 #import "ZFQMenuObject.h"
 #import "MacroDefinition.h"
 #import "UIImage+Content.h"
+#import "NSString+Addition.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -135,16 +136,17 @@
     NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
         NSString *originText = [_assistContent content];
-        NSString *text = [originText stringByAppendingString:url];
+        
+        NSString *text = [originText weiboTextWithUrl:url];
         UIImage *img = [UIImage imageWithContent:_assistContent size:CGSizeMake(300, 480)];
-        NSLog(@"%f,%f",img.size.width,img.size.height);
-        /*
+        NSLog(@"%zi",text.length);
+        
         [[SocialSharing sharedInstance] sendWeiboWithText:text image:img completion:^(BOOL success) {
             if (success) {  //这个success也可能是取消的success
 //                NSLog(@"成功");
             }
         }];
-         */
+        
     } else if ([shareItem.title isEqualToString:@"QQ空间"]) {
         UIImage *img = [UIImage imageNamed:@"AppIcon57x57"];
         [[SocialSharing sharedInstance] sendQQShareWithTitle:self.myTitle description:nil image:img url:url];

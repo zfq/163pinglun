@@ -15,4 +15,7 @@
 + (CGSize)TextSizeWithAttrStr:(NSAttributedString *)attrStr preferWidth:(CGFloat)preferWidth;
 + (CGSize)SinglLineTextSizeWithAttrStr:(NSAttributedString **)attrStr preferWidth:(CGFloat)preferWidth;
 
+//截取字符串
+- (NSString *)weiboTextWithUrl:(NSString *)url;
+
 @end

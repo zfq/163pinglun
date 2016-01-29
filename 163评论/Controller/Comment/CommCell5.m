@@ -127,13 +127,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 }
 
 #pragma mark - getter setter
-//- (ZFQMenuObject *)menuObject
-//{
-//    if (!_menuObject) {
-//        _menuObject = [[ZFQMenuObject alloc] init];
-//    }
-//    return _menuObject;
-//}
 - (NSString *)content
 {
     return _detailContent;
