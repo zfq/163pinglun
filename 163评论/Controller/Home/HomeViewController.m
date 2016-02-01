@@ -37,11 +37,9 @@
     MenuView *menu;                     //菜单
 }
 @property (nonatomic) PostViewModel *viewModel;
-@property (nonatomic,strong) NSString *tagName;
 @end
 
 @implementation HomeViewController
-@synthesize tagName = _tagName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,7 +56,9 @@
     [super viewDidLoad];
     
     _viewModel = [[PostViewModel alloc] init];
-    
+    _viewModel.latestPostRefreshBlk = ^(){
+        [TagViewController  clearTagKey];
+    };
     //添加更多btn
     UIImage *moreImg = [UIImage imageNamed:@"more1"];
     UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -222,9 +222,7 @@
                         _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
                         self.tableView.tableHeaderView = nil;
                         [self.tableView reloadData];
-                        
-                        if (self.tagName != nil)
-                            self.tagName = nil;  //以便下拉返回首页
+            
                     }
                 } //end if(error == nil)
                 
@@ -266,7 +264,7 @@
             if (posts != nil && (posts.postItems.count > 0))
             {
                 [_posts addPostItems:posts.postItems];
-                if (self.tagName == nil)
+                if (self.viewModel.tagName == nil)
                 {
 //                    [self saveCurrHomePage];
                 }//保存当前为第几页

@@ -80,6 +80,9 @@
     } else {
         if (headRefreshing) {
             urlStr = @"http://163pinglun.com/wp-json/posts";
+            if (self.latestPostRefreshBlk) {
+                self.latestPostRefreshBlk();
+            }
         } else {
             //设置当前页数
             self.homePageIndex += 1;

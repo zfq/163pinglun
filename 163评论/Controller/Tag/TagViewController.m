@@ -14,6 +14,8 @@
 #import "Reachability.h"
 #import "MacroDefinition.h"
 
+NSString * const k163TagIndex = @"preTagViewIndex";
+
 @interface TagViewController () <TagScrollViewDelegate>
 {
     UIControl *maskView;
@@ -31,6 +33,7 @@
     
     BOOL isSuccessLoadedTag;  //判断tag是否成功加载出来
 //    NSInteger preTagViewIndex;  //前一个被选中的tagView的索引
+    UIView *_panGestureView;    //仅仅用于防止滑动时tagScrollView也能滚动.
 }
 @end
 
@@ -42,7 +45,8 @@
     self.view = view;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
     
@@ -57,7 +61,10 @@
     
     //添加scrollView
     marginLeft = (55 * SCREEN_WIDTH)/320.0f;
-    tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 64, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-64)];
+    CGRect gestureViewFrame = CGRectMake(SCREEN_WIDTH, navHeight, SCREEN_WIDTH-marginLeft, SCREEN_HEIGHT-navHeight);
+    _panGestureView = [[UIView alloc] initWithFrame:gestureViewFrame];
+    
+    tagScrollView = [[TagScrollView alloc] initWithFrame:CGRectMake(0, 0, gestureViewFrame.size.width, gestureViewFrame.size.height)];
     tagScrollView.backgroundColor = RGBCOLOR(254, 254, 254, 1);
     tagScrollView.leftMargin = 3;
     tagScrollView.rightMargin = 3;
@@ -65,11 +72,13 @@
     tagScrollView.horizontalPadding = 3;
     tagScrollView.verticalPadding = 3;
     panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
+    panGesture.maximumNumberOfTouches = 1;
     panGesture.delegate = self;
-    [tagScrollView addGestureRecognizer:panGesture];
-    [self.view addSubview:tagScrollView];
     
-    [tagScrollView addObserver:self forKeyPath:@"panGestureRecognizer.state" options:NSKeyValueObservingOptionNew context:nil];
+    [_panGestureView addGestureRecognizer:panGesture];
+    [_panGestureView addSubview:tagScrollView];
+    [self.view addSubview:_panGestureView];
+    
     //添加nav阴影
     UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
     UIImageView *navImgView = [[UIImageView alloc] initWithImage:navImg];
@@ -78,17 +87,16 @@
     
     //设置maskView透明度渐变及tableView的滑入
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        CGRect rect = tagScrollView.frame;
+        CGRect rect = _panGestureView.frame;
         rect.origin.x = marginLeft;
-        tagScrollView.frame = rect;
+        _panGestureView.frame = rect;
         maskView.alpha = originAlpha;
     } completion:nil];
-    
+
     //加载数据 添加tagViews
     isSuccessLoadedTag = NO;
 //    preTagViewIndex = -1;
     [self loadTagData];
-    
 }
 
 - (void)loadTagData
@@ -172,10 +180,8 @@
 
 - (void)dismissTagView
 {
-    [self removeFromParentViewController];
     [self.view removeFromSuperview];
-    [tagScrollView removeGestureRecognizer:panGesture];
-    self.view = nil;
+    [self removeFromParentViewController];
 }
 
 - (void)dismissTagViewWithAnimation:(BOOL)animation
@@ -197,6 +203,11 @@
     }
 }
 
++ (void)clearTagKey
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:k163TagIndex];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 #pragma mark - tap gesture
 - (void)tapMaskView
 {
@@ -216,12 +227,14 @@
         beginTapX = x;
         beginTapY = currTapPoint.y;
         beginTapPoint = currTapPoint;
-    } else if (gesture.state == UIGestureRecognizerStateChanged) {
         tagScrollView.userInteractionEnabled = NO;
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        
+
         currTapPoint = [gesture locationInView:keyWindow];
         CGFloat temp = (x-beginTapX+marginLeft);
         [self moveView:gestureView toX:temp];
-        if (temp <marginLeft) {
+        if (temp < marginLeft) {
             maskView.alpha = originAlpha;
         } else {
             maskView.alpha = originAlpha - originAlpha*(x-beginTapX)/temp;
@@ -229,7 +242,9 @@
         
     } else if (gesture.state == UIGestureRecognizerStateEnded ||
                gesture.state == UIGestureRecognizerStateCancelled) {
-        
+        _panGestureView.userInteractionEnabled = YES;
+        tagScrollView.scrollEnabled = YES;
+        self.view.userInteractionEnabled = YES;
         if (x - beginTapX > 100) {  //移除marskView
             
             [UIView animateWithDuration:0.3 animations:^{
@@ -270,49 +285,27 @@
     view.frame = originFrame;
 }
 
-#pragma mark - UIGestureRecognizer delegate
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    return YES;
-}
-
--(NSTimeInterval)animationDurationForDistance:(CGFloat)distance{
+- (NSTimeInterval)animationDurationForDistance:(CGFloat)distance {
     NSTimeInterval duration = MAX(distance/840.f,0.20);
     return duration;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    
-    switch (tagScrollView.panGestureRecognizer.state) {
-        case UIGestureRecognizerStateBegan: {
-            panGesture.enabled = NO;
-        }break;
-        case UIGestureRecognizerStateCancelled:
-        case UIGestureRecognizerStateEnded:{
-            panGesture.enabled = YES;
-        }break;
-        default:
-            break;
-    }
-
-}
-
 - (NSInteger)preTagViewIndex
 {
-    NSString *key = @"preTagViewIndex";
-    NSNumber *preIndex = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *preIndex = [userDefaults objectForKey:k163TagIndex];
     if (preIndex == nil ) {
         preIndex = [NSNumber numberWithInteger:-1];
-        [[NSUserDefaults standardUserDefaults] setObject:preIndex forKey:key];
+        [userDefaults setObject:preIndex forKey:k163TagIndex];
+        [userDefaults synchronize];
     }
     return preIndex.integerValue;
 }
 
 - (void)setPreTagViewIndex:(NSInteger)preIndex
 {
-    NSString *key = @"preTagViewIndex";
-    [[NSUserDefaults standardUserDefaults] setObject:@(preIndex) forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:@(preIndex) forKey:k163TagIndex];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 #pragma mark - tagView tap action
 - (void)tapTagView:(TagView *)tagView
@@ -348,9 +341,6 @@
 
 - (void)dealloc
 {
-    [tagScrollView removeGestureRecognizer:panGesture];
-    [tagScrollView removeObserver:self forKeyPath:@"panGestureRecognizer.state" context:nil];
-    tagScrollView.tagScrollViewDelegate = nil;
-    self.tvcDelegate = nil;
+    DNSLog(@"释放tagVC");
 }
 @end

@@ -17,6 +17,8 @@
 
 - (void)showTagView;
 - (void)dismissTagViewWithAnimation:(BOOL)animation;
++ (void)clearTagKey;
+
 @end
 
 @protocol TagViewControllerDelegate <NSObject>
