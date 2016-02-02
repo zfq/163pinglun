@@ -35,7 +35,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     UILabel *oneUserLabel;
     UILabel *oneTimeLabel;
     UILabel *oneContentLabel;
-    UIView *oneSeparatorView;
     
     //top
     UILabel *topUserLabel;
@@ -85,8 +84,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
 }
 
 - (void)addSubViewsWithId:(NSString *)reuseId
@@ -94,15 +91,12 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     if ([reuseId isEqualToString:kCommCellTypeOnlyOne]) {
         
         oneUserLabel = [self userLabel];
-        [self.contentView addSubview:oneUserLabel];
+//        [self.contentView addSubview:oneUserLabel];
         oneTimeLabel = [self timeLabel];
         oneTimeLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:oneTimeLabel];
+//        [self.contentView addSubview:oneTimeLabel];
         oneContentLabel = [self contentLabel];
-        [self.contentView addSubview:oneContentLabel];
-        oneSeparatorView = [[UIView alloc] initWithFrame:CGRectZero];
-        oneSeparatorView.backgroundColor = SEPARATOR_COLOR;
-        [self.contentView addSubview:oneSeparatorView];
+//        [self.contentView addSubview:oneContentLabel];
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         
@@ -143,6 +137,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     return nil;
 }
 
+//仅仅用于计算高度
 - (void)bindContent:(Content *)content floorCount:(NSInteger)floorCount forHeight:(CGFloat *)height fontSizeChanged:(BOOL)isChanged
 {
     if (content == nil)
@@ -151,7 +146,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     _content = content;
     _floorCount = floorCount;
     
-    CGFloat separatorHeight = 1;
     CGFloat marginTop = 10;
     CGFloat userMarginLeft = 15;
     CGFloat timeHeight = 30;
@@ -202,11 +196,8 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         originFrame.size = contentLabelSize;
         oneContentLabel.frame = originFrame;
         
-        //--oneSeparatorView
-        oneSeparatorView.frame = CGRectMake(0, CGRectGetMaxY(oneContentLabel.frame), sw, separatorHeight);
-        
         if (height != nil)
-            *height = CGRectGetMaxY(oneSeparatorView.frame);
+            *height = CGRectGetMaxY(oneContentLabel.frame)+marginTop;
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         
@@ -320,7 +311,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
     _floorCount = floorCount;
     _fontSizeChanged = isChanged;
     
-    CGFloat separatorHeight = 1;
     CGFloat marginTop = 10;
     CGFloat userMarginLeft = 15;
     CGFloat timeHeight = 30;
@@ -364,17 +354,71 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         oneTimeLabel.frame = originFrame;
         
         //--oneContentLabel
-        CGSize maxContentLabelSize = CGSizeMake(sw - 2 * userMarginLeft, HUGE_VALF);
+        CGSize maxContentLabelSize = CGSizeMake(sw - 2 * userMarginLeft, CGFLOAT_MAX);
         CGSize contentLabelSize = [oneContentLabel sizeThatFits:maxContentLabelSize];
         originFrame = oneContentLabel.frame;
         originFrame.origin = CGPointMake(userMarginLeft, CGRectGetMaxY(oneUserLabel.frame) + marginTop);
         originFrame.size = contentLabelSize;
         oneContentLabel.frame = originFrame;
-        //--oneSeparatorView
-        oneSeparatorView.frame = CGRectMake(0, CGRectGetMaxY(oneContentLabel.frame), sw, separatorHeight);
         
         // 保存frame
         _contentLabelFrame = originFrame;
+        
+        dispatch_async(ZFQGetQueue(), ^{
+            //1.创建UIImageContext
+            CGSize imgSize = CGSizeMake(sw, CGRectGetMaxY(oneContentLabel.frame) + marginTop);
+            UIGraphicsBeginImageContextWithOptions(imgSize, YES, 0);
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            //2.draw backgroundColor
+            [[UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0] setFill];
+            CGContextFillRect(context, CGRectMake(0, 0, imgSize.width, imgSize.height));
+            
+            //3.draw userLabel
+            NSMutableParagraphStyle *userParaStyle = [[NSMutableParagraphStyle alloc] init];
+            userParaStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+            NSDictionary *userAttr = @{
+                                       NSFontAttributeName:oneUserLabel.font,
+                                       NSForegroundColorAttributeName:oneUserLabel.textColor,
+                                       NSParagraphStyleAttributeName:userParaStyle
+                                       };
+            [oneUserLabel.text drawInRect:oneUserLabel.frame withAttributes:userAttr];
+            //4.draw oneTimeLabel
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.alignment = NSTextAlignmentRight;
+            NSDictionary *floorAttr = @{
+                                        NSFontAttributeName:oneUserLabel.font,
+                                        NSForegroundColorAttributeName:oneUserLabel.textColor,
+                                        NSParagraphStyleAttributeName:paragraphStyle
+                                        };
+            [oneTimeLabel.text drawInRect:oneTimeLabel.frame withAttributes:floorAttr];
+            
+            //5.画选中时的文本背景
+            if (hightlightColor != nil) {
+                [hightlightColor setFill];
+                CGContextFillRect(context, originFrame);
+            }
+            //6.创建NSAttributedString
+            NSDictionary *attr = @{
+                                   NSFontAttributeName:[UIFont systemFontOfSize:[GeneralService currContentFontSize]]
+                                   };
+            [oneContentLabel.text drawInRect:oneContentLabel.frame withAttributes:attr];
+            
+            //7.draw separatorLine
+            CGContextSetLineWidth(context, 1);
+            CGContextSetStrokeColorWithColor(context, SEPARATOR_COLOR.CGColor);
+            CGContextMoveToPoint(context, 0, imgSize.height - 1);
+            CGContextAddLineToPoint(context, sw, imgSize.height -1);
+            CGContextStrokePath(context);
+            UIImage *comBcgImg = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                comBcgImgView.frame = CGRectMake(0, 0, sw,imgSize.height);
+                comBcgImgView.image = nil;
+                comBcgImgView.image = comBcgImg;
+            });
+            
+        });
         
     } else if ([reuseId isEqualToString:kCommCellTypeTop]) {
         
@@ -541,9 +585,10 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             [bottomContentLabel.text drawInRect:contentFrame withAttributes:attr];
             
             //4.draw separatorLine
+            CGContextSetLineWidth(context, 1);
             CGContextSetStrokeColorWithColor(context, SEPARATOR_COLOR.CGColor);
             CGContextMoveToPoint(context, 0, imgSize.height - 1);
-            CGContextAddLineToPoint(context, sw, imgSize.height);
+            CGContextAddLineToPoint(context, sw, imgSize.height - 1);
             CGContextStrokePath(context);
             UIImage *comBcgImg = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
