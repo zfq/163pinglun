@@ -61,7 +61,7 @@
 
 
 #define LOGO @"163评论"
-#define HOSTURL @"www.163pinglun.com"
+#define HOSTURL @"http://163pinglun2.sinaapp.com"        //@"www.163pinglun.com"
 #endif
 
 //-----------------------日志打印-------------------------------

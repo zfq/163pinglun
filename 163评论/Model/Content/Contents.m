@@ -72,4 +72,43 @@
         
 }
 
+- (void)readFromJSONArray:(NSArray *)array apiVersion:(NSString *)apiVersion
+{
+    BOOL isDel = NO;
+    NSInteger preAllRows = 0;
+    for (NSInteger i = 0; i < array.count; i++) {
+        NSDictionary *dict = array[i];
+        NSArray *comments = dict[@"content"];
+        NSNumber *postID = dict[@"post"];
+        NSNumber *groupID = dict[@"ID"];
+        NSInteger count = comments.count;
+        //从数据库中删除postID的所有content,再把新的content添加进去
+        if (isDel == NO) {
+            [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
+            isDel = YES;
+        }
+        
+        NSInteger currRows = 0;
+        if (count > 0)
+            currRows = (count == 1) ? 1 : (count+1);
+        
+        NSMutableArray *tempArray = [[NSMutableArray alloc] initWithCapacity:count];
+        for (NSInteger j = 0; j < count; j++) {
+            Content *c = [[ItemStore sharedItemStore] createContent];
+            [c readFromJSONDictionary:comments[j] apiVersion:nil];
+            c.postID = postID;
+            c.groupID = groupID;
+            c.floorIndex = [NSNumber numberWithInteger:(j+1)];
+            c.currRows = [NSNumber numberWithInteger:currRows];
+            c.preAllRows = [NSNumber numberWithInteger:preAllRows];
+            [tempArray addObject:c];
+        }
+        
+        [_contentItems addObject:tempArray];
+        [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
+        
+        preAllRows += currRows;
+    }
+}
+
 @end

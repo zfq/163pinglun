@@ -10,6 +10,8 @@
 #import "MBProgressHUD.h"
 #import "GeneralService.h"
 #import "NSError+networkMsg.h"
+#import "NSString+Addition.h"
+#import "MacroDefinition.h"
 
 static NSMutableArray *sharedConnectionList = nil;
 
@@ -53,6 +55,7 @@ static NSMutableArray *sharedConnectionList = nil;
     
     //提示错误信息
     NSString *errorCode = [NSString stringWithFormat:@"%zi", error.code];
+    DNSLog(@"%@",error);
     [GeneralService showHUDWithTitle:errorCode andDetail:[NSError urlErrorDesciptionForCode:error.code] image:@"MBProgressHUD.bundle/error"];
 
      [sharedConnectionList removeObject:connection];
@@ -76,6 +79,17 @@ static NSMutableArray *sharedConnectionList = nil;
     container = [[NSMutableData alloc] initWithContentsOfFile:postJsonPath];
 #endif
     
+    //根据帖子id号来区分进行不同的解析
+    NSArray *pathComponets = connection.originalRequest.URL.pathComponents;
+    NSInteger postID = -1;
+    for (NSString *str in pathComponets) {
+        if ([str isNumStr]) {
+            postID = [str integerValue];
+            break;
+        }
+    }
+    
+    
     id rootObject = nil;
     if (self.xmlRootObject != nil) {
         NSXMLParser *parser = [[NSXMLParser alloc] initWithData:container];
@@ -90,7 +104,14 @@ static NSMutableArray *sharedConnectionList = nil;
             //过滤尾部的<!--xxx-->
             container = [self resultDataFromData:container];
             NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
-            [self.jsonRootObject readFromJSONArray:array];
+            
+            if (postID > 0) {
+                //新版API
+                [self.jsonRootObject readFromJSONArray:array apiVersion:nil];
+            } else {
+                [self.jsonRootObject readFromJSONArray:array];
+            }
+            
         }
         rootObject = self.jsonRootObject;
     }

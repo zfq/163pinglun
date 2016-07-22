@@ -13,6 +13,9 @@
 @optional
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary;
+- (void)readFromJSONDictionary:(NSDictionary *)dictionary apiVersion:(NSString *)apiVersion;
+
 - (void)readFromJSONArray:(NSArray *)array;
+- (void)readFromJSONArray:(NSArray *)array apiVersion:(NSString *)apiVersion;
 
 @end

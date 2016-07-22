@@ -18,4 +18,7 @@
 //截取字符串
 - (NSString *)weiboTextWithUrl:(NSString *)url;
 
+///判断字符串是否是数字字符串
+- (BOOL)isNumStr;
+
 @end

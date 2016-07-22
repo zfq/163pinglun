@@ -133,4 +133,14 @@
         return [NSString stringWithFormat:@"%@ %@",self,url];
     }
 }
+
+- (BOOL)isNumStr
+{
+    static NSPredicate *predicate = nil;
+    if (!predicate) {
+        NSString *pattern = @"^\\d+?$";
+        predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+    }
+    return [predicate evaluateWithObject:self];
+}
 @end

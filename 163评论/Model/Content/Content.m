@@ -31,6 +31,14 @@
     //postID和contentID floorIndex在contents中初始化
 }
 
+- (void)readFromJSONDictionary:(NSDictionary *)dictionary apiVersion:(NSString *)apiVersion
+{
+    self.user = dictionary[@"user"][@"nickname"];
+    self.email = @"";
+    self.content = dictionary[@"content"];
+    self.time = [self postTimeFromTime:[dictionary objectForKey:@"createTime"]];
+}
+
 - (NSString *)postTimeFromTime:(NSString *)time
 {
     if (!time) {
@@ -38,13 +46,20 @@
     }
     NSString *postTime = nil;
     NSDate *currDate = [NSDate date];
-    
     //-------------将time转换为NSDate----------
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    
+    static NSDateFormatter *formatter = nil;
+    if (!formatter) {
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    }
+    
     NSDate *date = [formatter dateFromString:time];
     
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    static NSCalendar *calendar = nil;
+    if (!calendar) {
+        calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    }
     NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
     NSDateComponents *currDateComps = [calendar components:unitFlags fromDate:currDate];
     NSInteger currYear=[currDateComps year];

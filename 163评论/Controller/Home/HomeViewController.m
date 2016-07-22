@@ -351,7 +351,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 
     if (self.view.superview == nil && self.view.window == nil) {
         self.view = nil;

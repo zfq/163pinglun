@@ -91,6 +91,7 @@
 		1F6C79AC1C4FDDD600CCA019 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79AB1C4FDDD600CCA019 /* ImageIO.framework */; };
 		1F6C79AE1C4FDF6F00CCA019 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79AD1C4FDF6F00CCA019 /* CoreText.framework */; };
 		1F6C79AF1C4FE11100CCA019 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3DF0F61C25423200DC8F07 /* libWeiboSDK.a */; };
+		1F6FECF01D40E4E70059DCA9 /* CommentV3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F6FECEF1D40E4E60059DCA9 /* CommentV3.json */; };
 		1F74C7A01C4894B2005D74B9 /* CommCell5.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F74C79E1C4894B2005D74B9 /* CommCell5.m */; };
 		1F7707361C461CAC00F7133F /* ZFQQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7707351C461CAC00F7133F /* ZFQQueuePool.m */; };
 		1F7E33A71C47BA3A0063F941 /* comment2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F7E33A61C47BA3A0063F941 /* comment2.json */; };
@@ -266,6 +267,7 @@
 		1F6C79A91C4FDDCD00CCA019 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1F6C79AB1C4FDDD600CCA019 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		1F6C79AD1C4FDF6F00CCA019 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		1F6FECEF1D40E4E60059DCA9 /* CommentV3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CommentV3.json; sourceTree = "<group>"; };
 		1F74C79E1C4894B2005D74B9 /* CommCell5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommCell5.m; sourceTree = "<group>"; };
 		1F74C79F1C4894B2005D74B9 /* CommCell5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommCell5.h; sourceTree = "<group>"; };
 		1F7707341C461CAC00F7133F /* ZFQQueuePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQQueuePool.h; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				1F7E33A61C47BA3A0063F941 /* comment2.json */,
 				1F0AF42F1C26CAB200738551 /* comment1.json */,
 				1F0AF4301C26CAB200738551 /* post.json */,
+				1F6FECEF1D40E4E60059DCA9 /* CommentV3.json */,
 			);
 			path = content;
 			sourceTree = "<group>";
@@ -991,6 +994,7 @@
 				1F0AF43A1C26CAB200738551 /* comment.bundle in Resources */,
 				1F3DF2441C25464E00DC8F07 /* TestShareControllerViewController.xib in Resources */,
 				1F3DF2371C25464E00DC8F07 /* CommViewController.xib in Resources */,
+				1F6FECF01D40E4E70059DCA9 /* CommentV3.json in Resources */,
 				1F3DF17B1C25423200DC8F07 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				1F3DF1A71C25423200DC8F07 /* FQBaseViewController.xib in Resources */,
 				1F0AF43C1C26CAB200738551 /* setting.plist in Resources */,

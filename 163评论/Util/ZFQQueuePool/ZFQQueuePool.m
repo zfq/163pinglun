@@ -23,7 +23,8 @@ static dispatch_queue_t ZFQQueueCreate(const char *name)
     dispatch_queue_t serialQueue = dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL);
     
     //2.将上面的串行队列的优先级设置为Default
-    dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0);//QOS_CLASS_USER_INTERACTIVE
+    //就是让第一个参数queue的优先级设成和第二个参数queue的优先级一样，第二个queue相当于一个参照物
     dispatch_set_target_queue(serialQueue, globalQueue);
     
     return serialQueue;

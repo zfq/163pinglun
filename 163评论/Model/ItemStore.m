@@ -147,7 +147,8 @@
 #pragma mark - fetch data from network
 - (void)fetchTagsWithCompletion:(void(^)(Tags * tags,NSError *error))block
 {
-    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
+    NSString *requestString = [HOSTURL stringByAppendingString:@"/wp-json/posts/types/post/taxonomies/post_tag/terms"];
+//    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
     NSURL *url = [NSURL URLWithString:requestString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;
@@ -204,7 +205,8 @@
 
 - (void)fetchRandomPostsWithCompletion:(void (^)(RandomPosts *randomPosts,NSError *error))block
 {
-    NSString *requestURL = @"http://163pinglun.com/wp-admin/admin-ajax.php?action=random_post";
+    NSString *requestURL = [HOSTURL stringByAppendingString:@"/wp-admin/admin-ajax.php?action=random_post"];
+    //@"http://163pinglun.com/wp-admin/admin-ajax.php?action=random_post";
     NSURL *url = [NSURL URLWithString:requestURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;

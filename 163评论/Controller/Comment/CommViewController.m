@@ -133,7 +133,7 @@
 #pragma mark - share delegate
 - (void)didTapedShareItem:(ShareItem *)shareItem
 {
-    NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/archives/%zi",self.postID.integerValue];
+    NSString *url = [NSString stringWithFormat:@"%@/archives/%zi",HOSTURL,self.postID.integerValue];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
         NSString *originText = [_assistContent content];
         
@@ -187,7 +187,6 @@
     //否则就从数据库里去取
     
     //添加等待view
-//    __block UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
     CommViewController *__weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
         if (isReachable) {  //网络可用
@@ -196,7 +195,7 @@
 //            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
             NSString *url = @"http://www.biying.com";
 #else
-            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
+            NSString *url = [NSString stringWithFormat:@"%@/wp-json/posts/%@/comments",HOSTURL,[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
             [ItemStore sharedItemStore].cotentsURL = url;
             
@@ -219,7 +218,6 @@
 #endif
             [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
                 //移除等待view
-//                [weakSelf removeActivityView:activityView];
                 //处理数据
                 if (contents.count > 0) {
                     weakSelf.contents = [[Contents alloc] initWithContents:contents];
@@ -415,9 +413,10 @@
             UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 #if TEST_163_LOSS
-            NSString *url = @"http://163pinglun.com/wp-json/posts/10798/comments";
+            NSString *url = [HOSTURL stringByAppendingString:@"/wp-json/posts/10798/comments"];// @"http://163pinglun.com/wp-json/posts/10798/comments";
+            
 #else
-            NSString *url = [NSString stringWithFormat:@"http://163pinglun.com/wp-json/posts/%@/comments",[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
+            NSString *url = [NSString stringWithFormat:@"%@/wp-json/posts/%@/comments",HOSTURL,[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
 #endif
             [ItemStore sharedItemStore].cotentsURL = url;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
