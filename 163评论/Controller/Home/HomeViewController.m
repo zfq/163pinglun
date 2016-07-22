@@ -75,12 +75,6 @@
     [self.navView addConstraints:moreBtnConsV];
     [self.navView addConstraints:moreBtnConsH];
     
-    //添加searchbar
-//    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
-//    searchBar.searchBarStyle = UISearchBarStyleMinimal;
-//    [self.tableView setTableHeaderView:view];
-//    [self.tableView addSubview:searchBar];
-    
     //添加logo
     UIImage *logImg = [UIImage imageNamed:@"logo"];
     UIImageView *logImgView = [[UIImageView alloc] initWithImage:logImg];
