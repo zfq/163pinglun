@@ -33,27 +33,31 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary apiVersion:(NSString *)apiVersion
 {
-    self.user = dictionary[@"user"][@"nickname"];
+    NSString *user = dictionary[@"user"][@"nickname"];
+    if ([user isKindOfClass:[NSNull class]]) {
+        self.user = @"";
+    } else {
+        self.user = user;
+    }
     self.email = @"";
-    self.content = dictionary[@"content"];
+    self.content = [NSString replaceBr:dictionary[@"content"]];
     self.time = [self postTimeFromTime:[dictionary objectForKey:@"createTime"]];
 }
 
 - (NSString *)postTimeFromTime:(NSString *)time
 {
-    if (!time) {
+    if (!time || [time isKindOfClass:[NSNull class]]) {
         return @"昨天";
     }
     NSString *postTime = nil;
     NSDate *currDate = [NSDate date];
-    //-------------将time转换为NSDate----------
     
+    //-------------将time转换为NSDate----------
     static NSDateFormatter *formatter = nil;
     if (!formatter) {
         formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     }
-    
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSDate *date = [formatter dateFromString:time];
     
     static NSCalendar *calendar = nil;
