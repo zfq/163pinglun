@@ -89,7 +89,6 @@ static NSMutableArray *sharedConnectionList = nil;
         }
     }
     
-    
     id rootObject = nil;
     if (self.xmlRootObject != nil) {
         NSXMLParser *parser = [[NSXMLParser alloc] initWithData:container];
@@ -105,7 +104,7 @@ static NSMutableArray *sharedConnectionList = nil;
             container = [self resultDataFromData:container];
             NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             
-            if (postID > 0) {
+            if (postID > kSeparatorPostID) {
                 //新版API
                 [self.jsonRootObject readFromJSONArray:array apiVersion:nil];
             } else {

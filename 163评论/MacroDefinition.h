@@ -64,6 +64,7 @@
 #define HOSTURL @"http://163pinglun2.sinaapp.com"        //@"www.163pinglun.com"
 #endif
 
+static NSInteger kSeparatorPostID = 17951;
 //-----------------------日志打印-------------------------------
 #ifdef DEBUG
 #define DNSLog(...)     NSLog(__VA_ARGS__)
