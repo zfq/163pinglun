@@ -7,11 +7,11 @@
 //
 
 #import "FQConnection.h"
-#import "MBProgressHUD.h"
 #import "GeneralService.h"
 #import "NSError+networkMsg.h"
 #import "NSString+Addition.h"
 #import "MacroDefinition.h"
+#import "ZFQHUD.h"
 
 static NSMutableArray *sharedConnectionList = nil;
 
@@ -54,11 +54,11 @@ static NSMutableArray *sharedConnectionList = nil;
         [self completionBlock](nil,error);
     
     //提示错误信息
-    NSString *errorCode = [NSString stringWithFormat:@"%zi", error.code];
     DNSLog(@"%@",error);
-    [GeneralService showHUDWithTitle:errorCode andDetail:[NSError urlErrorDesciptionForCode:error.code] image:@"MBProgressHUD.bundle/error"];
-
-     [sharedConnectionList removeObject:connection];
+    NSString *desc = [NSError urlErrorDesciptionForCode:error.code];
+    [[ZFQHUD sharedView] showWithMsg:desc duration:2.5 completionBlk:nil];
+    
+    [sharedConnectionList removeObject:connection];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

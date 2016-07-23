@@ -11,6 +11,7 @@
 #import "GeneralService.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "MacroDefinition.h"
+#import "ZFQHUD.h"
 
 @interface SocialSharing()
 {
@@ -132,7 +133,9 @@
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
         if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
-            [GeneralService showHUDWithTitle:@"分享成功" andDetail:nil image:@"MBProgressHUD.bundle/success"];
+            [[ZFQHUD sharedView] showWithMsg:@"分享成功" duration:2 completionBlk:^{
+                
+            }];
         }
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])

@@ -9,7 +9,6 @@
 #import "GeneralService.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
-#import "MBProgressHUD.h"
 #import "MacroDefinition.h"
 
 #define NETWORK_STATUS @"networkStatus"
@@ -92,32 +91,6 @@
     
 }
 
-+ (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName
-{
-    UIWindow *topWindow = (UIWindow *)[UIApplication sharedApplication].windows.lastObject;
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithWindow:topWindow];
-    HUD.mode = MBProgressHUDModeCustomView;
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-    HUD.labelText = title;
-    HUD.detailsLabelText = detail;
-    HUD.userInteractionEnabled = NO;
-    [topWindow addSubview:HUD];
-    [HUD show:YES];
-	[HUD hide:YES afterDelay:3];
-}
-
-+ (void)showHUDWithTitle:(NSString *)title andDetail:(NSString *)detail image:(NSString *)imageName inView:(UIView *)view
-{
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
-    HUD.mode = MBProgressHUDModeCustomView;
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-    HUD.labelText = title;
-    HUD.detailsLabelText = detail;
-    HUD.userInteractionEnabled = NO;
-    [view addSubview:HUD];
-    [HUD show:YES];
-    [HUD hide:YES afterDelay:3];
-}
 #pragma mark - 设置/读取网络状态
 + (void)setNetworkReachability:(BOOL)isReachable
 {
@@ -170,6 +143,7 @@
     }
     return fontSize.floatValue;
 }
+
 + (void)saveCurrContentFontSize:(CGFloat)fontSize
 {
     [[NSUserDefaults standardUserDefaults] setObject:@(fontSize) forKey:kCurrContentFontSize];
@@ -186,11 +160,13 @@
     }
     return fontSize.floatValue;
 }
+
 + (void)saveCurrSubtitleFontSize:(CGFloat)fontSize
 {
     [[NSUserDefaults standardUserDefaults] setObject:@(fontSize) forKey:kCurrSubtitleFontSize];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 + (CGFloat)defaultContentFontSize
 {
     NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:kDefContentFontSize];

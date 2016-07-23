@@ -19,6 +19,7 @@
 #import "RandomPostViewController.h"
 #import "MenuView.h"
 #import "MenuItem.h"
+#import "ZFQHUD.h"
 #import "SettingViewController.h"
 #import "FQNavigationController.h"
 #import "TagViewController.h"
@@ -238,7 +239,10 @@
             }
             [self.tableView setFooterHidden:YES];
             //提示网络不可用
-            [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
+            [[ZFQHUD sharedView] showWithMsg:@"网络不可用！" duration:2 completionBlk:^{
+                
+            }];
+            
         }
     }];
     
@@ -276,7 +280,9 @@
         
         //提示网络不可用
         [GeneralService setNetworkReachability:NO];
-        [GeneralService showHUDWithTitle:@"网络不可用！" andDetail:@"" image:@"MBProgressHUD.bundle/error"];
+        [[ZFQHUD sharedView] showWithMsg:@"网络不可用！" duration:2 completionBlk:^{
+            
+        }];
     }
 }
 

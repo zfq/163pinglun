@@ -13,6 +13,7 @@
 #import "SocialSharing.h"
 #import "MLBlackTransition.h"
 #import "MacroDefinition.h"
+#import "ZFQHUD.h"
 
 @implementation AppDelegate
 
@@ -21,6 +22,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     //启动返回手势
     [MLBlackTransition validatePanPackWithMLBlackTransitionGestureRecognizerType:MLBlackTransitionGestureRecognizerTypePan];
+
+    //设置ZFQHUD
+    [self settingHUD];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     HomeViewController *hVC = [[HomeViewController alloc] init];
@@ -30,6 +34,15 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void)settingHUD
+{
+    [ZFQHUD setHUDMaskType:ZFQHUDAlertViewBlur];
+    [ZFQHUD setTapClearDismiss:NO];
+    ZFQHUDConfig *config = [ZFQHUDConfig globalConfig];
+    config.alertViewTintColor = [UIColor orangeColor];
+    config.alertViewMinWidth = 100;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
