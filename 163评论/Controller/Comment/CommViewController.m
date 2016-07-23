@@ -27,7 +27,6 @@
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
     
-//    CommCell5 *_assistCell;
     Content *_assistContent;
 }
 
@@ -53,6 +52,7 @@
 	[super viewDidLoad];
 
     UIColor *tintColor = [[UINavigationBar appearance] tintColor];
+    
     //1. 添加返回按钮
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake(10, 22, 40, 40);
@@ -103,8 +103,6 @@
     [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
-
-//#pragma mark - getter setter
 
 #pragma mark - action
 - (void)back:(UIButton *)backButton
