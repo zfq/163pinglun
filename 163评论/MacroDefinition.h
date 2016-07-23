@@ -83,6 +83,6 @@ static NSInteger kSeparatorPostID = 17951;
 #define k163ShareSuccess @"分享成功😀"
 
 //---------------测试---------
-//#define TEST_163_LOSS 0
+#define TEST_163_LOSS 1
 
 

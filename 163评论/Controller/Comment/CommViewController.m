@@ -52,19 +52,24 @@
 {
 	[super viewDidLoad];
 
+    UIColor *tintColor = [[UINavigationBar appearance] tintColor];
     //1. 添加返回按钮
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(10, 22, 60, 40);
-    [backBtn setImage:[UIImage imageNamed:@"navgation_back"] forState:UIControlStateNormal];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    backBtn.frame = CGRectMake(10, 22, 40, 40);
+    UIImage *backImg = [UIImage imageNamed:@"navgation_back"];
+    backImg = [backImg imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [backBtn setImage:backImg forState:UIControlStateNormal];
+    backBtn.imageView.tintColor = tintColor;
+    CGFloat left = (backBtn.frame.size.width - backImg.size.width)/2;
+    [backBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -left, 0, 0)];
+    
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
     //2.添加分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
-    [shareBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    [shareBtn setTitleColor:tintColor forState:UIControlStateNormal]; //RGBCOLOR(0, 160, 233, 1)
     [shareBtn addTarget:self action:@selector(tapShareBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:shareBtn];
     NSDictionary *nameMap = @{@"shareBtn":shareBtn};

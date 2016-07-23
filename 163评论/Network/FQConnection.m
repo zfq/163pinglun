@@ -68,7 +68,7 @@ static NSMutableArray *sharedConnectionList = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-#ifdef TEST_163_LOSS
+#if TEST_163_LOSS
     NSString *fileName = nil;
     if ([self.request.URL.absoluteString rangeOfString:@"baidu"].length > 0) {
         fileName = @"post";

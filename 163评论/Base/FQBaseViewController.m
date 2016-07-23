@@ -69,7 +69,7 @@
         _myTitleLabel = [[UILabel alloc] init];
         _myTitleLabel.textAlignment = NSTextAlignmentCenter;
         _myTitleLabel.font = [UIFont systemFontOfSize:20];
-        _myTitleLabel.textColor = TITLE_COLOR;
+        _myTitleLabel.textColor = [[UINavigationBar appearance] tintColor];
         [self.navView addSubview:_myTitleLabel];
         //为titleLabel添加约束
         NSDictionary *nameMap = @{@"myTitle":_myTitleLabel};
@@ -85,6 +85,7 @@
     }
     return _myTitleLabel;
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

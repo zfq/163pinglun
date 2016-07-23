@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "backImg.png",
+      "filename" : "iPhone 6@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "backImg@2x.png",
+      "filename" : "iPhone 6@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "backImg@3x.png",
+      "filename" : "iPhone 6@3x.png",
       "scale" : "3x"
     }
   ],
