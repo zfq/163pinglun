@@ -93,7 +93,7 @@
     
     if (image != nil) {
         WBImageObject *imageObj = [WBImageObject object];
-        imageObj.imageData = UIImageJPEGRepresentation(image, 0);
+        imageObj.imageData = UIImageJPEGRepresentation(image, 1);
         messageObj.imageObject = imageObj;
     }
     
