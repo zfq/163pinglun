@@ -33,9 +33,19 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary apiVersion:(NSString *)apiVersion
 {
-    NSString *user = dictionary[@"user"][@"nickname"];
-    if ([user isKindOfClass:[NSNull class]]) {
-        self.user = @"";
+    NSDictionary *userDic = dictionary[@"user"];
+    NSString *user = userDic[@"nickname"];
+    if ((userDic == nil) || [user isKindOfClass:[NSNull class]] || user.length == 0) {
+        NSString *sn = dictionary[@"siteName"];
+        NSString *loc = userDic[@"location"];
+        NSString *u = nil;
+        if (sn.length > 0) {
+            u = sn;
+            if (loc.length > 0) {
+                u = [sn stringByAppendingFormat:@"%@网友",loc];
+            }
+        }
+        self.user = u;
     } else {
         self.user = user;
     }

@@ -14,6 +14,9 @@
 
 + (NSString *)SubStrFromStr:(NSString *)str pattern:(NSString *)pattern
 {
+    if (!str) {
+        return nil;
+    }
     NSError *error;
     NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
     if (error != nil) {

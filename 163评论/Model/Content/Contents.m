@@ -69,7 +69,6 @@
         
         preAllRows += currRows;
     }
-        
 }
 
 - (void)readFromJSONArray:(NSArray *)array apiVersion:(NSString *)apiVersion

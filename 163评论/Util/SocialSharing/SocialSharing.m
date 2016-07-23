@@ -133,7 +133,7 @@
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
         if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
-            [[ZFQHUD sharedView] showWithMsg:@"分享成功" duration:2 completionBlk:^{
+            [[ZFQHUD sharedView] showWithMsg:k163ShareSuccess duration:2 completionBlk:^{
                 
             }];
         }
@@ -233,27 +233,27 @@
     }
     else
     {
-        NSLog(@"登录失败");
+        DNSLog(@"登录失败");
     }
    
 }
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    NSLog(@"登录失败回调");
+    DNSLog(@"登录失败回调");
 }
 
 - (void)tencentDidNotNetWork
 {
-    NSLog(@"网络不工作");
+    DNSLog(@"网络不工作");
 }
 - (void)addShareResponse:(APIResponse*) response
 {
-    NSLog(@"%@",response.errorMsg);
+    DNSLog(@"%@",response.errorMsg);
 }
 
 - (void)tencentOAuth:(TencentOAuth *)tencentOAuth doCloseViewController:(UIViewController *)viewController
 {
-    NSLog(@"close");
+    DNSLog(@"close");
 }
 @end
 
