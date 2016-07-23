@@ -15,6 +15,9 @@
 
 + (UIImage *)imageWithContent:(Content *)content size:(CGSize)size
 {
+    if (!content) {
+        return nil;
+    }
     CGFloat marginLeft = 20;
     CGFloat offsetY = 20;   //layer距离img顶部或底部的距离
     CGFloat offsetX = 20;   //content距离layer左边的距离
