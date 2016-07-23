@@ -22,7 +22,7 @@
         _menuItem = menuItem;
         
         CGRect btnFrame = CGRectMake(0, 0, menuItem.frame.size.width, menuItem.frame.size.height);
-        _button = [UIButton buttomWithTitle:menuItem.title titleEdgeInsets:menuItem.titleEdageInsets imageName:menuItem.imageName imageEdgeInset:menuItem.imageEdageInsets frame:btnFrame];
+        _button = [UIButton buttonWithTitle:menuItem.title titleEdgeInsets:menuItem.titleEdageInsets imageName:menuItem.imageName imageEdgeInset:menuItem.imageEdageInsets frame:btnFrame];
         [_button addTarget:self action:@selector(performAction) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:_button];
@@ -41,7 +41,7 @@
 - (void)setMenuItem:(MenuItem *)menuItem
 {
     _menuItem = menuItem;
-    _button = [UIButton buttomWithTitle:menuItem.title titleEdgeInsets:menuItem.titleEdageInsets imageName:menuItem.imageName imageEdgeInset:menuItem.imageEdageInsets frame:CGRectMake(0, 0, menuItem.frame.size.width, menuItem.frame.size.height)];
+    _button = [UIButton buttonWithTitle:menuItem.title titleEdgeInsets:menuItem.titleEdageInsets imageName:menuItem.imageName imageEdgeInset:menuItem.imageEdageInsets frame:CGRectMake(0, 0, menuItem.frame.size.width, menuItem.frame.size.height)];
     [_button addTarget:self action:@selector(performAction) forControlEvents:UIControlEventTouchUpInside];
 }
 @end

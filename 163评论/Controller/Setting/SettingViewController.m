@@ -11,6 +11,7 @@
 #import "FontSetViewController.h"
 #import "GeneralService.h"
 #import "MacroDefinition.h"
+#import "UIButton+menuItem.h"
 
 @interface SettingViewController ()
 {
@@ -25,11 +26,8 @@
     [super viewDidLoad];
     
     //添加返回按钮
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(10, 22, 60, 40);
-    [backBtn setImage:[UIImage imageNamed:@"navgation_back"] forState:UIControlStateNormal];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    UIColor *tintColor = [[UINavigationBar appearance] tintColor];
+    UIButton *backBtn = [UIButton backTypeBtnWithTintColor:tintColor];
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
@@ -56,7 +54,6 @@
 - (void)back:(UIButton *)backButton
 {
     [self.navigationController popViewControllerAnimated:YES];
-//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSArray *)settingItems

@@ -10,7 +10,7 @@
 
 @implementation UIButton (menuItem)
 
-+ (instancetype )buttomWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
++ (instancetype )buttonWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
                     imageName:(NSString *)imageName imageEdgeInset:(UIEdgeInsets)imageEdgeInsets
                            frame:(CGRect)frame
 {
@@ -40,4 +40,16 @@
     return btn;
 }
 
++ (UIButton *)backTypeBtnWithTintColor:(UIColor *)tintColor
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(10, 22, 40, 40);
+    UIImage *backImg = [UIImage imageNamed:@"navgation_back"];
+    backImg = [backImg imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [btn setImage:backImg forState:UIControlStateNormal];
+    btn.imageView.tintColor = tintColor;
+    CGFloat left = (btn.frame.size.width - backImg.size.width)/2;
+    [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -left, 0, 0)];
+    return btn;
+}
 @end

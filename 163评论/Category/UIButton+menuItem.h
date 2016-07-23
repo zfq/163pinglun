@@ -10,7 +10,10 @@
 
 @interface UIButton (menuItem)
 
-+ (instancetype )buttomWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
++ (instancetype )buttonWithTitle:(NSString *)title titleEdgeInsets:(UIEdgeInsets)titleEdgeInsets
                        imageName:(NSString *)imageName imageEdgeInset:(UIEdgeInsets)imageEdgeInsets
                            frame:(CGRect)frame ;
+
++ (UIButton *)backTypeBtnWithTintColor:(UIColor *)tintColor;
+
 @end

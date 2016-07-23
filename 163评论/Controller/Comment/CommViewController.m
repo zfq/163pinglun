@@ -18,6 +18,7 @@
 #import "MacroDefinition.h"
 #import "UIImage+Content.h"
 #import "NSString+Addition.h"
+#import "UIButton+menuItem.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -54,14 +55,7 @@
     UIColor *tintColor = [[UINavigationBar appearance] tintColor];
     
     //1. 添加返回按钮
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(10, 22, 40, 40);
-    UIImage *backImg = [UIImage imageNamed:@"navgation_back"];
-    backImg = [backImg imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [backBtn setImage:backImg forState:UIControlStateNormal];
-    backBtn.imageView.tintColor = tintColor;
-    CGFloat left = (backBtn.frame.size.width - backImg.size.width)/2;
-    [backBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -left, 0, 0)];
+    UIButton *backBtn = [UIButton backTypeBtnWithTintColor:tintColor];
     
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];

@@ -9,6 +9,7 @@
 #import "FontSetViewController.h"
 #import "GeneralService.h"
 #import "MacroDefinition.h"
+#import "UIButton+menuItem.h"
 
 @interface FontSetViewController () <UIPickerViewDataSource,UIPickerViewDelegate>
 {
@@ -44,11 +45,8 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0];
     
     //添加返回按钮
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(10, 22, 60, 40);
-    [backBtn setImage:[UIImage imageNamed:@"navgation_back"] forState:UIControlStateNormal];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTitleColor:RGBCOLOR(0, 160, 233, 1) forState:UIControlStateNormal];
+    UIColor *tintColor = [[UINavigationBar appearance] tintColor];
+    UIButton *backBtn = [UIButton backTypeBtnWithTintColor:tintColor];
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
