@@ -11,7 +11,6 @@
 		1F0AF4381C26CAB200738551 /* comment1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF42F1C26CAB200738551 /* comment1.json */; };
 		1F0AF4391C26CAB200738551 /* post.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4301C26CAB200738551 /* post.json */; };
 		1F0AF43A1C26CAB200738551 /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4331C26CAB200738551 /* comment.bundle */; };
-		1F0AF43B1C26CAB200738551 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4341C26CAB200738551 /* MBProgressHUD.bundle */; };
 		1F0AF43C1C26CAB200738551 /* setting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4361C26CAB200738551 /* setting.plist */; };
 		1F0AF43D1C26CAB200738551 /* tagColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4371C26CAB200738551 /* tagColor.plist */; };
 		1F1FBEA61C4D3BA20037A62E /* ZFQMenuObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1FBEA51C4D3BA20037A62E /* ZFQMenuObject.m */; };
@@ -121,7 +120,6 @@
 		1F0AF42F1C26CAB200738551 /* comment1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment1.json; sourceTree = "<group>"; };
 		1F0AF4301C26CAB200738551 /* post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post.json; sourceTree = "<group>"; };
 		1F0AF4331C26CAB200738551 /* comment.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = comment.bundle; sourceTree = "<group>"; };
-		1F0AF4341C26CAB200738551 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		1F0AF4361C26CAB200738551 /* setting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = setting.plist; sourceTree = "<group>"; };
 		1F0AF4371C26CAB200738551 /* tagColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagColor.plist; sourceTree = "<group>"; };
 		1F1FBEA41C4D3BA20037A62E /* ZFQMenuObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQMenuObject.h; sourceTree = "<group>"; };
@@ -379,7 +377,6 @@
 			isa = PBXGroup;
 			children = (
 				1F0AF4331C26CAB200738551 /* comment.bundle */,
-				1F0AF4341C26CAB200738551 /* MBProgressHUD.bundle */,
 			);
 			path = img;
 			sourceTree = "<group>";
@@ -1007,7 +1004,6 @@
 			files = (
 				1F3DF2641C254C9E00DC8F07 /* MJRefresh.bundle in Resources */,
 				1F3DF23E1C25464E00DC8F07 /* RandomPostCell.xib in Resources */,
-				1F0AF43B1C26CAB200738551 /* MBProgressHUD.bundle in Resources */,
 				7B428D9D190E914D00860E94 /* InfoPlist.strings in Resources */,
 				1F3DF2401C25464E00DC8F07 /* RandomPostViewController.xib in Resources */,
 				1F0AF43D1C26CAB200738551 /* tagColor.plist in Resources */,
