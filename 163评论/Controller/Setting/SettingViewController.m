@@ -13,6 +13,11 @@
 #import "MacroDefinition.h"
 #import "UIButton+menuItem.h"
 
+NSString * const k163ActionChangeFontSize = @"163ActionChangeFontSize";
+NSString * const k163ActionClearCache = @"163ActionClearCache";
+NSString * const k163ActionFeedback = @"163ActionFeedback";
+NSString * const k163ActionAbout = @"163ActionAbout";
+
 @interface SettingViewController ()
 {
     UITableView *settingTableView;
@@ -69,7 +74,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *array = [self.settingItems objectAtIndex:section];
-    return array.count; //
+    return array.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -111,27 +116,29 @@
     NSArray *array = [self.settingItems objectAtIndex:indexPath.section];
     NSDictionary *dic = (NSDictionary *)[array objectAtIndex:indexPath.row];
     
-    switch (indexPath.section) {
-        case 0: //推送
-            
-            break;
-        case 1: {//字号大小
-            FontSetViewController *fontVC = [[FontSetViewController alloc] init];
-            fontVC.myTitleLabel.text = @"设置";
-            [self.navigationController pushViewController:fontVC animated:YES];
-        } break;
-        case 2: //清理缓存
-            [[ItemStore sharedItemStore] deleteAllContents];
-            break;
-        case 3: {//评分
-            NSString *appURL = [dic objectForKey:@"content"];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appURL]];
-        } break;
-        case 4: //意见 关于
-            
-            break;
+    NSString *actionName = dic[@"action"];
+    
+    if ([actionName isEqualToString:k163ActionChangeFontSize]) {
+        
+        FontSetViewController *fontVC = [[FontSetViewController alloc] init];
+        fontVC.myTitleLabel.text = @"设置";
+        [self.navigationController pushViewController:fontVC animated:YES];
+        
+    } else if ([actionName isEqualToString:k163ActionClearCache]) {
+        
+        [[ItemStore sharedItemStore] deleteAllContents];
+        
+    } else if ([actionName isEqualToString:k163ActionFeedback]) {
+        
+    } else if ([actionName isEqualToString:k163ActionAbout]) {
+        
+    } else {
+        
     }
-   
+    
+//    NSString *appURL = [dic objectForKey:@"content"];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appURL]];
+    
 }
 
 - (void)didReceiveMemoryWarning

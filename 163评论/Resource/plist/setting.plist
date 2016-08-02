@@ -5,33 +5,29 @@
 	<array>
 		<dict>
 			<key>title</key>
-			<string>推送</string>
-			<key>content</key>
-			<string>每天</string>
-		</dict>
-	</array>
-	<array>
-		<dict>
-			<key>title</key>
 			<string>字号大小</string>
 			<key>content</key>
 			<string></string>
+			<key>action</key>
+			<string>163ActionChangeFontSize</string>
 		</dict>
-	</array>
-	<array>
 		<dict>
 			<key>title</key>
 			<string>清理缓存</string>
 			<key>content</key>
 			<string></string>
+			<key>action</key>
+			<string>163ActionClearCache</string>
 		</dict>
 	</array>
 	<array>
 		<dict>
 			<key>title</key>
-			<string>去App store评分</string>
+			<string>意见反馈</string>
 			<key>content</key>
 			<string>http://itunes.apple.com/us/app/id1234</string>
+			<key>action</key>
+			<string>163ActionFeedback</string>
 		</dict>
 	</array>
 	<array>
@@ -46,6 +42,8 @@
 			<string>关于</string>
 			<key>content</key>
 			<string>163评论网 V1.0</string>
+			<key>action</key>
+			<string>163ActionAbout</string>
 		</dict>
 	</array>
 </array>
