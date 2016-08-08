@@ -154,17 +154,17 @@ NSString * const kMLBlackTransition_NavController_OfPan = @"__MLBlackTransition_
 
 @end
 
-#pragma mark - UINavigationController category interface
-@interface UINavigationController(__MLBlackTransition)<UIGestureRecognizerDelegate>
-
-/**
- *  每个导航器都添加一个拖动手势
- */
-@property (nonatomic, strong) UIPanGestureRecognizer *__MLBlackTransition_panGestureRecognizer;
-
-- (void)__MLBlackTransition_Hook_ViewDidLoad;
-
-@end
+//#pragma mark - UINavigationController category interface
+//@interface UINavigationController(__MLBlackTransition)<UIGestureRecognizerDelegate>
+//
+///**
+// *  每个导航器都添加一个拖动手势
+// */
+//@property (nonatomic, strong) UIPanGestureRecognizer *__MLBlackTransition_panGestureRecognizer;
+//
+//- (void)__MLBlackTransition_Hook_ViewDidLoad;
+//
+//@end
 
 #pragma mark - UINavigationController category implementation
 NSString * const k__MLBlackTransition_GestureRecognizer = @"__MLBlackTransition_GestureRecognizer";

@@ -14,6 +14,7 @@
 @optional
 
 - (void)sliderBarDidMoved:(nonnull ZFQSliderControl *)control;
+- (BOOL)sliderBar:(nonnull ZFQSliderControl *)control gestureRecognizerShouldBegin:(nonnull UIGestureRecognizer *)gestureRecognizer;
 
 @end
 

@@ -10,8 +10,11 @@
 #import "GeneralService.h"
 #import "MacroDefinition.h"
 #import "UIButton+menuItem.h"
+#import "ZFQSliderControl.h"
+#import "Masonry.h"
+#import "MLBlackTransition.h"
 
-@interface FontSetViewController () <UIPickerViewDataSource,UIPickerViewDelegate>
+@interface FontSetViewController () <ZFQSliderControlDelegate>
 {
     CGFloat currContentFontSize;
     CGFloat currSubtitleFontSize;
@@ -50,6 +53,7 @@
     [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
+    /*
     UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(40, SCREEN_HEIGHT-200, SCREEN_WIDTH-80, 80)];
     pickerView.showsSelectionIndicator = YES;
     pickerView.backgroundColor = scrollView.backgroundColor;
@@ -58,6 +62,9 @@
     
     [pickerView selectRow:[self fontIndex] inComponent:0 animated:NO];
     [self.view addSubview:pickerView];
+    */
+    
+    
     
     //初始化
     fontSizeIsChanged = NO;
@@ -65,6 +72,22 @@
     currSubtitleFontSize = [GeneralService currSubtitleFontSize];
     
     [self createSubViewsIfNeeded];
+    
+    //添加字体大小滑块
+    UIView *sv = self.view;
+    CGFloat sliderHeight = 40;
+    CGFloat marginLeft = 20;
+    ZFQSliderControl *slider = [[ZFQSliderControl alloc] init];
+    [sv addSubview:slider];
+    [slider mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(sliderHeight);
+        make.bottom.equalTo(sv).offset(-200);
+        make.left.equalTo(sv).offset(marginLeft);
+        make.right.equalTo(sv).offset(-marginLeft);
+    }];
+    slider.numberStrs = @[@"小",@"中",@"大",@"很大",@"巨大"];
+    slider.currIndex = [self fontIndex];
+    slider.sliderDelegate = self;
 }
 
 - (void)createSubViewsIfNeeded
@@ -204,26 +227,12 @@
     return [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
 }
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+#pragma mark - sliderBar delegate
+- (void)sliderBarDidMoved:(ZFQSliderControl *)control
 {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return [GeneralService fontSizeDic].count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    NSArray *array = [[GeneralService fontSizeDic] objectForKey:[@(row) stringValue]];
-    return [array lastObject];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    currContentFontSize = [GeneralService contentFontSizeWithIndex:row];
-    currSubtitleFontSize = [GeneralService userFontSizeWithIndex:row];
+    NSInteger index = control.currIndex;
+    currContentFontSize = [GeneralService contentFontSizeWithIndex:index];
+    currSubtitleFontSize = [GeneralService userFontSizeWithIndex:index];
     
     //保存当前的选择
     [GeneralService saveCurrContentFontSize:currContentFontSize];
@@ -233,12 +242,21 @@
     [self createSubViewsIfNeeded];
     
     fontSizeIsChanged = YES;
-    fontSizeStyleIndex = @(row);
-    [[NSUserDefaults standardUserDefaults] setObject:@(row) forKey:kFontIndexStyle];
+    fontSizeStyleIndex = @(index);
+    [[NSUserDefaults standardUserDefaults] setObject:@(index) forKey:kFontIndexStyle];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
     //保存当前字体大小
     [self saveCurrFontSyle];
+}
+
+- (BOOL)sliderBar:(ZFQSliderControl *)control gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer == self.navigationController.__MLBlackTransition_panGestureRecognizer) {
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 - (NSInteger)fontIndex
