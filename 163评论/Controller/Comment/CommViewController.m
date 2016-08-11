@@ -198,7 +198,8 @@
 //            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
             NSString *url = @"http://www.biying.com";
 #else
-            NSString *url = [NSString stringWithFormat:@"%@/wp-json/posts/%@/comments",HOSTURL,[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
+//            NSString *url = [NSString stringWithFormat:@"%@/wp-json/posts/%@/comments",HOSTURL,[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
+            NSString *url = [NSString stringWithFormat:@"%@/wp-json/wp/v2/comments?post=%zi",HOSTURL,[_postID integerValue]];
 #endif
             [ItemStore sharedItemStore].cotentsURL = url;
             
