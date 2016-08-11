@@ -79,7 +79,7 @@
         NSDictionary *dict = array[i];
         NSArray *comments = dict[@"content"];
         NSNumber *postID = dict[@"post"];
-        NSNumber *groupID = dict[@"ID"];
+        NSNumber *groupID = dict[@"id"];
         NSInteger count = comments.count;
         //从数据库中删除postID的所有content,再把新的content添加进去
         if (isDel == NO) {
