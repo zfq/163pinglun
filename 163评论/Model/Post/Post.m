@@ -26,12 +26,53 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
+    self.postID = [dictionary objectForKey:@"id"];
+//    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
+    
+//    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
+//    [self.inAuthor readFromJSONDictionary:autDic];
+
+    NSString *tit = dictionary[@"title"][@"rendered"]; //[dictionary objectForKey:@"title"];
+    self.title = [tit stringByDecodingHTMLEntities];
+    
+    NSString *tempStr = dictionary[@"excerpt"][@"rendered"]; //[dictionary objectForKey:@"excerpt"];
+    if (tempStr) {
+        NSMutableString *string = [NSMutableString stringWithString:tempStr];
+        //最后的删掉\n
+        [string deleteCharactersInRange:NSMakeRange(0, 3)];
+        [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];
+        NSString *finalExce = [NSString replaceBr:string];
+        self.excerpt = [finalExce stringByDecodingHTMLEntities];
+    }
+
+//    NSDictionary *post_metaDic = [dictionary objectForKey:@"post_meta"];
+//    NSString *viewsStr= [[post_metaDic objectForKey:@"views"] objectAtIndex:0];
+//    self.views = [NSNumber numberWithInteger:[viewsStr integerValue]];
+    
+    NSDictionary *termsDic = [dictionary objectForKey:@"terms"];
+    NSArray *post_tagArray= termsDic[@"tages"];//[termsDic objectForKey:@"post_tag"];
+    if (post_tagArray && post_tagArray.count > 0) {
+//        NSDictionary *post_tagDic = [post_tagArray objectAtIndex:0];
+//        self.tag = [post_tagDic objectForKey:@"name"];
+        self.tag = post_tagArray[0];
+    }
+    
+    NSString *originDateStr = [dictionary objectForKey:@"modified"];
+    NSString *firstStr = [originDateStr substringWithRange:NSMakeRange(0, 18)];
+    NSString *finalStr = [firstStr stringByReplacingCharactersInRange:NSMakeRange(10, 1) withString:@" "];
+    
+    self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],self.inAuthor.authorName];
+}
+
+///老版本的接口
+- (void)readFromJSONDictionary1:(NSDictionary *)dictionary
+{
     self.postID = [dictionary objectForKey:@"ID"];
     NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
     
     self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
     [self.inAuthor readFromJSONDictionary:autDic];
-
+    
     NSString *tit = [dictionary objectForKey:@"title"];
     self.title = [tit stringByDecodingHTMLEntities];
     
@@ -44,19 +85,19 @@
         NSString *finalExce = [NSString replaceBr:string];
         self.excerpt = [finalExce stringByDecodingHTMLEntities];
     }
-
+    
     NSDictionary *post_metaDic = [dictionary objectForKey:@"post_meta"];
     NSString *viewsStr= [[post_metaDic objectForKey:@"views"] objectAtIndex:0];
     self.views = [NSNumber numberWithInteger:[viewsStr integerValue]];
     
     NSDictionary *termsDic = [dictionary objectForKey:@"terms"];
-    NSArray *post_tagArray= [termsDic objectForKey:@"post_tag"];
-    if (post_tagArray != nil) {
+    NSArray *post_tagArray= termsDic[@"tages"];
+    if (post_tagArray && post_tagArray.count > 0) {
         NSDictionary *post_tagDic = [post_tagArray objectAtIndex:0];
         self.tag = [post_tagDic objectForKey:@"name"];
     }
     
-    NSString *originDateStr = [dictionary objectForKey:@"date"];
+    NSString *originDateStr = [dictionary objectForKey:@"modified"];
     NSString *firstStr = [originDateStr substringWithRange:NSMakeRange(0, 18)];
     NSString *finalStr = [firstStr stringByReplacingCharactersInRange:NSMakeRange(10, 1) withString:@" "];
     
