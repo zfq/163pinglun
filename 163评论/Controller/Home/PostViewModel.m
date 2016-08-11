@@ -76,17 +76,20 @@
             _currPageIndex = 1;
         else
             _currPageIndex ++;
+        /*
         urlStr = [NSString stringWithFormat:@"%@/index.php?json_route=/posts&filter[tag]=%@&page=%zi",HOSTURL,self.tagName,_currPageIndex];
+         */
+        urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",HOSTURL,self.tagName,_currPageIndex];
     } else {
         if (headRefreshing) {
-            urlStr = [NSString stringWithFormat:@"%@/wp-json/posts",HOSTURL]; //  @"http://163pinglun.com/wp-json/posts";
+            urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts",HOSTURL]; //  @"http://163pinglun.com/wp-json/posts";
             if (self.latestPostRefreshBlk) {
                 self.latestPostRefreshBlk();
             }
         } else {
             //设置当前页数
             self.homePageIndex += 1;
-            urlStr = [NSString stringWithFormat:@"%@/index.php?json_route=/posts&page=%zi",HOSTURL,self.homePageIndex];
+            urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2?page=%zi",HOSTURL,self.homePageIndex];
         }
     }
     urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
