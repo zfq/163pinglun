@@ -60,7 +60,7 @@
 #define FontSizeChangeNotification @"fontSizeChangeNotification"
 
 #define LOGO @"163评论"
-#define HOSTURL @"http://163pinglun2.sinaapp.com"        //@"www.163pinglun.com"
+#define HOSTURL @"http://163pinglun.com/"        //@"www.163pinglun.com"
 #endif
 
 static NSInteger kSeparatorPostID = 17951;
@@ -83,6 +83,6 @@ static NSInteger kSeparatorPostID = 17951;
 #define k163ShareSuccess @"分享成功😀"
 
 //---------------测试---------
-#define TEST_163_LOSS 1
+#define TEST_163_LOSS 0
 
 

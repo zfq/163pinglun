@@ -80,6 +80,7 @@ static NSMutableArray *sharedConnectionList = nil;
 #endif
     
     //根据帖子id号来区分进行不同的解析
+    /*
     NSArray *pathComponets = connection.originalRequest.URL.pathComponents;
     NSInteger postID = -1;
     for (NSString *str in pathComponets) {
@@ -87,6 +88,12 @@ static NSMutableArray *sharedConnectionList = nil;
             postID = [str integerValue];
             break;
         }
+    }*/
+    NSInteger postID = -1;
+    NSString *query = connection.originalRequest.URL.query;
+    NSArray *comp = [query componentsSeparatedByString:@"="];
+    if (comp.count == 2) {
+        postID = [comp[1] integerValue];
     }
     
     id rootObject = nil;
