@@ -147,9 +147,10 @@
 #pragma mark - fetch data from network
 - (void)fetchTagsWithCompletion:(void(^)(Tags * tags,NSError *error))block
 {
-    NSString *requestString = [HOSTURL stringByAppendingString:@"/wp-json/posts/types/post/taxonomies/post_tag/terms"];
+//    NSString *requestString = [HOSTURL stringByAppendingString:@"/wp-json/posts/types/post/taxonomies/post_tag/terms"];
 //    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
-    NSURL *url = [NSURL URLWithString:requestString];
+    NSString *requestUrl = [HOSTURL stringByAppendingString:@"/wp-json/wp/v2/tags?page=1&per_page=100"];
+    NSURL *url = [NSURL URLWithString:requestUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;
     [request setHTTPMethod:@"GET"];

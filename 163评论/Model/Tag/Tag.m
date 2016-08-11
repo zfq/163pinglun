@@ -19,7 +19,7 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
-    self.tagID = [dictionary objectForKey:@"ID"];
+    self.tagID = [dictionary objectForKey:@"id"];
     self.tagName = [dictionary objectForKey:@"name"];
     self.tagSlug = [dictionary objectForKey:@"slug"];
     self.count = [dictionary objectForKey:@"count"];
