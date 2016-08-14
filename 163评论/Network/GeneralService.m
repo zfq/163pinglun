@@ -121,11 +121,11 @@
     NSDictionary *dic = [[NSUserDefaults standardUserDefaults] objectForKey:kFontSizeStyle];
     if (dic==nil || dic.count==0) {
         dic = @{
-                @"0":@[@13,@20,@"巨大"],
-                @"1":@[@13,@18,@"很大"],
+                @"4":@[@13,@20,@"巨大"],
+                @"3":@[@13,@18,@"很大"],
                 @"2":@[@12,@17,@"大"],
-                @"3":@[@11,@15,@"中"],
-                @"4":@[@11,@13,@"小"]
+                @"1":@[@11,@15,@"中"],
+                @"0":@[@11,@13,@"小"]
                 };
         [[NSUserDefaults standardUserDefaults] setObject:dic forKey:kFontSizeStyle];
         [[NSUserDefaults standardUserDefaults] synchronize];
