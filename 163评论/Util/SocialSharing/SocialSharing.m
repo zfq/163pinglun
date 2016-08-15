@@ -195,9 +195,9 @@
     sharing->_image = image;
     sharing->_urlString = urlString;
     if ([sharing tencentOAuthLoad]) {
-        DNSLog(@"authorize YES");
+        ZFQLog(@"authorize YES");
     } else {
-        DNSLog(@"authorize NO");
+        ZFQLog(@"authorize NO");
     }
    
 }
@@ -221,9 +221,9 @@
                 SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqApiObject];
                 QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
                 if (sent == EQQAPISENDSUCESS) {
-                    DNSLog(@"发表成功");
+                    ZFQLog(@"发表成功");
                 } else {
-                    DNSLog(@"发表失败:%d",sent);
+                    ZFQLog(@"发表失败:%d",sent);
                 }
                 
             });
@@ -233,27 +233,27 @@
     }
     else
     {
-        DNSLog(@"登录失败");
+        ZFQLog(@"登录失败");
     }
    
 }
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    DNSLog(@"登录失败回调");
+    ZFQLog(@"登录失败回调");
 }
 
 - (void)tencentDidNotNetWork
 {
-    DNSLog(@"网络不工作");
+    ZFQLog(@"网络不工作");
 }
 - (void)addShareResponse:(APIResponse*) response
 {
-    DNSLog(@"%@",response.errorMsg);
+    ZFQLog(@"%@",response.errorMsg);
 }
 
 - (void)tencentOAuth:(TencentOAuth *)tencentOAuth doCloseViewController:(UIViewController *)viewController
 {
-    DNSLog(@"close");
+    ZFQLog(@"close");
 }
 @end
 

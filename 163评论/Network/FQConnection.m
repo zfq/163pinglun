@@ -54,7 +54,7 @@ static NSMutableArray *sharedConnectionList = nil;
         [self completionBlock](nil,error);
     
     //提示错误信息
-    DNSLog(@"%@",error);
+    ZFQLog(@"%@",error);
     NSString *desc = [NSError urlErrorDesciptionForCode:error.code];
     [[ZFQHUD sharedView] showWithMsg:desc duration:2.5 completionBlk:nil];
     

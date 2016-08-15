@@ -83,7 +83,7 @@
     NSError *error = nil;
     NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects == nil) {
-        DNSLog(@"查询Author失败:%@",[error localizedDescription]);
+        ZFQLog(@"查询Author失败:%@",[error localizedDescription]);
         return nil;
     } else {
         return [fetchedObjects firstObject];
@@ -102,7 +102,7 @@
     NSError *error = nil;
     NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects == nil) {
-        DNSLog(@"查询content失败:%@",[error localizedDescription]);
+        ZFQLog(@"查询content失败:%@",[error localizedDescription]);
     } else {
         if (fetchedObjects.count > 0) {
             for (Content *content in fetchedObjects) {
@@ -134,7 +134,7 @@
     NSError *error;
     NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     if (results == nil) {
-        DNSLog(@"删除%@失败:%@",entityName,[error localizedDescription]);
+        ZFQLog(@"删除%@失败:%@",entityName,[error localizedDescription]);
     } else {
         for (NSManagedObject *obj in results) {
             [self.managedObjectContext deleteObject:obj];
@@ -235,7 +235,7 @@
         if ([managedObjectContext hasChanges]) { // && ![managedObjectContext save:&error]
             NSError *error = nil;
             if ( ![managedObjectContext save:&error]) {
-                DNSLog(@"保存失败:%@",[error userInfo]);
+                ZFQLog(@"保存失败:%@",[error userInfo]);
             }
         }
     }
@@ -283,7 +283,7 @@
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        DNSLog(@"创建数据库失败:%@",[error userInfo]);
+        ZFQLog(@"创建数据库失败:%@",[error userInfo]);
     }
     
     return _persistentStoreCoordinator;
@@ -312,7 +312,7 @@
         [request setPredicate:predicate];
     NSArray *items = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (error != nil) {
-        DNSLog(@"查询%@失败:%@",itemName,[error localizedDescription]);
+        ZFQLog(@"查询%@失败:%@",itemName,[error localizedDescription]);
     }
     return items;
 }

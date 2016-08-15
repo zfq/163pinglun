@@ -20,7 +20,6 @@
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:thumbFrame cornerRadius:radius];
     
     UIColor *shadowColor = [UIColor grayColor];
-//    CGContextSetShadowWithColor(ctx, CGSizeMake(0, 2), 2, shadowColor.CGColor);
     CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
     CGContextAddPath(ctx, path.CGPath);
     CGContextFillPath(ctx);

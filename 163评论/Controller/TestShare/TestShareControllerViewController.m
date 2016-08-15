@@ -8,6 +8,7 @@
 
 #import "TestShareControllerViewController.h"
 #import "SocialSharing.h"
+#import "MacroDefinition.h"
 
 @interface TestShareControllerViewController ()
 
@@ -41,9 +42,9 @@
 {
     [[SocialSharing sharedInstance] sendWeiboWithText:@"第一条分享的微博" image:[UIImage imageNamed:@"tom.png"] completion:^(BOOL success) {
         if (success == YES) {
-            NSLog(@"成功");
+            ZFQLog(@"成功");
         } else {
-            NSLog(@"失败");
+            ZFQLog(@"失败");
         }
     }];
 }
