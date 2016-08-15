@@ -524,6 +524,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FontSizeChangeNotification object:nil];
-    DNSLog(@"释放 commentVC");
+    ZFQLog(@"释放 commentVC");
 }
 @end

@@ -42,6 +42,6 @@
 
 - (void)dealloc
 {
-    DNSLog(@"释放ZFQMenuObject");
+    ZFQLog(@"释放ZFQMenuObject");
 }
 @end
