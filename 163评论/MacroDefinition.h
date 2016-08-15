@@ -46,7 +46,7 @@
 
 #define TITLE_COLOR RGBCOLOR(0, 160, 233, 1)    //导航栏title颜色
 #define LABEL_COLOR RGBCOLOR(51,153,255,1.0f) // 3399FF
-#define SEPARATOR_COLOR RGBCOLOR(51,153,255,1.0f)  //(223,223,223,0.5f)
+#define SEPARATOR_COLOR RGBCOLOR(51,153,255,0.1f)  //(223,223,223,0.5f)
 
 #define DEFAULT_CONTENT_FONT_SIZE 15
 #define DEFAULT_SUBTITLE_FONT_SIZE 11
@@ -66,9 +66,9 @@
 static NSInteger kSeparatorPostID = 17951;
 //-----------------------日志打印-------------------------------
 #ifdef DEBUG
-#define DNSLog(...)     NSLog(__VA_ARGS__)
+#define ZFQLog(...)     NSLog(__VA_ARGS__)
 #else
-#define DNSLog(...)
+#define ZFQLog(...)
 #endif
 
 #define DEBUG_163 1
