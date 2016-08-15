@@ -341,6 +341,6 @@ NSString * const k163TagIndex = @"preTagViewIndex";
 
 - (void)dealloc
 {
-    DNSLog(@"释放tagVC");
+    ZFQLog(@"释放tagVC");
 }
 @end

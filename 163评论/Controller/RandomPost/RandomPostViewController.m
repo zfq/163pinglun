@@ -356,7 +356,7 @@ static NSString *reuseId = @"RandomPostCell";
         NSError *error = nil;
         reg = [NSRegularExpression regularExpressionWithPattern:regularStr options:NSRegularExpressionCaseInsensitive error:&error];
         if (error != nil) {
-            DNSLog(@"正则表达式出错:%@",NSStringFromSelector(_cmd));
+            ZFQLog(@"正则表达式出错:%@",NSStringFromSelector(_cmd));
             return nil;
         }
     }
