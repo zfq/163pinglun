@@ -1394,7 +1394,10 @@
 					"$(PROJECT_DIR)/163评论/Util/SocialSharing/SDK/weibo/libWeiboSDK",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfq.163pinglun;
 				PRODUCT_NAME = 163pinglun;
 				PROVISIONING_PROFILE = "";
@@ -1423,7 +1426,10 @@
 					"$(PROJECT_DIR)/163评论/Util/SocialSharing/SDK/weibo/libWeiboSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfq.163pinglun;
 				PRODUCT_NAME = 163pinglun;
 				PROVISIONING_PROFILE = "";

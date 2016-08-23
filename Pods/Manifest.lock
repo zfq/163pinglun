@@ -1,5 +1,5 @@
 PODS:
-  - ZFQRefreshControl (1.0)
+  - ZFQRefreshControl (1.1)
 
 DEPENDENCIES:
   - ZFQRefreshControl (from `https://github.com/zfq/RefreshControl`)
@@ -10,11 +10,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ZFQRefreshControl:
-    :commit: 1342ad774ae899fff4a8b55728b9ace7f4d60b87
+    :commit: d80238a89799baf177a7b0b51459745d84e69344
     :git: https://github.com/zfq/RefreshControl
 
 SPEC CHECKSUMS:
-  ZFQRefreshControl: e69b488093e3499201b53d15fe867b96ed7db180
+  ZFQRefreshControl: b60a382018f8de3d50c756cf48cd4baaf647a964
 
 PODFILE CHECKSUM: 9db7ab07ddbf1c3552c63ddf3f541503324d83d4
 

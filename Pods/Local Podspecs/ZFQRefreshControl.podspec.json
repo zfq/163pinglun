@@ -1,6 +1,6 @@
 {
   "name": "ZFQRefreshControl",
-  "version": "1.0",
+  "version": "1.1",
   "description": "仿知乎的加载上一篇或下一篇的控件，实现原理参考了MJRefresh",
   "summary": "上拉下拉刷新控件",
   "source": {

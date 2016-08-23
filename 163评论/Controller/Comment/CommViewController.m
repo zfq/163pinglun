@@ -20,6 +20,7 @@
 #import "NSString+Addition.h"
 #import "UIButton+menuItem.h"
 #import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
+//#import "UIScrollView+ZFQLoadView.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -40,6 +41,7 @@
 
 @implementation CommViewController
 
+#pragma mark - LifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,7 +59,7 @@
     
     //1. 添加返回按钮
     UIButton *backBtn = [UIButton backTypeBtnWithTintColor:tintColor];
-    [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addTarget:self action:@selector(tapBackBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:backBtn];
     
     //2.添加分享按钮
@@ -80,14 +82,13 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    _contentInfoDic = [[NSMutableDictionary alloc] init];
+    //3.1 添加上下拉刷新
+    [self addZFQRefreshControl];
     
     //4.获取跟帖
-//	[self fetchComment];
-    //3.1 添加上下拉刷新
-    [self.tableView addLoadHeaderWithRefreshingBlk:^{
-        NSLog(@"aa");
-    }];
+    _contentInfoDic = [[NSMutableDictionary alloc] init];
+	[self fetchComment];
+    
     //5.注册设置字体大小通知
     isChanged = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
@@ -102,8 +103,35 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-#pragma mark - action
-- (void)back:(UIButton *)backButton
+- (void)addZFQRefreshControl
+{
+    UIColor *textColor = LABEL_COLOR;
+    UIFont *font = [UIFont systemFontOfSize:14];
+    __weak typeof(self) weakSelf = self;
+    
+    //设置header
+    [_tableView addLoadHeaderWithRefreshingBlk:^{
+        NSLog(@"aa");
+    }];
+    UILabel *headerLabel = _tableView.zfqHeaderView.titleLabel;
+    headerLabel.text = @"加载上一篇";
+    headerLabel.textColor = textColor;
+    headerLabel.font = font;
+    _tableView.zfqHeaderView.lineColor = textColor;
+    
+    //设置footer
+    [_tableView addLoadFooterWithRefreshingBlk:^{
+        NSLog(@"aa");
+    }];
+    UILabel *footerLabel = _tableView.zfqFooterView.titleLabel;
+    footerLabel.text = @"加载下一篇";
+    footerLabel.textColor = textColor;
+    footerLabel.font = font;
+    _tableView.zfqFooterView.lineColor = textColor;
+}
+
+#pragma mark - User Actions
+- (void)tapBackBtnAction
 {
     if ([self.presentingViewController isKindOfClass:[UIViewController class]])
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -196,7 +224,6 @@
 //            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
             NSString *url = @"http://www.biying.com";
 #else
-//            NSString *url = [NSString stringWithFormat:@"%@/wp-json/posts/%@/comments",HOSTURL,[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
             NSString *url = [NSString stringWithFormat:@"%@/wp-json/wp/v2/comments?post=%zi",HOSTURL,[_postID integerValue]];
 #endif
             [ItemStore sharedItemStore].cotentsURL = url;
