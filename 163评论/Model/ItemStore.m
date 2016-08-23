@@ -333,7 +333,7 @@
     return [self fetchAllItemsFromDBWithItemName:@"Post" sortKey:@"postID" ascending:NO predicate:predicate];
 }
 
-- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID
+- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSString *)postID
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postID == %@",postID];
     NSArray *contents = [self fetchAllItemsFromDBWithItemName:@"Content" sortKey:@"floorIndex" ascending:YES predicate:predicate];
@@ -358,7 +358,7 @@
     return contentItems;
 }
 
-- (void)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID completion:(void (^)(NSArray *contents))completion
+- (void)fetchContentsFromDatabaseWithPostID:(NSString *)postID completion:(void (^)(NSArray *contents))completion
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{

@@ -46,8 +46,8 @@
 - (NSArray *)fetchTagsFromDatabase;
 - (NSArray *)fetchAllPostsFromDatabase;
 - (NSArray *)fetchAllPostsFromDatabaseWithTagName:(NSString *)tagName;
-- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID;    //同步
-- (void)fetchContentsFromDatabaseWithPostID:(NSNumber *)postID completion:(void (^)(NSArray *contents))completion; //异步
+- (NSArray *)fetchContentsFromDatabaseWithPostID:(NSString *)postID;    //同步
+- (void)fetchContentsFromDatabaseWithPostID:(NSString *)postID completion:(void (^)(NSArray *contents))completion; //异步
 
 - (void)deleteAllContents;
 @end
