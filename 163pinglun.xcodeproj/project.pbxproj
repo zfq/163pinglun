@@ -127,6 +127,7 @@
 		7BEBD4F319960079000F5028 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4F219960079000F5028 /* CoreTelephony.framework */; };
 		7BEBD4F51996008C000F5028 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4F41996008C000F5028 /* libstdc++.dylib */; };
 		7BEBD4F71996009C000F5028 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEBD4F61996009C000F5028 /* libz.dylib */; };
+		AC60CAF2A58AE12DEABF253A /* libPods-163pinglun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCF1D31CD7CE994AB12D72B /* libPods-163pinglun.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -334,6 +335,8 @@
 		1FAD8E4E1C31780A00F63A24 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
 		1FAD8E4F1C31780A00F63A24 /* VVeboLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVeboLabel.h; sourceTree = "<group>"; };
 		1FAD8E501C31780A00F63A24 /* VVeboLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVeboLabel.m; sourceTree = "<group>"; };
+		2FCF1D31CD7CE994AB12D72B /* libPods-163pinglun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-163pinglun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F534CF25677A182D5602789 /* Pods-163pinglun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-163pinglun.release.xcconfig"; path = "Pods/Target Support Files/Pods-163pinglun/Pods-163pinglun.release.xcconfig"; sourceTree = "<group>"; };
 		7B3C92FD1A3B349A0089D7AD /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		7B428D8F190E914D00860E94 /* 163pinglun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 163pinglun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B428D92190E914D00860E94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -359,6 +362,7 @@
 		7BEBD4F219960079000F5028 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		7BEBD4F41996008C000F5028 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		7BEBD4F61996009C000F5028 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		E080220F523D55A389746C99 /* Pods-163pinglun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-163pinglun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-163pinglun/Pods-163pinglun.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +386,7 @@
 				7B428D95190E914D00860E94 /* CoreGraphics.framework in Frameworks */,
 				7B428D97190E914D00860E94 /* UIKit.framework in Frameworks */,
 				7B428D93190E914D00860E94 /* Foundation.framework in Frameworks */,
+				AC60CAF2A58AE12DEABF253A /* libPods-163pinglun.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,6 +937,15 @@
 			path = Label;
 			sourceTree = "<group>";
 		};
+		3B72D643721BC3440FDEFAFA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E080220F523D55A389746C99 /* Pods-163pinglun.debug.xcconfig */,
+				3F534CF25677A182D5602789 /* Pods-163pinglun.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7B428D86190E914D00860E94 = {
 			isa = PBXGroup;
 			children = (
@@ -939,6 +953,7 @@
 				7B428DB1190E914D00860E94 /* 163评论Tests */,
 				7B428D91190E914D00860E94 /* Frameworks */,
 				7B428D90190E914D00860E94 /* Products */,
+				3B72D643721BC3440FDEFAFA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -969,6 +984,7 @@
 				7B428D94190E914D00860E94 /* CoreGraphics.framework */,
 				7B428D96190E914D00860E94 /* UIKit.framework */,
 				7B428DAB190E914D00860E94 /* XCTest.framework */,
+				2FCF1D31CD7CE994AB12D72B /* libPods-163pinglun.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1039,9 +1055,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7B428DBB190E914D00860E94 /* Build configuration list for PBXNativeTarget "163pinglun" */;
 			buildPhases = (
+				D899C1603C5E714EEC10B035 /* [CP] Check Pods Manifest.lock */,
 				7B428D8B190E914D00860E94 /* Sources */,
 				7B428D8C190E914D00860E94 /* Frameworks */,
 				7B428D8D190E914D00860E94 /* Resources */,
+				A9DDFB19A391D2FA47CF991F /* [CP] Embed Pods Frameworks */,
+				38EF92CF1E5F1649A5FC9A4B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1117,6 +1136,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38EF92CF1E5F1649A5FC9A4B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-163pinglun/Pods-163pinglun-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9DDFB19A391D2FA47CF991F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-163pinglun/Pods-163pinglun-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D899C1603C5E714EEC10B035 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7B428D8B190E914D00860E94 /* Sources */ = {
@@ -1308,6 +1375,7 @@
 		};
 		7B428DBC190E914D00860E94 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E080220F523D55A389746C99 /* Pods-163pinglun.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1336,6 +1404,7 @@
 		};
 		7B428DBD190E914D00860E94 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F534CF25677A182D5602789 /* Pods-163pinglun.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

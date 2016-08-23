@@ -1,0 +1,465 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		018CAD604597D28A630E11FAC0A6032F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		080BC06AC94E659E793D0868ADA5F1B6 /* ZFQLoadFrontOrNextView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9451076808949D2C0985408A05A97A5 /* ZFQLoadFrontOrNextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		149D0717F62F02AB4E3746E32F8B1B9F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		52E618BFBAB862B068A871054ED23AFF /* UIScrollView+ZFQLoadView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F1CE7E75620C17613F55817296DC94F /* UIScrollView+ZFQLoadView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5878E56F9ACED5058A3C1897A0C5554E /* ZFQLoadFrontOrNextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EE3C4679BE00E5CFF2D4991A3B0BD6 /* ZFQLoadFrontOrNextView.m */; };
+		631026DFE371700D7794E3FAB495D69B /* ZFQRefreshControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A9A4EC199779469B06162238D59B255 /* ZFQRefreshControl-dummy.m */; };
+		B9DEB5E6BED8DDFE0EFDFD76DDEA55B7 /* Pods-163pinglun-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1F661979C37251D6EA390A6DAD0E87 /* Pods-163pinglun-dummy.m */; };
+		D268AE7DDB5DE0E34E56795720532230 /* UIScrollView+ZFQLoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AEE05500468B8D3969AC6C79E6689 /* UIScrollView+ZFQLoadView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FD9610DBD000E7ACD6B7D32036F6F1B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA8F05C3AE31EA9882A406FFC7B34C58;
+			remoteInfo = ZFQRefreshControl;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		24848A2A6D375FFE801FF39AF9A0CA81 /* libPods-163pinglun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-163pinglun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C9ABFE133E972B3EDF79A239A1589FC /* Pods-163pinglun-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-163pinglun-frameworks.sh"; sourceTree = "<group>"; };
+		306AEE05500468B8D3969AC6C79E6689 /* UIScrollView+ZFQLoadView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+ZFQLoadView.m"; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/UIScrollView+ZFQLoadView.m"; sourceTree = "<group>"; };
+		34C5D58AFF20F05D9DAA0AC2CF7774EB /* Pods-163pinglun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-163pinglun.debug.xcconfig"; sourceTree = "<group>"; };
+		3BBB75AB1EB46D2565EF9B9B1677FE72 /* Pods-163pinglun-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-163pinglun-resources.sh"; sourceTree = "<group>"; };
+		3E1F661979C37251D6EA390A6DAD0E87 /* Pods-163pinglun-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-163pinglun-dummy.m"; sourceTree = "<group>"; };
+		3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZFQRefreshControl.xcconfig; sourceTree = "<group>"; };
+		5F2BFCAECDBEC6717A36531B4E540C29 /* Pods-163pinglun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-163pinglun.release.xcconfig"; sourceTree = "<group>"; };
+		65EE3C4679BE00E5CFF2D4991A3B0BD6 /* ZFQLoadFrontOrNextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZFQLoadFrontOrNextView.m; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/ZFQLoadFrontOrNextView.m"; sourceTree = "<group>"; };
+		75DA89D6C891BDA5D8AC426B8162ACAC /* libZFQRefreshControl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZFQRefreshControl.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A9A4EC199779469B06162238D59B255 /* ZFQRefreshControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZFQRefreshControl-dummy.m"; sourceTree = "<group>"; };
+		7D2698234121B05F89344A68F09C163F /* Pods-163pinglun-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-163pinglun-acknowledgements.plist"; sourceTree = "<group>"; };
+		7F1CE7E75620C17613F55817296DC94F /* UIScrollView+ZFQLoadView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+ZFQLoadView.h"; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/UIScrollView+ZFQLoadView.h"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		971C4B55D70411A18B479B4EB49AAB9D /* ZFQRefreshControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZFQRefreshControl-prefix.pch"; sourceTree = "<group>"; };
+		B9451076808949D2C0985408A05A97A5 /* ZFQLoadFrontOrNextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZFQLoadFrontOrNextView.h; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/ZFQLoadFrontOrNextView.h"; sourceTree = "<group>"; };
+		CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		EBF98DB375C59AE63E42B3292DF70F92 /* Pods-163pinglun-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-163pinglun-acknowledgements.markdown"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1E61B3834E34A63B3DC5FDFE6E09148D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				018CAD604597D28A630E11FAC0A6032F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF32EC97957BD50FBF68C99543951EAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				149D0717F62F02AB4E3746E32F8B1B9F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D17BDB02B80EF7258DB7AB0720D8801 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BBD4B7FE8568649AD32E218EB1267042 /* Pods-163pinglun */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		5B677128C2F31E88F7B138B52683C2B4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				24848A2A6D375FFE801FF39AF9A0CA81 /* libPods-163pinglun.a */,
+				75DA89D6C891BDA5D8AC426B8162ACAC /* libZFQRefreshControl.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5E75F24DDC01067FA0B2B7D047669A50 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				915F6EB7D027C70DB9A5B3D49EC0DCAE /* ZFQRefreshControl */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				5E75F24DDC01067FA0B2B7D047669A50 /* Pods */,
+				5B677128C2F31E88F7B138B52683C2B4 /* Products */,
+				1D17BDB02B80EF7258DB7AB0720D8801 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		915F6EB7D027C70DB9A5B3D49EC0DCAE /* ZFQRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				7F1CE7E75620C17613F55817296DC94F /* UIScrollView+ZFQLoadView.h */,
+				306AEE05500468B8D3969AC6C79E6689 /* UIScrollView+ZFQLoadView.m */,
+				B9451076808949D2C0985408A05A97A5 /* ZFQLoadFrontOrNextView.h */,
+				65EE3C4679BE00E5CFF2D4991A3B0BD6 /* ZFQLoadFrontOrNextView.m */,
+				AC706A798A2B598B5553BB6BE48E82D7 /* Support Files */,
+			);
+			path = ZFQRefreshControl;
+			sourceTree = "<group>";
+		};
+		AC706A798A2B598B5553BB6BE48E82D7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */,
+				7A9A4EC199779469B06162238D59B255 /* ZFQRefreshControl-dummy.m */,
+				971C4B55D70411A18B479B4EB49AAB9D /* ZFQRefreshControl-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/ZFQRefreshControl";
+			sourceTree = "<group>";
+		};
+		BBD4B7FE8568649AD32E218EB1267042 /* Pods-163pinglun */ = {
+			isa = PBXGroup;
+			children = (
+				EBF98DB375C59AE63E42B3292DF70F92 /* Pods-163pinglun-acknowledgements.markdown */,
+				7D2698234121B05F89344A68F09C163F /* Pods-163pinglun-acknowledgements.plist */,
+				3E1F661979C37251D6EA390A6DAD0E87 /* Pods-163pinglun-dummy.m */,
+				2C9ABFE133E972B3EDF79A239A1589FC /* Pods-163pinglun-frameworks.sh */,
+				3BBB75AB1EB46D2565EF9B9B1677FE72 /* Pods-163pinglun-resources.sh */,
+				34C5D58AFF20F05D9DAA0AC2CF7774EB /* Pods-163pinglun.debug.xcconfig */,
+				5F2BFCAECDBEC6717A36531B4E540C29 /* Pods-163pinglun.release.xcconfig */,
+			);
+			name = "Pods-163pinglun";
+			path = "Target Support Files/Pods-163pinglun";
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A27434F0171BBD2677D0091E10A1D6A4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52E618BFBAB862B068A871054ED23AFF /* UIScrollView+ZFQLoadView.h in Headers */,
+				080BC06AC94E659E793D0868ADA5F1B6 /* ZFQLoadFrontOrNextView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6723A34C6B5C8A1FA12621BB1D733DB9 /* Pods-163pinglun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B8D5790F0D54BA484921DE32E37DC0A /* Build configuration list for PBXNativeTarget "Pods-163pinglun" */;
+			buildPhases = (
+				C0B0F8CB450B04C5E9A47549CDCB8C2A /* Sources */,
+				1E61B3834E34A63B3DC5FDFE6E09148D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AA09754EFD4497009BC33BB228AE3CF /* PBXTargetDependency */,
+			);
+			name = "Pods-163pinglun";
+			productName = "Pods-163pinglun";
+			productReference = 24848A2A6D375FFE801FF39AF9A0CA81 /* libPods-163pinglun.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DA8F05C3AE31EA9882A406FFC7B34C58 /* ZFQRefreshControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CFC372F18A78164D9370DB4755C6BAD /* Build configuration list for PBXNativeTarget "ZFQRefreshControl" */;
+			buildPhases = (
+				A4C98107ED4576B099DC32EE2EC4F681 /* Sources */,
+				EF32EC97957BD50FBF68C99543951EAE /* Frameworks */,
+				A27434F0171BBD2677D0091E10A1D6A4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZFQRefreshControl;
+			productName = ZFQRefreshControl;
+			productReference = 75DA89D6C891BDA5D8AC426B8162ACAC /* libZFQRefreshControl.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 5B677128C2F31E88F7B138B52683C2B4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6723A34C6B5C8A1FA12621BB1D733DB9 /* Pods-163pinglun */,
+				DA8F05C3AE31EA9882A406FFC7B34C58 /* ZFQRefreshControl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A4C98107ED4576B099DC32EE2EC4F681 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D268AE7DDB5DE0E34E56795720532230 /* UIScrollView+ZFQLoadView.m in Sources */,
+				5878E56F9ACED5058A3C1897A0C5554E /* ZFQLoadFrontOrNextView.m in Sources */,
+				631026DFE371700D7794E3FAB495D69B /* ZFQRefreshControl-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0B0F8CB450B04C5E9A47549CDCB8C2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B9DEB5E6BED8DDFE0EFDFD76DDEA55B7 /* Pods-163pinglun-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1AA09754EFD4497009BC33BB228AE3CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ZFQRefreshControl;
+			target = DA8F05C3AE31EA9882A406FFC7B34C58 /* ZFQRefreshControl */;
+			targetProxy = FD9610DBD000E7ACD6B7D32036F6F1B6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		39D98A97E14F2B672A1614677AEC263F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ZFQRefreshControl/ZFQRefreshControl-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		3FA2475660FFC880302AD18E29B2E5FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		64F0642F4F498F286C19883FB00DA300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F2BFCAECDBEC6717A36531B4E540C29 /* Pods-163pinglun.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		88484831573875C95C61B2FBA69DCD50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ZFQRefreshControl/ZFQRefreshControl-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DB9D6AF40E61F179D7B0C9EF41F8FD10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34C5D58AFF20F05D9DAA0AC2CF7774EB /* Pods-163pinglun.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F325026B55060D3B22BEC0BAB5FA7344 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B8D5790F0D54BA484921DE32E37DC0A /* Build configuration list for PBXNativeTarget "Pods-163pinglun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB9D6AF40E61F179D7B0C9EF41F8FD10 /* Debug */,
+				64F0642F4F498F286C19883FB00DA300 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FA2475660FFC880302AD18E29B2E5FC /* Debug */,
+				F325026B55060D3B22BEC0BAB5FA7344 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CFC372F18A78164D9370DB4755C6BAD /* Build configuration list for PBXNativeTarget "ZFQRefreshControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39D98A97E14F2B672A1614677AEC263F /* Debug */,
+				88484831573875C95C61B2FBA69DCD50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

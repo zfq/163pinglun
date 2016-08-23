@@ -1,0 +1,21 @@
+PODS:
+  - ZFQRefreshControl (1.0)
+
+DEPENDENCIES:
+  - ZFQRefreshControl (from `https://github.com/zfq/RefreshControl`)
+
+EXTERNAL SOURCES:
+  ZFQRefreshControl:
+    :git: https://github.com/zfq/RefreshControl
+
+CHECKOUT OPTIONS:
+  ZFQRefreshControl:
+    :commit: 1342ad774ae899fff4a8b55728b9ace7f4d60b87
+    :git: https://github.com/zfq/RefreshControl
+
+SPEC CHECKSUMS:
+  ZFQRefreshControl: e69b488093e3499201b53d15fe867b96ed7db180
+
+PODFILE CHECKSUM: 9db7ab07ddbf1c3552c63ddf3f541503324d83d4
+
+COCOAPODS: 1.0.1

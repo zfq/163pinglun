@@ -19,6 +19,7 @@
 #import "UIImage+Content.h"
 #import "NSString+Addition.h"
 #import "UIButton+menuItem.h"
+#import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -82,17 +83,14 @@
     _contentInfoDic = [[NSMutableDictionary alloc] init];
     
     //4.获取跟帖
-	[self fetchComment];
-    
+//	[self fetchComment];
+    //3.1 添加上下拉刷新
+    [self.tableView addLoadHeaderWithRefreshingBlk:^{
+        NSLog(@"aa");
+    }];
     //5.注册设置字体大小通知
     isChanged = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-   
 }
 
 - (void)viewDidDisappear:(BOOL)animated

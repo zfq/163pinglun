@@ -1,0 +1,22 @@
+{
+  "name": "ZFQRefreshControl",
+  "version": "1.0",
+  "description": "仿知乎的加载上一篇或下一篇的控件，实现原理参考了MJRefresh",
+  "summary": "上拉下拉刷新控件",
+  "source": {
+    "git": "https://github.com/zfq/RefreshControl"
+  },
+  "homepage": "https://github.com/zfq/RefreshControl",
+  "license": "MIT",
+  "authors": {
+    "zhaofuqiang": "1586687169zfq@gmail.com"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "source_files": [
+    "RefreshControl/",
+    "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/*.{h,m}"
+  ]
+}

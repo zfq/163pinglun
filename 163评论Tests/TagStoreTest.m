@@ -60,7 +60,7 @@
     int min = [comps minute];
     int sec = [comps second];
     NSLog(@"111111");
-    DNSLog(@"%d-%d-%d %d:%d:%d",year,month,day,hour,min,sec);
+    ZFQLog(@"%d-%d-%d %d:%d:%d",year,month,day,hour,min,sec);
     
 }
 
