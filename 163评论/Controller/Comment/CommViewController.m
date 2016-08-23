@@ -20,7 +20,6 @@
 #import "NSString+Addition.h"
 #import "UIButton+menuItem.h"
 #import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
-//#import "UIScrollView+ZFQLoadView.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -29,14 +28,12 @@
     
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
-    
-    Content *_assistContent;
 }
 
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
 @property (nonatomic,strong) NSMutableDictionary *cellsDic;
 @property (nonatomic,strong) ZFQMenuObject *menuObject;
-
+@property (nonatomic,strong) Content *assistContent;
 @end
 
 @implementation CommViewController
@@ -87,7 +84,7 @@
     
     //4.获取跟帖
     _contentInfoDic = [[NSMutableDictionary alloc] init];
-	[self fetchComment];
+	[self fetchCommentWithPostId:_postID];
     
     //5.注册设置字体大小通知
     isChanged = NO;
@@ -141,7 +138,7 @@
 
 - (void)tapShareBtnAction
 {
-    ShareView *shareView = [[ShareView alloc] init]; //WithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+    ShareView *shareView = [[ShareView alloc] init];
     shareView.shareViewDelegate = self;
     [self.view addSubview:shareView];
     
@@ -209,60 +206,63 @@
     [self.tableView reloadData];
 }
 
-- (void)fetchComment
+- (void)fetchCommentWithPostId:(NSString *)postId
 {
-    //如果网络可用，就从网络中获取数据
-    //在保存之前先把数据库里面的关于该post的content删掉，，然后保存到数据库中，
-    //否则就从数据库里去取
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    //添加等待view
-    CommViewController *__weak weakSelf = self;
-    [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
-        if (isReachable) {  //网络可用
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-#if TEST_163_LOSS
-//            NSString *url = @"http://163pinglun.com/wp-json/posts/8484/comments";  //8484:多段 字多 10798:多段 16458：长
-            NSString *url = @"http://www.biying.com";
-#else
-            NSString *url = [NSString stringWithFormat:@"%@/wp-json/wp/v2/comments?post=%zi",HOSTURL,[_postID integerValue]];
-#endif
-            [ItemStore sharedItemStore].cotentsURL = url;
-            
-            [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
-                weakSelf.contents = contents;
-                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
-                weakSelf.cellsDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
-                
-                [weakSelf caculatorHeight];
-                
-                //更新UI
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-                weakSelf.tableView.tableHeaderView=nil;
-//                [weakSelf removeActivityView:activityView];
-                [weakSelf.tableView reloadData];
-            }];
-        } else {    //网络不可用
-#if TEST_163_LOSS
-            _postID = [NSNumber numberWithInteger:10798];
-#endif
-            [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:_postID completion:^(NSArray *contents) {
-                //移除等待view
-                //处理数据
-                if (contents.count > 0) {
-                    weakSelf.contents = [[Contents alloc] initWithContents:contents];
-                    
-                    weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:weakSelf.contents.contentItems.count];
-                    weakSelf.cellsDic = [NSMutableDictionary dictionaryWithCapacity:weakSelf.contents.contentItems.count];
-                    
-                    [weakSelf caculatorHeight];
-                    
-                    [weakSelf.tableView reloadData];
-                } else {
-                    [weakSelf addNoNetworkView];
-                }
-            }];
+    __weak typeof(self) weakSelf = self;
+    [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:_postID];
+    [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        if (!error) {
+            [weakSelf updateUIWithContents:contents];
+        } else {
+            //如果数据库存在 就从数据库中读取，否则就显示错误提示
+            [weakSelf fetchCommentFromDBWithPostId:postId];
         }
     }];
+}
+
+//根据解析结果来更新UI
+- (void)updateUIWithContents:(Contents *)contents
+{
+    //计算cell高度
+    self.contents = contents;
+    self.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
+    self.cellsDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
+    [self caculatorHeight];
+    
+    //更新UI
+    self.tableView.tableHeaderView=nil;
+    [self.tableView reloadData];
+}
+
+//从数据库读取跟帖
+- (void)fetchCommentFromDBWithPostId:(NSString *)postId
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    __weak typeof(self) weakSelf = self;
+    [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:postId completion:^(NSArray *contents) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        //处理数据
+        if (contents.count > 0) {
+            Contents *tempContents = [[Contents alloc] initWithContents:contents];
+            [weakSelf updateUIWithContents:tempContents];
+        } else {
+            [weakSelf addNoNetworkView];
+        }
+    }];
+}
+
+- (NSString *)commentUrlWithPostId:(NSString *)postId
+{
+#if TEST_163_LOSS
+    //8484:多段 字多 10798:多段 16458：长  本地:10798
+    NSString *url = @"http://www.biying.com";
+#else
+    NSString *url = [NSString stringWithFormat:@"%@/wp-json/wp/v2/comments?post=%zi",HOSTURL,[_postID integerValue]];
+#endif
+    return url;
 }
 
 - (CGFloat)cellHeightForRow:(NSInteger)row
@@ -439,15 +439,9 @@
             weakSelf.tableView.tableHeaderView = nil;
             weakSelf.tableView.scrollEnabled = YES;
             weakControl = nil;
-            UIActivityIndicatorView *activityView = [self addActivityViewInView:self.tableView];
+            UIActivityIndicatorView *activityView = [weakSelf addActivityViewInView:weakSelf.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-#if TEST_163_LOSS
-            NSString *url = [HOSTURL stringByAppendingString:@"/wp-json/posts/10798/comments"];// @"http://163pinglun.com/wp-json/posts/10798/comments";
-            
-#else
-            NSString *url = [NSString stringWithFormat:@"%@/wp-json/posts/%@/comments",HOSTURL,[NSString stringWithFormat:@"%zi",[_postID integerValue]]];
-#endif
-            [ItemStore sharedItemStore].cotentsURL = url;
+            [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:_postID];;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
                 weakSelf.contents = contents;
                 weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
@@ -463,7 +457,7 @@
    
 }
 
-#pragma mark - tableView delegate
+#pragma mark - UITableView dataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -525,7 +519,7 @@
         [weakSelf.view becomeFirstResponder];
         [weakSelf.menuObject showMenu];
         
-        _assistContent = content;
+        weakSelf.assistContent = content;
     };
     return cell;
 }

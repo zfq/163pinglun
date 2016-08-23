@@ -14,7 +14,7 @@
 
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) UIButton *backBtn;
-@property (nonatomic,strong) NSNumber *postID;
+@property (nonatomic,strong) NSString *postID;
 @property (nonatomic,strong) NSString *myTitle;
 @property (nonatomic,strong) Contents *contents;
 
