@@ -23,10 +23,12 @@
 @dynamic views;
 @dynamic date;
 @dynamic inAuthor;
+@dynamic prevPostID;
+@dynamic nextPostID;
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
-    self.postID = [dictionary objectForKey:@"id"];
+    self.postID = [NSString stringWithFormat:@"%zi",[dictionary[@"id"] integerValue]];
 //    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
     
 //    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
@@ -55,6 +57,21 @@
 //        NSDictionary *post_tagDic = [post_tagArray objectAtIndex:0];
 //        self.tag = [post_tagDic objectForKey:@"name"];
         self.tag = post_tagArray[0];
+    }
+    
+    NSDictionary *nextPostDict = dictionary[@"next_post"];
+    if (nextPostDict && [nextPostDict isKindOfClass:[NSDictionary class]]) {
+        NSNumber *tempNumObj = nextPostDict[@"ID"];
+        if (tempNumObj && [tempNumObj isKindOfClass:[NSNull class]] == NO) {
+            self.prevPostID = [NSString stringWithFormat:@"%zi",tempNumObj.integerValue];
+        }
+    }
+    NSDictionary *prevPostDict = dictionary[@"prev_post"];
+    if (prevPostDict && [prevPostDict isKindOfClass:[NSDictionary class]]) {
+        NSNumber *tempNumObj = prevPostDict[@"ID"];
+        if (tempNumObj && [tempNumObj isKindOfClass:[NSNull class]] == NO) {
+            self.nextPostID = [NSString stringWithFormat:@"%zi",tempNumObj.integerValue];
+        }
     }
     
     NSString *originDateStr = [dictionary objectForKey:@"modified"];

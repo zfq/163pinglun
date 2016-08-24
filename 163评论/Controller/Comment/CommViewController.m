@@ -84,7 +84,7 @@
     
     //4.获取跟帖
     _contentInfoDic = [[NSMutableDictionary alloc] init];
-	[self fetchCommentWithPostId:_postID];
+	[self fetchCommentWithPostId:self.post.postID completion:nil];
     
     //5.注册设置字体大小通知
     isChanged = NO;
@@ -108,17 +108,25 @@
     
     //设置header
     [_tableView addLoadHeaderWithRefreshingBlk:^{
-        NSLog(@"aa");
+        [weakSelf fetchCommentWithPostId:weakSelf.post.prevPostID completion:^{
+            [weakSelf.tableView.zfqHeaderView stopLoading];
+        }];
     }];
     UILabel *headerLabel = _tableView.zfqHeaderView.titleLabel;
-    headerLabel.text = @"加载上一篇";
     headerLabel.textColor = textColor;
     headerLabel.font = font;
     _tableView.zfqHeaderView.lineColor = textColor;
+    if (self.post.prevPostID.length > 0) {
+        headerLabel.text = @"加载上一篇";
+    } else {
+        headerLabel.text = @"没有了";
+    }
     
     //设置footer
     [_tableView addLoadFooterWithRefreshingBlk:^{
-        NSLog(@"aa");
+        [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
+            [weakSelf.tableView.zfqFooterView stopLoading];
+        }];
     }];
     UILabel *footerLabel = _tableView.zfqFooterView.titleLabel;
     footerLabel.text = @"加载下一篇";
@@ -159,7 +167,7 @@
 #pragma mark - share delegate
 - (void)didTapedShareItem:(ShareItem *)shareItem
 {
-    NSString *url = [NSString stringWithFormat:@"%@/archives/%zi",HOSTURL,self.postID.integerValue];
+    NSString *url = [NSString stringWithFormat:@"%@/archives/%@",HOSTURL,self.post.postID];
     if ([shareItem.title isEqualToString:@"新浪微博"]) {
         NSString *originText = [_assistContent content];
         
@@ -206,19 +214,20 @@
     [self.tableView reloadData];
 }
 
-- (void)fetchCommentWithPostId:(NSString *)postId
+- (void)fetchCommentWithPostId:(NSString *)postId completion:(void (^)())blk
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     __weak typeof(self) weakSelf = self;
-    [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:_postID];
+    [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:postId];
     [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if (!error) {
             [weakSelf updateUIWithContents:contents];
+            if (blk) blk();
         } else {
             //如果数据库存在 就从数据库中读取，否则就显示错误提示
-            [weakSelf fetchCommentFromDBWithPostId:postId];
+            [weakSelf fetchCommentFromDBWithPostId:postId completion:blk];
         }
     }];
 }
@@ -238,7 +247,7 @@
 }
 
 //从数据库读取跟帖
-- (void)fetchCommentFromDBWithPostId:(NSString *)postId
+- (void)fetchCommentFromDBWithPostId:(NSString *)postId completion:(void (^)())blk
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     __weak typeof(self) weakSelf = self;
@@ -251,6 +260,8 @@
         } else {
             [weakSelf addNoNetworkView];
         }
+        //回调
+        if (blk) blk();
     }];
 }
 
@@ -260,7 +271,7 @@
     //8484:多段 字多 10798:多段 16458：长  本地:10798
     NSString *url = @"http://www.biying.com";
 #else
-    NSString *url = [NSString stringWithFormat:@"%@/wp-json/wp/v2/comments?post=%zi",HOSTURL,[_postID integerValue]];
+    NSString *url = [NSString stringWithFormat:@"%@/wp-json/wp/v2/comments?post=%@",HOSTURL,postId];
 #endif
     return url;
 }
@@ -441,7 +452,7 @@
             weakControl = nil;
             UIActivityIndicatorView *activityView = [weakSelf addActivityViewInView:weakSelf.tableView];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-            [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:_postID];;
+            [ItemStore sharedItemStore].cotentsURL = [weakSelf commentUrlWithPostId:weakSelf.post.postID];;
             [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
                 weakSelf.contents = contents;
                 weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];

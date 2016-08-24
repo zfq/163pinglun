@@ -332,7 +332,7 @@
 {
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
-    cVC.postID = [NSString stringWithFormat:@"%@",tempPost.postID];
+    cVC.post = tempPost;
     cVC.title = tempPost.title;
     cVC.myTitleLabel.text = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];

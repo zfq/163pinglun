@@ -103,14 +103,15 @@ static NSMutableArray *sharedConnectionList = nil;
         [parser parse];
         rootObject = self.xmlRootObject;
     } else if (self.jsonRootObject != nil) {
+        
         if (self.isDictionary) {
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             [self.jsonRootObject readFromJSONDictionary:dictionary];
         } else {
             //过滤尾部的<!--xxx-->
             container = [self resultDataFromData:container];
-            NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             
+            NSArray *array = [NSJSONSerialization JSONObjectWithData:container options:0 error:nil];
             if (postID > kSeparatorPostID) {
                 //新版API
                 [self.jsonRootObject readFromJSONArray:array apiVersion:nil];

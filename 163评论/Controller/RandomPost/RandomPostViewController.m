@@ -298,7 +298,7 @@ static NSString *reuseId = @"RandomPostCell";
     RandomPost *post = [_posts objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
     NSString *postID = [self postIDFromURL:post.postURL];
-    cVC.postID = postID;
+//    cVC.post = nil;
     [self.parentViewController.navigationController pushViewController:cVC animated:YES];
 }
 
