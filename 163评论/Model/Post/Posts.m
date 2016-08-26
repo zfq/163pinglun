@@ -35,6 +35,7 @@
         NSDictionary *dic = (NSDictionary *)obj;
         Post *p = [[ItemStore sharedItemStore] createPost];
         [p readFromJSONDictionary:dic];
+        NSLog(@"%@,next:%@,prev:%@",p.postID,p.nextPostID,p.prevPostID);
         [_postItems addObject:p];
     }];
 }

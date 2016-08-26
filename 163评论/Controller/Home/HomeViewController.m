@@ -331,8 +331,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
-    CommViewController *cVC = [[CommViewController alloc] init];
-    cVC.post = tempPost;
+    CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_posts.postItems beginIndex:indexPath.row];
     cVC.title = tempPost.title;
     cVC.myTitleLabel.text = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];

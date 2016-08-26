@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-static NSInteger const zfqLoadViewHeight = 80;
+static NSInteger const zfqLoadViewHeight = 70;
 
 typedef NS_ENUM(NSInteger, ZFQLoadRefreshState) {
     ZFQLoadRefreshStateNormal,
@@ -24,7 +24,6 @@ typedef NS_ENUM(NSInteger, ZFQLoadRefreshState) {
     CGFloat _orginInsetsTop;
     CGFloat _orginInsetsBottom;
     CGFloat _originOffsetY;
-    UIEdgeInsets _originInserts;
     CGPoint _originOffset;
 }
 @property (nonatomic,strong) UILabel *titleLabel;

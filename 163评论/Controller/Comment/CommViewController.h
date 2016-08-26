@@ -17,6 +17,9 @@
 @property (nonatomic,strong) UIButton *backBtn;
 @property (nonatomic,strong) NSString *myTitle;
 @property (nonatomic,strong) Contents *contents;
-@property (nonatomic,strong) Post *post;
+
+
+
+- (instancetype)initWithPostItems:(NSArray<Post *> *)postItems beginIndex:(NSInteger)index;
 
 @end

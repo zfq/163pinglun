@@ -52,10 +52,8 @@
 //    self.views = [NSNumber numberWithInteger:[viewsStr integerValue]];
     
     NSDictionary *termsDic = [dictionary objectForKey:@"terms"];
-    NSArray *post_tagArray= termsDic[@"tages"];//[termsDic objectForKey:@"post_tag"];
+    NSArray *post_tagArray= termsDic[@"tages"];
     if (post_tagArray && post_tagArray.count > 0) {
-//        NSDictionary *post_tagDic = [post_tagArray objectAtIndex:0];
-//        self.tag = [post_tagDic objectForKey:@"name"];
         self.tag = post_tagArray[0];
     }
     

@@ -93,6 +93,7 @@
         }
     }
     urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    ZFQLog(@"%@",urlStr);
     return urlStr;
 
 }

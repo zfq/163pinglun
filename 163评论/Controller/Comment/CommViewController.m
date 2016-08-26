@@ -30,22 +30,29 @@
     NSMutableDictionary *_contentInfoDic;
 }
 
+@property (nonatomic,copy) NSArray<Post *> *postItems;  //首页显示的所有帖子
+@property (nonatomic,assign) NSInteger beginIndex;  //开始显示的帖子的索引
+@property (nonatomic,strong) Post *post;
+
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
 @property (nonatomic,strong) NSMutableDictionary *cellsDic;
 @property (nonatomic,strong) ZFQMenuObject *menuObject;
 @property (nonatomic,strong) Content *assistContent;
+
 @end
 
 @implementation CommViewController
 
 #pragma mark - LifeCycle
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithPostItems:(NSArray<Post *> *)postItems beginIndex:(NSInteger)index
 {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	if (self) {
-		// Custom initialization
-	}
-	return self;
+    self = [super init];
+    if (self) {
+        _postItems = [postItems copy];
+        _post = postItems[index];
+        _beginIndex = index;
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -108,31 +115,51 @@
     
     //设置header
     [_tableView addLoadHeaderWithRefreshingBlk:^{
-        [weakSelf fetchCommentWithPostId:weakSelf.post.prevPostID completion:^{
+        if (weakSelf.beginIndex == 0) {
             [weakSelf.tableView.zfqHeaderView stopLoading];
-        }];
+        } else {
+            weakSelf.beginIndex -= 1;
+            [weakSelf fetchCommentWithPostId:weakSelf.post.prevPostID completion:^{
+                [weakSelf.tableView.zfqHeaderView stopLoading];
+            }];
+        }
     }];
     UILabel *headerLabel = _tableView.zfqHeaderView.titleLabel;
     headerLabel.textColor = textColor;
     headerLabel.font = font;
     _tableView.zfqHeaderView.lineColor = textColor;
-    if (self.post.prevPostID.length > 0) {
-        headerLabel.text = @"加载上一篇";
-    } else {
-        headerLabel.text = @"没有了";
-    }
+    [self updateHeaderLabelWithPost:_post];
+    
     
     //设置footer
     [_tableView addLoadFooterWithRefreshingBlk:^{
+        weakSelf.beginIndex += 1;
         [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
             [weakSelf.tableView.zfqFooterView stopLoading];
         }];
     }];
     UILabel *footerLabel = _tableView.zfqFooterView.titleLabel;
-    footerLabel.text = @"加载下一篇";
     footerLabel.textColor = textColor;
     footerLabel.font = font;
     _tableView.zfqFooterView.lineColor = textColor;
+    if (_beginIndex == _postItems.count - 1) {
+        footerLabel.text = @"首页就这么多了";
+    } else {
+        footerLabel.text = @"加载下一篇";
+    }
+}
+
+- (void)updateHeaderLabelWithPost:(Post *)post
+{
+    //更新文字
+    UILabel *headerLabel = _tableView.zfqHeaderView.titleLabel;
+    if (_post.prevPostID.length > 0) {
+        headerLabel.text = @"加载上一篇";
+    } else {
+        headerLabel.text = @"没有了";
+    }
+    [_tableView.zfqHeaderView setNeedsLayout];
+    [_tableView.zfqHeaderView layoutIfNeeded];
 }
 
 #pragma mark - User Actions
@@ -220,9 +247,13 @@
     
     __weak typeof(self) weakSelf = self;
     [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:postId];
+    
     [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if (!error) {
+            //需要更新
+            weakSelf.post = weakSelf.postItems[_beginIndex];
+            [weakSelf updateHeaderLabelWithPost:weakSelf.post];
             [weakSelf updateUIWithContents:contents];
             if (blk) blk();
         } else {
