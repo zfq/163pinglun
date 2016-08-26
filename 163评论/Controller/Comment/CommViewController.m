@@ -130,13 +130,16 @@
     _tableView.zfqHeaderView.lineColor = textColor;
     [self updateHeaderLabelWithPost:_post];
     
-    
     //设置footer
     [_tableView addLoadFooterWithRefreshingBlk:^{
         weakSelf.beginIndex += 1;
-        [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
+        if (weakSelf.beginIndex == weakSelf.postItems.count - 1) {
             [weakSelf.tableView.zfqFooterView stopLoading];
-        }];
+        } else {
+            [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
+                [weakSelf.tableView.zfqFooterView stopLoading];
+            }];
+        }
     }];
     UILabel *footerLabel = _tableView.zfqFooterView.titleLabel;
     footerLabel.textColor = textColor;
