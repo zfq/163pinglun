@@ -10,8 +10,8 @@
 #define _63___MacroDefinition_h
 
 //-----------------------屏幕宽高-------------------------------
-#define SCREEN_WIDTH     [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT    [UIScreen mainScreen].bounds.size.height
+#define SCREEN_WIDTH     ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT    ([UIScreen mainScreen].bounds.size.height)
 
 //-----------------------系统版本-------------------------------
 #define SYSTERM_VERSION  [[[UIDevice currentDevice] systemVersion] floatValue]

@@ -25,7 +25,7 @@
 {
     for (NSDictionary *dic in array) {
         RandomPost *post = [[RandomPost alloc] init];
-        post.title = [[dic objectForKey:@"title"] gtm_stringByUnescapingFromHTML];
+        post.title = [[dic objectForKey:@"post_title"] gtm_stringByUnescapingFromHTML];
         post.postURL = [dic objectForKey:@"url"];
         [_randomPosts addObject:post];
     }

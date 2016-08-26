@@ -206,8 +206,7 @@
 
 - (void)fetchRandomPostsWithCompletion:(void (^)(RandomPosts *randomPosts,NSError *error))block
 {
-    NSString *requestURL = [HOSTURL stringByAppendingString:@"/wp-admin/admin-ajax.php?action=random_post"];
-    //@"http://163pinglun.com/wp-admin/admin-ajax.php?action=random_post";
+    NSString *requestURL = [HOSTURL stringByAppendingString:@"/wp-json/163pinglun/v1/random_posts"];
     NSURL *url = [NSURL URLWithString:requestURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.timeoutInterval = 40;

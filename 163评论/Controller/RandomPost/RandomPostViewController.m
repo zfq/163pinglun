@@ -33,6 +33,8 @@ static NSString *reuseId = @"RandomPostCell";
     BOOL hasLoaded;
     BOOL resetPostTableViewPositon;
     NSRegularExpression *reg;
+    
+    NSLayoutConstraint *_marginLeftCons;
 }
 @end
 
@@ -58,7 +60,6 @@ static NSString *reuseId = @"RandomPostCell";
     originAlpha = 0.7;
     maskView = [[UIControl alloc] init];
     maskView.backgroundColor = [UIColor blackColor];
-    maskView.alpha = 0;
     [maskView addTarget:self action:@selector(tapMaskView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:maskView];
 
@@ -73,24 +74,28 @@ static NSString *reuseId = @"RandomPostCell";
     
     [self.view addSubview:postTableView];
     [postTableView addObserver:self forKeyPath:@"panGestureRecognizer.state" options:NSKeyValueObservingOptionNew context:nil];
-    /*
-//    [self.view insertSubview:postTableView aboveSubview:maskView];
     
     
     //为postTableView添加约束
-//    marginLeft = (55 * (self.view.frame.size.width))/320.0f;
-    marginLeft = 55;
+    CGFloat sw = SCREEN_WIDTH;
+    marginLeft = (55 * sw)/320.0f;
     NSDictionary *nameMap1 = @{@"postTable":postTableView};
     postTableView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    //为tableView添加宽高约束
     NSLayoutConstraint *tableViewConsH = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];
-//    NSLayoutConstraint *tableViewConsW = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-marginLeft];
-//    [self.view addConstraints:@[tableViewConsH,tableViewConsW]];
     [self.view addConstraint:tableViewConsH];
-    NSString *vfH = [NSString stringWithFormat:@"H:|-%f-[postTable(>=0)]-0-|",marginLeft];
-    NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap1];
+    NSLayoutConstraint *tableViewConsW = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:(sw - marginLeft)];
+    [self.view addConstraint:tableViewConsH];
+    [self.view addConstraint:tableViewConsW];
+    
+    //为tableView添加垂直方向的约束
     NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-64-[postTable]" options:0 metrics:nil views:nameMap1];
-    [self.view addConstraints:consH];
     [self.view addConstraints:consV];
+    
+    _marginLeftCons = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:sw];
+    [self.view addConstraint:_marginLeftCons];
+
     
     //添加nav阴影
     UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
@@ -110,21 +115,11 @@ static NSString *reuseId = @"RandomPostCell";
     [self.view addConstraints:maskConsV];
     
     //设置maskView透明度渐变及tableView的滑入
-   
-    CGRect originRect = postTableView.frame;
-    originRect.origin.x = self.view.frame.size.width;
-    postTableView.frame = originRect;
-   
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        CGRect rect = postTableView.frame;
-        rect.origin.x = marginLeft;
-        postTableView.frame = rect;
-        maskView.alpha = originAlpha;
-    } completion:nil];
+    maskView.alpha = 0;
     
     //加载数据
-    [self loadRandomPostData];
-     */
+//    [self loadRandomPostData];
+    
     //注册cell
 //    UINib *nib = [UINib nibWithNibName:@"RandomPostCell" bundle:nil];
 //    [postTableView registerNib:nib forCellReuseIdentifier:reuseId];
@@ -141,8 +136,8 @@ static NSString *reuseId = @"RandomPostCell";
             if (_posts.count >0) {
                 postTableView.tableHeaderView = nil;
                 [postTableView setTableFooterView:[self randomPostFooterView]];
-                [postTableView beginSmoothMoveAnimationWithCount:_posts.count];
-//                [postTableView reloadData];
+//                [postTableView beginSmoothMoveAnimationWithCount:_posts.count];
+                [postTableView reloadData];
             }
         } else {
             //添加占位符
@@ -165,59 +160,21 @@ static NSString *reuseId = @"RandomPostCell";
         return;
     }
     
-    if (hasLoaded == NO) {
-        //为postTableView添加约束
-        marginLeft = (55 * (self.view.frame.size.width))/320.0f;
-        NSDictionary *nameMap1 = @{@"postTable":postTableView};
-        postTableView.translatesAutoresizingMaskIntoConstraints = NO;
-        NSLayoutConstraint *tableViewConsH = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];
-        NSLayoutConstraint *tableViewConsW = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-marginLeft];
-        [self.view addConstraints:@[tableViewConsH,tableViewConsW]];
-        
-        NSString *vfH = [NSString stringWithFormat:@"H:|-%f-[postTable]",marginLeft];
-        NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap1];
-        NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-64-[postTable]" options:0 metrics:nil views:nameMap1];
-        [self.view addConstraints:consH];
-        [self.view addConstraints:consV];
-        
-        //添加nav阴影
-        UIImage *navImg = [UIImage imageNamed:@"navigationbar_background"];
-        UIImageView *navImgView = [[UIImageView alloc] initWithImage:navImg];
-        [self.view addSubview:navImgView];
-        
-        //为maskView和navImgView添加约束
-        NSDictionary *nameMap2 = @{@"mask":maskView,@"navImg":navImgView};
-        maskView.translatesAutoresizingMaskIntoConstraints = NO;
-        navImgView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        NSLayoutConstraint *maskViewConsH = [NSLayoutConstraint constraintWithItem:maskView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];//-64
-        [self.view addConstraint:maskViewConsH];
-        NSArray *maskConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[mask(>=0)]-0-|" options:0 metrics:nil views:nameMap2];
-        NSArray *maskConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[mask]-0-|" options:0 metrics:nil views:nameMap2];
-        [self.view addConstraints:maskConsH];
-        [self.view addConstraints:maskConsV];
-    }
-    
     //设置maskView透明度渐变及tableView的滑入
     if (resetPostTableViewPositon == YES) {
-        CGRect originRect = postTableView.frame;
-        originRect.origin.x = self.view.frame.size.width;
-        postTableView.frame = originRect;
+        maskView.alpha = 0;
+        CGFloat sw = SCREEN_WIDTH;
+        _marginLeftCons.constant = (55 * sw)/320.0f;
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [self.view layoutIfNeeded];
+            maskView.alpha = originAlpha;
+        } completion:nil];
     }
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        CGRect rect = postTableView.frame;
-        rect.origin.x = marginLeft;
-        postTableView.frame = rect;
-        maskView.alpha = originAlpha;
-    } completion:nil];
     
     //加载数据
     [self loadRandomPostData];
-    
     hasLoaded = YES;
     resetPostTableViewPositon = NO;
-    
 }
 
 - (void)showRandomPostView
