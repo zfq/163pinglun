@@ -13,6 +13,7 @@
 		1F0AF43A1C26CAB200738551 /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4331C26CAB200738551 /* comment.bundle */; };
 		1F0AF43C1C26CAB200738551 /* setting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4361C26CAB200738551 /* setting.plist */; };
 		1F0AF43D1C26CAB200738551 /* tagColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4371C26CAB200738551 /* tagColor.plist */; };
+		1F1B46531D75CEB3005AD69C /* _63pinglunUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B46521D75CEB3005AD69C /* _63pinglunUnitTests.m */; };
 		1F1FBEA61C4D3BA20037A62E /* ZFQMenuObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1FBEA51C4D3BA20037A62E /* ZFQMenuObject.m */; };
 		1F36EF911D581EB800B25932 /* ZFQSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F36EF8C1D581EB800B25932 /* ZFQSliderControl.m */; };
 		1F36EF921D581EB800B25932 /* ZFQSliderNumLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F36EF8E1D581EB800B25932 /* ZFQSliderNumLayer.m */; };
@@ -97,6 +98,7 @@
 		1F3DF2641C254C9E00DC8F07 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF0D81C25423200DC8F07 /* MJRefresh.bundle */; };
 		1F429E6E1C5103F30008E9C9 /* UIImage+Content.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F429E6D1C5103F30008E9C9 /* UIImage+Content.m */; };
 		1F429E781C52241F0008E9C9 /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F429E771C52241F0008E9C9 /* NSString+Addition.m */; };
+		1F548E771D73194E00D08F48 /* ZFQURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F548E761D73194E00D08F48 /* ZFQURLConnectionOperation.m */; };
 		1F6C79AA1C4FDDCD00CCA019 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79A91C4FDDCD00CCA019 /* QuartzCore.framework */; };
 		1F6C79AC1C4FDDD600CCA019 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79AB1C4FDDD600CCA019 /* ImageIO.framework */; };
 		1F6C79AE1C4FDF6F00CCA019 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79AD1C4FDF6F00CCA019 /* CoreText.framework */; };
@@ -130,12 +132,25 @@
 		AC60CAF2A58AE12DEABF253A /* libPods-163pinglun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCF1D31CD7CE994AB12D72B /* libPods-163pinglun.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1F1B46551D75CEB3005AD69C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B428D87190E914D00860E94 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B428D8E190E914D00860E94;
+			remoteInfo = 163pinglun;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1F0AF42F1C26CAB200738551 /* comment1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment1.json; sourceTree = "<group>"; };
 		1F0AF4301C26CAB200738551 /* post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post.json; sourceTree = "<group>"; };
 		1F0AF4331C26CAB200738551 /* comment.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = comment.bundle; sourceTree = "<group>"; };
 		1F0AF4361C26CAB200738551 /* setting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = setting.plist; sourceTree = "<group>"; };
 		1F0AF4371C26CAB200738551 /* tagColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagColor.plist; sourceTree = "<group>"; };
+		1F1B46501D75CEB2005AD69C /* 163pinglunUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 163pinglunUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1B46521D75CEB3005AD69C /* _63pinglunUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _63pinglunUnitTests.m; sourceTree = "<group>"; };
+		1F1B46541D75CEB3005AD69C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F1FBEA41C4D3BA20037A62E /* ZFQMenuObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQMenuObject.h; sourceTree = "<group>"; };
 		1F1FBEA51C4D3BA20037A62E /* ZFQMenuObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQMenuObject.m; sourceTree = "<group>"; };
 		1F36EF8B1D581EB800B25932 /* ZFQSliderControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQSliderControl.h; sourceTree = "<group>"; };
@@ -303,6 +318,8 @@
 		1F429E6D1C5103F30008E9C9 /* UIImage+Content.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Content.m"; sourceTree = "<group>"; };
 		1F429E761C52241F0008E9C9 /* NSString+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Addition.h"; sourceTree = "<group>"; };
 		1F429E771C52241F0008E9C9 /* NSString+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Addition.m"; sourceTree = "<group>"; };
+		1F548E751D73194E00D08F48 /* ZFQURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQURLConnectionOperation.h; sourceTree = "<group>"; };
+		1F548E761D73194E00D08F48 /* ZFQURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQURLConnectionOperation.m; sourceTree = "<group>"; };
 		1F6C79A91C4FDDCD00CCA019 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1F6C79AB1C4FDDD600CCA019 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		1F6C79AD1C4FDF6F00CCA019 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -366,6 +383,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1F1B464D1D75CEB2005AD69C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7B428D8C190E914D00860E94 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -437,6 +461,15 @@
 				1F0AF4371C26CAB200738551 /* tagColor.plist */,
 			);
 			path = plist;
+			sourceTree = "<group>";
+		};
+		1F1B46511D75CEB3005AD69C /* 163pinglunUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F1B46521D75CEB3005AD69C /* _63pinglunUnitTests.m */,
+				1F1B46541D75CEB3005AD69C /* Info.plist */,
+			);
+			path = 163pinglunUnitTests;
 			sourceTree = "<group>";
 		};
 		1F36EF8A1D581EB800B25932 /* ZFQSliderControl */ = {
@@ -685,6 +718,8 @@
 			children = (
 				1F3DF10B1C25423200DC8F07 /* FQConnection.h */,
 				1F3DF10C1C25423200DC8F07 /* FQConnection.m */,
+				1F548E751D73194E00D08F48 /* ZFQURLConnectionOperation.h */,
+				1F548E761D73194E00D08F48 /* ZFQURLConnectionOperation.m */,
 				1F3DF10D1C25423200DC8F07 /* GeneralService.h */,
 				1F3DF10E1C25423200DC8F07 /* GeneralService.m */,
 			);
@@ -951,6 +986,7 @@
 			children = (
 				7B428D98190E914D00860E94 /* 163pinglun */,
 				7B428DB1190E914D00860E94 /* 163评论Tests */,
+				1F1B46511D75CEB3005AD69C /* 163pinglunUnitTests */,
 				7B428D91190E914D00860E94 /* Frameworks */,
 				7B428D90190E914D00860E94 /* Products */,
 				3B72D643721BC3440FDEFAFA /* Pods */,
@@ -961,6 +997,7 @@
 			isa = PBXGroup;
 			children = (
 				7B428D8F190E914D00860E94 /* 163pinglun.app */,
+				1F1B46501D75CEB2005AD69C /* 163pinglunUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1051,6 +1088,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1F1B464F1D75CEB2005AD69C /* 163pinglunUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F1B46591D75CEB3005AD69C /* Build configuration list for PBXNativeTarget "163pinglunUnitTests" */;
+			buildPhases = (
+				1F1B464C1D75CEB2005AD69C /* Sources */,
+				1F1B464D1D75CEB2005AD69C /* Frameworks */,
+				1F1B464E1D75CEB2005AD69C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F1B46561D75CEB3005AD69C /* PBXTargetDependency */,
+			);
+			name = 163pinglunUnitTests;
+			productName = 163pinglunUnitTests;
+			productReference = 1F1B46501D75CEB2005AD69C /* 163pinglunUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7B428D8E190E914D00860E94 /* 163pinglun */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7B428DBB190E914D00860E94 /* Build configuration list for PBXNativeTarget "163pinglun" */;
@@ -1080,6 +1135,10 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = zhaofuqiang;
 				TargetAttributes = {
+					1F1B464F1D75CEB2005AD69C = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 7B428D8E190E914D00860E94;
+					};
 					7B428D8E190E914D00860E94 = {
 						DevelopmentTeam = GSREPL66WM;
 						SystemCapabilities = {
@@ -1103,11 +1162,19 @@
 			projectRoot = "";
 			targets = (
 				7B428D8E190E914D00860E94 /* 163pinglun */,
+				1F1B464F1D75CEB2005AD69C /* 163pinglunUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1F1B464E1D75CEB2005AD69C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7B428D8D190E914D00860E94 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1186,6 +1253,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1F1B464C1D75CEB2005AD69C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1B46531D75CEB3005AD69C /* _63pinglunUnitTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7B428D8B190E914D00860E94 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1261,6 +1336,7 @@
 				1F3DF1761C25423200DC8F07 /* UIScrollView+MJRefresh.m in Sources */,
 				1F3DF2001C2542B100DC8F07 /* 163pinglun.xcdatamodeld in Sources */,
 				1F7647551D4332A60070F5A7 /* ZFQHUD.m in Sources */,
+				1F548E771D73194E00D08F48 /* ZFQURLConnectionOperation.m in Sources */,
 				1F36EFB61D58204D00B25932 /* View+MASAdditions.m in Sources */,
 				1F36EFAE1D58204D00B25932 /* MASCompositeConstraint.m in Sources */,
 				1F3DF2051C2542B100DC8F07 /* Post.m in Sources */,
@@ -1278,6 +1354,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1F1B46561D75CEB3005AD69C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B428D8E190E914D00860E94 /* 163pinglun */;
+			targetProxy = 1F1B46551D75CEB3005AD69C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7B428D9B190E914D00860E94 /* InfoPlist.strings */ = {
@@ -1299,6 +1383,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1F1B46571D75CEB3005AD69C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = 163pinglunUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zfq.163pinglun.-63pinglunUnitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/163pinglun.app/163pinglun";
+			};
+			name = Debug;
+		};
+		1F1B46581D75CEB3005AD69C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = 163pinglunUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zfq.163pinglun.-63pinglunUnitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/163pinglun.app/163pinglun";
+			};
+			name = Release;
+		};
 		7B428DB9190E914D00860E94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1440,6 +1564,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1F1B46591D75CEB3005AD69C /* Build configuration list for PBXNativeTarget "163pinglunUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F1B46571D75CEB3005AD69C /* Debug */,
+				1F1B46581D75CEB3005AD69C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		7B428D8A190E914D00860E94 /* Build configuration list for PBXProject "163pinglun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
