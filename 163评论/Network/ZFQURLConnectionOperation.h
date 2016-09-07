@@ -20,4 +20,8 @@ typedef void (^ZFQURLOperationSuccessBlk)(NSData *data);
                      successBlk:(ZFQURLOperationSuccessBlk)successBlk
                      failureBlk:(ZFQURLOperationFailureBlk)failureBlk;
 
++ (void)batchOfOperations:(NSArray<NSOperation *> *)operations
+              progressBlk:(void (^)(NSInteger numberOfFinishedOperations,NSInteger numberOfOperations))progressBlk
+            completionBlk:(void (^)(void))completionBlk;
+
 @end
