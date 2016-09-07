@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "ZFQURLConnectionOperation.h"
+#import "ZFQURLOperationManager.h"
 #import "AFNetworking.h"
 
 @interface _63pinglunUnitTests : XCTestCase
@@ -36,11 +37,11 @@
     NSString *str1 = @"http://img3.cache.netease.com/photo/0025/2016-08-30/BVN9PBQS0BGT0025.jpg";
     NSURL *url = [NSURL URLWithString:str1];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(NSData *data) {
+    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         UIImage *img = [UIImage imageWithData:data];
         NSLog(@"---->%@",NSStringFromCGSize(img.size));
         [reqExpectation fulfill];
-    } failureBlk:^(NSError *error) {
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         XCTFail(@"operationTest测试失败:%@",error);
     }];
     [operation start];
@@ -67,11 +68,11 @@
         XCTestExpectation *reqExpectation = [self expectationWithDescription:desc];
         NSURL *url = [NSURL URLWithString:tempStr];
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-        ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(NSData *data) {
+        ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
             UIImage *img = [UIImage imageWithData:data];
             NSLog(@"---->%@",NSStringFromCGSize(img.size));
             [reqExpectation fulfill];
-        } failureBlk:^(NSError *error) {
+        } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
             XCTFail(@"operationTest测试失败:%@",error);
         }];
         [operation start];
@@ -88,10 +89,10 @@
     XCTestExpectation *reqExpectation = [self expectationWithDescription:@"cancel"];
     NSURL *url = [NSURL URLWithString:str4];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(NSData *data) {
+    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         XCTFail(@"cancelOperation测试失败");
         [reqExpectation fulfill];
-    } failureBlk:^(NSError *error) {
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         NSLog(@"operation error:%@",error);
         [reqExpectation fulfill];
     }];
@@ -109,12 +110,12 @@
     XCTestExpectation *reqExpectation = [self expectationWithDescription:@"cancel"];
     NSURL *url = [NSURL URLWithString:str4];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(NSData *data) {
+    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         UIImage *img = [UIImage imageWithData:data];
         NSLog(@"---->%@",NSStringFromCGSize(img.size));
         XCTFail(@"testCancel2测试失败");
         [reqExpectation fulfill];
-    } failureBlk:^(NSError *error) {
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         NSLog(@"%@",error);
         [reqExpectation fulfill];
     }];
@@ -330,12 +331,12 @@
     
     NSURL *url1 = [NSURL URLWithString:strs[0]];
     NSURLRequest *request1 = [[NSURLRequest alloc] initWithURL:url1];
-    ZFQURLConnectionOperation *operation1 = [[ZFQURLConnectionOperation alloc] initWithRequest:request1 successBlk:^(NSData *data) {
+    ZFQURLConnectionOperation *operation1 = [[ZFQURLConnectionOperation alloc] initWithRequest:request1 successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         if (data) {
             UIImage *img = [UIImage imageWithData:data];
             NSLog(@"----->1111111%@",NSStringFromCGSize(img.size));
         }
-    } failureBlk:^(NSError *error) {
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
     }];
     operation1.completionBlock = ^{
         NSLog(@"++++++++回调11111ok!");
@@ -344,12 +345,12 @@
     
     NSURL *url2 = [NSURL URLWithString:strs[3]];
     NSURLRequest *request2 = [[NSURLRequest alloc] initWithURL:url2];
-    ZFQURLConnectionOperation *operation2 = [[ZFQURLConnectionOperation alloc] initWithRequest:request2 successBlk:^(NSData *data) {
+    ZFQURLConnectionOperation *operation2 = [[ZFQURLConnectionOperation alloc] initWithRequest:request2 successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         if (data) {
             UIImage *img = [UIImage imageWithData:data];
             NSLog(@"----->2222222%@",NSStringFromCGSize(img.size));
         }
-    } failureBlk:^(NSError *error) {
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         NSLog(@"失败:%@",error);
     }];
     operation2.completionBlock = ^{
@@ -376,12 +377,12 @@
     for (NSString *tempStr in strs) {
         NSURL *url = [NSURL URLWithString:tempStr];
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-        ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(NSData *data) {
+        ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
             if (data) {
                 UIImage *img = [UIImage imageWithData:data];
                 NSLog(@"----->%@",NSStringFromCGSize(img.size));
             }
-        } failureBlk:^(NSError *error) {
+        } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         }];
         [operations addObject:operation];
     }
@@ -390,6 +391,27 @@
         NSLog(@"---------->%f",numberOfFinishedOperations/(CGFloat)numberOfOperations);
     } completionBlk:^{
         NSLog(@"全部完成");
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        
+    }];
+}
+
+- (void)testZFQURLOperationGet
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"zfqOperationBatch"];
+    
+    NSArray *strs = [self urlStrs];
+    
+    [ZFQURLOperationManager GETWithURL:strs[1] params:nil successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
+        if (data) {
+            UIImage *img = [UIImage imageWithData:data];
+            NSLog(@"----->%@",NSStringFromCGSize(img.size));
+        }
+        [expectation fulfill];
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         [expectation fulfill];
     }];
     
