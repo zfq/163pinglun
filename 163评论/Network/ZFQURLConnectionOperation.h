@@ -21,8 +21,8 @@ typedef void (^ZFQURLOperationSuccessBlk)(ZFQURLConnectionOperation *operation, 
                      successBlk:(ZFQURLOperationSuccessBlk)successBlk
                      failureBlk:(ZFQURLOperationFailureBlk)failureBlk;
 
-+ (void)batchOfOperations:(NSArray<NSOperation *> *)operations
-              progressBlk:(void (^)(NSInteger numberOfFinishedOperations,NSInteger numberOfOperations))progressBlk
-            completionBlk:(void (^)(void))completionBlk;
++ (NSArray<ZFQURLConnectionOperation *> *)batchOfOperations:(NSArray<NSOperation *> *)operations
+                                                progressBlk:(void (^)(NSInteger numberOfFinishedOperations,NSInteger numberOfOperations))progressBlk
+                                              completionBlk:(void (^)(void))completionBlk;
 
 @end

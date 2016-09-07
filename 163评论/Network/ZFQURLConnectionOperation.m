@@ -121,16 +121,6 @@ typedef NS_ENUM(NSInteger, ZFQURLOperationState){
     return thread;
 }
 
-static NSOperationQueue * zfqUrlConnectionOperationQueue()
-{
-    static NSOperationQueue *zfqOperationQueue;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken,^{
-        zfqOperationQueue = [[NSOperationQueue alloc] init];
-    });
-    return zfqOperationQueue;
-}
-
 - (void)operationStart
 {
     [self.lock lock];
@@ -244,7 +234,7 @@ static NSOperationQueue * zfqUrlConnectionOperationQueue()
     });
 }
 
-+ (void)batchOfOperations:(NSArray<NSOperation *> *)operations
++ (NSArray<ZFQURLConnectionOperation *> *)batchOfOperations:(NSArray<NSOperation *> *)operations
               progressBlk:(void (^)(NSInteger numberOfFinishedOperations,NSInteger numberOfOperations))progressBlk
             completionBlk:(void (^)(void))completionBlk
 {
@@ -278,8 +268,7 @@ static NSOperationQueue * zfqUrlConnectionOperationQueue()
     
     NSArray *finalOperations = [operations arrayByAddingObject:blockOperation];
     
-    //开始执行
-    [zfqUrlConnectionOperationQueue() addOperations:finalOperations waitUntilFinished:NO];
+    return finalOperations;
 }
 
 @end
