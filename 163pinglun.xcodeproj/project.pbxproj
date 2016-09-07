@@ -1571,6 +1571,7 @@
 				1F1B46581D75CEB3005AD69C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7B428D8A190E914D00860E94 /* Build configuration list for PBXProject "163pinglun" */ = {
 			isa = XCConfigurationList;
