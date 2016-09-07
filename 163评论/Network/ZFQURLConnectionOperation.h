@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^ZFQURLOperationFailureBlk)(NSError *error);
-typedef void (^ZFQURLOperationSuccessBlk)(NSData *data);
+@class ZFQURLConnectionOperation;
+typedef void (^ZFQURLOperationFailureBlk)(ZFQURLConnectionOperation *operation, NSError *error);
+typedef void (^ZFQURLOperationSuccessBlk)(ZFQURLConnectionOperation *operation, NSData *data);
 
 @interface ZFQURLConnectionOperation : NSOperation
 

@@ -215,16 +215,15 @@ static NSOperationQueue * zfqUrlConnectionOperationQueue()
     [self.lock lock];
     
     _receivedData.length = 0;
-    
+    self.operationState = ZFQURLOperationFinished;
     
     //在主线程回调失败
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.failureBlk) {
-            self.failureBlk(error);
+            self.failureBlk(self,error);
         }
     });
     
-    self.operationState = ZFQURLOperationFinished;
     [self.lock unlock];
 }
 
@@ -240,7 +239,7 @@ static NSOperationQueue * zfqUrlConnectionOperationQueue()
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.successBlk) {
-            self.successBlk(self.receivedData);
+            self.successBlk(self,self.receivedData);
         }
     });
 }
