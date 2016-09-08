@@ -43,23 +43,32 @@ NSString *queryString(NSDictionary *params)
     [zfqUrlConnectionOperationQueue() addOperation:operation];
 }
 
-+ (void)GETWithURL:(NSString *)url
-            params:(NSDictionary *)params
-        successBlk:(ZFQURLOperationSuccessBlk)successBlk
-        failureBlk:(ZFQURLOperationFailureBlk)failureBlk
++ (void)sendRequestWithURL:(NSString *)url
+                httpMethod:(NSString *)httpMethod
+                    params:(NSDictionary *)params
+                successBlk:(ZFQURLOperationSuccessBlk)successBlk
+                failureBlk:(ZFQURLOperationFailureBlk)failureBlk
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    request.HTTPMethod = httpMethod;
     
-    NSString *urlStr = nil;
     NSString *queryStr = queryString(params);
-    if (queryStr.length > 0) {
-        urlStr = [url stringByAppendingFormat:@"?%@",queryStr];
-    } else {
-        urlStr = url;
+    NSString *upperStr = [httpMethod uppercaseString];
+    
+    //设置URL 和 httpBody
+    if ([upperStr isEqualToString:@"GET"]) {
+        NSString *urlStr = nil;
+        if (queryStr.length > 0) {
+            urlStr = [url stringByAppendingFormat:@"?%@",queryStr];
+        } else {
+            urlStr = url;
+        }
+        request.URL = [NSURL URLWithString:urlStr];
+    } else if ([upperStr isEqualToString:@"POST"]) {
+        request.URL = [NSURL URLWithString:url];
+        [request setHTTPBody:[queryStr dataUsingEncoding:NSUTF8StringEncoding]];
     }
     
-    request.URL = [NSURL URLWithString:urlStr];
-    request.HTTPMethod = @"GET";
     ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:successBlk failureBlk:failureBlk];
     [zfqUrlConnectionOperationQueue() addOperation:operation];
 }

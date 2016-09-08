@@ -15,10 +15,11 @@
          successBlk:(ZFQURLOperationSuccessBlk)successBlk
          failureBlk:(ZFQURLOperationFailureBlk)failureBlk;
 
-+ (void)GETWithURL:(NSString *)url
-            params:(NSDictionary *)params
-        successBlk:(ZFQURLOperationSuccessBlk)successBlk
-        failureBlk:(ZFQURLOperationFailureBlk)failureBlk;
++ (void)sendRequestWithURL:(NSString *)url
+                httpMethod:(NSString *)httpMethod
+                    params:(NSDictionary *)params
+                successBlk:(ZFQURLOperationSuccessBlk)successBlk
+                failureBlk:(ZFQURLOperationFailureBlk)failureBlk;
 
 + (void)startBatchOfOperations:(NSArray<NSOperation *> *)operations
                    progressBlk:(void (^)(NSInteger numberOfFinishedOperations,NSInteger numberOfOperations))progressBlk
