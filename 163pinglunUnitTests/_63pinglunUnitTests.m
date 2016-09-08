@@ -357,10 +357,8 @@
         NSLog(@"++++++++回调222222ok!");
     };
     
-    
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperations:@[operation1,operation2] waitUntilFinished:YES];
-    [expectation fulfill];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         
@@ -387,12 +385,15 @@
         [operations addObject:operation];
     }
     
-    [ZFQURLConnectionOperation batchOfOperations:operations progressBlk:^(NSInteger numberOfFinishedOperations, NSInteger numberOfOperations) {
+    NSArray *finalOperations = [ZFQURLConnectionOperation batchOfOperations:operations progressBlk:^(NSInteger numberOfFinishedOperations, NSInteger numberOfOperations) {
         NSLog(@"---------->%f",numberOfFinishedOperations/(CGFloat)numberOfOperations);
     } completionBlk:^{
         NSLog(@"全部完成");
         [expectation fulfill];
     }];
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [queue addOperations:finalOperations waitUntilFinished:NO];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         
