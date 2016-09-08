@@ -400,27 +400,6 @@
     }];
 }
 
-- (void)testZFQURLOperationGet
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:@"zfqOperationBatch"];
-    
-    NSArray *strs = [self urlStrs];
-    
-    [ZFQURLOperationManager GETWithURL:strs[1] params:nil successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
-        if (data) {
-            UIImage *img = [UIImage imageWithData:data];
-            NSLog(@"----->%@",NSStringFromCGSize(img.size));
-        }
-        [expectation fulfill];
-    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
-        [expectation fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
-        
-    }];
-}
-
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{
