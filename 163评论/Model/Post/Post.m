@@ -15,7 +15,7 @@
 #define kPostValidationPostOrExceptCode 1001
 
 @implementation Post
-
+/*
 @dynamic postID;
 @dynamic tag;
 @dynamic title;
@@ -25,6 +25,7 @@
 @dynamic inAuthor;
 @dynamic prevPostID;
 @dynamic nextPostID;
+*/
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
@@ -186,6 +187,7 @@
     }
 }
 
+/*
 - (BOOL)validateForInsert:(NSError *__autoreleasing *)error
 {
     BOOL result = [super validateForInsert:error];
@@ -195,5 +197,6 @@
         return result;
     }
 }
+ */
 
 @end
