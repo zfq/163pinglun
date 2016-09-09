@@ -218,6 +218,11 @@ typedef NS_ENUM(NSInteger, ZFQURLOperationState){
 }
 
 #pragma mark - NSURLConnectionDataDelegate
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    self.response = response;
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [_receivedData appendData:data];
@@ -227,11 +232,62 @@ typedef NS_ENUM(NSInteger, ZFQURLOperationState){
 {
     self.operationState = ZFQURLOperationFinished;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.successBlk) {
-            self.successBlk(self,self.receivedData);
+    //根据response返回的状态码来判断是成功还是失败
+    NSError *error = nil;
+    BOOL validate = [self validateHTTPResponse:self.response data:self.receivedData error:&error];
+    
+    if (validate) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.successBlk) {
+                self.successBlk(self,self.receivedData);
+            }
+        });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.failureBlk) {
+                self.failureBlk(self,error);
+            }
+        });
+    }
+}
+
+- (BOOL)validateHTTPResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError **)error
+{
+    BOOL validate = NO;
+    NSError *tempError = nil;
+    static NSString *zfqErrorDomain = @"com.zfqNetworking.zfq";
+    static NSString *zfqErrorDataKey = @"zfqErrorDataKey";
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)self.response;
+    
+    if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        if (httpResponse.statusCode == 200) {
+            validate = YES;
+        } else {
+            NSString *desc = [NSString stringWithFormat:@"Request failed (%zi):%@",httpResponse.statusCode,httpResponse.MIMEType];
+            NSDictionary *userInfo = @{
+                                       NSLocalizedDescriptionKey:desc,
+                                       zfqErrorDataKey:data.description
+                                       };
+            tempError = [[NSError alloc] initWithDomain:zfqErrorDomain code:NSURLErrorBadServerResponse userInfo:userInfo];
+            *error = tempError;
+            validate = NO;
         }
-    });
+    } else {
+        NSString *desc = [NSString stringWithFormat:@"unacceptable content-type:%@",httpResponse.MIMEType];
+        NSDictionary *userInfo = @{
+                                   NSLocalizedDescriptionKey:desc,
+                                   zfqErrorDataKey:data.description
+                                   };
+        tempError = [[NSError alloc] initWithDomain:zfqErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
+        *error = tempError;
+        validate = NO;
+    }
+    
+    if (error && tempError) {
+        *error = tempError;
+    }
+    return validate;
 }
 
 + (NSArray<ZFQURLConnectionOperation *> *)batchOfOperations:(NSArray<NSOperation *> *)operations
