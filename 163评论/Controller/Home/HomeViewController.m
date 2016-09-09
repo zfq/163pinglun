@@ -25,7 +25,7 @@
 #import "TagViewController.h"
 #import "PlaceholderView.h"
 #import "MacroDefinition.h"
-#import "PostViewModel.h"
+#import "HomeViewModel.h"
 
 @interface HomeViewController () <TagViewControllerDelegate>
 {
@@ -37,7 +37,7 @@
     
     MenuView *menu;                     //菜单
 }
-@property (nonatomic) PostViewModel *viewModel;
+@property (nonatomic) HomeViewModel *viewModel;
 @end
 
 @implementation HomeViewController
@@ -46,7 +46,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         tagPageIndex = 1;
     }
     return self;
@@ -56,10 +55,11 @@
 {
     [super viewDidLoad];
     
-    _viewModel = [[PostViewModel alloc] init];
+    _viewModel = [[HomeViewModel alloc] init];
     _viewModel.latestPostRefreshBlk = ^(){
         [TagViewController  clearTagKey];
     };
+    
     //添加更多btn
     UIImage *moreImg = [UIImage imageNamed:@"more1"];
     UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -96,7 +96,7 @@
     [self setupRefresh];
     
     //优先从数据库中获取数据
-    [self fetchPostFromDatabase];    
+    [self fetchPostFromDatabase];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,8 +171,8 @@
 #pragma mark - fetch posts
 - (void)fetchPostFromDatabase
 {
-    NSArray *postArray = [[ItemStore sharedItemStore] fetchAllPostsFromDatabase];
-    
+//    NSArray *postArray = [[ItemStore sharedItemStore] fetchAllPostsFromDatabase];
+    NSArray *postArray = nil;
     if (postArray == nil || postArray.count==0) {   //如果数据库中没有想要数据，就从网络加载
         [self.tableView headerBeginRefreshing];
     } else {
@@ -189,12 +189,14 @@
 #pragma mark 删除旧的post数据
 - (void)removeAllOldPostsFromDatabase
 {
+    /*
     if (_posts.postItems.count > 0) {
         for (Post *p in _posts.postItems) {
             [[ItemStore sharedItemStore].managedObjectContext deleteObject:p];
         }
         [[ItemStore sharedItemStore] saveContext];
     }
+     */
 }
 
 #pragma mark - 开始进入刷新状态
@@ -203,53 +205,68 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
     HomeViewController * __weak weakSelf = self;
-    [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
-        if (isReachable) {  //网络可用
-            [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithHeadRefreshing:YES];
-            [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-                //先删除数据库中的所有post
-                if (error == nil)
-                {
-                    if (posts != nil && (posts.postItems.count > 0))
-                    {
-                        [self removeAllOldPostsFromDatabase];
-                        _posts = posts;
-                        _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
-                        self.tableView.tableHeaderView = nil;
-                        [self.tableView reloadData];
-            
-                    }
-                } //end if(error == nil)
-                
-                [self.tableView headerEndRefreshing];
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            }];
-            [weakSelf.viewModel setHomePageIndex:1];
-            //显示footer
-            [self.tableView setFooterHidden:NO];
-            
-        } else {    //网络不可用
-            
-            [self.tableView headerEndRefreshing];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            if (_posts==nil || _posts.postItems.count ==0) {
-                //添加站位提示view
-                PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
-                self.tableView.tableHeaderView = pView;
-            }
-            [self.tableView setFooterHidden:YES];
-            //提示网络不可用
-            [[ZFQHUD sharedView] showWithMsg:@"网络不可用！" duration:2 completionBlk:^{
-                
-            }];
+    weakSelf.viewModel.headRefreshing = YES;
+    
+    [self.viewModel fetchPostsWithSuccess:^(NSArray<Post *> *postItems) {
+        
+        if (postItems.count > 0)
+        {
+            [self removeAllOldPostsFromDatabase];
+            _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postItems.count];
+            self.tableView.tableHeaderView = nil;
+            [self.tableView reloadData];
             
         }
+        
+    } failure:^(NSError *error) {
+        
     }];
+    
+    /*
+    [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithHeadRefreshing:YES];
+    [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
+        //先删除数据库中的所有post
+        if (error == nil)
+        {
+            if (posts != nil && (posts.postItems.count > 0))
+            {
+                [self removeAllOldPostsFromDatabase];
+                _posts = posts;
+                _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
+                self.tableView.tableHeaderView = nil;
+                [self.tableView reloadData];
+    
+            }
+        } //end if(error == nil)
+        
+        [self.tableView headerEndRefreshing];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }];
+    [weakSelf.viewModel setHomePageIndex:1];
+    //显示footer
+    [self.tableView setFooterHidden:NO];
+    */
+    
+    /*
+    [self.tableView headerEndRefreshing];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    if (_posts==nil || _posts.postItems.count ==0) {
+        //添加站位提示view
+        PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
+        self.tableView.tableHeaderView = pView;
+    }
+    [self.tableView setFooterHidden:YES];
+    //提示网络不可用
+    [[ZFQHUD sharedView] showWithMsg:@"网络不可用！" duration:2 completionBlk:^{
+        
+    }];
+    */
     
 }
 
 - (void)footerRereshing
 {
+    /*
     if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
         //设置网络可用
         [GeneralService setNetworkReachability:YES];
@@ -284,6 +301,7 @@
             
         }];
     }
+     */
 }
 
 #pragma mark - tableView dateSource delegate
@@ -299,14 +317,14 @@
 {
     PostCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     if (cell == nil) {
-        cell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:nil  options:nil][0];
+        cell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:nil options:nil][0];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-    backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f); //RGBCOLOR(51,153,255,1.0f)
+    backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
     cell.selectedBackgroundView = backgroundView;
     
-    cell.post = [_posts.postItems objectAtIndex:indexPath.row]; //indexPath.row
+    cell.post = [_posts.postItems objectAtIndex:indexPath.row];
         
     return cell;
 }
@@ -350,12 +368,13 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
+/*
     if (self.view.superview == nil && self.view.window == nil) {
         self.view = nil;
     }
     
     menu = nil;
+ */
 }
 
 @end
