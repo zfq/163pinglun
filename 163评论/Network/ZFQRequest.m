@@ -8,14 +8,13 @@
 
 #import "ZFQRequest.h"
 #import "MacroDefinition.h"
-
+/*
 @implementation Author
-
 @end
 
 @implementation Post
-
 @end
+*/
 
 @implementation ZFQPostRequest
 
@@ -47,7 +46,18 @@
 
 - (void)response:(id)responseObj
 {
+    if (!responseObj) {
+        return;
+    }
     
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseObj options:0 error:nil];
+    NSMutableArray<Post *> *multArray = [[NSMutableArray alloc] initWithCapacity:array.count];
+    
+    [array enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+        Post *p = [[Post alloc] init];
+        [p readFromJSONDictionary:dict];
+        [multArray addObject:p];
+    }];
 }
 
 @end

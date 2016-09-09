@@ -40,8 +40,4 @@
          successBlk:(void(^)(ZFQBaseRequest *request, id responseObject))successBlk
          failureBlk:(void(^)(ZFQBaseRequest *request, NSError *error))failureBlk;
 
-- (void)sendRequestWithURL:(ZFQBaseRequest *)request
-         successBlk:(void(^)(ZFQBaseRequest *request, id responseObject))successBlk
-         failureBlk:(void(^)(ZFQBaseRequest *request, NSError *error))failureBlk;
-
 @end

@@ -400,6 +400,25 @@
     }];
 }
 
+- (void)testErrorURL
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"errorURL"];
+    NSString *str = @"http://163pinglun.com/http:/163pinglun.com/wp-json/wp/v2/posts";
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:str]];
+
+    ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
+        NSLog(@"----->成功");
+    } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
+        NSLog(@"======>>失败%@",error);
+        [expectation fulfill];
+    }];
+    
+    [operation start];
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        
+    }];
+}
+
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{

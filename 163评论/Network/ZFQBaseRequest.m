@@ -12,6 +12,15 @@
 
 @implementation ZFQBaseRequest
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 ///host地址
 - (NSString *)baseURL
 {
@@ -66,7 +75,7 @@ static ZFQRequestObj *sharedRequestObj = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sharedRequestObj) {
-            sharedRequestObj = [[ZFQRequestObj alloc] init];
+            sharedRequestObj = [super allocWithZone:zone];
         }
     });
     return sharedRequestObj;

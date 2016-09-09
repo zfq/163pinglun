@@ -33,6 +33,9 @@
 #define zfq_CFRelease(cfRef) if (cfRef != NULL) {CFRelease(cfRef);}
 
 //-----------------------程序内-------------------------------
+
+#define NULLSTR(x) ((x == nil || [x isKindOfClass:[NSNull class]]) ? @"" : x)
+
 #define HOST_NAME     @"www.apple.com"
 
 #define kWeiboAppKey  @"1728477038"

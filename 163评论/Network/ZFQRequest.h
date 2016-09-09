@@ -7,7 +7,8 @@
 //
 
 #import "ZFQBaseRequest.h"
-
+#import "Post.h"
+/*
 @interface Author : NSObject
 
 @property (nonatomic, retain) NSString * authorID;      //推荐人ID
@@ -31,7 +32,7 @@
 @property (nonatomic,copy) NSString *nextPostID; //下一篇帖子ID
 
 @end
-
+*/
 
 @interface ZFQPostRequest : ZFQBaseRequest
 
