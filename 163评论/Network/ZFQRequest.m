@@ -22,12 +22,12 @@
 {
     NSString *urlStr = nil;
     if (_tagName.length > 0) {
-        urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",HOSTURL,_tagName,_currPageIndex];
+        urlStr = [NSString stringWithFormat:@"/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",_tagName,_currPageIndex];
     } else {
         if (_headRefreshing) {
-            urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts",HOSTURL];
+            urlStr = @"/wp-json/wp/v2/posts";
         } else {
-            urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2?page=%zi",HOSTURL,_homePageIndex];
+            urlStr = [NSString stringWithFormat:@"/wp-json/wp/v2?page=%zi",_homePageIndex];
         }
     }
     urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -58,6 +58,8 @@
         [p readFromJSONDictionary:dict];
         [multArray addObject:p];
     }];
+    
+    self.postItems = multArray;
 }
 
 @end

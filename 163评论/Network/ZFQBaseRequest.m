@@ -122,6 +122,11 @@ static ZFQRequestObj *sharedRequestObj = nil;
     
     //3.发送请求
     [ZFQURLOperationManager sendRequestWithURL:urlStr httpMethod:request.httpMethod params:mulParam successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
+        
+        //4.解析数据
+        [request response:data];
+        
+        //5.成功回调
         if (successBlk) {
             successBlk(request,data);
         }
