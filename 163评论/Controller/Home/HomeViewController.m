@@ -31,13 +31,13 @@
 {
     NSInteger _homePageIndex;
     UITableViewCell *_prototypeCell;        //预留一个用来计算高度
-    NSMutableDictionary *_cellsHeightDic;   //所有cell的高度
    
     NSInteger tagPageIndex;
     
     MenuView *menu;                     //菜单
 }
 @property (nonatomic) HomeViewModel *viewModel;
+@property (nonatomic,strong) NSMutableDictionary *cellsHeightDic; //所有cell的高度
 @end
 
 @implementation HomeViewController
@@ -171,6 +171,7 @@
 #pragma mark - fetch posts
 - (void)fetchPostFromDatabase
 {
+    /*
 //    NSArray *postArray = [[ItemStore sharedItemStore] fetchAllPostsFromDatabase];
     NSArray *postArray = nil;
     if (postArray == nil || postArray.count==0) {   //如果数据库中没有想要数据，就从网络加载
@@ -183,7 +184,7 @@
             self.tableView.tableHeaderView = nil;
             [self.tableView reloadData];
         } 
-    }
+    }*/
 }
 
 #pragma mark 删除旧的post数据
@@ -205,23 +206,23 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
     HomeViewController * __weak weakSelf = self;
-    weakSelf.viewModel.headRefreshing = YES;
+    self.viewModel.headRefreshing = YES;
     
-    [self.viewModel fetchPostsWithSuccess:^(NSArray<Post *> *postItems) {
-        
-        if (postItems.count > 0)
-        {
-            [self removeAllOldPostsFromDatabase];
-            _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postItems.count];
-            self.tableView.tableHeaderView = nil;
-            [self.tableView reloadData];
-            
+    [self.viewModel fetchPostsWithCompletion:^(NSArray<Post *> *postItems, NSError *error) {
+        [weakSelf.tableView headerEndRefreshing];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        if (error) {
+            NSLog(@"失败:%@",error);
+        } else {
+            if (postItems.count > 0) {
+                [weakSelf removeAllOldPostsFromDatabase];
+                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postItems.count];
+                weakSelf.tableView.tableHeaderView = nil;
+                [weakSelf.tableView reloadData];
+            }
         }
-        
-    } failure:^(NSError *error) {
-        
     }];
-    
+
     /*
     [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithHeadRefreshing:YES];
     [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
@@ -307,10 +308,11 @@
 #pragma mark - tableView dateSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_posts == nil)
+    NSLog(@"%zi",_viewModel.postItems.count);
+    if (_viewModel.postItems == nil)
 		return 0;
 	else
-        return _posts.postItems.count;
+        return _viewModel.postItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -324,7 +326,7 @@
     backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
     cell.selectedBackgroundView = backgroundView;
     
-    cell.post = [_posts.postItems objectAtIndex:indexPath.row];
+    cell.post = [_viewModel.postItems objectAtIndex:indexPath.row];
         
     return cell;
 }
@@ -337,7 +339,7 @@
     if (height != nil) {
         return height.floatValue;
     } else {
-        Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
+        Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
         PostCell *tempCell = (PostCell *)_prototypeCell;
         tempCell.excerpt.text = tempPost.excerpt;
         CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
@@ -348,8 +350,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Post *tempPost = [_posts.postItems objectAtIndex:indexPath.row];
-    CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_posts.postItems beginIndex:indexPath.row];
+    Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
+    CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_viewModel.postItems beginIndex:indexPath.row];
     cVC.title = tempPost.title;
     cVC.myTitleLabel.text = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];

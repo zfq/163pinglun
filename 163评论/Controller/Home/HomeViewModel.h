@@ -14,6 +14,7 @@
 @property (nonatomic,copy) NSString *tagName;
 @property (nonatomic,assign) BOOL headRefreshing;
 @property (nonatomic,assign) NSInteger homePageIndex;
+@property (nonatomic,copy,readonly) NSArray<Post *> *postItems;
 
 @property (nonatomic,copy) void (^latestPostRefreshBlk)(void);
 
@@ -28,7 +29,6 @@
 //- (NSString *)postUrlWithHeadRefreshing:(BOOL)headRefreshing;
 
 
-
-- (void)fetchPostsWithSuccess:(void (^)(NSArray<Post *> *postItems))successBlk failure:(void (^)(NSError *error))failureBlk;
+- (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSError *error))completionBlk;
 
 @end

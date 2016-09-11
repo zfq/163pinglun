@@ -14,6 +14,7 @@
     NSInteger _currPageIndex;
     NSInteger _homePageIndex;
 }
+@property (nonatomic,copy,readwrite) NSArray<Post *> *postItems;
 @end
 
 @implementation HomeViewModel
@@ -113,7 +114,7 @@
     }
 }
 
-- (void)fetchPostsWithSuccess:(void (^)(NSArray<Post *> *postItems))successBlk failure:(void (^)(NSError *error))failureBlk
+- (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSError *error))completionBlk
 {
     [self settingPageIndex];
     
@@ -125,12 +126,13 @@
     
     [[ZFQRequestObj sharedInstance] sendRequest:postReq successBlk:^(ZFQBaseRequest *request, id responseObject) {
         ZFQPostRequest *req = (ZFQPostRequest *)request;
-        if (successBlk) {
-            successBlk(req.postItems);
+        self.postItems = req.postItems;
+        if (completionBlk) {
+            completionBlk(req.postItems,nil);
         }
     } failureBlk:^(ZFQBaseRequest *request, NSError *error) {
-        if (failureBlk) {
-            failureBlk(error);
+        if (completionBlk) {
+            completionBlk(nil,error);
         }
     }];
 }

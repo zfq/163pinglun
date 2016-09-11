@@ -13,6 +13,5 @@
 @interface HomeViewController : FQBaseViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) Posts *posts;
 
 @end
