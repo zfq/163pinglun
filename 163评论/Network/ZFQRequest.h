@@ -37,7 +37,7 @@
 @interface ZFQPostRequest : ZFQBaseRequest
 
 //辅助参数
-@property (nonatomic,assign) NSInteger currPageIndex;
+@property (nonatomic,assign) NSInteger tagPageIndex;
 @property (nonatomic,assign) NSInteger homePageIndex;
 @property (nonatomic,assign) BOOL headRefreshing;
 @property (nonatomic,copy) NSString *tagName;

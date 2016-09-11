@@ -267,6 +267,25 @@
 
 - (void)footerRereshing
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    HomeViewController * __weak weakSelf = self;
+    self.viewModel.headRefreshing = NO;
+    
+    [self.viewModel fetchPostsWithCompletion:^(NSArray<Post *> *postItems, NSError *error) {
+        [weakSelf.tableView footerEndRefreshing];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        if (error) {
+            NSLog(@"失败:%@",error);
+        } else {
+            if (postItems.count > 0) {
+                [weakSelf.viewModel.postItems addObjectsFromArray:postItems];
+                
+                weakSelf.tableView.tableHeaderView = nil;
+                [weakSelf.tableView reloadData];
+            }
+        }
+    }];
     /*
     if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
         //设置网络可用
@@ -308,7 +327,6 @@
 #pragma mark - tableView dateSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%zi",_viewModel.postItems.count);
     if (_viewModel.postItems == nil)
 		return 0;
 	else

@@ -11,15 +11,22 @@
 
 @interface HomeViewModel()
 {
-    NSInteger _currPageIndex;
+    NSInteger _tagPageIndex;
     NSInteger _homePageIndex;
 }
-@property (nonatomic,copy,readwrite) NSArray<Post *> *postItems;
 @end
 
 @implementation HomeViewModel
 @synthesize tagName = _tagName;
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _homePageIndex = 1;
+    }
+    return self;
+}
 #pragma mark - getter setter方法
 
 - (NSString *)tagName
@@ -74,13 +81,10 @@
     NSString *urlStr;
     if (self.tagName != nil) {
         if (headRefreshing)
-            _currPageIndex = 1;
+            _tagPageIndex = 1;
         else
-            _currPageIndex ++;
-        /*
-        urlStr = [NSString stringWithFormat:@"%@/index.php?json_route=/posts&filter[tag]=%@&page=%zi",HOSTURL,self.tagName,_currPageIndex];
-         */
-        urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",HOSTURL,self.tagName,_currPageIndex];
+            _tagPageIndex ++;
+        urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",HOSTURL,self.tagName,_tagPageIndex];
     } else {
         if (headRefreshing) {
             urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts",HOSTURL]; //  @"http://163pinglun.com/wp-json/posts";
@@ -101,9 +105,9 @@
 {
     if (_tagName != nil) {
         if (_headRefreshing)
-            _currPageIndex = 1;
+            _tagPageIndex = 1;
         else
-            _currPageIndex ++;
+            _tagPageIndex ++;
     } else {
         if (_headRefreshing) {
             
@@ -121,12 +125,18 @@
     ZFQPostRequest *postReq = [[ZFQPostRequest alloc] init];
     postReq.headRefreshing = self.headRefreshing;
     postReq.tagName = self.tagName;
-    postReq.currPageIndex = _currPageIndex;
+    postReq.tagPageIndex = _tagPageIndex;
     postReq.homePageIndex = _homePageIndex;
     
     [[ZFQRequestObj sharedInstance] sendRequest:postReq successBlk:^(ZFQBaseRequest *request, id responseObject) {
         ZFQPostRequest *req = (ZFQPostRequest *)request;
-        self.postItems = req.postItems;
+        
+        if (req.headRefreshing == YES) {
+            if (!self.postItems) {
+                self.postItems = [[NSMutableArray alloc] initWithArray:req.postItems];
+            }
+        }
+        
         if (completionBlk) {
             completionBlk(req.postItems,nil);
         }
