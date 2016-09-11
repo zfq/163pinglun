@@ -22,12 +22,12 @@
 {
     NSString *urlStr = nil;
     if (_tagName.length > 0) {
-        urlStr = [NSString stringWithFormat:@"/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",_tagName,_currPageIndex];
+        urlStr = [NSString stringWithFormat:@"wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",_tagName,_currPageIndex];
     } else {
         if (_headRefreshing) {
-            urlStr = @"/wp-json/wp/v2/posts";
+            urlStr = @"wp-json/wp/v2/posts";
         } else {
-            urlStr = [NSString stringWithFormat:@"/wp-json/wp/v2?page=%zi",_homePageIndex];
+            urlStr = [NSString stringWithFormat:@"wp-json/wp/v2/posts?page=%zi",_homePageIndex];
         }
     }
     urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

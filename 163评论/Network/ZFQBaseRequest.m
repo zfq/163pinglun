@@ -110,6 +110,7 @@ static ZFQRequestObj *sharedRequestObj = nil;
 {
     //1.创建请求路径
     NSString *urlStr = [self makeURLWithRequest:request];
+    ZFQLog(@"%@",urlStr);
     
     //2.创建请求参数
     NSDictionary *param = [request requestParam];
