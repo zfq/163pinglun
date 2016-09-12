@@ -8,6 +8,7 @@
 
 #import "ZFQBaseRequest.h"
 #import "Post.h"
+#import "Content.h"
 /*
 @interface Author : NSObject
 
@@ -44,5 +45,15 @@
 
 //返回结果
 @property (nonatomic,copy) NSArray<Post *> *postItems;
+
+@end
+
+@interface ZFQCommentRequest : ZFQBaseRequest
+
+//请求参数
+@property (nonatomic,copy) NSString *postID;
+
+//返回结果
+@property (nonatomic,copy) NSArray<NSArray *> *contentsItems;
 
 @end

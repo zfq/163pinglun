@@ -12,16 +12,6 @@
 
 @implementation Content
 
-@dynamic user;
-@dynamic email;
-@dynamic content;
-@dynamic time;
-@dynamic postID;
-@dynamic groupID;
-@dynamic floorIndex;
-@dynamic preAllRows;
-@dynamic currRows;
-
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
     self.user = [[dictionary objectForKey:@"f"] stringByConvertingHTMLToPlainText];

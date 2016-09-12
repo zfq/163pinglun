@@ -59,3 +59,69 @@
 }
 
 @end
+
+
+@implementation ZFQCommentRequest
+
+- (NSString *)pathURL
+{
+    return [NSString stringWithFormat:@"wp-json/wp/v2/comments?post=%@",_postID];;
+}
+
+- (NSString *)httpMethod
+{
+    return @"GET";
+}
+
+- (NSDictionary *)requestParam
+{
+    return nil;
+}
+
+- (void)response:(id)responseObj
+{
+    if (!responseObj) {
+        return;
+    }
+    
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseObj options:0 error:nil];
+    NSMutableArray<NSArray *> *multArray = [[NSMutableArray alloc] initWithCapacity:array.count];
+    
+    BOOL isDel = NO;
+    NSInteger preAllRows = 0;
+    for (NSInteger i = 0; i < array.count; i++)
+    {
+         NSDictionary *dict = array[i];
+         NSArray *comments = dict[@"content"];
+         NSNumber *postID = dict[@"post"];
+         NSNumber *groupID = dict[@"id"];
+         NSInteger count = comments.count;
+         //从数据库中删除postID的所有content,再把新的content添加进去
+         if (isDel == NO) {
+        //             [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
+             isDel = YES;
+         }
+         
+        NSInteger currRows = 0;
+        if (count > 0) currRows = (count == 1) ? 1 : (count+1);
+        NSMutableArray<Content *> *tempArray = [[NSMutableArray alloc] initWithCapacity:array.count];
+        
+        for (NSInteger j = 0; j < count; j++) {
+             Content *c = [[Content alloc] init];
+             [c readFromJSONDictionary:comments[j] apiVersion:nil];
+             c.postID = postID;
+             c.groupID = groupID;
+             c.floorIndex = [NSNumber numberWithInteger:(j+1)];
+             c.currRows = [NSNumber numberWithInteger:currRows];
+             c.preAllRows = [NSNumber numberWithInteger:preAllRows];
+             [tempArray addObject:c];
+         }
+        
+        [multArray addObject:tempArray];
+        preAllRows += currRows;
+    }
+
+    self.contentsItems = multArray;
+}
+
+@end

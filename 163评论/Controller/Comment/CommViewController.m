@@ -20,6 +20,7 @@
 #import "NSString+Addition.h"
 #import "UIButton+menuItem.h"
 #import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
+#import "CommViewModel.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -34,6 +35,7 @@
 @property (nonatomic,assign) NSInteger beginIndex;  //开始显示的帖子的索引
 @property (nonatomic,strong) Post *post;
 
+@property (nonatomic,strong) CommViewModel *viewModel;
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic;
 @property (nonatomic,strong) NSMutableDictionary *cellsDic;
 @property (nonatomic,strong) ZFQMenuObject *menuObject;
@@ -59,6 +61,8 @@
 {
 	[super viewDidLoad];
 
+    _viewModel = [[CommViewModel alloc] init];
+    
     UIColor *tintColor = [[UINavigationBar appearance] tintColor];
     
     //1. 添加返回按钮
@@ -249,6 +253,18 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     __weak typeof(self) weakSelf = self;
+    
+    [_viewModel fetchCommentsWithPostID:postId completion:^(NSArray<NSArray *> *contents, NSError *error) {
+        if (error) {
+            //如果数据库存在 就从数据库中读取，否则就显示错误提示
+        } else {
+            weakSelf.post = weakSelf.postItems[_beginIndex];
+            [weakSelf updateHeaderLabelWithPost:weakSelf.post];
+            [weakSelf updateUI];
+            if (blk) blk();
+        }
+    }];
+    /*
     [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:postId];
     
     [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
@@ -264,15 +280,15 @@
             [weakSelf fetchCommentFromDBWithPostId:postId completion:blk];
         }
     }];
+     */
 }
 
 //根据解析结果来更新UI
-- (void)updateUIWithContents:(Contents *)contents
+- (void)updateUI
 {
     //计算cell高度
-    self.contents = contents;
-    self.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
-    self.cellsDic = [NSMutableDictionary dictionaryWithCapacity:contents.contentItems.count];
+    self.cellsHeightDic = [[NSMutableDictionary alloc] init];
+    self.cellsDic = [[NSMutableDictionary alloc] init];
     [self caculatorHeight];
     
     //更新UI
@@ -283,6 +299,7 @@
 //从数据库读取跟帖
 - (void)fetchCommentFromDBWithPostId:(NSString *)postId completion:(void (^)())blk
 {
+    /*
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     __weak typeof(self) weakSelf = self;
     [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:postId completion:^(NSArray *contents) {
@@ -297,6 +314,7 @@
         //回调
         if (blk) blk();
     }];
+     */
 }
 
 - (NSString *)commentUrlWithPostId:(NSString *)postId
@@ -317,7 +335,7 @@
     NSInteger preCount = 0;
     NSInteger temp = 0;
     
-    for (NSArray *array in _contents.contentItems) {
+    for (NSArray *array in _viewModel.contentItems) {
         preCount = count;
         if (array.count == 0)
             temp = 0;
@@ -476,6 +494,7 @@
 #pragma mark - 重新加载
 - (void)reloadContents:(UIControl *)control
 {
+    /*
     __block UIControl *weakControl = control;
     CommViewController *__weak weakSelf = self;
     [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
@@ -499,19 +518,19 @@
             }];
         }
     }];
-   
+   */
 }
 
 #pragma mark - UITableView dataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (_contents == nil)
+	if (_viewModel.contentItems == nil)
 		return 0;
     else {
         //cell行数
         int count = 0;
-        for (NSArray *arry in _contents.contentItems) {
+        for (NSArray *arry in _viewModel.contentItems) {
             if (arry.count == 1)
                 count += 1;
             else if (arry.count > 1)

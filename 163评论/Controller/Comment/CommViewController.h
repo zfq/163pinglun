@@ -16,9 +16,6 @@
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) UIButton *backBtn;
 @property (nonatomic,strong) NSString *myTitle;
-@property (nonatomic,strong) Contents *contents;
-
-
 
 - (instancetype)initWithPostItems:(NSArray<Post *> *)postItems beginIndex:(NSInteger)index;
 

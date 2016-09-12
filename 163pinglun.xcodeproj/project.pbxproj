@@ -13,6 +13,7 @@
 		1F0AF43A1C26CAB200738551 /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4331C26CAB200738551 /* comment.bundle */; };
 		1F0AF43C1C26CAB200738551 /* setting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4361C26CAB200738551 /* setting.plist */; };
 		1F0AF43D1C26CAB200738551 /* tagColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4371C26CAB200738551 /* tagColor.plist */; };
+		1F1AF1401D86F21D00819DDB /* CommViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AF13F1D86F21D00819DDB /* CommViewModel.m */; };
 		1F1B46531D75CEB3005AD69C /* _63pinglunUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B46521D75CEB3005AD69C /* _63pinglunUnitTests.m */; };
 		1F1FBEA61C4D3BA20037A62E /* ZFQMenuObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1FBEA51C4D3BA20037A62E /* ZFQMenuObject.m */; };
 		1F36EF911D581EB800B25932 /* ZFQSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F36EF8C1D581EB800B25932 /* ZFQSliderControl.m */; };
@@ -160,6 +161,8 @@
 		1F0AF4331C26CAB200738551 /* comment.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = comment.bundle; sourceTree = "<group>"; };
 		1F0AF4361C26CAB200738551 /* setting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = setting.plist; sourceTree = "<group>"; };
 		1F0AF4371C26CAB200738551 /* tagColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagColor.plist; sourceTree = "<group>"; };
+		1F1AF13E1D86F21D00819DDB /* CommViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommViewModel.h; sourceTree = "<group>"; };
+		1F1AF13F1D86F21D00819DDB /* CommViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommViewModel.m; sourceTree = "<group>"; };
 		1F1B46501D75CEB2005AD69C /* 163pinglunUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 163pinglunUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1B46521D75CEB3005AD69C /* _63pinglunUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _63pinglunUnitTests.m; sourceTree = "<group>"; };
 		1F1B46541D75CEB3005AD69C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -893,6 +896,8 @@
 				1F74C79E1C4894B2005D74B9 /* CommCell5.m */,
 				1F1FBEA41C4D3BA20037A62E /* ZFQMenuObject.h */,
 				1F1FBEA51C4D3BA20037A62E /* ZFQMenuObject.m */,
+				1F1AF13E1D86F21D00819DDB /* CommViewModel.h */,
+				1F1AF13F1D86F21D00819DDB /* CommViewModel.m */,
 				1F3DF2151C25464E00DC8F07 /* CommViewController.h */,
 				1F3DF2161C25464E00DC8F07 /* CommViewController.m */,
 				1F3DF2171C25464E00DC8F07 /* CommViewController.xib */,
@@ -1353,6 +1358,7 @@
 				1F3DF2421C25464E00DC8F07 /* TagViewController.m in Sources */,
 				1F36EFB31D58204D00B25932 /* MASViewConstraint.m in Sources */,
 				1F3DF1A31C25423200DC8F07 /* UIButton+menuItem.m in Sources */,
+				1F1AF1401D86F21D00819DDB /* CommViewModel.m in Sources */,
 				1F3DF1721C25423200DC8F07 /* MJRefreshConst.m in Sources */,
 				1F3DF1811C25423200DC8F07 /* TagScrollView.m in Sources */,
 				1F3DF1661C25423200DC8F07 /* FQDisplayView.m in Sources */,

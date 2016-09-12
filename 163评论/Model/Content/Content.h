@@ -12,15 +12,16 @@
 
 @class Post;
 
-@interface Content : NSManagedObject <JSONSerializable>
+@interface Content : NSObject <JSONSerializable>
 
-@property (nonatomic, retain) NSString * user;
-@property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSString * content;
-@property (nonatomic, retain) NSString * time;
-@property (nonatomic, retain) NSNumber *postID;
-@property (nonatomic, retain) NSNumber *groupID;
-@property (nonatomic, retain) NSNumber *floorIndex;
-@property (nonatomic, retain) NSNumber *preAllRows;
-@property (nonatomic, retain) NSNumber *currRows;
+@property (nonatomic, copy) NSString *user;
+@property (nonatomic, copy) NSString *email;
+@property (nonatomic, copy) NSString *content;
+@property (nonatomic, copy) NSString *time;
+@property (nonatomic, strong) NSNumber *postID;
+@property (nonatomic, strong) NSNumber *groupID;
+@property (nonatomic, strong) NSNumber *floorIndex;
+@property (nonatomic, strong) NSNumber *preAllRows;
+@property (nonatomic, strong) NSNumber *currRows;
+
 @end
