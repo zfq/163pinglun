@@ -8,6 +8,7 @@
 
 #import "HomeViewModel.h"
 #import "MacroDefinition.h"
+#import "ItemStore.h"
 
 @interface HomeViewModel()
 {
@@ -136,6 +137,9 @@
                 self.postItems = [[NSMutableArray alloc] initWithArray:req.postItems];
             }
         }
+        
+        //保存数据
+        [ItemStore savePost:req.postItems];
         
         if (completionBlk) {
             completionBlk(req.postItems,nil);

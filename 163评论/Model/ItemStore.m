@@ -17,6 +17,13 @@
 #import "RandomPost.h"
 #import "RandomPosts.h"
 #import "MacroDefinition.h"
+#import <FMDB.h>
+
+#define kPLPostTable @"PLPost"  //Post表
+#define kPLCommentTable @"PLComment"    //Comment表
+#define kPLTagTable @"PLTag"    //Tag表
+#define kPLAuthor @"PLAuthor"   //Author表
+
 
 @interface ItemStore()
 {
@@ -40,26 +47,163 @@
     return sharedItemStore;
 }
 
++ (NSString *)databasePath
+{
+    NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    return [documentPath stringByAppendingPathComponent:@"163pinglun.db"];
+}
+
++ (FMDatabaseQueue *)dbQueue
+{
+    static FMDatabaseQueue *dbQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dbQueue = [FMDatabaseQueue databaseQueueWithPath:[self databasePath]];
+    });
+    
+    return dbQueue;
+}
+
++ (BOOL)initDB
+{
+    NSLog(@"%@",[self databasePath]);
+    //打开数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:[self databasePath]];
+    if (![db open]) return NO;
+    
+    //
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+       
+        //创建表格
+        NSString *postSQL = @" \
+        CREATE TABLE IF NOT EXISTS PLPost \
+        ( \
+        postID TEXT PRIMARY KEY, \
+        nextPostID TEXT, \
+        prePostID TEXT, \
+        date TEXT, \
+        excerpt TEXT, \
+        tag TEXT, \
+        title TEXT, \
+        views INTEGER \
+        );";
+        
+        if ([db executeUpdate:postSQL]) {
+            NSLog(@"建表post成功");
+        } else {
+            NSLog(@"建表post失败");
+        }
+        
+        NSString *commentSQL = @" \
+        CREATE TABLE IF NOT EXISTS PLComment \
+        ( \
+        content TEXT , \
+        currRows INTEGER, \
+        email TEXT, \
+        floorIndex INTEGER, \
+        groupID INTEGER, \
+        postID TEXT, \
+        preAllRows TEXT, \
+        time TEXT, \
+        user TEXT \
+        );";
+        
+        if ([db executeUpdate:commentSQL]) {
+            NSLog(@"建表comment成功");
+        } else {
+            NSLog(@"建表comment失败");
+        }
+        
+        NSString *tagSQL = @" \
+        CREATE TABLE IF NOT EXISTS PLTag \
+        ( \
+        tagID INTEGER PRIMARY KEY, \
+        tagIndex INTEGER, \
+        tagName TEXT, \
+        count INTEGER, \
+        tagSlug TEXT \
+        );";
+        
+        if ([db executeUpdate:tagSQL]) {
+            NSLog(@"建表tag成功");
+        } else {
+            NSLog(@"建表tag失败");
+        }
+
+        NSString *authorSQL = @" \
+        CREATE TABLE IF NOT EXISTS PLAuthor \
+        ( \
+        authorID TEXT PRIMARY KEY, \
+        authorName TEXT, \
+        authorSlug TEXT \
+        );";
+        
+        if ([db executeUpdate:authorSQL]) {
+            NSLog(@"建表author成功");
+        } else {
+            NSLog(@"建表author失败");
+        }
+    }];
+    return YES;
+}
+
++ (BOOL)savePost:(NSArray<Post *> *)posts
+{
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+       
+        //拼接insert语句
+        NSMutableString *mutStr = [[NSMutableString alloc] init];
+        [mutStr appendString:@"INSERT INTO PLPost (postID,nextPostID,prePostID,date,excerpt,tag,title,views)"];
+        
+        if (posts.count > 0) {
+            Post *obj = posts[0];
+            [mutStr appendFormat:@"select '%@' AS postID,'%@' AS nextPostID, '%@' AS prePostID, '%@' AS date, '%@' AS excerpt, '%@' AS tag, '%@' AS title, %@ AS views",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+            for (NSInteger i = 1; i < posts.count; i++) {
+                obj = posts[i];
+                [mutStr appendFormat:@" UNION SELECT '%@','%@','%@','%@','%@','%@','%@','%@'",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+            }
+        }
+        
+        if ([db executeUpdate:mutStr]) {
+            NSLog(@"插入post成功");
+        } else {
+            NSLog(@"插入post失败");
+        }
+        
+        
+    }];
+    return YES;
+}
+
 #pragma mark - create
 - (Tag *)createTag
 {
+    /*
     return [NSEntityDescription insertNewObjectForEntityForName:@"Tag"
                                          inManagedObjectContext:self.managedObjectContext];
+     */
+    return nil;
 }
 
 - (Post *)createPost
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];;
+    return nil;
+//    return [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];;
 }
 
 - (Content *)createContent
 {
+    return nil;
+    /*
     return [NSEntityDescription insertNewObjectForEntityForName:@"Content"
                                          inManagedObjectContext:self.managedObjectContext];
+     */
 }
 
 - (Author *)createAuthorWithAuthorID:(NSNumber *)authorID
 {
+    return nil;
+    /*
     Author *author = [self searchAuthorWithAuthorID:authorID];
     if (author == nil) {
         author = [NSEntityDescription insertNewObjectForEntityForName:@"Author" inManagedObjectContext:self.managedObjectContext];
@@ -68,6 +212,7 @@
     } else {
         return author;
     }
+     */
 }
 
 - (Author *)searchAuthorWithAuthorID:(NSNumber *)authorID

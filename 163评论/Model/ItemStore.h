@@ -21,6 +21,12 @@
 
 + (ItemStore*)sharedItemStore;
 
+
++ (NSString *)databasePath;
++ (BOOL)savePost:(NSArray<Post *> *)posts;
+
++ (BOOL)initDB;
+
 /* 创建数据对象 */
 - (Tag *)createTag;
 - (Post *)createPost;

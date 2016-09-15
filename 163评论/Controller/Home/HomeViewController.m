@@ -26,6 +26,7 @@
 #import "PlaceholderView.h"
 #import "MacroDefinition.h"
 #import "HomeViewModel.h"
+#import "ItemStore.h"
 
 @interface HomeViewController () <TagViewControllerDelegate>
 {
@@ -91,6 +92,9 @@
     if (!_prototypeCell) {
         _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     }
+    
+    //初始化数据库
+    [ItemStore initDB];
     
     //集成刷新控件
     [self setupRefresh];

@@ -15,17 +15,6 @@
 #define kPostValidationPostOrExceptCode 1001
 
 @implementation Post
-/*
-@dynamic postID;
-@dynamic tag;
-@dynamic title;
-@dynamic excerpt;
-@dynamic views;
-@dynamic date;
-@dynamic inAuthor;
-@dynamic prevPostID;
-@dynamic nextPostID;
-*/
 
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
