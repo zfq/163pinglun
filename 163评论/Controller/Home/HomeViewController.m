@@ -175,6 +175,8 @@
 #pragma mark - fetch posts
 - (void)fetchPostFromDatabase
 {
+    NSArray *dbPost = [ItemStore readPostsFromIndex:0 toIndex:10];
+    [self.viewModel.postItems addObjectsFromArray:dbPost];
     /*
 //    NSArray *postArray = [[ItemStore sharedItemStore] fetchAllPostsFromDatabase];
     NSArray *postArray = nil;

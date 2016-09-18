@@ -46,7 +46,7 @@
 
     _time.text = post.date;
     
-    _views.text = [NSString stringWithFormat:@"已有%ld人浏览",(long)[post.views integerValue]];
+    _views.text = [NSString stringWithFormat:@"已有%ld人浏览",(long)post.views];
     _excerpt.text = post.excerpt;
 }
 

@@ -77,6 +77,14 @@
     _homePageIndex = homePageIndex;
 }
 
+- (NSMutableArray<Post *> *)postItems
+{
+    if (!_postItems) {
+        _postItems = [[NSMutableArray alloc] init];
+    }
+    return _postItems;
+}
+
 - (NSString *)postUrlWithHeadRefreshing:(BOOL)headRefreshing
 {
     NSString *urlStr;
@@ -133,16 +141,27 @@
         ZFQPostRequest *req = (ZFQPostRequest *)request;
         
         if (req.headRefreshing == YES) {
-            if (!self.postItems) {
-                self.postItems = [[NSMutableArray alloc] initWithArray:req.postItems];
-            }
+//            if (!self.postItems) {
+//                self.postItems = [[NSMutableArray alloc] initWithArray:req.postItems];
+//            }
         }
         
+        if (!_postItems) {
+            _postItems = [[NSMutableArray alloc] init];
+        }
         //保存数据
-        [ItemStore savePost:req.postItems];
+        [ItemStore savePost:req.postItems originAllPosts:self.postItems];
+        
+        if (self.homePageIndex == 1) {
+            [self.postItems removeAllObjects];
+        }
+        
+        //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
+        NSArray *dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
+        [self.postItems addObjectsFromArray:dbPosts];
         
         if (completionBlk) {
-            completionBlk(req.postItems,nil);
+            completionBlk(self.postItems,nil);
         }
     } failureBlk:^(ZFQBaseRequest *request, NSError *error) {
         if (completionBlk) {
