@@ -93,7 +93,7 @@
     
     NSDictionary *post_metaDic = [dictionary objectForKey:@"post_meta"];
     NSString *viewsStr= [[post_metaDic objectForKey:@"views"] objectAtIndex:0];
-    self.views = [NSNumber numberWithInteger:[viewsStr integerValue]];
+    self.views = [viewsStr integerValue];
     
     NSDictionary *termsDic = [dictionary objectForKey:@"terms"];
     NSArray *post_tagArray= termsDic[@"tages"];
