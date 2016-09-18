@@ -147,32 +147,159 @@
     return YES;
 }
 
-+ (BOOL)savePost:(NSArray<Post *> *)posts
++ (BOOL)savePost:(NSArray<Post *> *)posts {return YES;};
+
++ (NSArray *)filterPost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts
 {
+    //筛选出交集和新增的post
+    NSMutableArray *insertPosts = [[NSMutableArray alloc] init];
+    NSMutableArray *existPosts = [[NSMutableArray alloc] init];
+    
+    NSArray *A = newPosts;
+    NSArray *B = originPosts;
+    
+    NSInteger pA = 0,pB = 0;
+    
+    NSString *tempIdA, *tempIdB;
+    
+    while (pA < A.count) {
+        tempIdA = [(Post *)A[pA] postID];
+        
+        if (pB < B.count) {
+            tempIdB = [(Post *)B[pB] postID];
+        }
+        
+        NSComparisonResult result = (tempIdB == nil) ? NSOrderedDescending : [tempIdA compare:tempIdB];
+        if (result == NSOrderedAscending) {  //如果b大
+            pA++;
+        } else if (result == NSOrderedDescending) { //如果a大,说明此时pA所指的post是新增的
+            [insertPosts addObject:A[pA]];
+            pB++;
+        } else {
+            [existPosts addObject:A[pA]];
+            
+            pA++;
+            pB++;
+        }
+    }
+
+    return @[insertPosts,existPosts];
+}
+
++ (BOOL)savePost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts
+{
+    
+    //筛选出交集和新增的post
+    NSMutableArray *insertPosts = [[NSMutableArray alloc] init];    //A中除去交集的部分
+    NSMutableArray *existPosts = [[NSMutableArray alloc] init];     //交集
+    
+    NSArray *A = newPosts;
+    NSArray *B = originPosts;
+    
+    NSInteger pA = 0,pB = 0;
+    
+    NSString *tempIdA, *tempIdB;
+    
+    while (pA < A.count) {
+        tempIdA = [(Post *)A[pA] postID];
+        
+        if (pB < B.count) {
+            tempIdB = [(Post *)B[pB] postID];
+        }
+        
+        NSComparisonResult result = (tempIdB == nil) ? NSOrderedDescending : [tempIdA compare:tempIdB];
+        if (result == NSOrderedAscending) {  //如果b大
+            pA++;
+        } else if (result == NSOrderedDescending) { //如果a大,说明此时pA所指的post是新增的
+            [insertPosts addObject:A[pA]];
+            pB++;
+            pA++;
+        } else {
+            [existPosts addObject:A[pA]];
+            
+            pA++;
+            pB++;
+        }
+    }
+    
+    //执行SQL
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
        
-        //拼接insert语句
-        NSMutableString *mutStr = [[NSMutableString alloc] init];
-        [mutStr appendString:@"INSERT INTO PLPost (postID,nextPostID,prePostID,date,excerpt,tag,title,views)"];
+        //1.只插入新增的帖子
         
-        if (posts.count > 0) {
-            Post *obj = posts[0];
-            [mutStr appendFormat:@"select '%@' AS postID,'%@' AS nextPostID, '%@' AS prePostID, '%@' AS date, '%@' AS excerpt, '%@' AS tag, '%@' AS title, %@ AS views",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
-            for (NSInteger i = 1; i < posts.count; i++) {
-                obj = posts[i];
-                [mutStr appendFormat:@" UNION SELECT '%@','%@','%@','%@','%@','%@','%@','%@'",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+        if (insertPosts.count > 0) {
+            NSMutableString *mutStr = [[NSMutableString alloc] init];
+            [mutStr appendString:@"INSERT INTO PLPost (postID,nextPostID,prePostID,date,excerpt,tag,title,views)"];
+            
+            Post *obj = insertPosts[0];
+            [mutStr appendFormat:@"select '%@' AS postID,'%@' AS nextPostID, '%@' AS prePostID, '%@' AS date, '%@' AS excerpt, '%@' AS tag, '%@' AS title, %ld AS views",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+            for (NSInteger i = 1; i < insertPosts.count; i++) {
+                obj = insertPosts[i];
+                [mutStr appendFormat:@" UNION SELECT '%@','%@','%@','%@','%@','%@','%@','%ld'",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+            }
+            [mutStr appendString:@";"];
+            
+            if ([db executeUpdate:mutStr]) {
+                NSLog(@"插入post成功");
+            } else {
+                NSLog(@"插入post失败");
             }
         }
         
-        if ([db executeUpdate:mutStr]) {
-            NSLog(@"插入post成功");
-        } else {
-            NSLog(@"插入post失败");
+        //2.更新已存在的帖子的浏览量
+        if (existPosts.count > 0) {
+            NSMutableString *mulStr = [[NSMutableString alloc] init];
+            NSMutableString *tmpMulStr = [[NSMutableString alloc] init];
+            [mulStr appendString:@"UPDATE PLPost SET views = CASE postID"];
+            Post *obj = nil;
+            for (NSInteger i = 0; i < existPosts.count; i++) {
+                obj = existPosts[i];
+                [mulStr appendFormat:@" WHEN %@ THEN %ld",obj.postID,(long)obj.views];
+                
+                if (i == 0 || i == existPosts.count) {
+                    [tmpMulStr appendFormat:@"%@",obj.postID];
+                } else {
+                    [tmpMulStr appendFormat:@"%@,",obj.postID];
+                }
+            }
+            [mulStr appendString:@" END "];
+            [mulStr appendFormat:@" WHERE postID IN (%@);",tmpMulStr];
         }
-        
         
     }];
     return YES;
+}
+
++ (NSArray<Post *> *)readPostsFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex
+{
+    NSMutableArray<Post *> *posts = [[NSMutableArray alloc] init];
+    
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM PLPost ORDER BY postID DESC LIMIT %ld,%ld;",fromIndex,toIndex];
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        FMResultSet *set = [db executeQuery:sql];
+        while ([set next]) {
+            NSString *pId= [set stringForColumnIndex:0];
+            NSString *nId= [set stringForColumnIndex:1];
+            NSString *preId= [set stringForColumnIndex:2];
+            NSString *date= [set stringForColumnIndex:3];
+            NSString *excerpt= [set stringForColumnIndex:4];
+            NSString *tag= [set stringForColumnIndex:5];
+            NSString *title= [set stringForColumnIndex:6];
+            NSInteger views = [set intForColumnIndex:7];
+            Post *p = [[Post alloc] init];
+            p.postID = pId;
+            p.nextPostID = nId;
+            p.prevPostID = preId;
+            p.date = date;
+            p.excerpt = excerpt;
+            p.tag = tag;
+            p.title = title;
+            p.views = views;
+            
+            [posts addObject:p];
+        }
+    }];
+    return posts;
 }
 
 #pragma mark - create

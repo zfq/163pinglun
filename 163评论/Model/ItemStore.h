@@ -23,7 +23,27 @@
 
 
 + (NSString *)databasePath;
-+ (BOOL)savePost:(NSArray<Post *> *)posts;
+
++ (NSArray *)filterPost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts;
+/**
+ *  保存posts到数据库中，并更新对应浏览量
+ *
+ *  @param newPosts    待存入数据库中的数组
+ *  @param originPosts 当前显示的post数组
+ *
+ *  @return 是否保存成功
+ */
++ (BOOL)savePost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts;
+
+/**
+ *  从数据库中读取一定区间内的post
+ *
+ *  @param fromIndex 起始行数
+ *  @param toIndex   终止行数
+ *
+ *  @return 数组
+ */
++ (NSArray<Post *> *)readPostsFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
 
 + (BOOL)initDB;
 
