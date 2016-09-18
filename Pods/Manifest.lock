@@ -1,7 +1,19 @@
 PODS:
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/SQLCipher (2.6.2):
+    - SQLCipher
+  - FMDB/standard (2.6.2)
+  - SQLCipher (3.1.0):
+    - SQLCipher/standard (= 3.1.0)
+  - SQLCipher/common (3.1.0)
+  - SQLCipher/standard (3.1.0):
+    - SQLCipher/common
   - ZFQRefreshControl (1.1)
 
 DEPENDENCIES:
+  - FMDB
+  - FMDB/SQLCipher
   - ZFQRefreshControl (from `https://github.com/zfq/RefreshControl`, tag `v1.2.1`)
 
 EXTERNAL SOURCES:
@@ -15,8 +27,10 @@ CHECKOUT OPTIONS:
     :tag: v1.2.1
 
 SPEC CHECKSUMS:
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  SQLCipher: 4684434d5791db86512cd7e02172aefba575849e
   ZFQRefreshControl: b60a382018f8de3d50c756cf48cd4baaf647a964
 
-PODFILE CHECKSUM: 822b091b92255c0439c22a235ccdc735e1244027
+PODFILE CHECKSUM: 53308365e4d70ee541f1b96ea359a8c964ebed6b
 
 COCOAPODS: 1.0.1

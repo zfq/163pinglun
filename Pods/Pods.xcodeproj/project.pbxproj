@@ -7,67 +7,164 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		018CAD604597D28A630E11FAC0A6032F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
-		080BC06AC94E659E793D0868ADA5F1B6 /* ZFQLoadFrontOrNextView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9451076808949D2C0985408A05A97A5 /* ZFQLoadFrontOrNextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		149D0717F62F02AB4E3746E32F8B1B9F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
-		52E618BFBAB862B068A871054ED23AFF /* UIScrollView+ZFQLoadView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F1CE7E75620C17613F55817296DC94F /* UIScrollView+ZFQLoadView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5878E56F9ACED5058A3C1897A0C5554E /* ZFQLoadFrontOrNextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EE3C4679BE00E5CFF2D4991A3B0BD6 /* ZFQLoadFrontOrNextView.m */; };
-		631026DFE371700D7794E3FAB495D69B /* ZFQRefreshControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A9A4EC199779469B06162238D59B255 /* ZFQRefreshControl-dummy.m */; };
-		B9DEB5E6BED8DDFE0EFDFD76DDEA55B7 /* Pods-163pinglun-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1F661979C37251D6EA390A6DAD0E87 /* Pods-163pinglun-dummy.m */; };
-		D268AE7DDB5DE0E34E56795720532230 /* UIScrollView+ZFQLoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AEE05500468B8D3969AC6C79E6689 /* UIScrollView+ZFQLoadView.m */; };
+		0013702268B56F5A8B080436E2517618 /* Pods-163pinglun-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1F661979C37251D6EA390A6DAD0E87 /* Pods-163pinglun-dummy.m */; };
+		0679EB1EA39430E334086991FA602B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D692051EF32C02A74F6A5706D54B828B /* Foundation.framework */; };
+		0B96E73A57DFCD52F20B24C5BB41BCD1 /* UIScrollView+ZFQLoadView.h in Headers */ = {isa = PBXBuildFile; fileRef = 62A1040A2819FAADA1887B6C11E351B2 /* UIScrollView+ZFQLoadView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		21ACFEDAD2B6923C9E06796290811CA5 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = D87DC531F4B97007673F991460A25A30 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_THREADSAFE -DSQLCIPHER_CRYPTO_CC -fno-objc-arc"; }; };
+		296F1720FD316125676BE55CE5808A59 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = E3B2C3ED2CC2F9884B73FEEE621A55B3 /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6F2744E93B5A58D90FDA00A47A1D1F /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FE13F097D5694E100D8DE54818C8D4C2 /* FMDatabase.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -DOS_OBJECT_USE_OBJC=0"; }; };
+		30B9D12DC753A9B41083A54FD988B330 /* ZFQLoadFrontOrNextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FD69E6214813289DE564086348D262 /* ZFQLoadFrontOrNextView.m */; };
+		36D301C0F7F03551F5A7C622AA9C138A /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 8608309BBE566B1184C066CB24A99A27 /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		386504561631351BFAA7CD0151A2DF40 /* FMDB-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F85A2E9821E7CD3F79500B6609F0E02 /* FMDB-dummy.m */; };
+		3A98CC6C567EDC8EBEC29D6424B6414C /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D3BE3055BC558B197BEF4AA8638007C /* FMDatabaseQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41793D260FC1F50B50CAEF0D3E6F14EF /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE42EED4EF5E91FE1008665D743C23B /* FMDatabaseQueue.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -DOS_OBJECT_USE_OBJC=0"; }; };
+		56CDEB29746E56E7F1B9AB090828FD81 /* ZFQLoadFrontOrNextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C898ADB977FE1A3BF9EA5DD252DF3C5 /* ZFQLoadFrontOrNextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8075981412AE52639EFF8C5385F09B28 /* ZFQRefreshControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E95200CCDB2DB4FC41E3E3C62D6B3C5 /* ZFQRefreshControl-dummy.m */; };
+		86FCF77A89023C1A38CBDD23E12E1290 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D692051EF32C02A74F6A5706D54B828B /* Foundation.framework */; };
+		89712B4FC273D641F5B11F1699B77763 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 63DCD0D8B0F232EB36092AABE4719F3F /* FMDatabaseAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		978B186050E3D7A39EBDCFB0B39886EF /* UIScrollView+ZFQLoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F3AF3E04C581AF705CC9A2EB3657DF /* UIScrollView+ZFQLoadView.m */; };
+		9DEDE794E5B2221685FE033FF0D6976A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35EB645053A39B4E088C0BDA3A6C9F5D /* Security.framework */; };
+		A330AA9F239B9BB08F2BDEE5CD257C2B /* FMDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 220FDBC9524196C6414087966C8E1634 /* FMDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A461E282FDEF61F3E2337A2A356DB555 /* sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = C287543B12C1C32F51AB69D7D19B6740 /* sqlite3.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5FDE998CBE8A32C933C464CFDA6F495 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A72131F2B2A96D48B0AC7953CD15B81 /* FMResultSet.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -DOS_OBJECT_USE_OBJC=0"; }; };
+		B7C01DC65BF48CB9C185CE0A0B23B62B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D692051EF32C02A74F6A5706D54B828B /* Foundation.framework */; };
+		BDF4100DC3B934C3A6D97CB428D784C2 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9255405BCED9CFA7EA3E07BE25B72243 /* FMDatabasePool.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -DOS_OBJECT_USE_OBJC=0"; }; };
+		BFE5B566B17270D44DD0F4039D8F5C6C /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBCFA6EC9B99466407A03F6B3084476 /* FMDatabasePool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C7C35B630CE875793F475187E703EDAC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D692051EF32C02A74F6A5706D54B828B /* Foundation.framework */; };
+		FDFD7BE46E8A99BD7B3B344FB1D2114B /* SQLCipher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 16826FAB4CF8A18DC7330A4AE7CFF1B9 /* SQLCipher-dummy.m */; };
+		FFA17BA2D68F5A4FF1400AA962766081 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F9AD6680C055E65306C2FADDFE48C5B8 /* FMDatabaseAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -DOS_OBJECT_USE_OBJC=0"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FD9610DBD000E7ACD6B7D32036F6F1B6 /* PBXContainerItemProxy */ = {
+		765A63BC627195F6D886C1863BF82D03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DA8F05C3AE31EA9882A406FFC7B34C58;
+			remoteGlobalIDString = D638B9D6EB1F12C419CB5BCB69120921;
+			remoteInfo = SQLCipher;
+		};
+		7E4C2BA1824AFA0FDDB3CB267DA4B971 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4A1FA786E38B8E2BB2C533A3BC45B4ED;
 			remoteInfo = ZFQRefreshControl;
+		};
+		DB8F9DEC54D4BB1DFF6576E2BCC1B3CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CCC59A3DA32DC4436DE29C5D16C0243;
+			remoteInfo = FMDB;
+		};
+		F38D24DC08C2486CA0EC6ABDE77EF6A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D638B9D6EB1F12C419CB5BCB69120921;
+			remoteInfo = SQLCipher;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		24848A2A6D375FFE801FF39AF9A0CA81 /* libPods-163pinglun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-163pinglun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C27FE412FDB4457586071F8C8683BCA /* libZFQRefreshControl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZFQRefreshControl.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E95200CCDB2DB4FC41E3E3C62D6B3C5 /* ZFQRefreshControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZFQRefreshControl-dummy.m"; sourceTree = "<group>"; };
+		16826FAB4CF8A18DC7330A4AE7CFF1B9 /* SQLCipher-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SQLCipher-dummy.m"; sourceTree = "<group>"; };
+		220FDBC9524196C6414087966C8E1634 /* FMDB.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = src/fmdb/FMDB.h; sourceTree = "<group>"; };
+		2285A9924C5A257605B5298CB132DF08 /* SQLCipher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SQLCipher-prefix.pch"; sourceTree = "<group>"; };
+		23FD69E6214813289DE564086348D262 /* ZFQLoadFrontOrNextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZFQLoadFrontOrNextView.m; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/ZFQLoadFrontOrNextView.m"; sourceTree = "<group>"; };
+		290DCC4BA77C86090A3593B394CFA85D /* FMDB-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FMDB-prefix.pch"; sourceTree = "<group>"; };
+		2AE42EED4EF5E91FE1008665D743C23B /* FMDatabaseQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = src/fmdb/FMDatabaseQueue.m; sourceTree = "<group>"; };
 		2C9ABFE133E972B3EDF79A239A1589FC /* Pods-163pinglun-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-163pinglun-frameworks.sh"; sourceTree = "<group>"; };
-		306AEE05500468B8D3969AC6C79E6689 /* UIScrollView+ZFQLoadView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+ZFQLoadView.m"; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/UIScrollView+ZFQLoadView.m"; sourceTree = "<group>"; };
+		2F85A2E9821E7CD3F79500B6609F0E02 /* FMDB-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FMDB-dummy.m"; sourceTree = "<group>"; };
 		34C5D58AFF20F05D9DAA0AC2CF7774EB /* Pods-163pinglun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-163pinglun.debug.xcconfig"; sourceTree = "<group>"; };
+		35BA0EE10DCAF7A245512D20EA55F5BA /* ZFQRefreshControl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZFQRefreshControl.xcconfig; sourceTree = "<group>"; };
+		35EB645053A39B4E088C0BDA3A6C9F5D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		3BBB75AB1EB46D2565EF9B9B1677FE72 /* Pods-163pinglun-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-163pinglun-resources.sh"; sourceTree = "<group>"; };
 		3E1F661979C37251D6EA390A6DAD0E87 /* Pods-163pinglun-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-163pinglun-dummy.m"; sourceTree = "<group>"; };
-		3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZFQRefreshControl.xcconfig; sourceTree = "<group>"; };
+		4209F4A53F87C5A89C6B85134F486333 /* libSQLCipher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSQLCipher.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		47505691FB3F9C794D2BAD5A0EFA9D85 /* ZFQRefreshControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZFQRefreshControl-prefix.pch"; sourceTree = "<group>"; };
+		52F3AF3E04C581AF705CC9A2EB3657DF /* UIScrollView+ZFQLoadView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+ZFQLoadView.m"; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/UIScrollView+ZFQLoadView.m"; sourceTree = "<group>"; };
+		5732E194ED271473EAB087A87820F8AE /* libFMDB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFMDB.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F2BFCAECDBEC6717A36531B4E540C29 /* Pods-163pinglun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-163pinglun.release.xcconfig"; sourceTree = "<group>"; };
-		65EE3C4679BE00E5CFF2D4991A3B0BD6 /* ZFQLoadFrontOrNextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZFQLoadFrontOrNextView.m; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/ZFQLoadFrontOrNextView.m"; sourceTree = "<group>"; };
-		75DA89D6C891BDA5D8AC426B8162ACAC /* libZFQRefreshControl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZFQRefreshControl.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9A4EC199779469B06162238D59B255 /* ZFQRefreshControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZFQRefreshControl-dummy.m"; sourceTree = "<group>"; };
+		62A1040A2819FAADA1887B6C11E351B2 /* UIScrollView+ZFQLoadView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+ZFQLoadView.h"; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/UIScrollView+ZFQLoadView.h"; sourceTree = "<group>"; };
+		63DCD0D8B0F232EB36092AABE4719F3F /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = src/fmdb/FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		6A72131F2B2A96D48B0AC7953CD15B81 /* FMResultSet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = src/fmdb/FMResultSet.m; sourceTree = "<group>"; };
+		72617D12DBC997392F14123428A14D79 /* FMDB.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FMDB.xcconfig; sourceTree = "<group>"; };
 		7D2698234121B05F89344A68F09C163F /* Pods-163pinglun-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-163pinglun-acknowledgements.plist"; sourceTree = "<group>"; };
-		7F1CE7E75620C17613F55817296DC94F /* UIScrollView+ZFQLoadView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+ZFQLoadView.h"; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/UIScrollView+ZFQLoadView.h"; sourceTree = "<group>"; };
+		8608309BBE566B1184C066CB24A99A27 /* FMResultSet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = src/fmdb/FMResultSet.h; sourceTree = "<group>"; };
+		9255405BCED9CFA7EA3E07BE25B72243 /* FMDatabasePool.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = src/fmdb/FMDatabasePool.m; sourceTree = "<group>"; };
+		9261DD2ED03A8C232D9805C27979A0A0 /* SQLCipher.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SQLCipher.xcconfig; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		971C4B55D70411A18B479B4EB49AAB9D /* ZFQRefreshControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZFQRefreshControl-prefix.pch"; sourceTree = "<group>"; };
-		B9451076808949D2C0985408A05A97A5 /* ZFQLoadFrontOrNextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZFQLoadFrontOrNextView.h; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/ZFQLoadFrontOrNextView.h"; sourceTree = "<group>"; };
-		CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		9C898ADB977FE1A3BF9EA5DD252DF3C5 /* ZFQLoadFrontOrNextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZFQLoadFrontOrNextView.h; path = "仿知乎加载/仿知乎加载/ZFQLoadFrontOrNextView/ZFQLoadFrontOrNextView.h"; sourceTree = "<group>"; };
+		9D3BE3055BC558B197BEF4AA8638007C /* FMDatabaseQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = src/fmdb/FMDatabaseQueue.h; sourceTree = "<group>"; };
+		C287543B12C1C32F51AB69D7D19B6740 /* sqlite3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		D692051EF32C02A74F6A5706D54B828B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D7A731BA59731A88EDB09AB1CE115D21 /* libPods-163pinglun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-163pinglun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D87DC531F4B97007673F991460A25A30 /* sqlite3.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		E3B2C3ED2CC2F9884B73FEEE621A55B3 /* FMDatabase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = src/fmdb/FMDatabase.h; sourceTree = "<group>"; };
+		EBBCFA6EC9B99466407A03F6B3084476 /* FMDatabasePool.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = src/fmdb/FMDatabasePool.h; sourceTree = "<group>"; };
 		EBF98DB375C59AE63E42B3292DF70F92 /* Pods-163pinglun-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-163pinglun-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F9AD6680C055E65306C2FADDFE48C5B8 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = src/fmdb/FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		FE13F097D5694E100D8DE54818C8D4C2 /* FMDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = src/fmdb/FMDatabase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1E61B3834E34A63B3DC5FDFE6E09148D /* Frameworks */ = {
+		155027909A62E8114813E9218AFF8D81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				018CAD604597D28A630E11FAC0A6032F /* Foundation.framework in Frameworks */,
+				86FCF77A89023C1A38CBDD23E12E1290 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EF32EC97957BD50FBF68C99543951EAE /* Frameworks */ = {
+		AC5DA2639E07516B78C114A3C3523572 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				149D0717F62F02AB4E3746E32F8B1B9F /* Foundation.framework in Frameworks */,
+				C7C35B630CE875793F475187E703EDAC /* Foundation.framework in Frameworks */,
+				9DEDE794E5B2221685FE033FF0D6976A /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDE6B58931AE12E670ACB20656F250E7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7C01DC65BF48CB9C185CE0A0B23B62B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6CC9B9ACE1FE9B7F82E0DE689404BF5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0679EB1EA39430E334086991FA602B74 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03E5E615A08416AF0C2722BF92CD0808 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				A35D464FA1AC30B0A2E41EC0445D554E /* SQLCipher */,
+				5133C672AD25E05CFB57C820A2C0D4A7 /* standard */,
+				2BF728F0AB553E52E129EE871EBDB384 /* Support Files */,
+			);
+			path = FMDB;
+			sourceTree = "<group>";
+		};
+		0D1AF410CCD35F55F57AF6F93F86F7F6 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				D87DC531F4B97007673F991460A25A30 /* sqlite3.c */,
+				C287543B12C1C32F51AB69D7D19B6740 /* sqlite3.h */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
 		1D17BDB02B80EF7258DB7AB0720D8801 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,63 +173,123 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */ = {
+		2BF728F0AB553E52E129EE871EBDB384 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */,
+				72617D12DBC997392F14123428A14D79 /* FMDB.xcconfig */,
+				2F85A2E9821E7CD3F79500B6609F0E02 /* FMDB-dummy.m */,
+				290DCC4BA77C86090A3593B394CFA85D /* FMDB-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/FMDB";
+			sourceTree = "<group>";
+		};
+		3EF229062F5357F1028165A423A4C68A /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D692051EF32C02A74F6A5706D54B828B /* Foundation.framework */,
+				35EB645053A39B4E088C0BDA3A6C9F5D /* Security.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		5B677128C2F31E88F7B138B52683C2B4 /* Products */ = {
+		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				24848A2A6D375FFE801FF39AF9A0CA81 /* libPods-163pinglun.a */,
-				75DA89D6C891BDA5D8AC426B8162ACAC /* libZFQRefreshControl.a */,
+				3EF229062F5357F1028165A423A4C68A /* iOS */,
 			);
-			name = Products;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5E75F24DDC01067FA0B2B7D047669A50 /* Pods */ = {
+		5133C672AD25E05CFB57C820A2C0D4A7 /* standard */ = {
 			isa = PBXGroup;
 			children = (
-				915F6EB7D027C70DB9A5B3D49EC0DCAE /* ZFQRefreshControl */,
 			);
-			name = Pods;
+			name = standard;
+			sourceTree = "<group>";
+		};
+		56E3F28187397E78F772869ECE179199 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				9261DD2ED03A8C232D9805C27979A0A0 /* SQLCipher.xcconfig */,
+				16826FAB4CF8A18DC7330A4AE7CFF1B9 /* SQLCipher-dummy.m */,
+				2285A9924C5A257605B5298CB132DF08 /* SQLCipher-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SQLCipher";
+			sourceTree = "<group>";
+		};
+		5D12F4F5DCBBAC237ABB73880A92B679 /* ZFQRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				62A1040A2819FAADA1887B6C11E351B2 /* UIScrollView+ZFQLoadView.h */,
+				52F3AF3E04C581AF705CC9A2EB3657DF /* UIScrollView+ZFQLoadView.m */,
+				9C898ADB977FE1A3BF9EA5DD252DF3C5 /* ZFQLoadFrontOrNextView.h */,
+				23FD69E6214813289DE564086348D262 /* ZFQLoadFrontOrNextView.m */,
+				675486B817F21228B6C639E89B101511 /* Support Files */,
+			);
+			path = ZFQRefreshControl;
+			sourceTree = "<group>";
+		};
+		675486B817F21228B6C639E89B101511 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				35BA0EE10DCAF7A245512D20EA55F5BA /* ZFQRefreshControl.xcconfig */,
+				0E95200CCDB2DB4FC41E3E3C62D6B3C5 /* ZFQRefreshControl-dummy.m */,
+				47505691FB3F9C794D2BAD5A0EFA9D85 /* ZFQRefreshControl-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/ZFQRefreshControl";
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				5E75F24DDC01067FA0B2B7D047669A50 /* Pods */,
-				5B677128C2F31E88F7B138B52683C2B4 /* Products */,
+				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
+				AC5179CB7C83097BED6613B23563531F /* Pods */,
+				86C7AE5CED43AAE572BEF502BD3E6969 /* Products */,
 				1D17BDB02B80EF7258DB7AB0720D8801 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		915F6EB7D027C70DB9A5B3D49EC0DCAE /* ZFQRefreshControl */ = {
+		86C7AE5CED43AAE572BEF502BD3E6969 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7F1CE7E75620C17613F55817296DC94F /* UIScrollView+ZFQLoadView.h */,
-				306AEE05500468B8D3969AC6C79E6689 /* UIScrollView+ZFQLoadView.m */,
-				B9451076808949D2C0985408A05A97A5 /* ZFQLoadFrontOrNextView.h */,
-				65EE3C4679BE00E5CFF2D4991A3B0BD6 /* ZFQLoadFrontOrNextView.m */,
-				AC706A798A2B598B5553BB6BE48E82D7 /* Support Files */,
+				5732E194ED271473EAB087A87820F8AE /* libFMDB.a */,
+				D7A731BA59731A88EDB09AB1CE115D21 /* libPods-163pinglun.a */,
+				4209F4A53F87C5A89C6B85134F486333 /* libSQLCipher.a */,
+				0C27FE412FDB4457586071F8C8683BCA /* libZFQRefreshControl.a */,
 			);
-			path = ZFQRefreshControl;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		AC706A798A2B598B5553BB6BE48E82D7 /* Support Files */ = {
+		A35D464FA1AC30B0A2E41EC0445D554E /* SQLCipher */ = {
 			isa = PBXGroup;
 			children = (
-				3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */,
-				7A9A4EC199779469B06162238D59B255 /* ZFQRefreshControl-dummy.m */,
-				971C4B55D70411A18B479B4EB49AAB9D /* ZFQRefreshControl-prefix.pch */,
+				E3B2C3ED2CC2F9884B73FEEE621A55B3 /* FMDatabase.h */,
+				FE13F097D5694E100D8DE54818C8D4C2 /* FMDatabase.m */,
+				63DCD0D8B0F232EB36092AABE4719F3F /* FMDatabaseAdditions.h */,
+				F9AD6680C055E65306C2FADDFE48C5B8 /* FMDatabaseAdditions.m */,
+				EBBCFA6EC9B99466407A03F6B3084476 /* FMDatabasePool.h */,
+				9255405BCED9CFA7EA3E07BE25B72243 /* FMDatabasePool.m */,
+				9D3BE3055BC558B197BEF4AA8638007C /* FMDatabaseQueue.h */,
+				2AE42EED4EF5E91FE1008665D743C23B /* FMDatabaseQueue.m */,
+				220FDBC9524196C6414087966C8E1634 /* FMDB.h */,
+				8608309BBE566B1184C066CB24A99A27 /* FMResultSet.h */,
+				6A72131F2B2A96D48B0AC7953CD15B81 /* FMResultSet.m */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/ZFQRefreshControl";
+			name = SQLCipher;
+			sourceTree = "<group>";
+		};
+		AC5179CB7C83097BED6613B23563531F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				03E5E615A08416AF0C2722BF92CD0808 /* FMDB */,
+				D63294C3ECF12507BC323932D0A863A6 /* SQLCipher */,
+				5D12F4F5DCBBAC237ABB73880A92B679 /* ZFQRefreshControl */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		BBD4B7FE8568649AD32E218EB1267042 /* Pods-163pinglun */ = {
@@ -150,53 +307,58 @@
 			path = "Target Support Files/Pods-163pinglun";
 			sourceTree = "<group>";
 		};
-		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+		D63294C3ECF12507BC323932D0A863A6 /* SQLCipher */ = {
 			isa = PBXGroup;
 			children = (
-				3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */,
+				0D1AF410CCD35F55F57AF6F93F86F7F6 /* common */,
+				56E3F28187397E78F772869ECE179199 /* Support Files */,
 			);
-			name = Frameworks;
+			path = SQLCipher;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		A27434F0171BBD2677D0091E10A1D6A4 /* Headers */ = {
+		6ED79A13A3FDA7A91823E15AB0AA3186 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52E618BFBAB862B068A871054ED23AFF /* UIScrollView+ZFQLoadView.h in Headers */,
-				080BC06AC94E659E793D0868ADA5F1B6 /* ZFQLoadFrontOrNextView.h in Headers */,
+				0B96E73A57DFCD52F20B24C5BB41BCD1 /* UIScrollView+ZFQLoadView.h in Headers */,
+				56CDEB29746E56E7F1B9AB090828FD81 /* ZFQLoadFrontOrNextView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		74BC5B7F429EFF76815F488B340E735D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A461E282FDEF61F3E2337A2A356DB555 /* sqlite3.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F05B5FB7D6D1694502418DA584E89833 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				296F1720FD316125676BE55CE5808A59 /* FMDatabase.h in Headers */,
+				89712B4FC273D641F5B11F1699B77763 /* FMDatabaseAdditions.h in Headers */,
+				BFE5B566B17270D44DD0F4039D8F5C6C /* FMDatabasePool.h in Headers */,
+				3A98CC6C567EDC8EBEC29D6424B6414C /* FMDatabaseQueue.h in Headers */,
+				A330AA9F239B9BB08F2BDEE5CD257C2B /* FMDB.h in Headers */,
+				36D301C0F7F03551F5A7C622AA9C138A /* FMResultSet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6723A34C6B5C8A1FA12621BB1D733DB9 /* Pods-163pinglun */ = {
+		4A1FA786E38B8E2BB2C533A3BC45B4ED /* ZFQRefreshControl */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B8D5790F0D54BA484921DE32E37DC0A /* Build configuration list for PBXNativeTarget "Pods-163pinglun" */;
+			buildConfigurationList = AE838207FC8B49E9C939FB7710764054 /* Build configuration list for PBXNativeTarget "ZFQRefreshControl" */;
 			buildPhases = (
-				C0B0F8CB450B04C5E9A47549CDCB8C2A /* Sources */,
-				1E61B3834E34A63B3DC5FDFE6E09148D /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1AA09754EFD4497009BC33BB228AE3CF /* PBXTargetDependency */,
-			);
-			name = "Pods-163pinglun";
-			productName = "Pods-163pinglun";
-			productReference = 24848A2A6D375FFE801FF39AF9A0CA81 /* libPods-163pinglun.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		DA8F05C3AE31EA9882A406FFC7B34C58 /* ZFQRefreshControl */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5CFC372F18A78164D9370DB4755C6BAD /* Build configuration list for PBXNativeTarget "ZFQRefreshControl" */;
-			buildPhases = (
-				A4C98107ED4576B099DC32EE2EC4F681 /* Sources */,
-				EF32EC97957BD50FBF68C99543951EAE /* Frameworks */,
-				A27434F0171BBD2677D0091E10A1D6A4 /* Headers */,
+				7EB33ADAAD74C220363AB28AA83C2502 /* Sources */,
+				DDE6B58931AE12E670ACB20656F250E7 /* Frameworks */,
+				6ED79A13A3FDA7A91823E15AB0AA3186 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -204,7 +366,61 @@
 			);
 			name = ZFQRefreshControl;
 			productName = ZFQRefreshControl;
-			productReference = 75DA89D6C891BDA5D8AC426B8162ACAC /* libZFQRefreshControl.a */;
+			productReference = 0C27FE412FDB4457586071F8C8683BCA /* libZFQRefreshControl.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		5CCC59A3DA32DC4436DE29C5D16C0243 /* FMDB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8ECBE44C5A4FA165C2A7C7F1911E6AED /* Build configuration list for PBXNativeTarget "FMDB" */;
+			buildPhases = (
+				D9ABE3A471EF96EF2DE8E4FBE1464C14 /* Sources */,
+				155027909A62E8114813E9218AFF8D81 /* Frameworks */,
+				F05B5FB7D6D1694502418DA584E89833 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EF73D00801A7B6CA1287BE3B29033877 /* PBXTargetDependency */,
+			);
+			name = FMDB;
+			productName = FMDB;
+			productReference = 5732E194ED271473EAB087A87820F8AE /* libFMDB.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D638B9D6EB1F12C419CB5BCB69120921 /* SQLCipher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB1C129CA127307A3EAEB0ADA08DB8DD /* Build configuration list for PBXNativeTarget "SQLCipher" */;
+			buildPhases = (
+				EF8E41D17ABCE5693484C098A54917E5 /* Sources */,
+				AC5DA2639E07516B78C114A3C3523572 /* Frameworks */,
+				74BC5B7F429EFF76815F488B340E735D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SQLCipher;
+			productName = SQLCipher;
+			productReference = 4209F4A53F87C5A89C6B85134F486333 /* libSQLCipher.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F7B8EC60632FC99F2F3C632618AEFD7E /* Pods-163pinglun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C65907FA63E4DAD1D9A300ECAEF0AAB /* Build configuration list for PBXNativeTarget "Pods-163pinglun" */;
+			buildPhases = (
+				0E01842CF6F41638365C66A4F67322F5 /* Sources */,
+				E6CC9B9ACE1FE9B7F82E0DE689404BF5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				79CE81F1C291BF2027ADE7698E8C196D /* PBXTargetDependency */,
+				71D761BF381F7F542429D7B7ECFB422D /* PBXTargetDependency */,
+				18C595D1B37F0C221E42F67047E40C13 /* PBXTargetDependency */,
+			);
+			name = "Pods-163pinglun";
+			productName = "Pods-163pinglun";
+			productReference = D7A731BA59731A88EDB09AB1CE115D21 /* libPods-163pinglun.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -224,57 +440,99 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 5B677128C2F31E88F7B138B52683C2B4 /* Products */;
+			productRefGroup = 86C7AE5CED43AAE572BEF502BD3E6969 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6723A34C6B5C8A1FA12621BB1D733DB9 /* Pods-163pinglun */,
-				DA8F05C3AE31EA9882A406FFC7B34C58 /* ZFQRefreshControl */,
+				5CCC59A3DA32DC4436DE29C5D16C0243 /* FMDB */,
+				F7B8EC60632FC99F2F3C632618AEFD7E /* Pods-163pinglun */,
+				D638B9D6EB1F12C419CB5BCB69120921 /* SQLCipher */,
+				4A1FA786E38B8E2BB2C533A3BC45B4ED /* ZFQRefreshControl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A4C98107ED4576B099DC32EE2EC4F681 /* Sources */ = {
+		0E01842CF6F41638365C66A4F67322F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D268AE7DDB5DE0E34E56795720532230 /* UIScrollView+ZFQLoadView.m in Sources */,
-				5878E56F9ACED5058A3C1897A0C5554E /* ZFQLoadFrontOrNextView.m in Sources */,
-				631026DFE371700D7794E3FAB495D69B /* ZFQRefreshControl-dummy.m in Sources */,
+				0013702268B56F5A8B080436E2517618 /* Pods-163pinglun-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C0B0F8CB450B04C5E9A47549CDCB8C2A /* Sources */ = {
+		7EB33ADAAD74C220363AB28AA83C2502 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9DEB5E6BED8DDFE0EFDFD76DDEA55B7 /* Pods-163pinglun-dummy.m in Sources */,
+				978B186050E3D7A39EBDCFB0B39886EF /* UIScrollView+ZFQLoadView.m in Sources */,
+				30B9D12DC753A9B41083A54FD988B330 /* ZFQLoadFrontOrNextView.m in Sources */,
+				8075981412AE52639EFF8C5385F09B28 /* ZFQRefreshControl-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9ABE3A471EF96EF2DE8E4FBE1464C14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F6F2744E93B5A58D90FDA00A47A1D1F /* FMDatabase.m in Sources */,
+				FFA17BA2D68F5A4FF1400AA962766081 /* FMDatabaseAdditions.m in Sources */,
+				BDF4100DC3B934C3A6D97CB428D784C2 /* FMDatabasePool.m in Sources */,
+				41793D260FC1F50B50CAEF0D3E6F14EF /* FMDatabaseQueue.m in Sources */,
+				386504561631351BFAA7CD0151A2DF40 /* FMDB-dummy.m in Sources */,
+				B5FDE998CBE8A32C933C464CFDA6F495 /* FMResultSet.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF8E41D17ABCE5693484C098A54917E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDFD7BE46E8A99BD7B3B344FB1D2114B /* SQLCipher-dummy.m in Sources */,
+				21ACFEDAD2B6923C9E06796290811CA5 /* sqlite3.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1AA09754EFD4497009BC33BB228AE3CF /* PBXTargetDependency */ = {
+		18C595D1B37F0C221E42F67047E40C13 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ZFQRefreshControl;
-			target = DA8F05C3AE31EA9882A406FFC7B34C58 /* ZFQRefreshControl */;
-			targetProxy = FD9610DBD000E7ACD6B7D32036F6F1B6 /* PBXContainerItemProxy */;
+			target = 4A1FA786E38B8E2BB2C533A3BC45B4ED /* ZFQRefreshControl */;
+			targetProxy = 7E4C2BA1824AFA0FDDB3CB267DA4B971 /* PBXContainerItemProxy */;
+		};
+		71D761BF381F7F542429D7B7ECFB422D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SQLCipher;
+			target = D638B9D6EB1F12C419CB5BCB69120921 /* SQLCipher */;
+			targetProxy = F38D24DC08C2486CA0EC6ABDE77EF6A5 /* PBXContainerItemProxy */;
+		};
+		79CE81F1C291BF2027ADE7698E8C196D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FMDB;
+			target = 5CCC59A3DA32DC4436DE29C5D16C0243 /* FMDB */;
+			targetProxy = DB8F9DEC54D4BB1DFF6576E2BCC1B3CD /* PBXContainerItemProxy */;
+		};
+		EF73D00801A7B6CA1287BE3B29033877 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SQLCipher;
+			target = D638B9D6EB1F12C419CB5BCB69120921 /* SQLCipher */;
+			targetProxy = 765A63BC627195F6D886C1863BF82D03 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		39D98A97E14F2B672A1614677AEC263F /* Debug */ = {
+		119F5F841943A60CCBAE42A61BEA2D66 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */;
+			baseConfigurationReference = 72617D12DBC997392F14123428A14D79 /* FMDB.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ZFQRefreshControl/ZFQRefreshControl-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				GCC_PREFIX_HEADER = "Target Support Files/FMDB/FMDB-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -285,6 +543,48 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
+		};
+		1E7282FA6F13A8B46239D553ACF5F408 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34C5D58AFF20F05D9DAA0AC2CF7774EB /* Pods-163pinglun.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		34C9926152D23F865CED5D254B881064 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F2BFCAECDBEC6717A36531B4E540C29 /* Pods-163pinglun.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
 		};
 		3FA2475660FFC880302AD18E29B2E5FC /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -328,30 +628,51 @@
 			};
 			name = Debug;
 		};
-		64F0642F4F498F286C19883FB00DA300 /* Release */ = {
+		8349D2A1AD2CF32DB197C19170DA3F66 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F2BFCAECDBEC6717A36531B4E540C29 /* Pods-163pinglun.release.xcconfig */;
+			baseConfigurationReference = 9261DD2ED03A8C232D9805C27979A0A0 /* SQLCipher.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MACH_O_TYPE = staticlib;
+				GCC_PREFIX_HEADER = "Target Support Files/SQLCipher/SQLCipher-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
-		88484831573875C95C61B2FBA69DCD50 /* Release */ = {
+		89096BCCE179956922B812EF5F416967 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F436B55AEC4830A65C0C5FBAB17F4E3 /* ZFQRefreshControl.xcconfig */;
+			baseConfigurationReference = 9261DD2ED03A8C232D9805C27979A0A0 /* SQLCipher.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SQLCipher/SQLCipher-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A585A5DAC86699F1B69AC0D1D193072E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35BA0EE10DCAF7A245512D20EA55F5BA /* ZFQRefreshControl.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -370,26 +691,47 @@
 			};
 			name = Release;
 		};
-		DB9D6AF40E61F179D7B0C9EF41F8FD10 /* Debug */ = {
+		D11ED968F39ECED43713722D12CFA602 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34C5D58AFF20F05D9DAA0AC2CF7774EB /* Pods-163pinglun.debug.xcconfig */;
+			baseConfigurationReference = 35BA0EE10DCAF7A245512D20EA55F5BA /* ZFQRefreshControl.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ZFQRefreshControl/ZFQRefreshControl-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
+		};
+		DF1337FBDE3CEBBDBAF31315BDE56B7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72617D12DBC997392F14123428A14D79 /* FMDB.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/FMDB/FMDB-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
 		};
 		F325026B55060D3B22BEC0BAB5FA7344 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -432,11 +774,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2B8D5790F0D54BA484921DE32E37DC0A /* Build configuration list for PBXNativeTarget "Pods-163pinglun" */ = {
+		2C65907FA63E4DAD1D9A300ECAEF0AAB /* Build configuration list for PBXNativeTarget "Pods-163pinglun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DB9D6AF40E61F179D7B0C9EF41F8FD10 /* Debug */,
-				64F0642F4F498F286C19883FB00DA300 /* Release */,
+				1E7282FA6F13A8B46239D553ACF5F408 /* Debug */,
+				34C9926152D23F865CED5D254B881064 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -450,11 +792,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5CFC372F18A78164D9370DB4755C6BAD /* Build configuration list for PBXNativeTarget "ZFQRefreshControl" */ = {
+		8ECBE44C5A4FA165C2A7C7F1911E6AED /* Build configuration list for PBXNativeTarget "FMDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39D98A97E14F2B672A1614677AEC263F /* Debug */,
-				88484831573875C95C61B2FBA69DCD50 /* Release */,
+				119F5F841943A60CCBAE42A61BEA2D66 /* Debug */,
+				DF1337FBDE3CEBBDBAF31315BDE56B7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE838207FC8B49E9C939FB7710764054 /* Build configuration list for PBXNativeTarget "ZFQRefreshControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D11ED968F39ECED43713722D12CFA602 /* Debug */,
+				A585A5DAC86699F1B69AC0D1D193072E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB1C129CA127307A3EAEB0ADA08DB8DD /* Build configuration list for PBXNativeTarget "SQLCipher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89096BCCE179956922B812EF5F416967 /* Debug */,
+				8349D2A1AD2CF32DB197C19170DA3F66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
