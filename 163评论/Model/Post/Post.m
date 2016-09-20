@@ -75,7 +75,7 @@
     self.postID = [dictionary objectForKey:@"ID"];
     NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
     
-    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
+//    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
     [self.inAuthor readFromJSONDictionary:autDic];
     
     NSString *tit = [dictionary objectForKey:@"title"];
@@ -176,16 +176,29 @@
     }
 }
 
-/*
-- (BOOL)validateForInsert:(NSError *__autoreleasing *)error
++ (id)instanceFromFMResultSet:(FMResultSet *)set
 {
-    BOOL result = [super validateForInsert:error];
-    if (result) {
-         return [self validateTitleOrExpert:error];
-    } else {
-        return result;
-    }
+    NSString *pId= [set stringForColumnIndex:0];
+    NSString *nId= [set stringForColumnIndex:1];
+    NSString *preId= [set stringForColumnIndex:2];
+    NSString *date= [set stringForColumnIndex:3];
+    NSString *excerpt= [set stringForColumnIndex:4];
+    NSString *tag= [set stringForColumnIndex:5];
+    NSString *title= [set stringForColumnIndex:6];
+    NSInteger views = [set intForColumnIndex:7];
+    
+    Post *p = [[Post alloc] init];
+    
+    p.postID = pId;
+    p.nextPostID = nId;
+    p.prevPostID = preId;
+    p.date = date;
+    p.excerpt = excerpt;
+    p.tag = tag;
+    p.title = title;
+    p.views = views;
+    
+    return p;
 }
- */
 
 @end

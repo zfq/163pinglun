@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONSerializable.h"
+#import "DBSerializable.h"
 
 @class Author;
 
-@interface Post : NSObject <JSONSerializable>
+@interface Post : NSObject <JSONSerializable,DBSerializable>
 
 @property (nonatomic, copy) NSString *postID;  //帖子ID
 @property (nonatomic, copy) NSString *tag;     //所属标签
