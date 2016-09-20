@@ -107,7 +107,7 @@
     [super viewDidDisappear:animated];
     
     //取消请求
-    [[ItemStore sharedItemStore] cancelCurrentRequtest];
+//    [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 

@@ -9,6 +9,8 @@
 #import "ZFQBaseRequest.h"
 #import "Post.h"
 #import "Content.h"
+#import "Tag.h"
+
 /*
 @interface Author : NSObject
 
@@ -19,20 +21,6 @@
 
 @end
 
-@interface Post : NSObject
-
-@property (nonatomic, copy) NSString *postID;  //帖子ID
-@property (nonatomic, copy) NSString *tag;     //所属标签
-@property (nonatomic, copy) NSString *title;   //帖子名
-@property (nonatomic, copy) NSString *excerpt;  //摘要
-@property (nonatomic, strong) NSNumber *views;  //浏览量
-@property (nonatomic, copy) NSString *date;     //发表时间
-@property (nonatomic, strong) Author *inAuthor; //帖子推荐人
-
-@property (nonatomic,copy) NSString *prevPostID; //上一篇帖子ID
-@property (nonatomic,copy) NSString *nextPostID; //下一篇帖子ID
-
-@end
 */
 
 @interface ZFQPostRequest : ZFQBaseRequest
@@ -55,5 +43,12 @@
 
 //返回结果
 @property (nonatomic,copy) NSArray<NSArray *> *contentsItems;
+
+@end
+
+@interface PLTagRequest : ZFQBaseRequest
+
+//返回结果
+@property (nonatomic,copy) NSArray<Tag *> *tags;
 
 @end

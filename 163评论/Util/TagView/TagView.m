@@ -61,7 +61,7 @@
     if (!_tagLabel) {
         _tagLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         if (_postTag != nil)
-            _tagLabel.font = [self fontWithCount:_postTag.count.integerValue];
+            _tagLabel.font = [self fontWithCount:_postTag.count];
         else
             _tagLabel.font = [UIFont systemFontOfSize:17.0];
     }

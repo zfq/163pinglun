@@ -10,9 +10,9 @@
 #import "TagScrollView.h"
 #import "ItemStore.h"
 #import "Tag.h"
-#import "Tags.h"
 #import "Reachability.h"
 #import "MacroDefinition.h"
+#import "TagViewModel.h"
 
 NSString * const k163TagIndex = @"preTagViewIndex";
 
@@ -35,6 +35,7 @@ NSString * const k163TagIndex = @"preTagViewIndex";
 //    NSInteger preTagViewIndex;  //前一个被选中的tagView的索引
     UIView *_panGestureView;    //仅仅用于防止滑动时tagScrollView也能滚动.
 }
+@property (nonatomic,strong) TagViewModel *viewModel;
 @end
 
 @implementation TagViewController
@@ -99,29 +100,27 @@ NSString * const k163TagIndex = @"preTagViewIndex";
     [self loadTagData];
 }
 
+- (TagViewModel *)viewModel
+{
+    if (!_viewModel) {
+        _viewModel = [[TagViewModel alloc] init];
+    }
+    return _viewModel;
+}
+
 - (void)loadTagData
 {
     //获取数据
-    [Reachability isReachableWithHostName:HOST_NAME complition:^(BOOL isReachable) {
-        if (isReachable) {
-            
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-            [[ItemStore sharedItemStore] fetchTagsWithCompletion:^(Tags *tags, NSError *error) {
-                if (tags.tagItems.count > 0) {
-                    isSuccessLoadedTag = YES;
-                    [self createTagViewsWithTags:tags.tagItems];
-                } else {
-                    isSuccessLoadedTag = NO;
-                }
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            }];
-            
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [self.viewModel fetchTagsWithCompletion:^(NSArray<Tag *> *tags, NSError *error) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        if (!error) {
+            isSuccessLoadedTag = YES;
+            [self createTagViewsWithTags:tags];
         } else {
-            NSArray *tagItems = [[ItemStore sharedItemStore] fetchTagsFromDatabase];
-            [self createTagViewsWithTags:tagItems];
+            isSuccessLoadedTag = NO;
         }
     }];
-    
 }
 
 #pragma mark - 创建tagViews
@@ -134,7 +133,7 @@ NSString * const k163TagIndex = @"preTagViewIndex";
     [tagItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         tag = (Tag *)obj;
         TagView *view = [[TagView alloc] initWithTag:tag]; //tag.tagName
-        NSDictionary *dic = [colors objectForKey:[tag.tagID stringValue]];
+        NSDictionary *dic = [colors objectForKey:tag.tagID];
         NSString *colorName = [dic objectForKey:@"color"];
         if (colorName == nil) {
             view.tagLabel.textColor = [UIColor blackColor];
@@ -193,7 +192,7 @@ NSString * const k163TagIndex = @"preTagViewIndex";
         } completion:^(BOOL finished) {
             [self dismissTagView];
             if (isSuccessLoadedTag == NO) {
-                 [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个仅仅是取消对tag的请求
+//                 [[ItemStore sharedItemStore] cancelCurrentRequtest]; //这个仅仅是取消对tag的请求
             }
            
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -253,7 +252,7 @@ NSString * const k163TagIndex = @"preTagViewIndex";
             } completion:^(BOOL finished) {
                 [self dismissTagView];
                 //取消当前对tag的请求
-                [[ItemStore sharedItemStore] cancelCurrentRequtest];
+//                [[ItemStore sharedItemStore] cancelCurrentRequtest];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
             //移除pan手势

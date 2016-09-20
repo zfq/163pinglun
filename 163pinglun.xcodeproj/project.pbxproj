@@ -76,11 +76,9 @@
 		1F3DF2031C2542B100DC8F07 /* Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1ED1C2542B100DC8F07 /* Contents.m */; };
 		1F3DF2041C2542B100DC8F07 /* ItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1EF1C2542B100DC8F07 /* ItemStore.m */; };
 		1F3DF2051C2542B100DC8F07 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1F31C2542B100DC8F07 /* Post.m */; };
-		1F3DF2061C2542B100DC8F07 /* Posts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1F51C2542B100DC8F07 /* Posts.m */; };
 		1F3DF2071C2542B100DC8F07 /* RandomPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1F81C2542B100DC8F07 /* RandomPost.m */; };
 		1F3DF2081C2542B100DC8F07 /* RandomPosts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1FA1C2542B100DC8F07 /* RandomPosts.m */; };
 		1F3DF2091C2542B100DC8F07 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1FD1C2542B100DC8F07 /* Tag.m */; };
-		1F3DF20A1C2542B100DC8F07 /* Tags.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1FF1C2542B100DC8F07 /* Tags.m */; };
 		1F3DF2361C25464E00DC8F07 /* CommViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF2161C25464E00DC8F07 /* CommViewController.m */; };
 		1F3DF2371C25464E00DC8F07 /* CommViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF2171C25464E00DC8F07 /* CommViewController.xib */; };
 		1F3DF2381C25464E00DC8F07 /* FontSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF21A1C25464E00DC8F07 /* FontSetViewController.m */; };
@@ -100,6 +98,7 @@
 		1F429E6E1C5103F30008E9C9 /* UIImage+Content.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F429E6D1C5103F30008E9C9 /* UIImage+Content.m */; };
 		1F429E781C52241F0008E9C9 /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F429E771C52241F0008E9C9 /* NSString+Addition.m */; };
 		1F548E771D73194E00D08F48 /* ZFQURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F548E761D73194E00D08F48 /* ZFQURLConnectionOperation.m */; };
+		1F5FE4D31D914CEC009960C2 /* TagViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5FE4D21D914CEC009960C2 /* TagViewModel.m */; };
 		1F6C79AA1C4FDDCD00CCA019 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79A91C4FDDCD00CCA019 /* QuartzCore.framework */; };
 		1F6C79AC1C4FDDD600CCA019 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79AB1C4FDDD600CCA019 /* ImageIO.framework */; };
 		1F6C79AE1C4FDF6F00CCA019 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C79AD1C4FDF6F00CCA019 /* CoreText.framework */; };
@@ -295,16 +294,12 @@
 		1F3DF1F01C2542B100DC8F07 /* JSONSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
 		1F3DF1F21C2542B100DC8F07 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		1F3DF1F31C2542B100DC8F07 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
-		1F3DF1F41C2542B100DC8F07 /* Posts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Posts.h; sourceTree = "<group>"; };
-		1F3DF1F51C2542B100DC8F07 /* Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Posts.m; sourceTree = "<group>"; };
 		1F3DF1F71C2542B100DC8F07 /* RandomPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPost.h; sourceTree = "<group>"; };
 		1F3DF1F81C2542B100DC8F07 /* RandomPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPost.m; sourceTree = "<group>"; };
 		1F3DF1F91C2542B100DC8F07 /* RandomPosts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPosts.h; sourceTree = "<group>"; };
 		1F3DF1FA1C2542B100DC8F07 /* RandomPosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPosts.m; sourceTree = "<group>"; };
 		1F3DF1FC1C2542B100DC8F07 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		1F3DF1FD1C2542B100DC8F07 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
-		1F3DF1FE1C2542B100DC8F07 /* Tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tags.h; sourceTree = "<group>"; };
-		1F3DF1FF1C2542B100DC8F07 /* Tags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tags.m; sourceTree = "<group>"; };
 		1F3DF2151C25464E00DC8F07 /* CommViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommViewController.h; sourceTree = "<group>"; };
 		1F3DF2161C25464E00DC8F07 /* CommViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommViewController.m; sourceTree = "<group>"; };
 		1F3DF2171C25464E00DC8F07 /* CommViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommViewController.xib; sourceTree = "<group>"; };
@@ -335,6 +330,8 @@
 		1F429E771C52241F0008E9C9 /* NSString+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Addition.m"; sourceTree = "<group>"; };
 		1F548E751D73194E00D08F48 /* ZFQURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQURLConnectionOperation.h; sourceTree = "<group>"; };
 		1F548E761D73194E00D08F48 /* ZFQURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQURLConnectionOperation.m; sourceTree = "<group>"; };
+		1F5FE4D11D914CEC009960C2 /* TagViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagViewModel.h; sourceTree = "<group>"; };
+		1F5FE4D21D914CEC009960C2 /* TagViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagViewModel.m; sourceTree = "<group>"; };
 		1F6C79A91C4FDDCD00CCA019 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1F6C79AB1C4FDDD600CCA019 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		1F6C79AD1C4FDF6F00CCA019 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -371,6 +368,7 @@
 		1FBF7AB81D814EB300825C5E /* ZFQBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQBaseRequest.m; sourceTree = "<group>"; };
 		1FBF7ABA1D81641600825C5E /* ZFQRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQRequest.h; sourceTree = "<group>"; };
 		1FBF7ABB1D81641600825C5E /* ZFQRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQRequest.m; sourceTree = "<group>"; };
+		1FCFF4DB1D916B4B000BE585 /* DBSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBSerializable.h; sourceTree = "<group>"; };
 		1FE303921D801BF1007BE932 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		1FE303931D801BF1007BE932 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		1FE303941D801BF1007BE932 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -815,6 +813,7 @@
 				1F3DF1EE1C2542B100DC8F07 /* ItemStore.h */,
 				1F3DF1EF1C2542B100DC8F07 /* ItemStore.m */,
 				1F3DF1F01C2542B100DC8F07 /* JSONSerializable.h */,
+				1FCFF4DB1D916B4B000BE585 /* DBSerializable.h */,
 				1F3DF1F11C2542B100DC8F07 /* Post */,
 				1F3DF1F61C2542B100DC8F07 /* RandomPost */,
 				1F3DF1FB1C2542B100DC8F07 /* Tag */,
@@ -847,8 +846,6 @@
 			children = (
 				1F3DF1F21C2542B100DC8F07 /* Post.h */,
 				1F3DF1F31C2542B100DC8F07 /* Post.m */,
-				1F3DF1F41C2542B100DC8F07 /* Posts.h */,
-				1F3DF1F51C2542B100DC8F07 /* Posts.m */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -869,8 +866,6 @@
 			children = (
 				1F3DF1FC1C2542B100DC8F07 /* Tag.h */,
 				1F3DF1FD1C2542B100DC8F07 /* Tag.m */,
-				1F3DF1FE1C2542B100DC8F07 /* Tags.h */,
-				1F3DF1FF1C2542B100DC8F07 /* Tags.m */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -956,6 +951,8 @@
 			children = (
 				1F3DF22D1C25464E00DC8F07 /* TagViewController.h */,
 				1F3DF22E1C25464E00DC8F07 /* TagViewController.m */,
+				1F5FE4D11D914CEC009960C2 /* TagViewModel.h */,
+				1F5FE4D21D914CEC009960C2 /* TagViewModel.m */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -1343,7 +1340,6 @@
 				1FE303AA1D801BF1007BE932 /* AFURLConnectionOperation.m in Sources */,
 				1F36EFAF1D58204D00B25932 /* MASConstraint.m in Sources */,
 				1FAA00501C5B06C1007A3853 /* HomeViewModel.m in Sources */,
-				1F3DF20A1C2542B100DC8F07 /* Tags.m in Sources */,
 				1F3DF1861C25423200DC8F07 /* GeneralService.m in Sources */,
 				1F3DF1791C25423200DC8F07 /* Reachability.m in Sources */,
 				1F3DF1651C25423200DC8F07 /* FQCoreTextUtils.m in Sources */,
@@ -1402,7 +1398,6 @@
 				1F36EFB41D58204D00B25932 /* NSArray+MASAdditions.m in Sources */,
 				1F3DF1731C25423200DC8F07 /* MJRefreshFooterView.m in Sources */,
 				1F3DF1831C25423200DC8F07 /* TOMSimpleLinkLabel.m in Sources */,
-				1F3DF2061C2542B100DC8F07 /* Posts.m in Sources */,
 				1FAD8E521C31780A00F63A24 /* VVeboLabel.m in Sources */,
 				1F36EF911D581EB800B25932 /* ZFQSliderControl.m in Sources */,
 				1F3DF1A61C25423200DC8F07 /* FQBaseViewController.m in Sources */,
@@ -1421,6 +1416,7 @@
 				1F3DF16A1C25423200DC8F07 /* UIView+FrameAdjust.m in Sources */,
 				1F3DF1761C25423200DC8F07 /* UIScrollView+MJRefresh.m in Sources */,
 				1FE303A71D801BF1007BE932 /* AFHTTPSessionManager.m in Sources */,
+				1F5FE4D31D914CEC009960C2 /* TagViewModel.m in Sources */,
 				1FE303AC1D801BF1007BE932 /* AFURLResponseSerialization.m in Sources */,
 				1F3DF2001C2542B100DC8F07 /* 163pinglun.xcdatamodeld in Sources */,
 				1F7647551D4332A60070F5A7 /* ZFQHUD.m in Sources */,

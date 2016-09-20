@@ -9,7 +9,6 @@
 #import "HomeViewController.h"
 #import "CommViewController.h"
 #import "PostCell.h"
-#import "Posts.h"
 #import "Post.h"
 #import "ItemStore.h"
 #import "MJRefresh.h"
@@ -177,20 +176,12 @@
 {
     NSArray *dbPost = [ItemStore readPostsFromIndex:0 toIndex:10];
     [self.viewModel.postItems addObjectsFromArray:dbPost];
-    /*
-//    NSArray *postArray = [[ItemStore sharedItemStore] fetchAllPostsFromDatabase];
+
+    //如果数据库中没有想要数据，就从网络加载
     NSArray *postArray = nil;
-    if (postArray == nil || postArray.count==0) {   //如果数据库中没有想要数据，就从网络加载
+    if (postArray == nil || postArray.count==0) {
         [self.tableView headerBeginRefreshing];
-    } else {
-        _posts = [[Posts alloc] initWithPosts:postArray];
-        _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postArray.count];
-        Post *firstP = _posts.postItems.firstObject;
-        if (firstP.title != nil) {
-            self.tableView.tableHeaderView = nil;
-            [self.tableView reloadData];
-        } 
-    }*/
+    }
 }
 
 #pragma mark 删除旧的post数据

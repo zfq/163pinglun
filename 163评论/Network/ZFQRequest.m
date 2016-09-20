@@ -125,3 +125,39 @@
 }
 
 @end
+
+@implementation PLTagRequest
+
+- (NSString *)pathURL
+{
+    return @"/wp-json/wp/v2/tags?page=1&per_page=100";
+}
+
+- (NSString *)httpMethod
+{
+    return @"GET";
+}
+
+- (NSDictionary *)requestParam
+{
+    return nil;
+}
+
+- (void)response:(id)responseObj
+{
+    if (!responseObj) {
+        return;
+    }
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseObj options:0 error:nil];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dic = (NSDictionary *)obj;
+        Tag *t = [[Tag alloc] init];
+        t.index = idx;
+        [t readFromJSONDictionary:dic];
+        [tempArray addObject:t];
+    }];
+    self.tags = tempArray;
+}
+
+@end

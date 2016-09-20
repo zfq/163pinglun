@@ -45,20 +45,36 @@
  */
 + (NSArray<Post *> *)readPostsFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
 
+/**
+ *  初始化数据库、建表
+ *
+ *  @return 初始化是否成功
+ */
 + (BOOL)initDB;
 
-/* 创建数据对象 */
+/**
+ *  保存tag
+ *
+ *  @param tags 待存入数据库中的tag
+ *
+ *  @return 是否保存成功
+ */
++ (BOOL)saveTags:(NSArray<Tag *> *)tags;
+
++ (NSArray<Tag *> *)readTags;
+/*
+//创建数据对象
 - (Tag *)createTag;
 - (Post *)createPost;
 - (Content *)createContent;
 - (Author *)createAuthorWithAuthorID:(NSNumber *)authorID;
 - (Author *)searchAuthorWithAuthorID:(NSNumber *)authorID;
 
-/*删除数据对象*/
+//删除数据对象
 - (void)deleteAllContentByPostID:(NSNumber *)postID;
 - (void)deleteAllTags;
 
-/* 网络部分操作 */
+//网络部分操作
 - (void)fetchTagsWithCompletion:(void(^)(Tags *tags,NSError *error))block;
 - (void)fetchPostsWithCompletion:(void (^)(Posts *posts,NSError *error))block;
 - (void)fetchContentsWithCompletion:(void (^)(Contents *contents,NSError *error))block;
@@ -68,7 +84,7 @@
 - (void)saveContext;
 - (NSURL *)cacheDataDirectory;
 
-/* 本地数据库操作 */
+//本地数据库操作
 - (NSArray *)fetchTagsFromDatabase;
 - (NSArray *)fetchAllPostsFromDatabase;
 - (NSArray *)fetchAllPostsFromDatabaseWithTagName:(NSString *)tagName;
@@ -76,4 +92,6 @@
 - (void)fetchContentsFromDatabaseWithPostID:(NSString *)postID completion:(void (^)(NSArray *contents))completion; //异步
 
 - (void)deleteAllContents;
+*/
+
 @end

@@ -127,6 +127,7 @@ static NSString *reuseId = @"RandomPostCell";
 
 - (void)loadRandomPostData
 {
+    /*
     //加载数据
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_posts removeAllObjects];
@@ -147,6 +148,7 @@ static NSString *reuseId = @"RandomPostCell";
     
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
+     */
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -203,7 +205,7 @@ static NSString *reuseId = @"RandomPostCell";
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
     [postTableView removeGestureRecognizer:panGesture];
-    [[ItemStore sharedItemStore] cancelCurrentRequtest];
+//    [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -363,7 +365,7 @@ static NSString *reuseId = @"RandomPostCell";
             } completion:^(BOOL finished) {
                 [self dismissRandomPostView];
                 //取消当前请求
-                [[ItemStore sharedItemStore] cancelCurrentRequtest];
+//                [[ItemStore sharedItemStore] cancelCurrentRequtest];
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             }];
             //移除pan手势

@@ -9,9 +9,7 @@
 #import "ItemStore.h"
 #import "FQConnection.h"
 #import "Tag.h"
-#import "Tags.h"
 #import "Post.h"
-#import "Posts.h"
 #import "Content.h"
 #import "Contents.h"
 #import "RandomPost.h"
@@ -188,7 +186,6 @@
 
 + (BOOL)savePost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts
 {
-    
     //筛选出交集和新增的post
     NSMutableArray *insertPosts = [[NSMutableArray alloc] init];    //A中除去交集的部分
     NSMutableArray *existPosts = [[NSMutableArray alloc] init];     //交集
@@ -278,70 +275,48 @@
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
         while ([set next]) {
-            NSString *pId= [set stringForColumnIndex:0];
-            NSString *nId= [set stringForColumnIndex:1];
-            NSString *preId= [set stringForColumnIndex:2];
-            NSString *date= [set stringForColumnIndex:3];
-            NSString *excerpt= [set stringForColumnIndex:4];
-            NSString *tag= [set stringForColumnIndex:5];
-            NSString *title= [set stringForColumnIndex:6];
-            NSInteger views = [set intForColumnIndex:7];
-            Post *p = [[Post alloc] init];
-            p.postID = pId;
-            p.nextPostID = nId;
-            p.prevPostID = preId;
-            p.date = date;
-            p.excerpt = excerpt;
-            p.tag = tag;
-            p.title = title;
-            p.views = views;
-            
+            Post *p = [Post instanceFromFMResultSet:set];
             [posts addObject:p];
         }
     }];
     return posts;
 }
 
-#pragma mark - create
-- (Tag *)createTag
++ (BOOL)saveTags:(NSArray<Tag *> *)tags
 {
-    /*
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Tag"
-                                         inManagedObjectContext:self.managedObjectContext];
-     */
-    return nil;
-}
-
-- (Post *)createPost
-{
-    return nil;
-//    return [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];;
-}
-
-- (Content *)createContent
-{
-    return nil;
-    /*
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Content"
-                                         inManagedObjectContext:self.managedObjectContext];
-     */
-}
-
-- (Author *)createAuthorWithAuthorID:(NSNumber *)authorID
-{
-    return nil;
-    /*
-    Author *author = [self searchAuthorWithAuthorID:authorID];
-    if (author == nil) {
-        author = [NSEntityDescription insertNewObjectForEntityForName:@"Author" inManagedObjectContext:self.managedObjectContext];
-//        [self saveContext];  //这里不能保存 因为Post的信息还没有完全赋值完
-        return author;
-    } else {
-        return author;
+    if (tags.count == 0) {
+        return YES;
     }
-     */
+    
+    //先删除所有的tags,然后再存入
+    NSString *sql = @"DELETE FROM PLTag";
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:sql];
+    }];
+    
+    //插入数据
+    Tag *tag = tags[0];
+    
+    NSMutableString *mutStr = [[NSMutableString alloc] init];
+    [mutStr appendString:@"INSERT INTO PLTag (tagID,tagIndex,tagName,count,tagSlug)"];
+    [mutStr appendFormat:@" SELECT '%ld' AS tagID, '%ld' AS tagIndex, '%@' AS tagName, '%ld' AS count, '%@' AS tagSlug",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
+    if (tags.count > 1) {
+        for (NSInteger i = 0; i < tags.count; i++) {
+            tag = tags[i];
+            [mutStr appendFormat:@" UNION SELECT '%ld' , '%ld', '%@' , '%ld', '%@' ",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
+        }
+    }
+    [mutStr appendString:@";"];
+    ZFQLog(@"%@",mutStr);
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:mutStr];
+    }];
+    return YES;
 }
 
+#pragma mark - create
+
+/*
 - (Author *)searchAuthorWithAuthorID:(NSNumber *)authorID
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -361,9 +336,10 @@
         return [fetchedObjects firstObject];
     }
 }
-
+*/
 - (void)deleteAllContentByPostID:(NSNumber *)postID
 {
+    /*
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Content" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
@@ -383,7 +359,7 @@
             [self saveContext];
         }
     }
-
+*/
 }
 
 - (void)deleteAllContents
@@ -401,7 +377,7 @@
     if (entityName == nil || [entityName isEqualToString:@""]) {
         return;
     }
-    
+    /*
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
     NSError *error;
     NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -414,48 +390,24 @@
     }
     
     [self saveContext];
+     */
+}
+
++ (NSArray<Tag *> *)readTags
+{
+    NSString *sql = @"SELECT * FROM Tags";
+    NSMutableArray *tags = [[NSMutableArray alloc] init];
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        FMResultSet *set = [db executeQuery:sql];
+        while ([set next]) {
+            Tag *tag = [Tag instanceFromFMResultSet:set];
+            [tags addObject:tag];
+        }
+    }];
+    return tags;
 }
 
 #pragma mark - fetch data from network
-- (void)fetchTagsWithCompletion:(void(^)(Tags * tags,NSError *error))block
-{
-//    NSString *requestString = [HOSTURL stringByAppendingString:@"/wp-json/posts/types/post/taxonomies/post_tag/terms"];
-//    NSString *requestString = @"http://163pinglun.com/wp-json/posts/types/post/taxonomies/post_tag/terms";
-    NSString *requestUrl = [HOSTURL stringByAppendingString:@"/wp-json/wp/v2/tags?page=1&per_page=100"];
-    NSURL *url = [NSURL URLWithString:requestUrl];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.timeoutInterval = 40;
-    [request setHTTPMethod:@"GET"];
-    Tags *t = [[Tags alloc] init];
-    if (_currConnection == nil) {
-        _currConnection = [[FQConnection alloc] initWithRequest:request];
-    } else {
-        _currConnection.request = request;
-    }
-    _currConnection.isDictionary = NO;
-    [_currConnection setCompletionBlock:block];
-    [_currConnection setJsonRootObject:t];
-    [_currConnection start];
-}
-
-- (void)fetchPostsWithCompletion:(void (^)(Posts *posts,NSError *error))block
-{
-//    NSString *requestString = @"http://163pinglun.com/wp-json/posts";
-    NSURL *url = [NSURL URLWithString:_cotentsURL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.timeoutInterval = 40;
-    [request setHTTPMethod:@"GET"];
-    Posts *posts = [[Posts alloc] init];
-    if (_currConnection == nil) {
-        _currConnection = [[FQConnection alloc] initWithRequest:request];
-    } else {
-        _currConnection.request = request;
-    }
-    [_currConnection setCompletionBlock:block];
-    [_currConnection setJsonRootObject:posts];
-    _currConnection.isDictionary = NO;
-    [_currConnection start];
-}
 
 - (void)fetchContentsWithCompletion:(void (^)(Contents *contents,NSError *error))block
 {
@@ -501,6 +453,7 @@
 
 - (void)saveContext
 {
+    /*
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges]) { // && ![managedObjectContext save:&error]
@@ -510,10 +463,11 @@
             }
         }
     }
+     */
 }
 
 #pragma mark - Core Data stack
-
+/*
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
 - (NSManagedObjectContext *)managedObjectContext
@@ -643,7 +597,7 @@
         });
     });
 }
-
+*/
 
 @end
 

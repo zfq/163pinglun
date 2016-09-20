@@ -126,7 +126,7 @@ NSString * const k163ActionAbout = @"163ActionAbout";
         
     } else if ([actionName isEqualToString:k163ActionClearCache]) {
         
-        [[ItemStore sharedItemStore] deleteAllContents];
+//        [[ItemStore sharedItemStore] deleteAllContents];
         
     } else if ([actionName isEqualToString:k163ActionFeedback]) {
         

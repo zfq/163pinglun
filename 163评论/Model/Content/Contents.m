@@ -43,7 +43,7 @@
         
         //从数据库中删除postID的所有content,再把新的content添加进去
         if (isDel == NO) {
-            [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
+//            [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
             isDel = YES;
         }
         
@@ -54,7 +54,7 @@
         for (int i=1;i<=comments.count;i++) {
             NSString *indexstr = [NSString stringWithFormat:@"%d",i];
             NSDictionary *dic = [comments objectForKey:indexstr];
-            Content *c = [[ItemStore sharedItemStore] createContent];
+            Content *c = [[Content alloc] init]; //[[ItemStore sharedItemStore] createContent];
             [c readFromJSONDictionary:dic];
             c.postID = postID;
             c.groupID = groupID;
@@ -65,7 +65,7 @@
         }
         
         [_contentItems addObject:tempArray];
-        [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
+//        [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
         
         preAllRows += currRows;
     }
@@ -83,7 +83,7 @@
         NSInteger count = comments.count;
         //从数据库中删除postID的所有content,再把新的content添加进去
         if (isDel == NO) {
-            [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
+//            [[ItemStore sharedItemStore] deleteAllContentByPostID:postID];
             isDel = YES;
         }
         
@@ -93,7 +93,7 @@
         
         NSMutableArray *tempArray = [[NSMutableArray alloc] initWithCapacity:count];
         for (NSInteger j = 0; j < count; j++) {
-            Content *c = [[ItemStore sharedItemStore] createContent];
+            Content *c = [[Content alloc] init];//[[ItemStore sharedItemStore] createContent];
             [c readFromJSONDictionary:comments[j] apiVersion:nil];
             c.postID = postID;
             c.groupID = groupID;
@@ -104,7 +104,7 @@
         }
         
         [_contentItems addObject:tempArray];
-        [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
+//        [[ItemStore sharedItemStore] saveContext];  //这里的保存可不可以放在外面？？
         
         preAllRows += currRows;
     }
