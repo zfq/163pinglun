@@ -21,10 +21,23 @@
 
 + (ItemStore*)sharedItemStore;
 
-
+/**
+ *  数据库文件的路径
+ *
+ *  @return 数据库文件的路径
+ */
 + (NSString *)databasePath;
 
+/**
+ *  从指定的数组中筛选出
+ *
+ *  @param newPosts    从服务器端拉取的数据
+ *  @param originPosts 本地当前显示的数据
+ *
+ *  @return 返回一个数组，这个数组包含两个数组，第一个数组存放的是新增的post,第二个数组存放的是newPosts中的与originPosts中postID相同的post,注意这个post是在newPosts中的。
+ */
 + (NSArray *)filterPost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts;
+
 /**
  *  保存posts到数据库中，并更新对应浏览量
  *
@@ -61,7 +74,29 @@
  */
 + (BOOL)saveTags:(NSArray<Tag *> *)tags;
 
-+ (NSArray<Tag *> *)readTags;
+/**
+ *  从数据库中读出所有的Tag
+ *
+ *  @return tag对象数组
+ */
++ (NSArray<Tag *> *)readTagsFromDB;
+
+/**
+ *  保存评论内容，这个为json字符串
+ *
+ *  @param jsonStr 从服务器端拉回来的json数据
+ *  @param postID  对应的帖子ID
+ */
++ (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID;
+
+/**
+ *  从数据库中读取
+ *
+ *  @param postID 帖子id
+ *
+ *  @return json字符串
+ */
++ (NSString *)readCommentsFromDBWithPostID:(NSString *)postID;
 /*
 //创建数据对象
 - (Tag *)createTag;

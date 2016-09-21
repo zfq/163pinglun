@@ -92,6 +92,7 @@
             NSLog(@"建表post失败");
         }
         
+        /*
         NSString *commentSQL = @" \
         CREATE TABLE IF NOT EXISTS PLComment \
         ( \
@@ -104,6 +105,13 @@
         preAllRows TEXT, \
         time TEXT, \
         user TEXT \
+        );";*/
+        
+        NSString *commentSQL = @" \
+        CREATE TABLE IF NOT EXISTS PLComment \
+        ( \
+        postID TEXT PRIMARY KEY, \
+        jsonStr TEXT \
         );";
         
         if ([db executeUpdate:commentSQL]) {
@@ -165,14 +173,17 @@
         
         if (pB < B.count) {
             tempIdB = [(Post *)B[pB] postID];
+        } else {
+            [insertPosts addObject:A[pA]];
+            pA++;
         }
         
         NSComparisonResult result = (tempIdB == nil) ? NSOrderedDescending : [tempIdA compare:tempIdB];
         if (result == NSOrderedAscending) {  //如果b大
-            pA++;
+            pB++;
         } else if (result == NSOrderedDescending) { //如果a大,说明此时pA所指的post是新增的
             [insertPosts addObject:A[pA]];
-            pB++;
+            pA++;
         } else {
             [existPosts addObject:A[pA]];
             
@@ -187,37 +198,9 @@
 + (BOOL)savePost:(NSArray<Post *> *)newPosts originAllPosts:(NSArray<Post *> *)originPosts
 {
     //筛选出交集和新增的post
-    NSMutableArray *insertPosts = [[NSMutableArray alloc] init];    //A中除去交集的部分
-    NSMutableArray *existPosts = [[NSMutableArray alloc] init];     //交集
-    
-    NSArray *A = newPosts;
-    NSArray *B = originPosts;
-    
-    NSInteger pA = 0,pB = 0;
-    
-    NSString *tempIdA, *tempIdB;
-    
-    while (pA < A.count) {
-        tempIdA = [(Post *)A[pA] postID];
-        
-        if (pB < B.count) {
-            tempIdB = [(Post *)B[pB] postID];
-        }
-        
-        NSComparisonResult result = (tempIdB == nil) ? NSOrderedDescending : [tempIdA compare:tempIdB];
-        if (result == NSOrderedAscending) {  //如果b大
-            pA++;
-        } else if (result == NSOrderedDescending) { //如果a大,说明此时pA所指的post是新增的
-            [insertPosts addObject:A[pA]];
-            pB++;
-            pA++;
-        } else {
-            [existPosts addObject:A[pA]];
-            
-            pA++;
-            pB++;
-        }
-    }
+    NSArray *array = [self filterPost:newPosts originAllPosts:originPosts];
+    NSArray *insertPosts = array[0];
+    NSArray *existPosts = array[1];
     
     //执行SQL
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
@@ -393,9 +376,9 @@
      */
 }
 
-+ (NSArray<Tag *> *)readTags
++ (NSArray<Tag *> *)readTagsFromDB
 {
-    NSString *sql = @"SELECT * FROM Tags";
+    NSString *sql = @"SELECT * FROM PLTag ORDER BY tagIndex ASC";
     NSMutableArray *tags = [[NSMutableArray alloc] init];
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
@@ -405,6 +388,27 @@
         }
     }];
     return tags;
+}
+
++ (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID
+{
+    NSString *sql = @"INSERT INTO PLComment VALUES(?,?);";
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:@"%@",sql,postID,jsonStr];
+    }];
+}
+
++ (NSString *)readCommentsFromDBWithPostID:(NSString *)postID
+{
+    __block NSString *jsonStr = nil;
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM Comments WHERE postID = '%@'",postID];
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        FMResultSet *set = [db executeQuery:sql];
+        while ([set next]) {
+            jsonStr = [set stringForColumnIndex:0];
+        }
+    }];
+    return jsonStr;
 }
 
 #pragma mark - fetch data from network
