@@ -27,6 +27,7 @@
         NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
         [commentReq response:jsonData];
         //回调
+        self.contentItems = commentReq.contentsItems;
         if (commentReq.contentsItems.count > 0) {
             if (completionBlk) {
                 completionBlk(commentReq.contentsItems,nil);

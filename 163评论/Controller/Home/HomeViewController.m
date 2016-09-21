@@ -178,7 +178,7 @@
     [self.viewModel.postItems addObjectsFromArray:dbPost];
 
     //如果数据库中没有想要数据，就从网络加载
-    NSArray *postArray = nil;
+    NSArray *postArray = self.viewModel.postItems;
     if (postArray == nil || postArray.count==0) {
         [self.tableView headerBeginRefreshing];
     }

@@ -392,20 +392,19 @@
 
 + (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID
 {
-    NSString *sql = @"INSERT INTO PLComment VALUES(?,?);";
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"%@",sql,postID,jsonStr];
+        [db executeUpdate:@"INSERT INTO PLComment VALUES(?,?);",postID,jsonStr];
     }];
 }
 
 + (NSString *)readCommentsFromDBWithPostID:(NSString *)postID
 {
     __block NSString *jsonStr = nil;
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM Comments WHERE postID = '%@'",postID];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM PLComment WHERE postID = '%@'",postID];
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
         while ([set next]) {
-            jsonStr = [set stringForColumnIndex:0];
+            jsonStr = [set stringForColumnIndex:1];
         }
     }];
     return jsonStr;

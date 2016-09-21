@@ -255,6 +255,7 @@
     __weak typeof(self) weakSelf = self;
     
     [_viewModel fetchCommentsWithPostID:postId completion:^(NSArray<NSArray *> *contents, NSError *error) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if (error) {
             //如果数据库存在 就从数据库中读取，否则就显示错误提示
         } else {
@@ -264,23 +265,6 @@
             if (blk) blk();
         }
     }];
-    /*
-    [ItemStore sharedItemStore].cotentsURL = [self commentUrlWithPostId:postId];
-    
-    [[ItemStore sharedItemStore] fetchContentsWithCompletion: ^(Contents *contents, NSError *error) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        if (!error) {
-            //需要更新
-            weakSelf.post = weakSelf.postItems[_beginIndex];
-            [weakSelf updateHeaderLabelWithPost:weakSelf.post];
-            [weakSelf updateUIWithContents:contents];
-            if (blk) blk();
-        } else {
-            //如果数据库存在 就从数据库中读取，否则就显示错误提示
-            [weakSelf fetchCommentFromDBWithPostId:postId completion:blk];
-        }
-    }];
-     */
 }
 
 //根据解析结果来更新UI
@@ -294,27 +278,6 @@
     //更新UI
     self.tableView.tableHeaderView=nil;
     [self.tableView reloadData];
-}
-
-//从数据库读取跟帖
-- (void)fetchCommentFromDBWithPostId:(NSString *)postId completion:(void (^)())blk
-{
-    /*
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    __weak typeof(self) weakSelf = self;
-    [[ItemStore sharedItemStore] fetchContentsFromDatabaseWithPostID:postId completion:^(NSArray *contents) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        //处理数据
-        if (contents.count > 0) {
-            Contents *tempContents = [[Contents alloc] initWithContents:contents];
-            [weakSelf updateUIWithContents:tempContents];
-        } else {
-            [weakSelf addNoNetworkView];
-        }
-        //回调
-        if (blk) blk();
-    }];
-     */
 }
 
 - (NSString *)commentUrlWithPostId:(NSString *)postId
