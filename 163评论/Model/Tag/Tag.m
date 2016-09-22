@@ -21,8 +21,8 @@
 
 + (id)instanceFromFMResultSet:(FMResultSet *)set
 {
-    NSInteger index = [set intForColumnIndex:0];
-    NSString *tagID = [set stringForColumnIndex:1];
+    NSInteger index = [set intForColumnIndex:1];
+    NSString *tagID = [set stringForColumnIndex:0];
     NSString *tagName = [set stringForColumnIndex:2];
     NSInteger count = [set intForColumnIndex:4];
     Tag *tag = [[Tag alloc] init];
