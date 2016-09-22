@@ -228,13 +228,13 @@
         
         //2.更新已存在的帖子的浏览量
         if (existPosts.count > 0) {
-            NSMutableString *mulStr = [[NSMutableString alloc] init];
+            NSMutableString *mutStr = [[NSMutableString alloc] init];
             NSMutableString *tmpMulStr = [[NSMutableString alloc] init];
-            [mulStr appendString:@"UPDATE PLPost SET views = CASE postID"];
+            [mutStr appendString:@"UPDATE PLPost SET views = CASE postID"];
             Post *obj = nil;
             for (NSInteger i = 0; i < existPosts.count; i++) {
                 obj = existPosts[i];
-                [mulStr appendFormat:@" WHEN %@ THEN %ld",obj.postID,(long)obj.views];
+                [mutStr appendFormat:@" WHEN %@ THEN %ld",obj.postID,(long)obj.views];
                 
                 if (i == 0 || i == existPosts.count) {
                     [tmpMulStr appendFormat:@"%@",obj.postID];
@@ -242,8 +242,14 @@
                     [tmpMulStr appendFormat:@"%@,",obj.postID];
                 }
             }
-            [mulStr appendString:@" END "];
-            [mulStr appendFormat:@" WHERE postID IN (%@);",tmpMulStr];
+            [mutStr appendString:@" END "];
+            [mutStr appendFormat:@" WHERE postID IN (%@);",tmpMulStr];
+            
+            if ([db executeUpdate:mutStr]) {
+                NSLog(@"插入post成功");
+            } else {
+                NSLog(@"插入post失败");
+            }
         }
         
     }];

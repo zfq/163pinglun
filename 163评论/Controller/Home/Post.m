@@ -19,14 +19,16 @@
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
     self.postID = [NSString stringWithFormat:@"%zi",[dictionary[@"id"] integerValue]];
-//    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
     
+//    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
 //    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
 //    [self.inAuthor readFromJSONDictionary:autDic];
 
+    //设置标题
     NSString *tit = dictionary[@"title"][@"rendered"]; //[dictionary objectForKey:@"title"];
     self.title = [tit stringByDecodingHTMLEntities];
     
+    //设置摘要
     NSString *tempStr = dictionary[@"excerpt"][@"rendered"]; //[dictionary objectForKey:@"excerpt"];
     if (tempStr) {
         NSMutableString *string = [NSMutableString stringWithString:tempStr];
@@ -37,11 +39,11 @@
         self.excerpt = [finalExce stringByDecodingHTMLEntities];
     }
 
-//    NSDictionary *post_metaDic = [dictionary objectForKey:@"post_meta"];
-//    NSString *viewsStr= [[post_metaDic objectForKey:@"views"] objectAtIndex:0];
-//    self.views = [NSNumber numberWithInteger:[viewsStr integerValue]];
+    //设置浏览量
+    NSArray<NSString *> *viewsStr = dictionary[@"post_meta"][@"views"];
+    self.views = [viewsStr[0] integerValue];
     
-    NSDictionary *termsDic = [dictionary objectForKey:@"terms"];
+    NSDictionary *termsDic = dictionary[@"terms"];
     NSArray *post_tagArray= termsDic[@"tages"];
     if (post_tagArray && post_tagArray.count > 0) {
         self.tag = post_tagArray[0];
