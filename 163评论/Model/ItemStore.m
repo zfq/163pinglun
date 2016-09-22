@@ -236,7 +236,7 @@
                 obj = existPosts[i];
                 [mutStr appendFormat:@" WHEN %@ THEN %ld",obj.postID,(long)obj.views];
                 
-                if (i == 0 || i == existPosts.count) {
+                if (i == 0 || i == existPosts.count - 1) {
                     [tmpMulStr appendFormat:@"%@",obj.postID];
                 } else {
                     [tmpMulStr appendFormat:@"%@,",obj.postID];
@@ -259,8 +259,12 @@
 + (NSArray<Post *> *)readPostsFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex
 {
     NSMutableArray<Post *> *posts = [[NSMutableArray alloc] init];
-    
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM PLPost ORDER BY postID DESC LIMIT %ld,%ld;",fromIndex,toIndex];
+    NSString *sql = nil;
+    if (toIndex == 0) {
+        sql = @"SELECT * FROM PLPost ORDER BY postID DESC;";
+    } else {
+        sql = [NSString stringWithFormat:@"SELECT * FROM PLPost ORDER BY postID DESC LIMIT %ld,%ld;",fromIndex,toIndex];
+    }
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
         while ([set next]) {

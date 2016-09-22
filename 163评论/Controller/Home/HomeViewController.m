@@ -174,7 +174,7 @@
 #pragma mark - fetch posts
 - (void)fetchPostFromDatabase
 {
-    NSArray *dbPost = [ItemStore readPostsFromIndex:0 toIndex:10];
+    NSArray *dbPost = [ItemStore readPostsFromIndex:0 toIndex:0];
     [self.viewModel.postItems addObjectsFromArray:dbPost];
 
     //如果数据库中没有想要数据，就从网络加载
@@ -275,9 +275,7 @@
         if (error) {
             NSLog(@"失败:%@",error);
         } else {
-            if (postItems.count > 0) {
-                [weakSelf.viewModel.postItems addObjectsFromArray:postItems];
-                
+            if (postItems.count > 0) {                
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
             }

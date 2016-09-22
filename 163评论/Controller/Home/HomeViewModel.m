@@ -14,17 +14,17 @@
 {
     NSInteger _tagPageIndex;
     NSInteger _homePageIndex;
+    NSString *_tagName;
 }
 @end
 
 @implementation HomeViewModel
-@synthesize tagName = _tagName;
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _homePageIndex = 1;
+        
     }
     return self;
 }
@@ -85,31 +85,6 @@
     return _postItems;
 }
 
-- (NSString *)postUrlWithHeadRefreshing:(BOOL)headRefreshing
-{
-    NSString *urlStr;
-    if (self.tagName != nil) {
-        if (headRefreshing)
-            _tagPageIndex = 1;
-        else
-            _tagPageIndex ++;
-        urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts?filter[tag]=%@&page=%zi",HOSTURL,self.tagName,_tagPageIndex];
-    } else {
-        if (headRefreshing) {
-            urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2/posts",HOSTURL]; //  @"http://163pinglun.com/wp-json/posts";
-            if (self.latestPostRefreshBlk) {
-                self.latestPostRefreshBlk();
-            }
-        } else {
-            //设置当前页数
-            self.homePageIndex += 1;
-            urlStr = [NSString stringWithFormat:@"%@/wp-json/wp/v2?page=%zi",HOSTURL,self.homePageIndex];
-        }
-    }
-    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    return urlStr;
-}
-
 - (void)settingPageIndex
 {
     if (_tagName != nil) {
@@ -119,16 +94,17 @@
             _tagPageIndex ++;
     } else {
         if (_headRefreshing) {
-            
+            self.homePageIndex = 1;
         } else {
             //设置当前页数
-            _homePageIndex += 1;
+            self.homePageIndex += 1;
         }
     }
 }
 
 - (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSError *error))completionBlk
 {
+    //设置当前页数
     [self settingPageIndex];
     
     ZFQPostRequest *postReq = [[ZFQPostRequest alloc] init];
@@ -140,24 +116,20 @@
     [[ZFQRequestObj sharedInstance] sendRequest:postReq successBlk:^(ZFQBaseRequest *request, id responseObject) {
         ZFQPostRequest *req = (ZFQPostRequest *)request;
         
-        if (req.headRefreshing == YES) {
-//            if (!self.postItems) {
-//                self.postItems = [[NSMutableArray alloc] initWithArray:req.postItems];
-//            }
-        }
-        
-        if (!_postItems) {
-            _postItems = [[NSMutableArray alloc] init];
-        }
-        //保存数据
+        //保存数据,更新旧的，保存新增的
         [ItemStore savePost:req.postItems originAllPosts:self.postItems];
         
+        //如果是下拉刷新就删除内存中所有的postItem
+        NSArray *dbPosts = nil;
         if (self.homePageIndex == 1) {
             [self.postItems removeAllObjects];
+            //从数据库中读出所有的post
+            dbPosts = [ItemStore readPostsFromIndex:0 toIndex:0];
+        } else {
+            //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
+            dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
         }
         
-        //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
-        NSArray *dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
         [self.postItems addObjectsFromArray:dbPosts];
         
         if (completionBlk) {
