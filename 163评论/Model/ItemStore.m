@@ -282,15 +282,14 @@
     
     NSMutableString *mutStr = [[NSMutableString alloc] init];
     [mutStr appendString:@"INSERT INTO PLTag (tagID,tagIndex,tagName,count,tagSlug)"];
-    [mutStr appendFormat:@" SELECT '%ld' AS tagID, '%ld' AS tagIndex, '%@' AS tagName, '%ld' AS count, '%@' AS tagSlug",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
+    [mutStr appendFormat:@" SELECT %ld AS tagID, %ld AS tagIndex, '%@' AS tagName, %ld AS count, '%@' AS tagSlug",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
     if (tags.count > 1) {
         for (NSInteger i = 0; i < tags.count; i++) {
             tag = tags[i];
-            [mutStr appendFormat:@" UNION SELECT '%ld' , '%ld', '%@' , '%ld', '%@' ",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
+            [mutStr appendFormat:@" UNION SELECT %ld , %ld, '%@' , %ld, '%@' ",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
         }
     }
     [mutStr appendString:@";"];
-    ZFQLog(@"%@",mutStr);
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         [db executeUpdate:mutStr];
     }];

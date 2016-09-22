@@ -24,7 +24,7 @@
     NSInteger index = [set intForColumnIndex:1];
     NSString *tagID = [set stringForColumnIndex:0];
     NSString *tagName = [set stringForColumnIndex:2];
-    NSInteger count = [set intForColumnIndex:4];
+    NSInteger count = [set intForColumnIndex:3];
     Tag *tag = [[Tag alloc] init];
     tag.index = index;
     tag.tagID = tagID;
