@@ -4,6 +4,11 @@ PODS:
   - FMDB/SQLCipher (2.6.2):
     - SQLCipher
   - FMDB/standard (2.6.2)
+  - RealReachability (1.1.8):
+    - RealReachability/Connection (= 1.1.8)
+    - RealReachability/Ping (= 1.1.8)
+  - RealReachability/Connection (1.1.8)
+  - RealReachability/Ping (1.1.8)
   - SQLCipher (3.1.0):
     - SQLCipher/standard (= 3.1.0)
   - SQLCipher/common (3.1.0)
@@ -14,6 +19,7 @@ PODS:
 DEPENDENCIES:
   - FMDB
   - FMDB/SQLCipher
+  - RealReachability
   - ZFQRefreshControl (from `https://github.com/zfq/RefreshControl`, tag `v1.2.1`)
 
 EXTERNAL SOURCES:
@@ -28,9 +34,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  RealReachability: e6c8a2bbffa316006e8c282efc1ee2567d61a920
   SQLCipher: 4684434d5791db86512cd7e02172aefba575849e
   ZFQRefreshControl: b60a382018f8de3d50c756cf48cd4baaf647a964
 
-PODFILE CHECKSUM: 53308365e4d70ee541f1b96ea359a8c964ebed6b
+PODFILE CHECKSUM: 8bc2bcfb196b9d15069556120f93149fd75e25ed
 
 COCOAPODS: 1.0.1
