@@ -4,5 +4,6 @@ pod 'ZFQRefreshControl',:git => 'https://github.com/zfq/RefreshControl',:tag => 
 pod 'FMDB'
 pod 'FMDB/SQLCipher'
 pod 'RealReachability'
+pod 'FBRetainCycleDetector'
 
 end

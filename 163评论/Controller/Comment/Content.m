@@ -15,8 +15,8 @@
 - (void)readFromJSONDictionary:(NSDictionary *)dictionary
 {
     self.user = [[dictionary objectForKey:@"f"] stringByConvertingHTMLToPlainText];
-    self.email = [dictionary objectForKey:@"u"];
-    self.content = [NSString replaceBr:[dictionary objectForKey:@"b"]];
+    self.email = dictionary[@"u"];
+    self.content = [dictionary[@"b"] replaceBr];
     self.time = [self postTimeFromTime:[dictionary objectForKey:@"t"]];
     //postID和contentID floorIndex在contents中初始化
 }
@@ -40,7 +40,7 @@
         self.user = user;
     }
     self.email = @"";
-    self.content = [NSString replaceBr:dictionary[@"content"]];
+    self.content = [dictionary[@"content"] replaceBr];
     self.time = [self postTimeFromTime:[dictionary objectForKey:@"createTime"]];
 }
 

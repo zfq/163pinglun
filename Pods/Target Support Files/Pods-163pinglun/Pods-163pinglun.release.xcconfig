@@ -1,8 +1,8 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FMDB" "${PODS_ROOT}/Headers/Public/RealReachability" "${PODS_ROOT}/Headers/Public/SQLCipher" "${PODS_ROOT}/Headers/Public/ZFQRefreshControl"
-LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/FMDB" "$PODS_CONFIGURATION_BUILD_DIR/RealReachability" "$PODS_CONFIGURATION_BUILD_DIR/SQLCipher" "$PODS_CONFIGURATION_BUILD_DIR/ZFQRefreshControl"
-OTHER_CFLAGS = $(inherited) -DSQLITE_HAS_CODEC -DHAVE_USLEEP=1 $(inherited) -DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_THREADSAFE -DSQLCIPHER_CRYPTO_CC $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/FMDB" -isystem "${PODS_ROOT}/Headers/Public/RealReachability" -isystem "${PODS_ROOT}/Headers/Public/SQLCipher" -isystem "${PODS_ROOT}/Headers/Public/ZFQRefreshControl"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"FMDB" -l"RealReachability" -l"SQLCipher" -l"ZFQRefreshControl" -l"sqlite3" -framework "Security"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FBRetainCycleDetector" "${PODS_ROOT}/Headers/Public/FMDB" "${PODS_ROOT}/Headers/Public/RealReachability" "${PODS_ROOT}/Headers/Public/SQLCipher" "${PODS_ROOT}/Headers/Public/ZFQRefreshControl"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/FBRetainCycleDetector" "$PODS_CONFIGURATION_BUILD_DIR/FMDB" "$PODS_CONFIGURATION_BUILD_DIR/RealReachability" "$PODS_CONFIGURATION_BUILD_DIR/SQLCipher" "$PODS_CONFIGURATION_BUILD_DIR/ZFQRefreshControl"
+OTHER_CFLAGS = $(inherited) -DSQLITE_HAS_CODEC -DHAVE_USLEEP=1 $(inherited) -DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_THREADSAFE -DSQLCIPHER_CRYPTO_CC $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/FBRetainCycleDetector" -isystem "${PODS_ROOT}/Headers/Public/FMDB" -isystem "${PODS_ROOT}/Headers/Public/RealReachability" -isystem "${PODS_ROOT}/Headers/Public/SQLCipher" -isystem "${PODS_ROOT}/Headers/Public/ZFQRefreshControl"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"FBRetainCycleDetector" -l"FMDB" -l"RealReachability" -l"SQLCipher" -l"ZFQRefreshControl" -l"c++" -l"sqlite3" -framework "CoreGraphics" -framework "Foundation" -framework "Security" -framework "UIKit"
 PODS_BUILD_DIR = $BUILD_DIR
 PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

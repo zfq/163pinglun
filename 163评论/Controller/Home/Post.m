@@ -25,17 +25,17 @@
 //    [self.inAuthor readFromJSONDictionary:autDic];
 
     //设置标题
-    NSString *tit = dictionary[@"title"][@"rendered"]; //[dictionary objectForKey:@"title"];
+    NSString *tit = dictionary[@"title"][@"rendered"];
     self.title = [tit stringByDecodingHTMLEntities];
     
     //设置摘要
-    NSString *tempStr = dictionary[@"excerpt"][@"rendered"]; //[dictionary objectForKey:@"excerpt"];
+    NSString *tempStr = dictionary[@"excerpt"][@"rendered"];
     if (tempStr) {
         NSMutableString *string = [NSMutableString stringWithString:tempStr];
         //最后的删掉\n
         [string deleteCharactersInRange:NSMakeRange(0, 3)];
         [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];
-        NSString *finalExce = [NSString replaceBr:string];
+        NSString *finalExce = [string replaceBr];
         self.excerpt = [finalExce stringByDecodingHTMLEntities];
     }
 
@@ -89,7 +89,7 @@
         //最后的删掉\n
         [string deleteCharactersInRange:NSMakeRange(0, 3)];
         [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];
-        NSString *finalExce = [NSString replaceBr:string];
+        NSString *finalExce = [string replaceBr];
         self.excerpt = [finalExce stringByDecodingHTMLEntities];
     }
     

@@ -319,10 +319,15 @@
 	}
 }
 
-+ (NSString *)replaceBr:(NSString *)brStr
+- (NSString *)replaceBr
 {
-    NSString *str = [brStr stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
-	return [str stringByReplacingOccurrencesOfString:@"<br />" withString:@"\n"];
+    //将<br><p>替换成\n
+    NSRegularExpression *lineBreakReg = [NSRegularExpression regularExpressionWithPattern:@"<(br\\s*/|p)>" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSString *str = [lineBreakReg stringByReplacingMatchesInString:self options:NSMatchingReportCompletion range:NSMakeRange(0, self.length) withTemplate:@"\n"];
+    //将<br />或</p>替换成空白字符
+    NSRegularExpression *emptyReg = [NSRegularExpression regularExpressionWithPattern:@"</p>" options:NSRegularExpressionCaseInsensitive error:nil];
+    str = [emptyReg stringByReplacingMatchesInString:str options:NSMatchingReportCompletion range:NSMakeRange(0, str.length) withTemplate:@""];
+    return str;
 }
 
 @end
