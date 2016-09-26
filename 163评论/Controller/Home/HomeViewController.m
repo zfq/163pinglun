@@ -30,7 +30,7 @@
 @interface HomeViewController () <TagViewControllerDelegate>
 {
     NSInteger _homePageIndex;
-    UITableViewCell *_prototypeCell;        //预留一个用来计算高度
+    __weak PostCell *_prototypeCell;        //预留一个用来计算高度
    
     NSInteger tagPageIndex;
     
@@ -89,8 +89,9 @@
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (!_prototypeCell) {
-        _prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
+        _prototypeCell  = (PostCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     }
+    self.cellsHeightDic = [[NSMutableDictionary alloc] init];
     
     //初始化数据库
     [ItemStore initDB];
@@ -177,6 +178,8 @@
     NSArray *dbPost = [ItemStore readPostsFromIndex:0 toIndex:0];
     [self.viewModel.postItems addObjectsFromArray:dbPost];
 
+    [self caculateCellHeight];
+    
     //如果数据库中没有想要数据，就从网络加载
     NSArray *postArray = self.viewModel.postItems;
     if (postArray == nil || postArray.count==0) {
@@ -184,6 +187,17 @@
     }
 }
 
+- (void)caculateCellHeight
+{
+    NSArray *array = self.viewModel.postItems;
+    __weak typeof(self) weakSelf = self;
+    [array enumerateObjectsUsingBlock:^(Post *p, NSUInteger idx, BOOL * _Nonnull stop) {
+        _prototypeCell.post = p;
+        CGFloat height = [_prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+        NSString *key = [NSString stringWithFormat:@"%lu",idx];
+        [weakSelf.cellsHeightDic setObject:@(height) forKey:key];
+    }];
+}
 #pragma mark 删除旧的post数据
 - (void)removeAllOldPostsFromDatabase
 {
@@ -213,53 +227,14 @@
         } else {
             if (postItems.count > 0) {
                 [weakSelf removeAllOldPostsFromDatabase];
-                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postItems.count];
+                [weakSelf caculateCellHeight];
+//                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postItems.count];
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
             }
         }
     }];
 
-    /*
-    [ItemStore sharedItemStore].cotentsURL = [weakSelf.viewModel postUrlWithHeadRefreshing:YES];
-    [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-        //先删除数据库中的所有post
-        if (error == nil)
-        {
-            if (posts != nil && (posts.postItems.count > 0))
-            {
-                [self removeAllOldPostsFromDatabase];
-                _posts = posts;
-                _cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:posts.postItems.count];
-                self.tableView.tableHeaderView = nil;
-                [self.tableView reloadData];
-    
-            }
-        } //end if(error == nil)
-        
-        [self.tableView headerEndRefreshing];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    }];
-    [weakSelf.viewModel setHomePageIndex:1];
-    //显示footer
-    [self.tableView setFooterHidden:NO];
-    */
-    
-    /*
-    [self.tableView headerEndRefreshing];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    if (_posts==nil || _posts.postItems.count ==0) {
-        //添加站位提示view
-        PlaceholderView *pView = [[PlaceholderView alloc] initWithFrame:self.tableView.bounds content:@"网络不可用\n下拉刷新试试" fontSize:24.0f];
-        self.tableView.tableHeaderView = pView;
-    }
-    [self.tableView setFooterHidden:YES];
-    //提示网络不可用
-    [[ZFQHUD sharedView] showWithMsg:@"网络不可用！" duration:2 completionBlk:^{
-        
-    }];
-    */
-    
 }
 
 - (void)footerRereshing
@@ -281,42 +256,6 @@
             }
         }
     }];
-    /*
-    if ([[Reachability reachabilityWithHostName:HOST_NAME] currentReachabilityStatus] != NotReachable) {
-        //设置网络可用
-        [GeneralService setNetworkReachability:YES];
-       
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
-        [ItemStore sharedItemStore].cotentsURL = [self.viewModel postUrlWithHeadRefreshing:NO];
-        
-        [[ItemStore sharedItemStore] fetchPostsWithCompletion:^(Posts *posts, NSError *error) {
-            if (posts != nil && (posts.postItems.count > 0))
-            {
-                [_posts addPostItems:posts.postItems];
-                if (self.viewModel.tagName == nil)
-                {
-//                    [self saveCurrHomePage];
-                }//保存当前为第几页
-                else
-                    tagPageIndex ++;
-              
-                [self.tableView reloadData];
-            }
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            [self.tableView footerEndRefreshing];
-        }];
-        
-    } else {
-        [self.tableView footerEndRefreshing];
-        
-        //提示网络不可用
-        [GeneralService setNetworkReachability:NO];
-        [[ZFQHUD sharedView] showWithMsg:@"网络不可用！" duration:2 completionBlk:^{
-            
-        }];
-    }
-     */
 }
 
 #pragma mark - tableView dateSource delegate
@@ -347,18 +286,9 @@
 #pragma mark - tableView delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
-    NSNumber *height = [_cellsHeightDic objectForKey:row];
-    if (height != nil) {
-        return height.floatValue;
-    } else {
-        Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
-        PostCell *tempCell = (PostCell *)_prototypeCell;
-        tempCell.post = tempPost;
-        CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        [_cellsHeightDic setObject:[NSNumber numberWithFloat:(size.height+1)] forKey:row];
-        return size.height+1;
-    }
+    NSString *key = [NSString stringWithFormat:@"%ld",indexPath.row];
+    NSNumber *height = [_cellsHeightDic objectForKey:key];
+    return height.floatValue;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
