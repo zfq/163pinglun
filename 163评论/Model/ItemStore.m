@@ -64,11 +64,12 @@
 
 + (BOOL)initDB
 {
-    NSLog(@"%@",[self databasePath]);
     //打开数据库
     FMDatabase *db = [FMDatabase databaseWithPath:[self databasePath]];
     if (![db open]) return NO;
     
+    ZFQLog(@"%@",[self databasePath]);
+    ZFQLog(@"%@",[FMDatabase sqliteLibVersion]);
     //
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
        
@@ -220,9 +221,9 @@
             [mutStr appendString:@";"];
             
             if ([db executeUpdate:mutStr]) {
-                NSLog(@"插入post成功");
+                ZFQLog(@"插入post成功");
             } else {
-                NSLog(@"插入post失败");
+                ZFQLog(@"插入post失败");
             }
         }
         
@@ -246,9 +247,9 @@
             [mutStr appendFormat:@" WHERE postID IN (%@);",tmpMulStr];
             
             if ([db executeUpdate:mutStr]) {
-                NSLog(@"插入post成功");
+                ZFQLog(@"插入post成功");
             } else {
-                NSLog(@"插入post失败");
+                ZFQLog(@"插入post失败");
             }
         }
         

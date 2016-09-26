@@ -354,7 +354,7 @@
     } else {
         Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
         PostCell *tempCell = (PostCell *)_prototypeCell;
-        tempCell.excerpt.text = tempPost.excerpt;
+        tempCell.post = tempPost;
         CGSize size = [tempCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         [_cellsHeightDic setObject:[NSNumber numberWithFloat:(size.height+1)] forKey:row];
         return size.height+1;

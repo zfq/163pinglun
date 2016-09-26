@@ -117,16 +117,20 @@
     NSDate *currDate = [NSDate date];
     
     //-------------将time转换为NSDate----------
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) {
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    }
+    
     NSDate *date = [formatter dateFromString:time];
     
     NSTimeInterval interval = [currDate timeIntervalSinceDate:date];
     
-    NSInteger oneDay = 24 * 60 * 60;
-    NSInteger oneHour = 60 * 60;
+    NSInteger oneDay = 86400;   //24 * 60 * 60;
+    NSInteger oneHour = 3600;   //60 * 60
     NSInteger oneMinute = 60;
-    if (interval < 2*oneDay)
+    if (interval < 2 * oneDay)
     {
         if (interval < oneDay)
         {
@@ -161,21 +165,6 @@
     }
     
     return postTime;
-}
-
-- (BOOL)validateTitleOrExpert:(NSError **)outError
-{
-    if ((self.title.length ==0) && (self.excerpt.length == 0)) {
-        if (outError != NULL) {
-            NSString *errorStr = NSLocalizedString(@"标题和摘要不能为空", @"标题和摘要不能为空");
-            NSDictionary *userInfoDic = @{NSLocalizedDescriptionKey:errorStr};
-            NSError *error = [[NSError alloc] initWithDomain:kPostValidationDomain code:kPostValidationPostOrExceptCode userInfo:userInfoDic];
-            *outError = error;
-        }
-        return NO;
-    } else {
-        return YES;
-    }
 }
 
 + (id)instanceFromFMResultSet:(FMResultSet *)set
