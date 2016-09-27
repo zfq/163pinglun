@@ -87,8 +87,8 @@
  *  @param jsonStr 从服务器端拉回来的json数据
  *  @param postID  对应的帖子ID
  */
-+ (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID;
-
+//+ (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID;
++ (void)saveComments:(NSData *)jsonData postID:(NSString *)postID;
 /**
  *  从数据库中读取
  *
@@ -96,7 +96,7 @@
  *
  *  @return json字符串
  */
-+ (NSString *)readCommentsFromDBWithPostID:(NSString *)postID;
++ (NSData *)readCommentsFromDBWithPostID:(NSString *)postID;
 /*
 //创建数据对象
 - (Tag *)createTag;

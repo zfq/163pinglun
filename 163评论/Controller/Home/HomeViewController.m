@@ -30,14 +30,12 @@
 @interface HomeViewController () <TagViewControllerDelegate>
 {
     NSInteger _homePageIndex;
-    __weak PostCell *_prototypeCell;        //预留一个用来计算高度
-   
     NSInteger tagPageIndex;
-    
     MenuView *menu;                     //菜单
 }
 @property (nonatomic) HomeViewModel *viewModel;
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic; //所有cell的高度
+@property (nonatomic,strong) PostCell *prototypeCell; //预留一个用来计算高度
 @end
 
 @implementation HomeViewController
@@ -178,11 +176,10 @@
     NSArray *dbPost = [ItemStore readPostsFromIndex:0 toIndex:0];
     [self.viewModel.postItems addObjectsFromArray:dbPost];
 
-    [self caculateCellHeight];
-    
     //如果数据库中没有想要数据，就从网络加载
-    NSArray *postArray = self.viewModel.postItems;
-    if (postArray == nil || postArray.count==0) {
+    if (self.viewModel.postItems.count > 0) {
+        [self caculateCellHeight];
+    } else {
         [self.tableView headerBeginRefreshing];
     }
 }
@@ -192,12 +189,13 @@
     NSArray *array = self.viewModel.postItems;
     __weak typeof(self) weakSelf = self;
     [array enumerateObjectsUsingBlock:^(Post *p, NSUInteger idx, BOOL * _Nonnull stop) {
-        _prototypeCell.post = p;
-        CGFloat height = [_prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+        weakSelf.prototypeCell.post = p;
+        CGFloat height = [weakSelf.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
         NSString *key = [NSString stringWithFormat:@"%lu",idx];
         [weakSelf.cellsHeightDic setObject:@(height) forKey:key];
     }];
 }
+
 #pragma mark 删除旧的post数据
 - (void)removeAllOldPostsFromDatabase
 {
@@ -228,7 +226,6 @@
             if (postItems.count > 0) {
                 [weakSelf removeAllOldPostsFromDatabase];
                 [weakSelf caculateCellHeight];
-//                weakSelf.cellsHeightDic = [NSMutableDictionary dictionaryWithCapacity:postItems.count];
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
             }

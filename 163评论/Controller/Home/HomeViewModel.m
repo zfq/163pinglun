@@ -9,6 +9,7 @@
 #import "HomeViewModel.h"
 #import "MacroDefinition.h"
 #import "ItemStore.h"
+#import "ZFQURLOperationManager.h"
 
 @interface HomeViewModel()
 {
@@ -135,6 +136,8 @@
         if (completionBlk) {
             completionBlk(self.postItems,nil);
         }
+        
+        [self downloadAllPosts];
     } failureBlk:^(ZFQBaseRequest *request, NSError *error) {
         if (completionBlk) {
             completionBlk(nil,error);
@@ -142,4 +145,41 @@
     }];
 }
 
+/**
+ *  离线下载所有的帖子
+ */
+- (void)downloadAllPosts
+{
+    /*
+    NSMutableArray *operations = [[NSMutableArray alloc] initWithCapacity:self.postItems.count];
+    
+    for (Post *p in self.postItems) {
+        
+        ZFQCommentRequest *postReq = [[ZFQCommentRequest alloc] init];
+        postReq.postID = p.postID;
+        
+        NSString *url = [NSString stringWithFormat:@"%@/%@",HOSTURL,[postReq pathURL]];
+        NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+        
+        ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:req successBlk:^(ZFQURLConnectionOperation *tmpOperation, NSData *data) {
+            
+            //解析数据
+            NSString *postId = tmpOperation.userInfo[@"postId"];
+            //保存Comment
+            [ItemStore saveComments:data postID:postId];
+            
+            NSLog(@"完成++》");
+        } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
+            
+        }];
+        operation.userInfo = @{@"postId":p.postID};
+        [operations addObject:operation];
+    }
+    [ZFQURLOperationManager startBatchOfOperations:operations progressBlk:^(NSInteger numberOfFinishedOperations, NSInteger numberOfOperations) {
+        NSLog(@"已完成%f",numberOfFinishedOperations/(float)numberOfOperations);
+    } completionBlk:^{
+        NSLog(@"全部完成");
+    }];
+     */
+}
 @end

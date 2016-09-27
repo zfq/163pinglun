@@ -17,7 +17,7 @@ typedef void (^ZFQURLOperationSuccessBlk)(ZFQURLConnectionOperation *operation, 
 @property (nonatomic,copy) ZFQURLOperationSuccessBlk successBlk;
 @property (nonatomic,copy) ZFQURLOperationFailureBlk failureBlk;
 @property (nonatomic,strong) NSURLResponse *response;
-
+@property (nonatomic,strong) NSDictionary *userInfo;    //自定义字段
 
 - (instancetype)initWithRequest:(NSURLRequest *)request
                      successBlk:(ZFQURLOperationSuccessBlk)successBlk

@@ -112,7 +112,7 @@
         CREATE TABLE IF NOT EXISTS PLComment \
         ( \
         postID TEXT PRIMARY KEY, \
-        jsonStr TEXT \
+        jsonStr BLOB \
         );";
         
         if ([db executeUpdate:commentSQL]) {
@@ -400,24 +400,32 @@
     return tags;
 }
 
+/*
 + (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID
 {
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         [db executeUpdate:@"INSERT INTO PLComment VALUES(?,?);",postID,jsonStr];
     }];
+}*/
+
++ (void)saveComments:(NSData *)jsonData postID:(NSString *)postID
+{
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:@"INSERT INTO PLComment VALUES(?,?);",postID,jsonData];
+    }];
 }
 
-+ (NSString *)readCommentsFromDBWithPostID:(NSString *)postID
++ (NSData *)readCommentsFromDBWithPostID:(NSString *)postID
 {
-    __block NSString *jsonStr = nil;
+    __block NSData *jsonData = nil;
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM PLComment WHERE postID = '%@'",postID];
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
         while ([set next]) {
-            jsonStr = [set stringForColumnIndex:1];
+            jsonData = [set dataForColumnIndex:1];
         }
     }];
-    return jsonStr;
+    return jsonData;
 }
 
 #pragma mark - fetch data from network

@@ -22,9 +22,9 @@
     commentReq.postID = postID;
     
     //先从数据库中读取,数据库中不存在的话再从网络中加载
-    NSString *jsonStr = [ItemStore readCommentsFromDBWithPostID:postID];
-    if (jsonStr.length > 0) {
-        NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *jsonData = [ItemStore readCommentsFromDBWithPostID:postID];
+    if (jsonData.length > 0) {
+//        NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
         [commentReq response:jsonData];
         //回调
         self.contentItems = commentReq.contentsItems;
@@ -40,9 +40,9 @@
     [[ZFQRequestObj sharedInstance] sendRequest:commentReq successBlk:^(ZFQBaseRequest *request, id responseObject) {
         
         //保存jsonStr到数据库中
-        NSString *jsonStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        [ItemStore saveComments:jsonStr postID:postID];
-        
+//        NSString *jsonStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+//        [ItemStore saveComments:jsonStr postID:postID];
+        [ItemStore saveComments:responseObject postID:postID];
         ZFQCommentRequest *req = (ZFQCommentRequest *)request;
         self.contentItems = req.contentsItems;
         if (completionBlk) {
