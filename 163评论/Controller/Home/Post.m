@@ -31,7 +31,7 @@
     //设置摘要
     NSString *tempStr = dictionary[@"excerpt"][@"rendered"];
     if (tempStr) {
-        NSMutableString *string = [NSMutableString stringWithString:tempStr];
+        NSMutableString *string = [NSMutableString stringWithString:tempStr]; //<p> </p>\n
         //最后的删掉\n
         [string deleteCharactersInRange:NSMakeRange(0, 3)];
         [string deleteCharactersInRange:NSMakeRange(string.length-5, 4)];

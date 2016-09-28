@@ -83,8 +83,9 @@
     [self.navView addSubview:logImgView];
     
     //注册cell
-    UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
+//    UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
+//    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
+    [self.tableView registerClass:[PostCell class] forCellReuseIdentifier:@"PostCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (!_prototypeCell) {
         _prototypeCell  = (PostCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
@@ -178,16 +179,29 @@
 
     //如果数据库中没有想要数据，就从网络加载
     if (self.viewModel.postItems.count > 0) {
-        [self caculateCellHeight];
+        [self caculateCellHeight:NO originItemCount:0 increasedItems:nil];
     } else {
         [self.tableView headerBeginRefreshing];
     }
 }
 
-- (void)caculateCellHeight
+- (void)caculateCellHeight:(BOOL)footerRefresh originItemCount:(NSInteger)originItemCount increasedItems:(NSArray<Post *> *)items
 {
-    NSArray *array = self.viewModel.postItems;
+    //对于上拉加载，只计算新增的cell的高度就行了
+    if (footerRefresh) {
+        for (NSInteger i = 0 ; i < items.count ; i++) {
+            self.prototypeCell.post = items[i];
+            CGFloat height = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+            NSString *key = [NSString stringWithFormat:@"%lu",i + items.count];
+            [self.cellsHeightDic setObject:@(height) forKey:key];
+        }
+        return;
+    }
+    
+    //下拉刷新,cell的高度全部重新计算
     __weak typeof(self) weakSelf = self;
+    NSArray *array = self.viewModel.postItems;
+
     [array enumerateObjectsUsingBlock:^(Post *p, NSUInteger idx, BOOL * _Nonnull stop) {
         weakSelf.prototypeCell.post = p;
         CGFloat height = [weakSelf.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
@@ -217,15 +231,15 @@
     HomeViewController * __weak weakSelf = self;
     self.viewModel.headRefreshing = YES;
     
-    [self.viewModel fetchPostsWithCompletion:^(NSArray<Post *> *postItems, NSError *error) {
+    [self.viewModel fetchPostsWithCompletion:^(NSArray<Post *> *postItems,NSArray<Post *> *increasedPostItems,NSError *error) {
         [weakSelf.tableView headerEndRefreshing];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if (error) {
-            NSLog(@"失败:%@",error);
+            ZFQLog(@"失败:%@",error);
         } else {
             if (postItems.count > 0) {
                 [weakSelf removeAllOldPostsFromDatabase];
-                [weakSelf caculateCellHeight];
+                [weakSelf caculateCellHeight:NO originItemCount:0 increasedItems:nil];
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
             }
@@ -240,14 +254,15 @@
     
     HomeViewController * __weak weakSelf = self;
     self.viewModel.headRefreshing = NO;
-    
-    [self.viewModel fetchPostsWithCompletion:^(NSArray<Post *> *postItems, NSError *error) {
+    NSInteger originItemCount = self.viewModel.postItems.count;
+    [self.viewModel fetchPostsWithCompletion:^(NSArray<Post *> *postItems,NSArray<Post *> *increasedPostItems, NSError *error) {
         [weakSelf.tableView footerEndRefreshing];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if (error) {
-            NSLog(@"失败:%@",error);
+            ZFQLog(@"失败:%@",error);
         } else {
-            if (postItems.count > 0) {                
+            if (postItems.count > 0) {
+                [weakSelf caculateCellHeight:YES originItemCount:originItemCount increasedItems:increasedPostItems];
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
             }
@@ -268,15 +283,14 @@
 {
     PostCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     if (cell == nil) {
-        cell = [[NSBundle mainBundle] loadNibNamed:@"PostCell" owner:nil options:nil][0];
+        cell = [[PostCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PostCell"];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-    backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
-    cell.selectedBackgroundView = backgroundView;
+//    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+//    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+//    backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
+//    cell.selectedBackgroundView = backgroundView;
     
     cell.post = [_viewModel.postItems objectAtIndex:indexPath.row];
-        
     return cell;
 }
 
@@ -286,6 +300,8 @@
     NSString *key = [NSString stringWithFormat:@"%ld",indexPath.row];
     NSNumber *height = [_cellsHeightDic objectForKey:key];
     return height.floatValue;
+    
+//    return UITableViewAutomaticDimension;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

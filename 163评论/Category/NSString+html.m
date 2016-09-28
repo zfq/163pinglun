@@ -327,6 +327,9 @@
     //将<br />或</p>替换成空白字符
     NSRegularExpression *emptyReg = [NSRegularExpression regularExpressionWithPattern:@"</p>" options:NSRegularExpressionCaseInsensitive error:nil];
     str = [emptyReg stringByReplacingMatchesInString:str options:NSMatchingReportCompletion range:NSMakeRange(0, str.length) withTemplate:@""];
+    
+    //剔除字符串末尾的\n
+    str = [str substringToIndex:str.length-1];
     return str;
 }
 

@@ -11,10 +11,15 @@
 
 @interface PostCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *title;
-@property (weak, nonatomic) IBOutlet UILabel *time;
-@property (weak, nonatomic) IBOutlet UILabel *views;
-@property (weak, nonatomic) IBOutlet UILabel *excerpt;
+//@property (weak, nonatomic) IBOutlet UILabel *title;
+//@property (weak, nonatomic) IBOutlet UILabel *time;
+//@property (weak, nonatomic) IBOutlet UILabel *views;
+//@property (weak, nonatomic) IBOutlet UILabel *excerpt;
+@property (nonatomic,strong) UILabel *title;
+@property (nonatomic,strong) UILabel *time;
+@property (nonatomic,strong) UILabel *views;
+@property (nonatomic,strong) UILabel *excerpt;
+
 @property (nonatomic) BOOL isFlip;
 @property (nonatomic,strong) Post *post;
 

@@ -102,7 +102,7 @@
         }
     }
 }
-
+/*
 - (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSError *error))completionBlk
 {
     //设置当前页数
@@ -143,8 +143,50 @@
             completionBlk(nil,error);
         }
     }];
-}
+}*/
 
+- (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSArray<Post *> *increasedPostItems,NSError *error))completionBlk
+{
+    //设置当前页数
+    [self settingPageIndex];
+    
+    ZFQPostRequest *postReq = [[ZFQPostRequest alloc] init];
+    postReq.headRefreshing = self.headRefreshing;
+    postReq.tagName = self.tagName;
+    postReq.tagPageIndex = _tagPageIndex;
+    postReq.homePageIndex = _homePageIndex;
+    
+    [[ZFQRequestObj sharedInstance] sendRequest:postReq successBlk:^(ZFQBaseRequest *request, id responseObject) {
+        ZFQPostRequest *req = (ZFQPostRequest *)request;
+        
+        //保存数据,更新旧的，保存新增的
+        [ItemStore savePost:req.postItems originAllPosts:self.postItems];
+        
+        //如果是下拉刷新就删除内存中所有的postItem
+        NSArray *dbPosts = nil;
+        if (self.homePageIndex == 1) {
+            [self.postItems removeAllObjects];
+            //从数据库中读出所有的post
+            dbPosts = [ItemStore readPostsFromIndex:0 toIndex:0];
+        } else {
+            //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
+            dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
+        }
+        
+        [self.postItems addObjectsFromArray:dbPosts];
+        
+        if (completionBlk) {
+            completionBlk(self.postItems,req.postItems,nil);
+        }
+        
+        [self downloadAllPosts];
+    } failureBlk:^(ZFQBaseRequest *request, NSError *error) {
+        if (completionBlk) {
+            completionBlk(nil,nil,error);
+        }
+    }];
+
+}
 /**
  *  离线下载所有的帖子
  */

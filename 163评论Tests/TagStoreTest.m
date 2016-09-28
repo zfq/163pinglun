@@ -64,5 +64,11 @@
     
 }
 
+- (void)test222
+{
+    NSString *str1 = @"地瓜地瓜，我是土豆\n";
+    
+//    [str1 string]
+}
 
 @end

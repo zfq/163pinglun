@@ -18,6 +18,6 @@
 
 @property (nonatomic,copy) void (^latestPostRefreshBlk)(void);
 
-- (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSError *error))completionBlk;
+- (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSArray<Post *> *increasedPostItems,NSError *error))completionBlk;
 
 @end
