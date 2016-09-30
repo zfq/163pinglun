@@ -40,6 +40,7 @@
 
 @implementation HomeViewController
 
+#pragma mark - LifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -83,8 +84,6 @@
     [self.navView addSubview:logImgView];
     
     //注册cell
-//    UINib *cellNib = [UINib nibWithNibName:@"PostCell" bundle:nil];
-//    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"PostCell"];
     [self.tableView registerClass:[PostCell class] forCellReuseIdentifier:@"PostCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (!_prototypeCell) {
@@ -106,6 +105,11 @@
 {
     [super viewDidAppear:animated];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - 显示菜单
@@ -210,19 +214,6 @@
     }];
 }
 
-#pragma mark 删除旧的post数据
-- (void)removeAllOldPostsFromDatabase
-{
-    /*
-    if (_posts.postItems.count > 0) {
-        for (Post *p in _posts.postItems) {
-            [[ItemStore sharedItemStore].managedObjectContext deleteObject:p];
-        }
-        [[ItemStore sharedItemStore] saveContext];
-    }
-     */
-}
-
 #pragma mark - 开始进入刷新状态
 - (void)headerRereshing
 {
@@ -238,7 +229,6 @@
             ZFQLog(@"失败:%@",error);
         } else {
             if (postItems.count > 0) {
-                [weakSelf removeAllOldPostsFromDatabase];
                 [weakSelf caculateCellHeight:NO originItemCount:0 increasedItems:nil];
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
@@ -285,11 +275,7 @@
     if (cell == nil) {
         cell = [[PostCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PostCell"];
     }
-//    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-//    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-//    backgroundView.backgroundColor = RGBCOLOR(51,153,255,1.0f);
-//    cell.selectedBackgroundView = backgroundView;
-    
+
     cell.post = [_viewModel.postItems objectAtIndex:indexPath.row];
     return cell;
 }
@@ -300,8 +286,6 @@
     NSString *key = [NSString stringWithFormat:@"%ld",indexPath.row];
     NSNumber *height = [_cellsHeightDic objectForKey:key];
     return height.floatValue;
-    
-//    return UITableViewAutomaticDimension;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -321,18 +305,6 @@
 
     //开始下拉刷新
     [self.tableView headerBeginRefreshing];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-/*
-    if (self.view.superview == nil && self.view.window == nil) {
-        self.view = nil;
-    }
-    
-    menu = nil;
- */
 }
 
 @end

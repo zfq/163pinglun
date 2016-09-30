@@ -30,7 +30,7 @@
         _title = [[UILabel alloc] init];
         _title.textColor = [UIColor blackColor];
         _title.highlightedTextColor = highlightedColor;
-        _title.font = [UIFont systemFontOfSize:16];
+        _title.font = [UIFont boldSystemFontOfSize:16];
         _title.numberOfLines = 0;
         [self.contentView addSubview:_title];
         
