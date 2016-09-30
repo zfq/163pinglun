@@ -10,6 +10,7 @@
 #import "ZFQURLConnectionOperation.h"
 #import "ZFQURLOperationManager.h"
 #import "AFNetworking.h"
+#import "ItemStore.h"
 
 @interface _63pinglunUnitTests : XCTestCase
 
@@ -417,6 +418,39 @@
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         
     }];
+}
+
+- (void)test222
+{
+    NSArray *postIDs = [ItemStore allPostIDFromDB];
+    NSArray *postItems = @[@"18888",@"18696",@"18688",@"18677",@"18676",@"18670"];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    NSInteger i = 0,j = 0;
+    
+    NSInteger count = postItems.count;
+    NSString *str1,*str2;
+    while (i < count) {
+        str1 = postItems[i];
+        if (j < postIDs.count) {
+            str2 = postIDs[j];
+        } else {
+            //添加
+            [array addObject:(postItems[i])];
+            i++;
+        }
+        
+        NSComparisonResult result = [str1 compare:str2];
+        if (result == NSOrderedAscending) {  //str1 < str2
+            j++;
+        } else if (result == NSOrderedSame) {
+            i++;
+            j++;
+        } else {
+            [array addObject:(postItems[i])];
+            i++;
+        }
+    }
+    NSLog(@"%@",array);
 }
 
 - (void)testPerformanceExample {
