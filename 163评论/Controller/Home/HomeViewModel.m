@@ -102,48 +102,6 @@
         }
     }
 }
-/*
-- (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSError *error))completionBlk
-{
-    //设置当前页数
-    [self settingPageIndex];
-    
-    ZFQPostRequest *postReq = [[ZFQPostRequest alloc] init];
-    postReq.headRefreshing = self.headRefreshing;
-    postReq.tagName = self.tagName;
-    postReq.tagPageIndex = _tagPageIndex;
-    postReq.homePageIndex = _homePageIndex;
-    
-    [[ZFQRequestObj sharedInstance] sendRequest:postReq successBlk:^(ZFQBaseRequest *request, id responseObject) {
-        ZFQPostRequest *req = (ZFQPostRequest *)request;
-        
-        //保存数据,更新旧的，保存新增的
-        [ItemStore savePost:req.postItems originAllPosts:self.postItems];
-        
-        //如果是下拉刷新就删除内存中所有的postItem
-        NSArray *dbPosts = nil;
-        if (self.homePageIndex == 1) {
-            [self.postItems removeAllObjects];
-            //从数据库中读出所有的post
-            dbPosts = [ItemStore readPostsFromIndex:0 toIndex:0];
-        } else {
-            //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
-            dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
-        }
-        
-        [self.postItems addObjectsFromArray:dbPosts];
-        
-        if (completionBlk) {
-            completionBlk(self.postItems,nil);
-        }
-        
-        [self downloadAllPosts];
-    } failureBlk:^(ZFQBaseRequest *request, NSError *error) {
-        if (completionBlk) {
-            completionBlk(nil,error);
-        }
-    }];
-}*/
 
 - (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSArray<Post *> *increasedPostItems,NSError *error))completionBlk
 {
@@ -187,18 +145,47 @@
     }];
 
 }
+
 /**
  *  离线下载所有的帖子
  */
 - (void)downloadAllPosts
 {
-    /*
     NSMutableArray *operations = [[NSMutableArray alloc] initWithCapacity:self.postItems.count];
     
-    for (Post *p in self.postItems) {
+    //只下载数据库中不存在的comment
+    NSArray *postIDs = [ItemStore allPostIDFromDB];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    NSInteger i = 0,j = 0;
+    NSInteger count = self.postItems.count;
+    NSString *str1,*str2;
+    while (i < count) {
+        str1 = _postItems[i].postID;
+        if (j < postIDs.count) {
+            str2 = postIDs[j];
+        } else {
+            //添加
+            [array addObject:(_postItems[i].postID)];
+            i++;
+        }
+        
+        NSComparisonResult result = [str1 compare:str2];
+        if (result == NSOrderedAscending) {  //str1 < str2
+            j++;
+        } else if (result == NSOrderedSame) {
+            i++;
+            j++;
+        } else {
+            //添加
+            [array addObject:(_postItems[i].postID)];
+            i++;
+        }
+    }
+    
+    for (NSString *postID in array) {
         
         ZFQCommentRequest *postReq = [[ZFQCommentRequest alloc] init];
-        postReq.postID = p.postID;
+        postReq.postID = postID;
         
         NSString *url = [NSString stringWithFormat:@"%@/%@",HOSTURL,[postReq pathURL]];
         NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -208,20 +195,21 @@
             //解析数据
             NSString *postId = tmpOperation.userInfo[@"postId"];
             //保存Comment
-            [ItemStore saveComments:data postID:postId];
+            [ItemStore insertOrReplaceComments:data postID:postId];
             
-            NSLog(@"完成++》");
+            NSLog(@"完成:%@",postId);
         } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
             
         }];
-        operation.userInfo = @{@"postId":p.postID};
+        operation.userInfo = @{@"postId":postID};
         [operations addObject:operation];
     }
+    
     [ZFQURLOperationManager startBatchOfOperations:operations progressBlk:^(NSInteger numberOfFinishedOperations, NSInteger numberOfOperations) {
         NSLog(@"已完成%f",numberOfFinishedOperations/(float)numberOfOperations);
     } completionBlk:^{
         NSLog(@"全部完成");
     }];
-     */
 }
+
 @end
