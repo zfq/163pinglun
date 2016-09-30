@@ -107,11 +107,11 @@
 + (NSData *)readCommentsFromDBWithPostID:(NSString *)postID;
 
 /**
- *  获取数据库中所有的postID
+ *  获取数据库中所有的comment对应的postID
  *
  *  @return 数据中所有的postID,降序排列
  */
-+ (NSArray<NSString *> *)allPostIDFromDB;
++ (NSArray<NSString *> *)allExistComment;
 
 /*
 

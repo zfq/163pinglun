@@ -427,9 +427,9 @@
     return jsonData;
 }
 
-+ (NSArray<NSString *> *)allPostIDFromDB
++ (NSArray<NSString *> *)allExistComment
 {
-    NSString *sql = @"SELECT postID FROM PLPost ORDER BY postID DESC";
+    NSString *sql = @"SELECT postID FROM PLComment ORDER BY postID DESC";
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];

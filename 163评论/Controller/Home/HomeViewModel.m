@@ -151,10 +151,8 @@
  */
 - (void)downloadAllPosts
 {
-    NSMutableArray *operations = [[NSMutableArray alloc] initWithCapacity:self.postItems.count];
-    
     //只下载数据库中不存在的comment
-    NSArray *postIDs = [ItemStore allPostIDFromDB];
+    NSArray *postIDs = [ItemStore allExistComment];
     NSMutableArray *array = [[NSMutableArray alloc] init];
     NSInteger i = 0,j = 0;
     NSInteger count = self.postItems.count;
@@ -182,6 +180,12 @@
         }
     }
     
+    if (array.count == 0) {
+        ZFQLog(@"已全部下载");
+        return;
+    }
+    
+    NSMutableArray *operations = [[NSMutableArray alloc] initWithCapacity:array.count];
     for (NSString *postID in array) {
         
         ZFQCommentRequest *postReq = [[ZFQCommentRequest alloc] init];
@@ -197,7 +201,7 @@
             //保存Comment
             [ItemStore insertOrReplaceComments:data postID:postId];
             
-            NSLog(@"完成:%@",postId);
+            ZFQLog(@"完成:%@",postId);
         } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
             
         }];
@@ -206,9 +210,9 @@
     }
     
     [ZFQURLOperationManager startBatchOfOperations:operations progressBlk:^(NSInteger numberOfFinishedOperations, NSInteger numberOfOperations) {
-        NSLog(@"已完成%f",numberOfFinishedOperations/(float)numberOfOperations);
+        ZFQLog(@"已完成%f",numberOfFinishedOperations/(float)numberOfOperations);
     } completionBlk:^{
-        NSLog(@"全部完成");
+        ZFQLog(@"全部完成");
     }];
 }
 
