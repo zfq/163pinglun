@@ -82,13 +82,21 @@
 + (NSArray<Tag *> *)readTagsFromDB;
 
 /**
+ *  保存评论内容，如果数据库中已存在就替换，不存在就添加
+ *
+ *  @param jsonData 从服务器端拉回来的comment的json数据
+ *  @param postID   对应的帖子ID
+ */
++ (void)insertOrReplaceComments:(NSData *)jsonData postID:(NSString *)postID;
+
+/**
  *  保存评论内容，这个为json字符串
  *
  *  @param jsonStr 从服务器端拉回来的json数据
  *  @param postID  对应的帖子ID
  */
-//+ (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID;
 + (void)saveComments:(NSData *)jsonData postID:(NSString *)postID;
+
 /**
  *  从数据库中读取
  *
@@ -97,13 +105,15 @@
  *  @return json字符串
  */
 + (NSData *)readCommentsFromDBWithPostID:(NSString *)postID;
+
+/**
+ *  获取数据库中所有的postID
+ *
+ *  @return 数据中所有的postID,降序排列
+ */
++ (NSArray<NSString *> *)allPostIDFromDB;
+
 /*
-//创建数据对象
-- (Tag *)createTag;
-- (Post *)createPost;
-- (Content *)createContent;
-- (Author *)createAuthorWithAuthorID:(NSNumber *)authorID;
-- (Author *)searchAuthorWithAuthorID:(NSNumber *)authorID;
 
 //删除数据对象
 - (void)deleteAllContentByPostID:(NSNumber *)postID;
@@ -116,7 +126,6 @@
 - (void)fetchRandomPostsWithCompletion:(void (^)(RandomPosts *randomPosts,NSError *error))block;
 - (void)cancelCurrentRequtest;
 
-- (void)saveContext;
 - (NSURL *)cacheDataDirectory;
 
 //本地数据库操作

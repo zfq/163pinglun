@@ -400,13 +400,12 @@
     return tags;
 }
 
-/*
-+ (void)saveComments:(NSString *)jsonStr postID:(NSString *)postID
++ (void)insertOrReplaceComments:(NSData *)jsonData postID:(NSString *)postID
 {
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"INSERT INTO PLComment VALUES(?,?);",postID,jsonStr];
+        [db executeUpdate:@"INSERT OR REPLACE INTO PLComment VALUES(?,?);",postID,jsonData];
     }];
-}*/
+}
 
 + (void)saveComments:(NSData *)jsonData postID:(NSString *)postID
 {
@@ -426,6 +425,19 @@
         }
     }];
     return jsonData;
+}
+
++ (NSArray<NSString *> *)allPostIDFromDB
+{
+    NSString *sql = @"SELECT postID FROM PLPost ORDER BY postID DESC";
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    [[self dbQueue] inDatabase:^(FMDatabase *db) {
+        FMResultSet *set = [db executeQuery:sql];
+        while ([set next]) {
+            [array addObject:[set stringForColumnIndex:0]];
+        }
+    }];
+    return array;
 }
 
 #pragma mark - fetch data from network
@@ -472,20 +484,6 @@
     [_currConnection cancel];
 }
 
-- (void)saveContext
-{
-    /*
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges]) { // && ![managedObjectContext save:&error]
-            NSError *error = nil;
-            if ( ![managedObjectContext save:&error]) {
-                ZFQLog(@"保存失败:%@",[error userInfo]);
-            }
-        }
-    }
-     */
-}
 
 #pragma mark - Core Data stack
 /*
