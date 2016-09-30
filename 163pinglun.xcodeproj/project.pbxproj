@@ -403,10 +403,6 @@
 		7B428DA1190E914D00860E94 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7B428DA4190E914D00860E94 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7B428DAB190E914D00860E94 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		7B428DB3190E914D00860E94 /* 163评论Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "163评论Tests-Info.plist"; sourceTree = "<group>"; };
-		7B428DB5190E914D00860E94 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7B428DB7190E914D00860E94 /* _63__Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _63__Tests.m; sourceTree = "<group>"; };
-		7B48EA47191253BB0051C095 /* TagStoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagStoreTest.m; sourceTree = "<group>"; };
 		7B68872419AB7AAD004997CC /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7B723003197D5CF700CA7DBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7BEBD4E81995FFC5000F5028 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = "163评论/qq/TencentOpenAPI.framework"; sourceTree = "<group>"; };
@@ -1033,7 +1029,6 @@
 			isa = PBXGroup;
 			children = (
 				7B428D98190E914D00860E94 /* 163pinglun */,
-				7B428DB1190E914D00860E94 /* 163评论Tests */,
 				1F1B46511D75CEB3005AD69C /* 163pinglunUnitTests */,
 				7B428D91190E914D00860E94 /* Frameworks */,
 				7B428D90190E914D00860E94 /* Products */,
@@ -1101,25 +1096,6 @@
 				7B428D9A190E914D00860E94 /* 163评论-Info.plist */,
 				7B428D9B190E914D00860E94 /* InfoPlist.strings */,
 				7B428D9E190E914D00860E94 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7B428DB1190E914D00860E94 /* 163评论Tests */ = {
-			isa = PBXGroup;
-			children = (
-				7B48EA47191253BB0051C095 /* TagStoreTest.m */,
-				7B428DB7190E914D00860E94 /* _63__Tests.m */,
-				7B428DB2190E914D00860E94 /* Supporting Files */,
-			);
-			path = "163评论Tests";
-			sourceTree = "<group>";
-		};
-		7B428DB2190E914D00860E94 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7B428DB3190E914D00860E94 /* 163评论Tests-Info.plist */,
-				7B428DB4190E914D00860E94 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1428,14 +1404,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7B428D9C190E914D00860E94 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		7B428DB4190E914D00860E94 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7B428DB5190E914D00860E94 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
