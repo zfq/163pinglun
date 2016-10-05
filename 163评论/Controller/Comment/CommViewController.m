@@ -19,7 +19,8 @@
 #import "UIImage+Content.h"
 #import "NSString+Addition.h"
 #import "UIButton+menuItem.h"
-#import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
+//#import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
+#import "UIScrollView+ZFQLoadView.h"
 #import "CommViewModel.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
@@ -124,6 +125,7 @@
         } else {
             weakSelf.beginIndex -= 1;
             [weakSelf fetchCommentWithPostId:weakSelf.post.prevPostID completion:^{
+//                [weakSelf updateHeaderLabelWithPost:weakSelf.post];
                 [weakSelf.tableView.zfqHeaderView stopLoading];
             }];
         }
@@ -137,15 +139,20 @@
     [_tableView.zfqHeaderView layoutIfNeeded];
     if (_post.prevPostID.length == 0) {
         headerLabel.text = @"没有了";
+        _tableView.zfqHeaderView.ignoreRefresh = YES;
+    } else {
+        _tableView.zfqHeaderView.ignoreRefresh = NO;
     }
     
     //设置footer
     [_tableView addLoadFooterWithRefreshingBlk:^{
         if (weakSelf.beginIndex == weakSelf.postItems.count - 1) {
-            [weakSelf.tableView.zfqFooterView stopLoading];
+//            [weakSelf updateFooterLabelWithPost:weakSelf.post];
+            [weakSelf updateRefreshLabelWithPost:weakSelf.post];
         } else {
             weakSelf.beginIndex += 1;
             [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
+//                [weakSelf updateFooterLabelWithPost:weakSelf.post];
                 [weakSelf.tableView.zfqFooterView stopLoading];
             }];
         }
@@ -157,24 +164,38 @@
     footerLabel.text = @"加载下一篇";
     
     if (_beginIndex == _postItems.count - 1) {
-        _tableView.zfqFooterView.alpha = 0;
+        footerLabel.text = @"没有了";
+        _tableView.zfqFooterView.ignoreRefresh = YES;
     } else {
-        _tableView.zfqFooterView.alpha = 1;
+        _tableView.zfqFooterView.ignoreRefresh = NO;
     }
         
 }
 
-- (void)updateHeaderLabelWithPost:(Post *)post
+- (void)updateRefreshLabelWithPost:(Post *)post
 {
     //更新文字
     UILabel *headerLabel = _tableView.zfqHeaderView.titleLabel;
     if (_post.prevPostID.length > 0) {
         headerLabel.text = @"加载上一篇";
+        _tableView.zfqHeaderView.ignoreRefresh = NO;
     } else {
         headerLabel.text = @"没有了";
+        _tableView.zfqHeaderView.ignoreRefresh = YES;
     }
+    //更新label的frame
     [_tableView.zfqHeaderView setNeedsLayout];
-    [_tableView.zfqHeaderView layoutIfNeeded];
+
+    UILabel *footerLabel = _tableView.zfqFooterView.titleLabel;
+    if (_beginIndex < _postItems.count - 1) {
+        footerLabel.text = @"加载下一篇";
+        _tableView.zfqFooterView.ignoreRefresh = NO;
+    } else {
+        footerLabel.text = @"没有了";
+        _tableView.zfqFooterView.ignoreRefresh = YES;
+    }
+    //更新label的frame
+    [_tableView.zfqFooterView setNeedsLayout];
 }
 
 #pragma mark - User Actions
@@ -268,7 +289,7 @@
             //如果数据库存在 就从数据库中读取，否则就显示错误提示
         } else {
             weakSelf.post = weakSelf.postItems[_beginIndex];
-            [weakSelf updateHeaderLabelWithPost:weakSelf.post];
+            [weakSelf updateRefreshLabelWithPost:weakSelf.post];
             [weakSelf updateUI];
             if (blk) blk();
         }
