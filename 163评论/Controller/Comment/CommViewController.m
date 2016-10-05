@@ -132,14 +132,19 @@
     headerLabel.textColor = textColor;
     headerLabel.font = font;
     _tableView.zfqHeaderView.lineColor = textColor;
-    [self updateHeaderLabelWithPost:_post];
+    headerLabel.text = @"加载上一篇";
+    [_tableView.zfqHeaderView setNeedsLayout];
+    [_tableView.zfqHeaderView layoutIfNeeded];
+    if (_post.prevPostID.length == 0) {
+        headerLabel.text = @"没有了";
+    }
     
     //设置footer
     [_tableView addLoadFooterWithRefreshingBlk:^{
-        weakSelf.beginIndex += 1;
         if (weakSelf.beginIndex == weakSelf.postItems.count - 1) {
             [weakSelf.tableView.zfqFooterView stopLoading];
         } else {
+            weakSelf.beginIndex += 1;
             [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
                 [weakSelf.tableView.zfqFooterView stopLoading];
             }];
@@ -149,11 +154,14 @@
     footerLabel.textColor = textColor;
     footerLabel.font = font;
     _tableView.zfqFooterView.lineColor = textColor;
+    footerLabel.text = @"加载下一篇";
+    
     if (_beginIndex == _postItems.count - 1) {
-        footerLabel.text = @"首页就这么多了";
+        _tableView.zfqFooterView.alpha = 0;
     } else {
-        footerLabel.text = @"加载下一篇";
+        _tableView.zfqFooterView.alpha = 1;
     }
+        
 }
 
 - (void)updateHeaderLabelWithPost:(Post *)post

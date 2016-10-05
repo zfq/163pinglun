@@ -47,6 +47,8 @@
     NSArray *post_tagArray= termsDic[@"tages"];
     if (post_tagArray && post_tagArray.count > 0) {
         self.tag = post_tagArray[0];
+    } else {
+        self.tag = @"";
     }
     
     NSDictionary *nextPostDict = dictionary[@"next_post"];
@@ -69,6 +71,10 @@
     NSString *finalStr = [firstStr stringByReplacingCharactersInRange:NSMakeRange(10, 1) withString:@" "];
     
     self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],self.inAuthor.authorName];
+    
+    //判断nil
+    if (!self.prevPostID) self.prevPostID = @"";
+    if (!self.nextPostID) self.nextPostID = @"";
 }
 
 ///老版本的接口
