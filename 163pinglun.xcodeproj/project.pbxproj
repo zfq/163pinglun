@@ -91,6 +91,8 @@
 		1F3DF2431C25464E00DC8F07 /* TestShareControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF2311C25464E00DC8F07 /* TestShareControllerViewController.m */; };
 		1F3DF2441C25464E00DC8F07 /* TestShareControllerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF2321C25464E00DC8F07 /* TestShareControllerViewController.xib */; };
 		1F3DF2641C254C9E00DC8F07 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF0D81C25423200DC8F07 /* MJRefresh.bundle */; };
+		1F40395C1DA553B800FF6FAB /* UIScrollView+ZFQLoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4039591DA553B800FF6FAB /* UIScrollView+ZFQLoadView.m */; };
+		1F40395D1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F40395B1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.m */; };
 		1F429E6E1C5103F30008E9C9 /* UIImage+Content.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F429E6D1C5103F30008E9C9 /* UIImage+Content.m */; };
 		1F429E781C52241F0008E9C9 /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F429E771C52241F0008E9C9 /* NSString+Addition.m */; };
 		1F548E771D73194E00D08F48 /* ZFQURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F548E761D73194E00D08F48 /* ZFQURLConnectionOperation.m */; };
@@ -316,6 +318,10 @@
 		1F3DF2301C25464E00DC8F07 /* TestShareControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestShareControllerViewController.h; sourceTree = "<group>"; };
 		1F3DF2311C25464E00DC8F07 /* TestShareControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestShareControllerViewController.m; sourceTree = "<group>"; };
 		1F3DF2321C25464E00DC8F07 /* TestShareControllerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestShareControllerViewController.xib; sourceTree = "<group>"; };
+		1F4039581DA553B800FF6FAB /* UIScrollView+ZFQLoadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ZFQLoadView.h"; sourceTree = "<group>"; };
+		1F4039591DA553B800FF6FAB /* UIScrollView+ZFQLoadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ZFQLoadView.m"; sourceTree = "<group>"; };
+		1F40395A1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQLoadFrontOrNextView.h; sourceTree = "<group>"; };
+		1F40395B1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQLoadFrontOrNextView.m; sourceTree = "<group>"; };
 		1F429E6C1C5103F30008E9C9 /* UIImage+Content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Content.h"; sourceTree = "<group>"; };
 		1F429E6D1C5103F30008E9C9 /* UIImage+Content.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Content.m"; sourceTree = "<group>"; };
 		1F429E761C52241F0008E9C9 /* NSString+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Addition.h"; sourceTree = "<group>"; };
@@ -563,6 +569,7 @@
 		1F3DF0B61C25423100DC8F07 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				1F4039571DA553B800FF6FAB /* ZFQLoadFrontOrNextView */,
 				1FE303911D801BF1007BE932 /* AFNetworking */,
 				1F36EF941D58204D00B25932 /* Masonry */,
 				1F36EF8A1D581EB800B25932 /* ZFQSliderControl */,
@@ -937,6 +944,17 @@
 				1F3DF2321C25464E00DC8F07 /* TestShareControllerViewController.xib */,
 			);
 			path = TestShare;
+			sourceTree = "<group>";
+		};
+		1F4039571DA553B800FF6FAB /* ZFQLoadFrontOrNextView */ = {
+			isa = PBXGroup;
+			children = (
+				1F4039581DA553B800FF6FAB /* UIScrollView+ZFQLoadView.h */,
+				1F4039591DA553B800FF6FAB /* UIScrollView+ZFQLoadView.m */,
+				1F40395A1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.h */,
+				1F40395B1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.m */,
+			);
+			path = ZFQLoadFrontOrNextView;
 			sourceTree = "<group>";
 		};
 		1F76474F1D4332A60070F5A7 /* ZFQHUD */ = {
@@ -1328,6 +1346,7 @@
 				1F3DF23D1C25464E00DC8F07 /* RandomPostCell.m in Sources */,
 				1F3DF1711C25423200DC8F07 /* MJRefreshBaseView.m in Sources */,
 				1F3DF1821C25423200DC8F07 /* TagView.m in Sources */,
+				1F40395D1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.m in Sources */,
 				1F36EFB51D58204D00B25932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				7B428D9F190E914D00860E94 /* main.m in Sources */,
 				1FB4E2E61D937DC7002C35F9 /* Tag.m in Sources */,
@@ -1351,6 +1370,7 @@
 				1FE303B01D805842007BE932 /* ZFQURLOperationManager.m in Sources */,
 				1F36EFB41D58204D00B25932 /* NSArray+MASAdditions.m in Sources */,
 				1F3DF1731C25423200DC8F07 /* MJRefreshFooterView.m in Sources */,
+				1F40395C1DA553B800FF6FAB /* UIScrollView+ZFQLoadView.m in Sources */,
 				1F3DF1831C25423200DC8F07 /* TOMSimpleLinkLabel.m in Sources */,
 				1FAD8E521C31780A00F63A24 /* VVeboLabel.m in Sources */,
 				1F36EF911D581EB800B25932 /* ZFQSliderControl.m in Sources */,
