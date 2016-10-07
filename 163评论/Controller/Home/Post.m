@@ -126,9 +126,8 @@
     static NSDateFormatter *formatter = nil;
     if (formatter == nil) {
         formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     }
-    
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSDate *date = [formatter dateFromString:time];
     
     NSTimeInterval interval = [currDate timeIntervalSinceDate:date];

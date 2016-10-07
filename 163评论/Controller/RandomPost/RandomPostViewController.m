@@ -141,6 +141,8 @@ static NSString *reuseId = @"RandomPostCell";
     [self.viewModel fetchRandomPostWithCompletion:^(NSArray<RandomPost *> *randomPosts, NSError *error) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if (!error) {
+            [weakSelf.postTableView setTableFooterView:[weakSelf randomPostFooterView]];
+//            [weakSelf.postTableView beginSmoothMoveAnimationWithCount:randomPosts.count];
             [weakSelf.postTableView reloadData];
         }
     }];
@@ -218,7 +220,6 @@ static NSString *reuseId = @"RandomPostCell";
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
     [_postTableView removeGestureRecognizer:panGesture];
-//    [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
