@@ -23,6 +23,7 @@
 
 */
 
+#pragma mark 帖子
 @interface ZFQPostRequest : ZFQBaseRequest
 
 //辅助参数
@@ -36,6 +37,7 @@
 
 @end
 
+#pragma mark 跟帖
 @interface ZFQCommentRequest : ZFQBaseRequest
 
 //请求参数
@@ -46,9 +48,23 @@
 
 @end
 
+#pragma mark 标签
 @interface PLTagRequest : ZFQBaseRequest
 
 //返回结果
 @property (nonatomic,copy) NSArray<Tag *> *tags;
+
+@end
+
+#pragma mark 随便看看
+@interface RandomPost : NSObject
+@property (nonatomic,strong) NSString *title;
+@property (nonatomic,strong) NSString *postURL;
+@end
+
+@interface PLRandomPostRequest : ZFQBaseRequest
+
+//返回结果
+@property (nonatomic,copy) NSArray<RandomPost *> *randomPosts;
 
 @end

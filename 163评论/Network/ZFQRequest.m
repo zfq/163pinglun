@@ -8,6 +8,7 @@
 
 #import "ZFQRequest.h"
 #import "MacroDefinition.h"
+#import "GTMNSString+HTML.h"
 /*
 @implementation Author
 @end
@@ -155,6 +156,44 @@
         [tempArray addObject:t];
     }];
     self.tags = tempArray;
+}
+
+@end
+
+@implementation RandomPost
+@end
+@implementation PLRandomPostRequest
+
+- (NSString *)pathURL
+{
+    return @"/wp-json/163pinglun/v1/random_posts";
+}
+
+- (NSString *)httpMethod
+{
+    return @"GET";
+}
+
+- (NSDictionary *)requestParam
+{
+    return nil;
+}
+
+- (void)response:(id)responseObj
+{
+    if (!responseObj) {
+        return;
+    }
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseObj options:0 error:nil];
+    for (NSDictionary *dic in array) {
+        RandomPost *post = [[RandomPost alloc] init];
+        post.title = [[dic objectForKey:@"post_title"] gtm_stringByUnescapingFromHTML];
+        post.postURL = [dic objectForKey:@"url"];
+        [tempArray addObject:post];
+    }
+    
+    self.randomPosts = tempArray;
 }
 
 @end

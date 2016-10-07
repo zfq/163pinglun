@@ -10,8 +10,6 @@
 
 @interface RandomPostViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
-@property (nonatomic,strong) NSMutableArray *posts;
-
 - (void)showRandomPostView;
 - (void)dismissRandomPostView;
 

@@ -439,7 +439,7 @@
     label.center = CGPointMake(noNetworkView.frame.size.width/2,noNetworkView.frame.size.height/2-64);
     [noNetworkView addSubview:label];   //别忘添加logo图片
     
-    self.tableView.tableHeaderView= noNetworkView;
+    self.tableView.tableHeaderView = noNetworkView;
     self.tableView.scrollEnabled = NO;
 }
 

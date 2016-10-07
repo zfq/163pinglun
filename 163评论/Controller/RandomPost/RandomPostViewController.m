@@ -8,19 +8,17 @@
 
 #import "RandomPostViewController.h"
 #import "ItemStore.h"
-#import "RandomPosts.h"
-#import "RandomPost.h"
 #import "CommViewController.h"
 #import "UITableView+SmoothMove.h"
 #import "PlaceholderView.h"
 #import "MacroDefinition.h"
+#import "RandomPostViewModel.h"
 
 static NSString *reuseId = @"RandomPostCell";
 
 @interface RandomPostViewController ()
 {
     UIControl *maskView;
-    UITableView *postTableView;
     UIView *postFooterView;
     UIPanGestureRecognizer *panGesture;
     CGFloat marginLeft;
@@ -36,6 +34,8 @@ static NSString *reuseId = @"RandomPostCell";
     
     NSLayoutConstraint *_marginLeftCons;
 }
+@property (nonatomic,strong) RandomPostViewModel *viewModel;
+@property (nonatomic,strong) UITableView *postTableView;
 @end
 
 @implementation RandomPostViewController
@@ -64,28 +64,28 @@ static NSString *reuseId = @"RandomPostCell";
     [self.view addSubview:maskView];
 
     //添加tableView
-    postTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    postTableView.dataSource = self;
-    postTableView.delegate = self;
+    _postTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    _postTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _postTableView.dataSource = self;
+    _postTableView.delegate = self;
     panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
     panGesture.delegate = self;
-    [postTableView addGestureRecognizer:panGesture];
+    [_postTableView addGestureRecognizer:panGesture];
     
-    [self.view addSubview:postTableView];
-    [postTableView addObserver:self forKeyPath:@"panGestureRecognizer.state" options:NSKeyValueObservingOptionNew context:nil];
+    [self.view addSubview:_postTableView];
+    [_postTableView addObserver:self forKeyPath:@"panGestureRecognizer.state" options:NSKeyValueObservingOptionNew context:nil];
     
     
     //为postTableView添加约束
     CGFloat sw = SCREEN_WIDTH;
     marginLeft = (55 * sw)/320.0f;
-    NSDictionary *nameMap1 = @{@"postTable":postTableView};
-    postTableView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *nameMap1 = @{@"postTable":_postTableView};
+    _postTableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     //为tableView添加宽高约束
-    NSLayoutConstraint *tableViewConsH = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];
+    NSLayoutConstraint *tableViewConsH = [NSLayoutConstraint constraintWithItem:_postTableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-64];
     [self.view addConstraint:tableViewConsH];
-    NSLayoutConstraint *tableViewConsW = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:(sw - marginLeft)];
+    NSLayoutConstraint *tableViewConsW = [NSLayoutConstraint constraintWithItem:_postTableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:(sw - marginLeft)];
     [self.view addConstraint:tableViewConsH];
     [self.view addConstraint:tableViewConsW];
     
@@ -93,7 +93,7 @@ static NSString *reuseId = @"RandomPostCell";
     NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-64-[postTable]" options:0 metrics:nil views:nameMap1];
     [self.view addConstraints:consV];
     
-    _marginLeftCons = [NSLayoutConstraint constraintWithItem:postTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:sw];
+    _marginLeftCons = [NSLayoutConstraint constraintWithItem:_postTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:sw];
     [self.view addConstraint:_marginLeftCons];
 
     
@@ -125,12 +125,26 @@ static NSString *reuseId = @"RandomPostCell";
 //    [postTableView registerNib:nib forCellReuseIdentifier:reuseId];
 }
 
+- (RandomPostViewModel *)viewModel
+{
+    if (!_viewModel) {
+        _viewModel = [[RandomPostViewModel alloc] init];
+    }
+    return _viewModel;
+}
+
 - (void)loadRandomPostData
 {
-    /*
     //加载数据
+    __weak typeof(self) weakSelf = self;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [_posts removeAllObjects];
+    [self.viewModel fetchRandomPostWithCompletion:^(NSArray<RandomPost *> *randomPosts, NSError *error) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        if (!error) {
+            [weakSelf.postTableView reloadData];
+        }
+    }];
+    /*
     [[ItemStore sharedItemStore] fetchRandomPostsWithCompletion:^(RandomPosts *randomPosts, NSError *error) {
         if (error == nil) {
             _posts = randomPosts.randomPosts;
@@ -155,7 +169,7 @@ static NSString *reuseId = @"RandomPostCell";
 {
     [super viewDidAppear:animated];
     
-    [postTableView deselectRowAtIndexPath:[postTableView indexPathForSelectedRow]  animated:YES];
+    [_postTableView deselectRowAtIndexPath:[_postTableView indexPathForSelectedRow]  animated:YES];
     
     //如果已经加载过了且postTableView已经在预定的位置
     if ( (hasLoaded == YES) && (resetPostTableViewPositon == NO) ) {
@@ -183,8 +197,7 @@ static NSString *reuseId = @"RandomPostCell";
 {
     [self willMoveToParentViewController:self.parentViewController];
     
-    [_posts removeAllObjects];
-    postTableView.tableFooterView = nil;
+    _postTableView.tableFooterView = nil;
     [self.parentViewController.view addSubview:self.view];
     
     //为self.view添加约束
@@ -204,7 +217,7 @@ static NSString *reuseId = @"RandomPostCell";
 {
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
-    [postTableView removeGestureRecognizer:panGesture];
+    [_postTableView removeGestureRecognizer:panGesture];
 //    [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -213,7 +226,7 @@ static NSString *reuseId = @"RandomPostCell";
 {
     if (animation) {
         [UIView animateWithDuration:0.3 animations:^{
-            [self moveView:postTableView toX:SCREEN_WIDTH];
+            [self moveView:_postTableView toX:SCREEN_WIDTH];
             maskView.alpha = 0;
         } completion:^(BOOL finished) {
             if (finished) {
@@ -228,16 +241,16 @@ static NSString *reuseId = @"RandomPostCell";
 #pragma mark - tableView datasource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_posts == nil)
+    if (self.viewModel.randomPosts == nil)
         return 0;
     else
-        return _posts.count;
+        return self.viewModel.randomPosts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    RandomPostCell *cell = (RandomPostCell *)[tableView dequeueReusableCellWithIdentifier:reuseId];
-    RandomPost *post = [_posts objectAtIndex:indexPath.row];
+    RandomPost *post = [self.viewModel.randomPosts objectAtIndex:indexPath.row];
 //    cell.myContentLabel.text = post.title;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"randomCell"];
     if (cell == nil) {
@@ -254,7 +267,7 @@ static NSString *reuseId = @"RandomPostCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RandomPost *post = [_posts objectAtIndex:indexPath.row];
+    RandomPost *post = [self.viewModel.randomPosts objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] init];
     NSString *postID = [self postIDFromURL:post.postURL];
 //    cVC.post = nil;
@@ -265,7 +278,7 @@ static NSString *reuseId = @"RandomPostCell";
 - (UIView *)randomPostFooterView
 {
     if (postFooterView == nil) {
-        postFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, postTableView.frame.size.width, 50)];
+        postFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _postTableView.frame.size.width, 50)];
         postFooterView.backgroundColor = [UIColor clearColor];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:@"换一组" forState:UIControlStateNormal];
@@ -310,6 +323,10 @@ static NSString *reuseId = @"RandomPostCell";
 
 - (NSString *)postIDFromURL:(NSString *)postURL
 {
+    if (!postURL) {
+        return @"";
+    }
+    
     if (reg == nil) {
         NSString *regularStr = @"(\\d+?)$";
         NSError *error = nil;
@@ -344,7 +361,7 @@ static NSString *reuseId = @"RandomPostCell";
         beginTapX = x;
         beginTapPoint = currTapPoint;
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
-        postTableView.userInteractionEnabled = NO;
+        _postTableView.userInteractionEnabled = NO;
         currTapPoint = [gesture locationInView:keyWindow];
         CGFloat temp = (x-beginTapX+marginLeft);
         [self moveView:gestureView toX:temp];
@@ -379,7 +396,7 @@ static NSString *reuseId = @"RandomPostCell";
                 maskView.alpha = originAlpha;
             } completion:^(BOOL finished) {
                 if (finished) {
-                    postTableView.userInteractionEnabled = YES;
+                    _postTableView.userInteractionEnabled = YES;
                 }
             }];
             
@@ -412,7 +429,7 @@ static NSString *reuseId = @"RandomPostCell";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    switch (postTableView.panGestureRecognizer.state) {
+    switch (_postTableView.panGestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
             panGesture.enabled = NO;
         }break;
@@ -428,18 +445,20 @@ static NSString *reuseId = @"RandomPostCell";
 
 - (void)dealloc
 {
-    [postTableView removeGestureRecognizer:panGesture];
-    [postTableView removeObserver:self forKeyPath:@"panGestureRecognizer.state" context:nil];
+    [_postTableView removeGestureRecognizer:panGesture];
+    [_postTableView removeObserver:self forKeyPath:@"panGestureRecognizer.state" context:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    /*
     if (self.parentViewController == nil) {
-        [postTableView removeGestureRecognizer:panGesture];
+        [_postTableView removeGestureRecognizer:panGesture];
         [self.view removeFromSuperview];
         self.view = nil;
     }
     reg = nil;
+     */
 }
 @end

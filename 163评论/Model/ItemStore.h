@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@class Tag,Post,Content,Tags,Posts,Contents,Author,RandomPosts;
+@class Tag,Post,Content,Tags,Posts,Contents,Author;
 
 @interface ItemStore : NSObject
 

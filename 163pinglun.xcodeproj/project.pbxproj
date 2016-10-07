@@ -13,6 +13,7 @@
 		1F0AF43A1C26CAB200738551 /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4331C26CAB200738551 /* comment.bundle */; };
 		1F0AF43C1C26CAB200738551 /* setting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4361C26CAB200738551 /* setting.plist */; };
 		1F0AF43D1C26CAB200738551 /* tagColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4371C26CAB200738551 /* tagColor.plist */; };
+		1F1982D31DA7E94E0042C4C4 /* RandomPostViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1982D21DA7E94E0042C4C4 /* RandomPostViewModel.m */; };
 		1F1AF1401D86F21D00819DDB /* CommViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AF13F1D86F21D00819DDB /* CommViewModel.m */; };
 		1F1B46531D75CEB3005AD69C /* _63pinglunUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B46521D75CEB3005AD69C /* _63pinglunUnitTests.m */; };
 		1F1FBEA61C4D3BA20037A62E /* ZFQMenuObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1FBEA51C4D3BA20037A62E /* ZFQMenuObject.m */; };
@@ -73,8 +74,6 @@
 		1F3DF2001C2542B100DC8F07 /* 163pinglun.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1E41C2542B100DC8F07 /* 163pinglun.xcdatamodeld */; };
 		1F3DF2011C2542B100DC8F07 /* Author.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1E81C2542B100DC8F07 /* Author.m */; };
 		1F3DF2041C2542B100DC8F07 /* ItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1EF1C2542B100DC8F07 /* ItemStore.m */; };
-		1F3DF2071C2542B100DC8F07 /* RandomPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1F81C2542B100DC8F07 /* RandomPost.m */; };
-		1F3DF2081C2542B100DC8F07 /* RandomPosts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF1FA1C2542B100DC8F07 /* RandomPosts.m */; };
 		1F3DF2361C25464E00DC8F07 /* CommViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF2161C25464E00DC8F07 /* CommViewController.m */; };
 		1F3DF2371C25464E00DC8F07 /* CommViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF2171C25464E00DC8F07 /* CommViewController.xib */; };
 		1F3DF2381C25464E00DC8F07 /* FontSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF21A1C25464E00DC8F07 /* FontSetViewController.m */; };
@@ -162,6 +161,8 @@
 		1F0AF4331C26CAB200738551 /* comment.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = comment.bundle; sourceTree = "<group>"; };
 		1F0AF4361C26CAB200738551 /* setting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = setting.plist; sourceTree = "<group>"; };
 		1F0AF4371C26CAB200738551 /* tagColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagColor.plist; sourceTree = "<group>"; };
+		1F1982D11DA7E94E0042C4C4 /* RandomPostViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPostViewModel.h; sourceTree = "<group>"; };
+		1F1982D21DA7E94E0042C4C4 /* RandomPostViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPostViewModel.m; sourceTree = "<group>"; };
 		1F1AF13E1D86F21D00819DDB /* CommViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommViewModel.h; sourceTree = "<group>"; };
 		1F1AF13F1D86F21D00819DDB /* CommViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommViewModel.m; sourceTree = "<group>"; };
 		1F1B46501D75CEB2005AD69C /* 163pinglunUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 163pinglunUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -290,10 +291,6 @@
 		1F3DF1EE1C2542B100DC8F07 /* ItemStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemStore.h; sourceTree = "<group>"; };
 		1F3DF1EF1C2542B100DC8F07 /* ItemStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemStore.m; sourceTree = "<group>"; };
 		1F3DF1F01C2542B100DC8F07 /* JSONSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
-		1F3DF1F71C2542B100DC8F07 /* RandomPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPost.h; sourceTree = "<group>"; };
-		1F3DF1F81C2542B100DC8F07 /* RandomPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPost.m; sourceTree = "<group>"; };
-		1F3DF1F91C2542B100DC8F07 /* RandomPosts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPosts.h; sourceTree = "<group>"; };
-		1F3DF1FA1C2542B100DC8F07 /* RandomPosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPosts.m; sourceTree = "<group>"; };
 		1F3DF2151C25464E00DC8F07 /* CommViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommViewController.h; sourceTree = "<group>"; };
 		1F3DF2161C25464E00DC8F07 /* CommViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommViewController.m; sourceTree = "<group>"; };
 		1F3DF2171C25464E00DC8F07 /* CommViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommViewController.xib; sourceTree = "<group>"; };
@@ -833,10 +830,6 @@
 		1F3DF1F61C2542B100DC8F07 /* RandomPost */ = {
 			isa = PBXGroup;
 			children = (
-				1F3DF1F71C2542B100DC8F07 /* RandomPost.h */,
-				1F3DF1F81C2542B100DC8F07 /* RandomPost.m */,
-				1F3DF1F91C2542B100DC8F07 /* RandomPosts.h */,
-				1F3DF1FA1C2542B100DC8F07 /* RandomPosts.m */,
 			);
 			path = RandomPost;
 			sourceTree = "<group>";
@@ -904,6 +897,8 @@
 		1F3DF2221C25464E00DC8F07 /* RandomPost */ = {
 			isa = PBXGroup;
 			children = (
+				1F1982D11DA7E94E0042C4C4 /* RandomPostViewModel.h */,
+				1F1982D21DA7E94E0042C4C4 /* RandomPostViewModel.m */,
 				1F3DF2231C25464E00DC8F07 /* RandomPostCell.h */,
 				1F3DF2241C25464E00DC8F07 /* RandomPostCell.m */,
 				1F3DF2251C25464E00DC8F07 /* RandomPostCell.xib */,
@@ -1318,6 +1313,7 @@
 				1F3DF1651C25423200DC8F07 /* FQCoreTextUtils.m in Sources */,
 				1F3DF1671C25423200DC8F07 /* FQFrameParser.m in Sources */,
 				1F7707361C461CAC00F7133F /* ZFQQueuePool.m in Sources */,
+				1F1982D31DA7E94E0042C4C4 /* RandomPostViewModel.m in Sources */,
 				1F1FBEA61C4D3BA20037A62E /* ZFQMenuObject.m in Sources */,
 				1F3DF2431C25464E00DC8F07 /* TestShareControllerViewController.m in Sources */,
 				7B68872519AB7AAD004997CC /* AppDelegate.m in Sources */,
@@ -1338,7 +1334,6 @@
 				1F3DF1691C25423200DC8F07 /* MagnifierView.m in Sources */,
 				1F429E781C52241F0008E9C9 /* NSString+Addition.m in Sources */,
 				1FE303A81D801BF1007BE932 /* AFNetworkReachabilityManager.m in Sources */,
-				1F3DF2081C2542B100DC8F07 /* RandomPosts.m in Sources */,
 				1F3DF16F1C25423200DC8F07 /* MenuView.m in Sources */,
 				1F3DF1781C25423200DC8F07 /* MLBlackTransition.m in Sources */,
 				1F74C7A01C4894B2005D74B9 /* CommCell5.m in Sources */,
@@ -1399,7 +1394,6 @@
 				1F36EFAE1D58204D00B25932 /* MASCompositeConstraint.m in Sources */,
 				1F36EFB71D58204D00B25932 /* ViewController+MASAdditions.m in Sources */,
 				1F3DF1631C25423200DC8F07 /* FQCoreTextImageData.m in Sources */,
-				1F3DF2071C2542B100DC8F07 /* RandomPost.m in Sources */,
 				1F3DF1681C25423200DC8F07 /* FQFrameParserConfig.m in Sources */,
 				1F3DF2411C25464E00DC8F07 /* SettingViewController.m in Sources */,
 				1F3DF16B1C25423200DC8F07 /* GTMNSString+HTML.m in Sources */,

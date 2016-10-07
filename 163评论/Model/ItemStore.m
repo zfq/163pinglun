@@ -12,8 +12,6 @@
 #import "Post.h"
 #import "Content.h"
 #import "Contents.h"
-#import "RandomPost.h"
-#import "RandomPosts.h"
 #import "MacroDefinition.h"
 #import <FMDB.h>
 
@@ -460,7 +458,7 @@
     _currConnection.isDictionary = NO;
     [_currConnection start];
 }
-
+/*
 - (void)fetchRandomPostsWithCompletion:(void (^)(RandomPosts *randomPosts,NSError *error))block
 {
     NSString *requestURL = [HOSTURL stringByAppendingString:@"/wp-json/163pinglun/v1/random_posts"];
@@ -478,7 +476,7 @@
     _currConnection.isDictionary = NO;
     [_currConnection start];
 }
-
+*/
 - (void)cancelCurrentRequtest
 {
     [_currConnection cancel];
