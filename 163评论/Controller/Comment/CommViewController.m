@@ -108,7 +108,6 @@
     [super viewDidDisappear:animated];
     
     //取消请求
-//    [[ItemStore sharedItemStore] cancelCurrentRequtest];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -125,7 +124,6 @@
         } else {
             weakSelf.beginIndex -= 1;
             [weakSelf fetchCommentWithPostId:weakSelf.post.prevPostID completion:^{
-//                [weakSelf updateHeaderLabelWithPost:weakSelf.post];
                 [weakSelf.tableView.zfqHeaderView stopLoading];
             }];
         }
@@ -147,12 +145,10 @@
     //设置footer
     [_tableView addLoadFooterWithRefreshingBlk:^{
         if (weakSelf.beginIndex == weakSelf.postItems.count - 1) {
-//            [weakSelf updateFooterLabelWithPost:weakSelf.post];
             [weakSelf updateRefreshLabelWithPost:weakSelf.post];
         } else {
             weakSelf.beginIndex += 1;
             [weakSelf fetchCommentWithPostId:weakSelf.post.nextPostID completion:^{
-//                [weakSelf updateFooterLabelWithPost:weakSelf.post];
                 [weakSelf.tableView.zfqFooterView stopLoading];
             }];
         }
@@ -169,6 +165,10 @@
     } else {
         _tableView.zfqFooterView.ignoreRefresh = NO;
     }
+    
+    _tableView.zfqHeaderView.animationCompletionBlk = ^(){
+        [weakSelf.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
+    };
         
 }
 

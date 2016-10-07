@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, ZFQLoadRefreshState) {
 @property (nonatomic,assign) BOOL ignoreRefresh; //是否忽略刷新,默认是NO,当设置为YES时会隐藏shapeLayer
 @property (nonatomic,assign) ZFQLoadRefreshState refreshState;
 @property (nonatomic,copy) void (^beginRefreshBlk)();
+@property (nonatomic,copy) void (^animationCompletionBlk)();    //刷新动画完成的回调
 
 - (void)beginRefresh;
 - (void)stopLoading;

@@ -305,6 +305,9 @@ static NSString * const ZFQLoadViewContentSize = @"contentSize";
                 
             } completion:^(BOOL finished) {
                 _oldRefreshState = ZFQLoadRefreshStateNormal;
+                if (self.animationCompletionBlk) {
+                    self.animationCompletionBlk();
+                }
             }];
             
         }
@@ -465,6 +468,11 @@ static NSString * const ZFQLoadViewContentSize = @"contentSize";
                 [_loadScrollView setContentInsetsBottom:_orginInsetsBottom];
             } completion:^(BOOL finished) {
                 _oldRefreshState = ZFQLoadRefreshStateNormal;
+                [_loadScrollView setContentOffset:CGPointMake(_loadScrollView.contentOffset.x, 0) animated:NO];
+                if (self.animationCompletionBlk) {
+                    self.animationCompletionBlk();
+                }
+//                [_loadScrollView setContentOffset:CGPointMake(_loadScrollView.contentOffset.x, _originOffsetY) animated:NO];
             }];
         }
         
