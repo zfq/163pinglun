@@ -114,6 +114,7 @@
 		1FB4E2EE1D937E6D002C35F9 /* Content.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB4E2EB1D937E6D002C35F9 /* Content.m */; };
 		1FB4E2EF1D937E6D002C35F9 /* Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB4E2ED1D937E6D002C35F9 /* Contents.m */; };
 		1FB4E2F01D93EDDB002C35F9 /* HomeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA004F1C5B06C1007A3853 /* HomeViewModel.m */; };
+		1FB8362A1DAE9F45003CFBEC /* ZFQTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB836291DAE9F45003CFBEC /* ZFQTitleView.m */; };
 		1FBF7AB91D814EB300825C5E /* ZFQBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF7AB81D814EB300825C5E /* ZFQBaseRequest.m */; };
 		1FBF7ABC1D81641600825C5E /* ZFQRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF7ABB1D81641600825C5E /* ZFQRequest.m */; };
 		1FE303A51D801BF1007BE932 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE303931D801BF1007BE932 /* AFHTTPRequestOperation.m */; };
@@ -367,6 +368,8 @@
 		1FB4E2EB1D937E6D002C35F9 /* Content.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Content.m; sourceTree = "<group>"; };
 		1FB4E2EC1D937E6D002C35F9 /* Contents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contents.h; sourceTree = "<group>"; };
 		1FB4E2ED1D937E6D002C35F9 /* Contents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contents.m; sourceTree = "<group>"; };
+		1FB836281DAE9F45003CFBEC /* ZFQTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQTitleView.h; sourceTree = "<group>"; };
+		1FB836291DAE9F45003CFBEC /* ZFQTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQTitleView.m; sourceTree = "<group>"; };
 		1FBF7AB71D814EB300825C5E /* ZFQBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQBaseRequest.h; sourceTree = "<group>"; };
 		1FBF7AB81D814EB300825C5E /* ZFQBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQBaseRequest.m; sourceTree = "<group>"; };
 		1FBF7ABA1D81641600825C5E /* ZFQRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQRequest.h; sourceTree = "<group>"; };
@@ -566,6 +569,7 @@
 		1F3DF0B61C25423100DC8F07 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				1FB836271DAE9F45003CFBEC /* ZFQTitleView */,
 				1F4039571DA553B800FF6FAB /* ZFQLoadFrontOrNextView */,
 				1FE303911D801BF1007BE932 /* AFNetworking */,
 				1F36EF941D58204D00B25932 /* Masonry */,
@@ -1003,6 +1007,15 @@
 			path = Label;
 			sourceTree = "<group>";
 		};
+		1FB836271DAE9F45003CFBEC /* ZFQTitleView */ = {
+			isa = PBXGroup;
+			children = (
+				1FB836281DAE9F45003CFBEC /* ZFQTitleView.h */,
+				1FB836291DAE9F45003CFBEC /* ZFQTitleView.m */,
+			);
+			path = ZFQTitleView;
+			sourceTree = "<group>";
+		};
 		1FE303911D801BF1007BE932 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1342,6 +1355,7 @@
 				1F3DF1711C25423200DC8F07 /* MJRefreshBaseView.m in Sources */,
 				1F3DF1821C25423200DC8F07 /* TagView.m in Sources */,
 				1F40395D1DA553B800FF6FAB /* ZFQLoadFrontOrNextView.m in Sources */,
+				1FB8362A1DAE9F45003CFBEC /* ZFQTitleView.m in Sources */,
 				1F36EFB51D58204D00B25932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				7B428D9F190E914D00860E94 /* main.m in Sources */,
 				1FB4E2E61D937DC7002C35F9 /* Tag.m in Sources */,
