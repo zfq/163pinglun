@@ -29,15 +29,18 @@
     self = [super initWithFrame:frame];
     if (self) {
         _titleLabel = [[UILabel alloc] init];
-        _detailLabel = [[UILabel alloc] init];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
         
+        _detailLabel = [[UILabel alloc] init];
+        _detailLabel.textAlignment = NSTextAlignmentCenter;
+
         [self addSubview:_titleLabel];
         [self addSubview:_detailLabel];
         self.clipsToBounds = YES;
         
         //初始状态
         _detailLabel.alpha = 0;
-        
+
         //默认临界值是50;
         [self setCriticalOffset:50];
     }
@@ -49,7 +52,7 @@
     [super layoutSubviews];
     
     CGRect rect = self.frame;
-    CGFloat sw = [UIScreen mainScreen].bounds.size.width;
+    CGFloat sw = self.bounds.size.width;
     
     //设置titleLabel的frame
     CGSize size = [_titleLabel sizeThatFits:CGSizeMake(sw, CGFLOAT_MAX)];
@@ -58,7 +61,7 @@
     _titleLabel.frame = CGRectMake(x , y, size.width, size.height);
     
     //设置detailLabel的frame
-    size = [_detailLabel sizeThatFits:CGSizeMake(sw, CGFLOAT_MAX)];
+    size = rect.size;
     x = (rect.size.width - size.width)/2;
     y = (rect.size.height - size.height)/2;
     _detailLabel.frame = CGRectMake(x , y, size.width, size.height);
@@ -85,6 +88,9 @@
     if (offsetY >= _criticalOffset) {
         _detailLabel.alpha = 1;
         _titleLabel.alpha = 0;
+        //调整detailLabel的位置
+        CGSize size = _detailLabel.frame.size;
+        _detailLabel.frame = CGRectMake(0, 0, size.width, size.height);
         return;
     }
     
@@ -100,7 +106,7 @@
 //    _titleLabel.alpha = 1-offsetY * _changeRate;
     _titleLabel.alpha = 1 - 0.5f * offsetY * offsetY * _titleAcceV;
     
-    //修改titleLabel的frame
+    //修改detailTitleLabel的frame
     CGRect originFrame = _detailLabel.frame;
     originFrame.origin.y = _criticalOffset -  offsetY + _originY;
     _detailLabel.frame = originFrame;

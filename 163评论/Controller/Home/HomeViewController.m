@@ -292,8 +292,7 @@
 {
     Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
     CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_viewModel.postItems beginIndex:indexPath.row];
-    cVC.title = tempPost.title;
-    cVC.myTitleLabel.text = @"跟帖";
+    cVC.title = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];
 }
 

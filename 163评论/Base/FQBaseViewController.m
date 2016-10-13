@@ -86,6 +86,37 @@
     return _myTitleLabel;
 }
 
+- (void)setMyTitleView:(UIView *)myTitleView
+{
+    if (!myTitleView) {
+        return;
+    }
+    [_myTitleLabel removeFromSuperview];
+    _myTitleLabel = nil;
+    [_myTitleView removeFromSuperview];
+    _myTitleView = nil;
+    _myTitleView = myTitleView;
+    [self.navView addSubview:_myTitleView];
+    
+    CGFloat y = 0;
+    CGFloat height = myTitleView.frame.size.height;
+    if (height > 44) {
+        y = 0;
+    } else {
+        y = (44 - height)/2;
+    }
+    y += 20;
+    
+    NSDictionary *nameMap = @{@"myTitleView":_myTitleView};
+    _myTitleView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSString *vfH = [NSString stringWithFormat:@"H:|-80-[myTitleView]-80-|"];
+    NSArray *consH = [NSLayoutConstraint constraintsWithVisualFormat:vfH options:0 metrics:nil views:nameMap];
+    NSString *vfV = [NSString stringWithFormat:@"V:|-%f-[myTitleView(%f)]",y,height];
+    NSArray *consV = [NSLayoutConstraint constraintsWithVisualFormat:vfV options:0 metrics:nil views:nameMap];
+    [self.navView addConstraints:consH];
+    [self.navView addConstraints:consV];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -22,6 +22,7 @@
 //#import <ZFQRefreshControl/UIScrollView+ZFQLoadView.h>
 #import "UIScrollView+ZFQLoadView.h"
 #import "CommViewModel.h"
+#import "ZFQTitleView.h"
 
 @interface CommViewController () <ShareViewDeleage,UITableViewDataSource,UITableViewDelegate>
 {
@@ -31,6 +32,8 @@
     NSMutableArray *_cellsHeight;
     NSMutableDictionary *_contentInfoDic;
 }
+
+@property (nonatomic,strong) ZFQTitleView *zfqTitleView;
 
 @property (nonatomic,copy) NSArray<Post *> *postItems;  //首页显示的所有帖子
 @property (nonatomic,assign) NSInteger beginIndex;  //开始显示的帖子的索引
@@ -84,6 +87,13 @@
     [self.navView addConstraints:consH];
     [self.navView addConstraints:consV];
     
+    //2.1 设置titleView
+    _zfqTitleView = [[ZFQTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 80, 40)];
+    _zfqTitleView.titleLabel.text = self.title;
+    _zfqTitleView.titleLabel.textColor = [UIColor whiteColor];
+    _zfqTitleView.detailLabel.textColor = [UIColor whiteColor];
+    self.myTitleView = _zfqTitleView;
+    
 	//3. 设置tableView
 	self.tableView.allowsSelection = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -101,14 +111,6 @@
     //5.注册设置字体大小通知
     isChanged = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fontSizeChanged:) name:FontSizeChangeNotification object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    //取消请求
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)addZFQRefreshControl
@@ -250,25 +252,6 @@
     }
 }
 
-+ (NSString *)SubStrFromStr:(NSString *)str pattern:(NSString *)pattern
-{
-    NSError *error;
-    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error != nil) {
-        return nil;
-    } else {
-        NSArray *match = [reg matchesInString:str options:NSMatchingReportCompletion range:NSMakeRange(0, [str length])];
-        if (match.count > 0) {
-            NSTextCheckingResult *result = match.firstObject;
-            NSRange range = [result range];
-            NSString *subStr = [str substringToIndex:range.location];
-            return subStr;
-        } else {
-            return str;
-        }
-    }
-}
-
 #pragma mark - 设置字体
 - (void)fontSizeChanged:(NSNotification *)notification
 {
@@ -307,6 +290,9 @@
     //更新UI
     self.tableView.tableHeaderView=nil;
     [self.tableView reloadData];
+    
+    Post *currPost = self.postItems[_beginIndex];
+    _zfqTitleView.detailLabel.text = currPost.title;
 }
 
 - (NSString *)commentUrlWithPostId:(NSString *)postId
@@ -584,6 +570,11 @@
 {
     NSNumber *cellHeightNum = [_cellsHeight objectAtIndex:indexPath.row];
     return cellHeightNum.floatValue;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [_zfqTitleView settingLabelWithOffset:scrollView.contentOffset.y];
 }
 
 - (void)didReceiveMemoryWarning

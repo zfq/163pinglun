@@ -10,6 +10,8 @@
 
 @interface FQBaseViewController : UIViewController
 
+@property (nonatomic,strong) UIView *myTitleView;
 @property (nonatomic,strong) UILabel *myTitleLabel;
 @property (nonatomic,strong) UIImageView *navView;
+
 @end
