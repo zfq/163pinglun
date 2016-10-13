@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface RandomPostCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *myContentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mySeparatorLabel;
 

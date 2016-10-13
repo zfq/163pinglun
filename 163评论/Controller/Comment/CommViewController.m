@@ -592,4 +592,5 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FontSizeChangeNotification object:nil];
     ZFQLog(@"释放 commentVC");
 }
+
 @end
