@@ -28,12 +28,15 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        CGFloat fontSize = 18;
+        
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        
+        _titleLabel.font = [UIFont systemFontOfSize:fontSize];
         _detailLabel = [[UILabel alloc] init];
         _detailLabel.textAlignment = NSTextAlignmentCenter;
-
+        _detailLabel.font = [UIFont systemFontOfSize:fontSize];
+        
         [self addSubview:_titleLabel];
         [self addSubview:_detailLabel];
         self.clipsToBounds = YES;
