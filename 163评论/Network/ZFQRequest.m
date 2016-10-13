@@ -92,9 +92,19 @@
     for (NSInteger i = 0; i < array.count; i++)
     {
         NSDictionary *dict = array[i];
-        NSArray *comments = dict[@"content"];
+        
+        NSArray *comments = nil;
+        id tmpObj = dict[@"content"];
+        if ([tmpObj isKindOfClass:[NSArray class]]) {
+            comments = tmpObj;
+        } else {
+            comments = [self arrayFromDict:tmpObj];
+        }
+        
         NSNumber *postID = dict[@"post"];
         NSNumber *groupID = isNewAPI ? dict[@"id"] : dict[@"ID"];
+        if (groupID == nil) groupID = dict[@"id"];
+        
         NSInteger count = comments.count;
          
         NSInteger currRows = 0;
@@ -120,6 +130,20 @@
     }
 
     self.contentsItems = multArray;
+}
+
+- (NSArray *)arrayFromDict:(NSDictionary *)dict
+{
+    NSArray *array = [dict.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        return [obj1 compare:obj2];
+    }];
+    
+    NSMutableArray *mutArray = [[NSMutableArray alloc] initWithCapacity:array.count];
+    for (NSString *key in array) {
+        [mutArray addObject:dict[key]];
+    }
+        
+    return [mutArray copy];
 }
 
 @end
