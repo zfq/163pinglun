@@ -268,10 +268,8 @@ static NSString *reuseId = @"RandomPostCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RandomPost *post = [self.viewModel.randomPosts objectAtIndex:indexPath.row];
-    CommViewController *cVC = [[CommViewController alloc] init];
-    NSString *postID = [self postIDFromURL:post.postURL];
-//    cVC.post = nil;
+    CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_viewModel.posts beginIndex:indexPath.row];
+    cVC.title = @"随便看看";
     [self.parentViewController.navigationController pushViewController:cVC animated:YES];
 }
 

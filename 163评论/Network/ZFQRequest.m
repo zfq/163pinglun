@@ -213,7 +213,8 @@
     for (NSDictionary *dic in array) {
         RandomPost *post = [[RandomPost alloc] init];
         post.title = [[dic objectForKey:@"post_title"] gtm_stringByUnescapingFromHTML];
-        post.postURL = [dic objectForKey:@"url"];
+        NSString *idStr = [NSString stringWithFormat:@"%@",dic[@"ID"]];
+        post.postID = idStr;
         [tempArray addObject:post];
     }
     

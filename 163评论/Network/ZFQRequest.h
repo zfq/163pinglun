@@ -58,8 +58,8 @@
 
 #pragma mark 随便看看
 @interface RandomPost : NSObject
-@property (nonatomic,strong) NSString *title;
-@property (nonatomic,strong) NSString *postURL;
+@property (nonatomic,copy) NSString *title;
+@property (nonatomic,copy) NSString *postID;
 @end
 
 @interface PLRandomPostRequest : ZFQBaseRequest
