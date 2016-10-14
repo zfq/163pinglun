@@ -251,7 +251,7 @@
         if (error) {
             ZFQLog(@"失败:%@",error);
         } else {
-            if (postItems.count > 0) {
+            if (increasedPostItems.count > 0 && postItems.count > 0) {
                 [weakSelf caculateCellHeight:YES originItemCount:originItemCount increasedItems:increasedPostItems];
                 weakSelf.tableView.tableHeaderView = nil;
                 [weakSelf.tableView reloadData];
@@ -301,7 +301,8 @@
 {
     [tVC dismissTagViewWithAnimation:YES];
     self.viewModel.tagName = tagView.postTag.tagName;
-
+    self.viewModel.homePageIndex = 1;
+    
     //开始下拉刷新
     [self.tableView headerBeginRefreshing];
 }

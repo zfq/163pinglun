@@ -120,6 +120,7 @@
         //保存数据,更新旧的，保存新增的
         [ItemStore savePost:req.postItems originAllPosts:self.postItems];
         
+        NSArray *increasedItems = nil;
         //如果是下拉刷新就删除内存中所有的postItem
         if (self.tagName == nil) {
             NSArray *dbPosts = nil;
@@ -131,21 +132,22 @@
                 //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
                 dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
             }
-            
+            increasedItems = dbPosts;
             [self.postItems addObjectsFromArray:dbPosts];
         } else {
-            if (self.homePageIndex == 1) {
+            if (self.tagPageIndex == 1) {
                 [self.postItems removeAllObjects];
-                [self.postItems addObjectsFromArray:req.postItems];
-            } else {
-                [self.postItems addObjectsFromArray:req.postItems];
             }
+            
+            [self.postItems addObjectsFromArray:req.postItems];
+            increasedItems = req.postItems;
         }
         
         if (completionBlk) {
-            completionBlk(self.postItems,req.postItems,nil);
+            completionBlk(self.postItems,increasedItems,nil);
         }
         
+        //尝试离线下载所有的跟帖
         [self downloadAllPosts];
     } failureBlk:^(ZFQBaseRequest *request, NSError *error) {
         if (completionBlk) {
