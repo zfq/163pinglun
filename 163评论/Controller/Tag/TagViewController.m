@@ -306,6 +306,7 @@ NSString * const k163TagIndex = @"preTagViewIndex";
     [[NSUserDefaults standardUserDefaults] setObject:@(preIndex) forKey:k163TagIndex];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 #pragma mark - tagView tap action
 - (void)tapTagView:(TagView *)tagView
 {
@@ -324,7 +325,6 @@ NSString * const k163TagIndex = @"preTagViewIndex";
             [_tvcDelegate didSelectTagView:tagView controller:self];
         }
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning {
