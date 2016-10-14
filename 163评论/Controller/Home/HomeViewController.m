@@ -291,6 +291,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
+    //建立前后关系
+    
     CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_viewModel.postItems beginIndex:indexPath.row];
     cVC.title = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];

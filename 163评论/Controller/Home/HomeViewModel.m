@@ -132,13 +132,28 @@
                 //从数据库读出第homePageIndex页的10条 即筛选 从第homePageIndex * 10 到 （homePageIndex + 1） * 10行的数据
                 dbPosts = [ItemStore readPostsFromIndex:((self.homePageIndex - 1) * 10) toIndex:(self.homePageIndex * 10)];
             }
-            increasedItems = dbPosts;
+            
+            //建立前后链接关系，用于加载上一篇和下一篇
+            [self linkItemInArray:dbPosts];
+            if (self.postItems.count > 0 && dbPosts.count > 0) {
+                self.postItems.lastObject.nextPostID = [(Post *)dbPosts[0] postID];
+                [(Post *)dbPosts[0] setPrevPostID:self.postItems.lastObject.postID];
+            }
+            
             [self.postItems addObjectsFromArray:dbPosts];
+            increasedItems = dbPosts;
         } else {
             if (self.tagPageIndex == 1) {
                 [self.postItems removeAllObjects];
             }
             
+            //建立前后链接关系，用于加载上一篇和下一篇
+            [self linkItemInArray:req.postItems];
+            NSArray *tmpArray = req.postItems;
+            if (self.postItems.count > 0 && tmpArray.count > 0) {
+                self.postItems.lastObject.nextPostID = [(Post *)tmpArray[0] postID];
+                [(Post *)tmpArray[0] setPrevPostID:self.postItems.lastObject.postID];
+            }
             [self.postItems addObjectsFromArray:req.postItems];
             increasedItems = req.postItems;
         }
@@ -155,6 +170,20 @@
         }
     }];
 
+}
+
+//设置prePostID和nextPostID
+- (void)linkItemInArray:(NSArray *)items
+{
+    for (NSInteger i = 0; i < items.count; i++) {
+        Post *p = items[i];
+        if (i >= 0 && i <= items.count - 1) {
+            if (i != 0)
+                p.prevPostID = [(Post *)items[i-1] postID];
+            if (i != (items.count - 1))
+                p.nextPostID = [(Post *)items[i+1] postID];
+        }
+    }
 }
 
 /**
