@@ -195,7 +195,7 @@
     NSArray *postIDs = [ItemStore allExistComment];
     NSMutableArray *array = [[NSMutableArray alloc] init];
     NSInteger i = 0,j = 0;
-    NSInteger count = self.postItems.count;
+    NSInteger count = _postItems.count;
     NSString *str1,*str2;
     while (i < count) {
         str1 = _postItems[i].postID;

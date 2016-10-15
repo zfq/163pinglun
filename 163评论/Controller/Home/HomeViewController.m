@@ -139,6 +139,7 @@
 {
     //开始下拉刷新
     self.viewModel.tagName = nil;
+    self.viewModel.homePageIndex = 0;
     [self.tableView headerBeginRefreshing];
 }
 
@@ -209,7 +210,7 @@
     [array enumerateObjectsUsingBlock:^(Post *p, NSUInteger idx, BOOL * _Nonnull stop) {
         weakSelf.prototypeCell.post = p;
         CGFloat height = [weakSelf.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-        NSString *key = [NSString stringWithFormat:@"%lu",idx];
+        NSString *key = [NSString stringWithFormat:@"%li",idx];
         [weakSelf.cellsHeightDic setObject:@(height) forKey:key];
     }];
 }
