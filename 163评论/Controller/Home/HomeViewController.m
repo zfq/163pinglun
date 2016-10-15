@@ -33,9 +33,11 @@
     NSInteger tagPageIndex;
     MenuView *menu;                     //菜单
 }
-@property (nonatomic) HomeViewModel *viewModel;
+
+@property (nonatomic,strong) HomeViewModel *viewModel;
 @property (nonatomic,strong) NSMutableDictionary *cellsHeightDic; //所有cell的高度
 @property (nonatomic,strong) PostCell *prototypeCell; //预留一个用来计算高度
+
 @end
 
 @implementation HomeViewController
@@ -82,6 +84,35 @@
     logImgFrame.origin = CGPointMake(15, 30);
     logImgView.frame = logImgFrame;
     [self.navView addSubview:logImgView];
+    
+    //添加进度条
+    UIProgressView *progressBar = [[UIProgressView alloc] init];
+    progressBar.progressTintColor = RGBCOLOR(27, 161, 226, 1);
+    [self.navView addSubview:progressBar];
+    progressBar.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *barNameMap = @{@"progressBar":progressBar};
+    NSArray *barConsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[progressBar(2)]-0-|" options:0 metrics:nil views:barNameMap];
+    NSArray *barConsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[progressBar]-0-|" options:0 metrics:nil views:barNameMap];
+    [self.navView addConstraints:barConsV];
+    [self.navView addConstraints:barConsH];
+    
+    progressBar.hidden = YES;
+    _viewModel.downloadProgressBlk = ^(CGFloat progress) {
+        if (progressBar.hidden) {
+            progressBar.hidden = NO;
+            progressBar.alpha = 1;
+        }
+        [progressBar setProgress:progress animated:YES];
+        if (progress >= 1) {
+            [UIView animateWithDuration:0.25 animations:^{
+                progressBar.alpha = 0;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    progressBar.hidden = YES;
+                }
+            }];
+        }
+    };
     
     //注册cell
     [self.tableView registerClass:[PostCell class] forCellReuseIdentifier:@"PostCell"];

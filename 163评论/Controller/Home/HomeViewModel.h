@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ZFQRequest.h"
+#import <UIKit/UIKit.h>
 
 @interface HomeViewModel : NSObject
 
@@ -18,6 +19,7 @@
 @property (nonatomic,strong) NSMutableArray<Post *> *postItems;
 
 @property (nonatomic,copy) void (^latestPostRefreshBlk)(void);
+@property (nonatomic,copy) void (^downloadProgressBlk)(CGFloat progress);
 
 - (void)fetchPostsWithCompletion:(void (^)(NSArray<Post *> *postItems,NSArray<Post *> *increasedPostItems,NSError *error))completionBlk;
 

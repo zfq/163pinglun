@@ -250,9 +250,16 @@
     }
     
     [ZFQURLOperationManager startBatchOfOperations:operations progressBlk:^(NSInteger numberOfFinishedOperations, NSInteger numberOfOperations) {
-        ZFQLog(@"已完成%f",numberOfFinishedOperations/(float)numberOfOperations);
+        CGFloat progress = numberOfFinishedOperations/(float)numberOfOperations;
+        ZFQLog(@"已完成%f",progress);
+        if (self.downloadProgressBlk) {
+            self.downloadProgressBlk(progress);
+        }
     } completionBlk:^{
         ZFQLog(@"全部完成");
+        if (self.downloadProgressBlk) {
+            self.downloadProgressBlk(1);
+        }
     }];
 }
 
