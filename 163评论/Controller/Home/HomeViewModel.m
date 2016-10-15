@@ -169,7 +169,6 @@
             completionBlk(nil,nil,error);
         }
     }];
-
 }
 
 //设置prePostID和nextPostID
