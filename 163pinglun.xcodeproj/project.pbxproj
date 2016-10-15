@@ -1190,7 +1190,8 @@
 						TestTargetID = 7B428D8E190E914D00860E94;
 					};
 					7B428D8E190E914D00860E94 = {
-						DevelopmentTeam = GSREPL66WM;
+						DevelopmentTeam = 7P82UB69CY;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -1560,7 +1561,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7P82UB69CY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1578,9 +1580,10 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zfq.163pinglun;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wecash.o2o;
 				PRODUCT_NAME = 163pinglun;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2eff81c4-8027-420b-bcf6-7b7eeb67fdd0";
+				PROVISIONING_PROFILE_SPECIFIER = o2o;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1592,7 +1595,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7P82UB69CY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1610,9 +1614,10 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zfq.163pinglun;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wecash.o2o;
 				PRODUCT_NAME = 163pinglun;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2eff81c4-8027-420b-bcf6-7b7eeb67fdd0";
+				PROVISIONING_PROFILE_SPECIFIER = o2o;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
