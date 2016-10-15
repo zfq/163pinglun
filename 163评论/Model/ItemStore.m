@@ -260,9 +260,9 @@
     NSMutableArray<Post *> *posts = [[NSMutableArray alloc] init];
     NSString *sql = nil;
     if (toIndex == 0) {
-        sql = @"SELECT * FROM PLPost ORDER BY postID DESC;";
+        sql = @"SELECT * FROM PLPost ORDER BY CAST (postID AS INTEGER) DESC;";
     } else {
-        sql = [NSString stringWithFormat:@"SELECT * FROM PLPost ORDER BY postID DESC LIMIT %ld,%ld;",fromIndex,toIndex];
+        sql = [NSString stringWithFormat:@"SELECT * FROM PLPost ORDER BY CAST (postID AS INTEGER) DESC LIMIT %ld,%ld;",fromIndex,toIndex];
     }
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
@@ -290,7 +290,7 @@
     Tag *tag = tags[0];
     
     NSMutableString *mutStr = [[NSMutableString alloc] init];
-    [mutStr appendString:@"INSERT INTO PLTag (tagID,tagIndex,tagName,count,tagSlug)"];
+    [mutStr appendString:@"INSERT OR REPLACE INTO PLTag (tagID,tagIndex,tagName,count,tagSlug)"];
     [mutStr appendFormat:@" SELECT %ld AS tagID, %ld AS tagIndex, '%@' AS tagName, %ld AS count, '%@' AS tagSlug",tag.tagID.integerValue,tag.index,tag.tagName,tag.count,tag.tagSlug];
     if (tags.count > 1) {
         for (NSInteger i = 0; i < tags.count; i++) {
@@ -386,7 +386,7 @@
 
 + (NSArray<Tag *> *)readTagsFromDB
 {
-    NSString *sql = @"SELECT * FROM PLTag ORDER BY tagIndex ASC";
+    NSString *sql = @"SELECT * FROM PLTag ORDER BY CAST (tagIndex AS INTEGER) ASC";
     NSMutableArray *tags = [[NSMutableArray alloc] init];
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
@@ -427,7 +427,7 @@
 
 + (NSArray<NSString *> *)allExistComment
 {
-    NSString *sql = @"SELECT postID FROM PLComment ORDER BY postID DESC";
+    NSString *sql = @"SELECT postID FROM PLComment ORDER BY CAST (postID AS INTEGER) DESC";
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [[self dbQueue] inDatabase:^(FMDatabase *db) {
         FMResultSet *set = [db executeQuery:sql];
