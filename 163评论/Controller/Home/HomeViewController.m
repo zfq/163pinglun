@@ -96,6 +96,7 @@
     [self.navView addConstraints:barConsV];
     [self.navView addConstraints:barConsH];
     
+    //设置下载进度回调
     progressBar.hidden = YES;
     _viewModel.downloadProgressBlk = ^(CGFloat progress) {
         if (progressBar.hidden) {
@@ -104,13 +105,15 @@
         }
         [progressBar setProgress:progress animated:YES];
         if (progress >= 1) {
-            [UIView animateWithDuration:0.25 animations:^{
-                progressBar.alpha = 0;
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    progressBar.hidden = YES;
-                }
-            }];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.25 animations:^{
+                    progressBar.alpha = 0;
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        progressBar.hidden = YES;
+                    }
+                }];
+            });
         }
     };
     
