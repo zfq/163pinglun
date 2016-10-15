@@ -197,7 +197,7 @@
         for (NSInteger i = 0 ; i < items.count ; i++) {
             self.prototypeCell.post = items[i];
             CGFloat height = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-            NSString *key = [NSString stringWithFormat:@"%lu",i + items.count];
+            NSString *key = [NSString stringWithFormat:@"%lu",(unsigned long)(i + items.count)];
             [self.cellsHeightDic setObject:@(height) forKey:key];
         }
         return;
@@ -210,7 +210,7 @@
     [array enumerateObjectsUsingBlock:^(Post *p, NSUInteger idx, BOOL * _Nonnull stop) {
         weakSelf.prototypeCell.post = p;
         CGFloat height = [weakSelf.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-        NSString *key = [NSString stringWithFormat:@"%li",idx];
+        NSString *key = [NSString stringWithFormat:@"%lu",(unsigned long)idx];
         [weakSelf.cellsHeightDic setObject:@(height) forKey:key];
     }];
 }
@@ -284,7 +284,7 @@
 #pragma mark - tableView delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *key = [NSString stringWithFormat:@"%ld",indexPath.row];
+    NSString *key = [NSString stringWithFormat:@"%zi",indexPath.row];
     NSNumber *height = [_cellsHeightDic objectForKey:key];
     return height.floatValue;
 }

@@ -10,6 +10,7 @@
 #import "Author.h"
 #import "ItemStore.h"
 #import "NSString+Html.h"
+#import "MacroDefinition.h"
 
 #define kPostValidationDomain @"PostValidationDomain"
 #define kPostValidationPostOrExceptCode 1001
@@ -20,10 +21,6 @@
 {
     self.postID = [NSString stringWithFormat:@"%zi",[dictionary[@"id"] integerValue]];
     
-//    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
-//    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
-//    [self.inAuthor readFromJSONDictionary:autDic];
-
     //设置标题
     NSString *tit = dictionary[@"title"][@"rendered"];
     self.title = [tit stringByDecodingHTMLEntities];
@@ -66,11 +63,17 @@
         }
     }
     
-    NSString *originDateStr = [dictionary objectForKey:@"modified"];
+    NSString *originDateStr = dictionary[@"modified"];
     NSString *firstStr = [originDateStr substringWithRange:NSMakeRange(0, 18)];
     NSString *finalStr = [firstStr stringByReplacingCharactersInRange:NSMakeRange(10, 1) withString:@" "];
     
-    self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],self.inAuthor.authorName];
+    //设置作者
+    NSString *authorName = dictionary[@"post_meta"][@"author_nickname"];
+    if (authorName.length > 0 ) {
+        self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],authorName];
+    } else {
+        self.date =  [NSString stringWithFormat:@"最后更新于%@",[self postTimeFromTime:finalStr]];
+    }
     
     //判断nil
     if (!self.prevPostID) self.prevPostID = @"";
@@ -83,8 +86,7 @@
     self.postID = [dictionary objectForKey:@"ID"];
     NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
     
-//    self.inAuthor = [[ItemStore sharedItemStore] createAuthorWithAuthorID:[autDic objectForKey:@"ID"]];   //在这里判断是否有已经存在的author，if 有，就直接赋值，没有就create
-    [self.inAuthor readFromJSONDictionary:autDic];
+//    [self.inAuthor readFromJSONDictionary:autDic];
     
     NSString *tit = [dictionary objectForKey:@"title"];
     self.title = [tit stringByDecodingHTMLEntities];
@@ -114,7 +116,7 @@
     NSString *firstStr = [originDateStr substringWithRange:NSMakeRange(0, 18)];
     NSString *finalStr = [firstStr stringByReplacingCharactersInRange:NSMakeRange(10, 1) withString:@" "];
     
-    self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],self.inAuthor.authorName];
+    self.date =  [NSString stringWithFormat:@"最后更新于%@ by %@",[self postTimeFromTime:finalStr],NULLSTR(self.authorName)];
 }
 
 - (NSString *)postTimeFromTime:(NSString *)time

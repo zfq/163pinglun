@@ -9,13 +9,6 @@
 #import "ZFQRequest.h"
 #import "MacroDefinition.h"
 #import "GTMNSString+HTML.h"
-/*
-@implementation Author
-@end
-
-@implementation Post
-@end
-*/
 
 @implementation ZFQPostRequest
 

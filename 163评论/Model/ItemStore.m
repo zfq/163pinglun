@@ -82,7 +82,8 @@
         excerpt TEXT, \
         tag TEXT, \
         title TEXT, \
-        views INTEGER \
+        views INTEGER, \
+        author TEXT \
         );";
         
         if ([db executeUpdate:postSQL]) {
@@ -208,13 +209,13 @@
         
         if (insertPosts.count > 0) {
             NSMutableString *mutStr = [[NSMutableString alloc] init];
-            [mutStr appendString:@"INSERT INTO PLPost (postID,nextPostID,prePostID,date,excerpt,tag,title,views)"];
+            [mutStr appendString:@"INSERT INTO PLPost (postID,nextPostID,prePostID,date,excerpt,tag,title,views,author)"];
             
             Post *obj = insertPosts[0];
-            [mutStr appendFormat:@"select '%@' AS postID,'%@' AS nextPostID, '%@' AS prePostID, '%@' AS date, '%@' AS excerpt, '%@' AS tag, '%@' AS title, %ld AS views",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+            [mutStr appendFormat:@"select '%@' AS postID,'%@' AS nextPostID, '%@' AS prePostID, '%@' AS date, '%@' AS excerpt, '%@' AS tag, '%@' AS title, %ld AS views, %@ AS author",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,(long)obj.views,obj.authorName];
             for (NSInteger i = 1; i < insertPosts.count; i++) {
                 obj = insertPosts[i];
-                [mutStr appendFormat:@" UNION SELECT '%@','%@','%@','%@','%@','%@','%@','%ld'",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,obj.views];
+                [mutStr appendFormat:@" UNION SELECT '%@','%@','%@','%@','%@','%@','%@','%ld','%@'",obj.postID,obj.nextPostID,obj.prevPostID,obj.date,obj.excerpt,obj.tag,obj.title,(long)obj.views,obj.authorName];
             }
             [mutStr appendString:@";"];
             

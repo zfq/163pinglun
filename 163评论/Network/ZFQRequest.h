@@ -11,18 +11,6 @@
 #import "Content.h"
 #import "Tag.h"
 
-/*
-@interface Author : NSObject
-
-@property (nonatomic, retain) NSString * authorID;      //推荐人ID
-@property (nonatomic, retain) NSString * authorName;    //推荐人名字
-@property (nonatomic, retain) NSString * authorSlug;    //推荐人别名
-@property (nonatomic, retain) NSSet *posts;
-
-@end
-
-*/
-
 #pragma mark 帖子
 @interface ZFQPostRequest : ZFQBaseRequest
 

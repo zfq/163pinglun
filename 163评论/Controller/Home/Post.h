@@ -20,7 +20,8 @@
 @property (nonatomic, copy) NSString *excerpt;  //摘要
 @property (nonatomic, assign) NSInteger views;  //浏览量
 @property (nonatomic, copy) NSString *date;     //发表时间
-@property (nonatomic, strong) Author *inAuthor; //帖子推荐人
+//@property (nonatomic, strong) Author *inAuthor; //帖子推荐人
+@property (nonatomic, copy) NSString *authorName; //帖子推荐人
 
 @property (nonatomic,copy) NSString *prevPostID; //上一篇帖子ID
 @property (nonatomic,copy) NSString *nextPostID; //下一篇帖子ID
