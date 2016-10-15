@@ -225,10 +225,11 @@
 {
     //对于上拉加载，只计算新增的cell的高度就行了
     if (footerRefresh) {
+        CGFloat beginIndex = self.viewModel.postItems.count - items.count;
         for (NSInteger i = 0 ; i < items.count ; i++) {
             self.prototypeCell.post = items[i];
             CGFloat height = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-            NSString *key = [NSString stringWithFormat:@"%lu",(unsigned long)(i + items.count)];
+            NSString *key = [NSString stringWithFormat:@"%lu",(unsigned long)(i + beginIndex)];
             [self.cellsHeightDic setObject:@(height) forKey:key];
         }
         return;
@@ -295,6 +296,7 @@
 #pragma mark - tableView dateSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"行数为:%zi",_viewModel.postItems.count);
     if (_viewModel.postItems == nil)
 		return 0;
 	else
@@ -321,10 +323,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    Post *tempPost = [_viewModel.postItems objectAtIndex:indexPath.row];
-    //建立前后关系
-    
+{    
     CommViewController *cVC = [[CommViewController alloc] initWithPostItems:_viewModel.postItems beginIndex:indexPath.row];
     cVC.title = @"跟帖";
     [self.navigationController pushViewController:cVC animated:YES];
