@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RandomPost : NSObject 
+@interface RandomPost : NSObject
 
-@property (nonatomic,strong) NSString *title;
-@property (nonatomic,strong) NSString *postURL;
+@property (nonatomic,copy) NSString *title;
+@property (nonatomic,copy) NSString *postID;
 
 @end

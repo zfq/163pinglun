@@ -8,6 +8,7 @@
 
 #import "ZFQBaseRequest.h"
 #import "Post.h"
+#import "RandomPost.h"
 #import "Content.h"
 #import "Tag.h"
 
@@ -45,11 +46,6 @@
 @end
 
 #pragma mark 随便看看
-@interface RandomPost : NSObject
-@property (nonatomic,copy) NSString *title;
-@property (nonatomic,copy) NSString *postID;
-@end
-
 @interface PLRandomPostRequest : ZFQBaseRequest
 
 //返回结果

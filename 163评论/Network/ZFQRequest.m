@@ -177,8 +177,6 @@
 
 @end
 
-@implementation RandomPost
-@end
 @implementation PLRandomPostRequest
 
 - (NSString *)pathURL
