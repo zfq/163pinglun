@@ -5,4 +5,4 @@
 
 ## 安装
 
-1. [下载链接](http://fir.im/gwvz)，密码为163pinglun
+1. [App下载链接](http://fir.im/gwvz)
