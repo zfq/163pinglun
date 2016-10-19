@@ -614,7 +614,7 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
         //开启定时器
         [_longPressTimer invalidate];
         _longPressTimer = [NSTimer timerWithTimeInterval:kLongPressMinimumDuration target:self selector:@selector(fireLongPress:) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:_longPressTimer forMode:NSRunLoopCommonModes];
+        [[NSRunLoop currentRunLoop] addTimer:_longPressTimer forMode:NSDefaultRunLoopMode];
     } else {
         [super touchesBegan:touches withEvent:event];
     }
