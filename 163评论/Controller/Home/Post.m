@@ -84,8 +84,7 @@
 - (void)readFromJSONDictionary1:(NSDictionary *)dictionary
 {
     self.postID = [dictionary objectForKey:@"ID"];
-    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
-    
+//    NSDictionary *autDic = [dictionary objectForKey:@"author"]; //这里的self.author是空的
 //    [self.inAuthor readFromJSONDictionary:autDic];
     
     NSString *tit = [dictionary objectForKey:@"title"];
