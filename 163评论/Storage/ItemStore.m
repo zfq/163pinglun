@@ -369,20 +369,6 @@
     if (entityName == nil || [entityName isEqualToString:@""]) {
         return;
     }
-    /*
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
-    NSError *error;
-    NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    if (results == nil) {
-        ZFQLog(@"删除%@失败:%@",entityName,[error localizedDescription]);
-    } else {
-        for (NSManagedObject *obj in results) {
-            [self.managedObjectContext deleteObject:obj];
-        }
-    }
-    
-    [self saveContext];
-     */
 }
 
 + (NSArray<Tag *> *)readTagsFromDB
