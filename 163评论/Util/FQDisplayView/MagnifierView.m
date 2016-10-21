@@ -2,7 +2,7 @@
 //  MagnifierView.m
 //  MyCoreTextDemo
 //
-//  Created by wecash on 15/9/14.
+//  Created by 163pinglun on 15/9/14.
 //  Copyright (c) 2015年 shanqb. All rights reserved.
 //
 

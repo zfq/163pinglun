@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F0AF42B1C26C98900738551 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3DF0F21C25423200DC8F07 /* TencentOpenAPI.framework */; };
 		1F0AF4381C26CAB200738551 /* comment1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF42F1C26CAB200738551 /* comment1.json */; };
 		1F0AF4391C26CAB200738551 /* post.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4301C26CAB200738551 /* post.json */; };
 		1F0AF43A1C26CAB200738551 /* comment.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F0AF4331C26CAB200738551 /* comment.bundle */; };
@@ -77,7 +76,6 @@
 		1F3DF2391C25464E00DC8F07 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF21D1C25464E00DC8F07 /* HomeViewController.m */; };
 		1F3DF23A1C25464E00DC8F07 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF21E1C25464E00DC8F07 /* HomeViewController.xib */; };
 		1F3DF23B1C25464E00DC8F07 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF2201C25464E00DC8F07 /* PostCell.m */; };
-		1F3DF23C1C25464E00DC8F07 /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF2211C25464E00DC8F07 /* PostCell.xib */; };
 		1F3DF23F1C25464E00DC8F07 /* RandomPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF2271C25464E00DC8F07 /* RandomPostViewController.m */; };
 		1F3DF2401C25464E00DC8F07 /* RandomPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3DF2281C25464E00DC8F07 /* RandomPostViewController.xib */; };
 		1F3DF2411C25464E00DC8F07 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DF22B1C25464E00DC8F07 /* SettingViewController.m */; };
@@ -102,6 +100,7 @@
 		1F7647651D4358CA0070F5A7 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1F7647611D4358CA0070F5A7 /* WeiboSDK.bundle */; };
 		1F7707361C461CAC00F7133F /* ZFQQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7707351C461CAC00F7133F /* ZFQQueuePool.m */; };
 		1F7E33A71C47BA3A0063F941 /* comment2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F7E33A61C47BA3A0063F941 /* comment2.json */; };
+		1F88A3F31DB3B4920016FE40 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3DF0F21C25423200DC8F07 /* TencentOpenAPI.framework */; };
 		1FAD8E511C31780A00F63A24 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAD8E4E1C31780A00F63A24 /* UIView+Additions.m */; };
 		1FAD8E521C31780A00F63A24 /* VVeboLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAD8E501C31780A00F63A24 /* VVeboLabel.m */; };
 		1FAEE73B1DB25BD0005C56B1 /* RandomPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAEE7351DB25BD0005C56B1 /* RandomPost.m */; };
@@ -297,7 +296,6 @@
 		1F3DF21E1C25464E00DC8F07 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		1F3DF21F1C25464E00DC8F07 /* PostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostCell.h; sourceTree = "<group>"; };
 		1F3DF2201C25464E00DC8F07 /* PostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostCell.m; sourceTree = "<group>"; };
-		1F3DF2211C25464E00DC8F07 /* PostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
 		1F3DF2261C25464E00DC8F07 /* RandomPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomPostViewController.h; sourceTree = "<group>"; };
 		1F3DF2271C25464E00DC8F07 /* RandomPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RandomPostViewController.m; sourceTree = "<group>"; };
 		1F3DF2281C25464E00DC8F07 /* RandomPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RandomPostViewController.xib; sourceTree = "<group>"; };
@@ -437,10 +435,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F88A3F31DB3B4920016FE40 /* TencentOpenAPI.framework in Frameworks */,
 				1F6C79AE1C4FDF6F00CCA019 /* CoreText.framework in Frameworks */,
 				1F6C79AC1C4FDDD600CCA019 /* ImageIO.framework in Frameworks */,
 				1F6C79AA1C4FDDCD00CCA019 /* QuartzCore.framework in Frameworks */,
-				1F0AF42B1C26C98900738551 /* TencentOpenAPI.framework in Frameworks */,
 				7BEBD4F71996009C000F5028 /* libz.dylib in Frameworks */,
 				7BEBD4F51996008C000F5028 /* libstdc++.dylib in Frameworks */,
 				7BEBD4F319960079000F5028 /* CoreTelephony.framework in Frameworks */,
@@ -866,7 +864,6 @@
 				1F3DF21E1C25464E00DC8F07 /* HomeViewController.xib */,
 				1F3DF21F1C25464E00DC8F07 /* PostCell.h */,
 				1F3DF2201C25464E00DC8F07 /* PostCell.m */,
-				1F3DF2211C25464E00DC8F07 /* PostCell.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1234,7 +1231,6 @@
 				1F3DF23A1C25464E00DC8F07 /* HomeViewController.xib in Resources */,
 				1F0AF4391C26CAB200738551 /* post.json in Resources */,
 				1F0AF4381C26CAB200738551 /* comment1.json in Resources */,
-				1F3DF23C1C25464E00DC8F07 /* PostCell.xib in Resources */,
 				7B428DA5190E914D00860E94 /* Images.xcassets in Resources */,
 				1F7647651D4358CA0070F5A7 /* WeiboSDK.bundle in Resources */,
 				1FAEE73D1DB25BD0005C56B1 /* RandomPostCell.xib in Resources */,
@@ -1580,7 +1576,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wecash.o2o;
 				PRODUCT_NAME = 163pinglun;
-				PROVISIONING_PROFILE = "2eff81c4-8027-420b-bcf6-7b7eeb67fdd0";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = o2o;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1614,7 +1610,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wecash.o2o;
 				PRODUCT_NAME = 163pinglun;
-				PROVISIONING_PROFILE = "2eff81c4-8027-420b-bcf6-7b7eeb67fdd0";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = o2o;
 				WRAPPER_EXTENSION = app;
 			};

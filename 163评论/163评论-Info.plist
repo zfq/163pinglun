@@ -42,9 +42,19 @@
 				<string>tencent1101994241</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>163pinglun</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>163pinglun</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.2</string>
+	<string>1.0.3</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>sinaweibohd</string>

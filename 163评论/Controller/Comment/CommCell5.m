@@ -372,7 +372,6 @@ NSString *const kCommCellTypeBottom = @"CommCellTypeBottom";
             //2.draw backgroundColor
             [[UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0] setFill];
             CGContextFillRect(context, CGRectMake(0, 0, imgSize.width, imgSize.height));
-            
             //3.draw userLabel
             NSMutableParagraphStyle *userParaStyle = [[NSMutableParagraphStyle alloc] init];
             userParaStyle.lineBreakMode = NSLineBreakByTruncatingTail;

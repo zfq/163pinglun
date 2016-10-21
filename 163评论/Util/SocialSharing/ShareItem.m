@@ -8,7 +8,7 @@
 
 #import "ShareItem.h"
 
-@interface ShareItem()
+@interface ShareItem() <CAAnimationDelegate>
 {
     UIImageView *_myImgView;
     UILabel *titleLabel;

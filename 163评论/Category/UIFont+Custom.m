@@ -4,8 +4,8 @@
 //
 //  自定义字体
 //
-//  Created by wecash on 15/7/29.
-//  Copyright (c) 2015年 wecash. All rights reserved.
+//  Created by 163pinglun on 15/7/29.
+//  Copyright (c) 2015年 163pinglun. All rights reserved.
 //
 
 #import "UIFont+Custom.h"

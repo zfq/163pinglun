@@ -2,7 +2,7 @@
 //  CommCell2.h
 //  163评论
 //
-//  Created by wecash on 15/8/18.
+//  Created by 163pinglun on 15/8/18.
 //  Copyright (c) 2015年 zhaofuqiang. All rights reserved.
 //
 

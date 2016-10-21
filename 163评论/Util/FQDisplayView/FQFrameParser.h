@@ -4,7 +4,7 @@
 //
 //  用于生成最后绘制的CTFrameRef实例
 //
-//  Created by wecash on 15/8/24.
+//  Created by 163pinglun on 15/8/24.
 //  Copyright (c) 2015年 shanqb. All rights reserved.
 //
 

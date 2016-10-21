@@ -3,7 +3,7 @@
 //  仿知乎TitleLabel
 //
 //  Created by _ on 16/10/8.
-//  Copyright © 2016年 Wecash. All rights reserved.
+//  Copyright © 2016年 163pinglun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

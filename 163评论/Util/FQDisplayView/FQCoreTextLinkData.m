@@ -2,7 +2,7 @@
 //  FQCoreTextLinkData.m
 //  MyCoreTextDemo
 //
-//  Created by wecash on 15/9/1.
+//  Created by 163pinglun on 15/9/1.
 //  Copyright (c) 2015年 shanqb. All rights reserved.
 //
 

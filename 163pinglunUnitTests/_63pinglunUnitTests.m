@@ -422,6 +422,7 @@
 
 - (void)test222
 {
+    /*
     NSArray *postIDs = [ItemStore allPostIDFromDB];
     NSArray *postItems = @[@"18888",@"18696",@"18688",@"18677",@"18676",@"18670"];
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -451,6 +452,7 @@
         }
     }
     NSLog(@"%@",array);
+     */
 }
 
 - (void)testPerformanceExample {

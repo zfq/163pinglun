@@ -4,7 +4,7 @@
 //
 //  用于保存由CTFrameParser类生成的CTFrameRef实例和CTFrameRef实际绘制所需要的高度
 //
-//  Created by wecash on 15/8/24.
+//  Created by 163pinglun on 15/8/24.
 //  Copyright (c) 2015年 shanqb. All rights reserved.
 //
 

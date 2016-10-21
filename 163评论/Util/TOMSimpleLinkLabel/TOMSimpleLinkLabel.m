@@ -4,8 +4,8 @@
 //
 //  带链接功能的label
 //
-//  Created by wecash on 15/8/7.
-//  Copyright (c) 2015年 wecash. All rights reserved.
+//  Created by 163pinglun on 15/8/7.
+//  Copyright (c) 2015年 163pinglun. All rights reserved.
 //
 
 #import "TOMSimpleLinkLabel.h"
