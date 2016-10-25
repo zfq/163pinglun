@@ -326,34 +326,36 @@
 
 - (void)testZFQURLOperationDependency
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"zfqOperationBatch"];
-    
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"zfqOperation1"];
     NSArray *strs = [self urlStrs];
+    
+    __block UIImage *img1 = nil;
     
     NSURL *url1 = [NSURL URLWithString:strs[0]];
     NSURLRequest *request1 = [[NSURLRequest alloc] initWithURL:url1];
     ZFQURLConnectionOperation *operation1 = [[ZFQURLConnectionOperation alloc] initWithRequest:request1 successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         if (data) {
             UIImage *img = [UIImage imageWithData:data];
-            NSLog(@"----->1111111%@",NSStringFromCGSize(img.size));
+            img1 = img;
         }
+        [expectation1 fulfill];
     } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
-        
     }];
     operation1.completionBlock = ^{
         NSLog(@"++++++++回调11111ok!");
     };
     
-    
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"zfqOperation2"];
+    __block UIImage *img2 = nil;
     NSURL *url2 = [NSURL URLWithString:strs[3]];
     NSURLRequest *request2 = [[NSURLRequest alloc] initWithURL:url2];
     ZFQURLConnectionOperation *operation2 = [[ZFQURLConnectionOperation alloc] initWithRequest:request2 successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         if (data) {
             UIImage *img = [UIImage imageWithData:data];
-            NSLog(@"----->2222222%@",NSStringFromCGSize(img.size));
+            img2 = img;
         }
+        [expectation2 fulfill];
     } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
-        NSLog(@"失败:%@",error);
     }];
     operation2.completionBlock = ^{
         NSLog(@"++++++++回调222222ok!");
@@ -365,23 +367,31 @@
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         
     }];
+    
+    XCTAssertNotNil(img1,@"Image1 should not be nil");
+    XCTAssertNotNil(img2,@"Image2 should not be nil");
 }
 
 - (void)testZFQURLOperationBatch
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"zfqOperationBatch"];
-    
     NSArray *strs = [self urlStrs];
     NSMutableArray *operations = [[NSMutableArray alloc] initWithCapacity:strs.count];
     
+    NSInteger i = 0;
+    NSMutableArray *imgs = [[NSMutableArray alloc] initWithCapacity:strs.count];
     for (NSString *tempStr in strs) {
+        __block UIImage *responseImg = nil;
+        NSString *desc = [NSString stringWithFormat:@"zfqOperation%zi",i++];
+        XCTestExpectation *expectation = [self expectationWithDescription:desc];
         NSURL *url = [NSURL URLWithString:tempStr];
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
         ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
             if (data) {
                 UIImage *img = [UIImage imageWithData:data];
-                NSLog(@"----->%@",NSStringFromCGSize(img.size));
+                responseImg = img;
+                [imgs addObject:responseImg];
             }
+            [expectation fulfill];
         } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         }];
         [operations addObject:operation];
@@ -391,7 +401,6 @@
         NSLog(@"---------->%f",numberOfFinishedOperations/(CGFloat)numberOfOperations);
     } completionBlk:^{
         NSLog(@"全部完成");
-        [expectation fulfill];
     }];
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -400,6 +409,10 @@
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         
     }];
+    
+    for (UIImage *img in imgs) {
+        XCTAssertNotNil(img,"Image should not be nil");
+    }
 }
 
 - (void)testErrorURL
