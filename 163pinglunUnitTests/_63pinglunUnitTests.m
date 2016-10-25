@@ -338,6 +338,7 @@
             NSLog(@"----->1111111%@",NSStringFromCGSize(img.size));
         }
     } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
+        
     }];
     operation1.completionBlock = ^{
         NSLog(@"++++++++回调11111ok!");

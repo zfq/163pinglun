@@ -1,6 +1,6 @@
-language:objective-c
-xcode_workspace:163pinglun.xcworkspace
-xcode_scheme:163pinglun
+language: objective-c
+xcode_workspace: 163pinglun.xcworkspace
+xcode_scheme: 163pinglun
 xcode_sdk:
  - iphonesimulator8.1
 
