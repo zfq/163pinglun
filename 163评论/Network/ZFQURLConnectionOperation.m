@@ -121,6 +121,10 @@ typedef NS_ENUM(NSInteger, ZFQURLOperationState){
     return thread;
 }
 
+/**
+ operationStart方法是在ZFQNetworking线程中执行的，所以[NSRunLoop currentRunLoop]就是指ZFQNetworking中的runLoop
+ 
+ */
 - (void)operationStart
 {
     [self.lock lock];
@@ -217,6 +221,9 @@ typedef NS_ENUM(NSInteger, ZFQURLOperationState){
     [self.lock unlock];
 }
 
+/**
+ 如果operation所在的queue为异步的queue,则下面的urlConnection的代理回调在ZFQNetworking线程执行
+ */
 #pragma mark - NSURLConnectionDataDelegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
