@@ -31,25 +31,24 @@
 
 - (void)testZFQOperationWithURL:(NSURL *)URL
 {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-   XCTestExpectation *reqExpectation = [self expectationWithDescription:@"operationTest"];
-    
+    XCTestExpectation *reqExpectation = [self expectationWithDescription:@"operationTest"];
+    __block UIImage *img1 = nil;
     NSString *str1 = @"http://img3.cache.netease.com/photo/0025/2016-08-30/BVN9PBQS0BGT0025.jpg";
     NSURL *url = [NSURL URLWithString:str1];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         UIImage *img = [UIImage imageWithData:data];
-        NSLog(@"---->%@",NSStringFromCGSize(img.size));
+        img1 = img;
         [reqExpectation fulfill];
     } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         XCTFail(@"operationTest测试失败:%@",error);
     }];
     [operation start];
-    
     [self waitForExpectationsWithTimeout:40 handler:^(NSError * _Nullable error) {
         
     }];
+    
+    XCTAssertNotNil(img1,@"img1 should not be nil");
 }
 
 - (void)testZFQOperation
@@ -92,7 +91,6 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         XCTFail(@"cancelOperation测试失败");
-        [reqExpectation fulfill];
     } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         NSLog(@"operation error:%@",error);
         [reqExpectation fulfill];
@@ -114,8 +112,7 @@
     ZFQURLConnectionOperation *operation = [[ZFQURLConnectionOperation alloc] initWithRequest:request successBlk:^(ZFQURLConnectionOperation *operation, NSData *data) {
         UIImage *img = [UIImage imageWithData:data];
         NSLog(@"---->%@",NSStringFromCGSize(img.size));
-        XCTFail(@"testCancel2测试失败");
-        [reqExpectation fulfill];
+        XCTFail(@"operation should be canceled");
     } failureBlk:^(ZFQURLConnectionOperation *operation, NSError *error) {
         NSLog(@"%@",error);
         [reqExpectation fulfill];
@@ -138,9 +135,8 @@
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         UIImage *img = [UIImage imageWithData:responseObject];
         NSLog(@"---->%@",NSStringFromCGSize(img.size));
-        [reqExpectation fulfill];
+        XCTFail(@"operation should be canceled");
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        XCTFail(@"testCancel2测试失败:%@",error);
         [reqExpectation fulfill];
     }];
     [operation start];
@@ -155,29 +151,6 @@
     NSLog(@"isReady:%zi",isReady);
     NSLog(@"isExecuting:%zi",isExecuting);
     NSLog(@"isCanceled:%zi",isCanceled);
-    
-    [self waitForExpectationsWithTimeout:40 handler:^(NSError * _Nullable error) {
-        
-    }];
-}
-
-- (void)testNSBlockOperationCancel
-{
-    XCTestExpectation *reqExpectation = [self expectationWithDescription:@"cancel"];
-    
-    NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-//        sleep(2);
-        NSLog(@"调用");
-        [reqExpectation fulfill];
-    }];
-    
-    [operation cancel];
-    [operation start];
-    
-    if (operation.isCancelled == NO) {
-        XCTAssert(0,@"测试失败");
-        [reqExpectation fulfill];
-    }
     
     [self waitForExpectationsWithTimeout:40 handler:^(NSError * _Nullable error) {
         
@@ -274,7 +247,7 @@
     }
     
     [operations addObject:blkOperation];
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    NSOperationQueue *queue =  [[NSOperationQueue alloc] init]; //注意 不能用[NSOperationQueue mainQueue]
     [queue addOperations:operations waitUntilFinished:YES];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
